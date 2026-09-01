@@ -6,6 +6,7 @@ import SectionTitle from '../components/ui/SectionTitle';
 import SmartStrategyFlowchart from '../components/strategy/SmartStrategyFlowchart';
 import LeanManagementSection from '../components/strategy/LeanManagementSection';
 import TwoWayCashFlowSection from '../components/strategy/TwoWayCashFlowSection';
+import AgileResourcingSection from '../components/strategy/AgileResourcingSection';
 import {
   Target,
   Compass,
@@ -183,6 +184,9 @@ const Strategy = () => {
 
       {/* Section 4: Two-Way Cash Flow Analysis (تحليل التدفق النقدي ذو الاتجاهين مع Line Chart) */}
       <TwoWayCashFlowSection />
+
+      {/* Section 5: Agile Resourcing (التوزيع المرن للموارد مع Interactive Timeline) */}
+      <AgileResourcingSection />
 
       {/* Main Strategy Content Area (Pillars, Methodology, Alignment, CTA) */}
       <section className="relative py-24 sm:py-32 overflow-hidden" dir="rtl">
