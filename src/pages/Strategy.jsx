@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/ui/SectionTitle';
+import SmartStrategyFlowchart from '../components/strategy/SmartStrategyFlowchart';
 import {
   Target,
   Compass,
@@ -172,8 +173,11 @@ const Strategy = () => {
         ]}
       />
 
-      {/* Main Strategy Content Area (Spaced below the floating stats cards) */}
-      <section className="relative pt-60 sm:pt-64 pb-24 overflow-hidden" dir="rtl">
+      {/* Section 2: Interactive Smart Strategy Flowchart (خريطة التدفق الاستراتيجي التفاعلية) */}
+      <SmartStrategyFlowchart />
+
+      {/* Main Strategy Content Area (Pillars, Methodology, Alignment, CTA) */}
+      <section className="relative py-24 sm:py-32 overflow-hidden" dir="rtl">
 
         {/* Ambient Lighting Background */}
         <div className="absolute top-1/4 right-0 w-[550px] h-[550px] bg-[#FFB800]/5 rounded-full blur-[160px] pointer-events-none -z-0" />
