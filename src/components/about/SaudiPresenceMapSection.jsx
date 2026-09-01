@@ -115,17 +115,17 @@ const LOCATIONS_DATA = [
   }
 ];
 
-// Riyadh Sub-projects list with enhanced coordinates & metadata
+// Riyadh Sub-projects list with generous 48px vertical spacing
 const RIYADH_PROJECTS = [
-  { id: 'seven-alkharj', nameEn: 'SEVEN –ALKHARJ', nameAr: 'سفن - الخرج', desc: 'مشاريع الترفيه والوجهات العائلية الحديثة', y: 100 },
-  { id: 'almurabaa', nameEn: 'ALMURABAA', nameAr: 'المربع الجديد', desc: 'داون تاون الرياض الحديث ورمز التطوير العصري', y: 145 },
-  { id: 'ksp', nameEn: 'KSP', nameAr: 'حديقة الملك سلمان', desc: 'أكبر حدائق المدن في العالم والمرافق المرتبطة بها', y: 190 },
-  { id: 'aldiriyah', nameEn: 'ALDIRIYAH', nameAr: 'الدرعية', desc: 'بوابة التاريخ والثقافة وأعمال التراث العمراني الفاخر', y: 235 },
-  { id: 'riyadh-front', nameEn: 'RIYADH FRONT', nameAr: 'واجهة الرياض', desc: 'الوجهة الرائدة للأعمال والترفيه والتسوق', y: 280 },
-  { id: 'qiddiyah', nameEn: 'QIDDIYAH', nameAr: 'القدية', desc: 'عاصمة الترفيه والرياضة والفنون بالمملكة', y: 325 },
-  { id: 'roshn', nameEn: 'ROSHN', nameAr: 'روشن', desc: 'المجتمعات السكنية المتكاملة والأحياء الحضرية الذكية', y: 370 },
-  { id: 'kafd', nameEn: 'KAFD', nameAr: 'مركز الملك عبد الله المالي', desc: 'المركز المالي العالمي وأبراج الأعمال المتقدمة', y: 415 },
-  { id: 'boulevard', nameEn: 'BOULEVARD', nameAr: 'بوليفارد الرياض', desc: 'المرافق الترفيهية والتجارية وأضخم المسارح والفعاليات', y: 460 }
+  { id: 'seven-alkharj', nameEn: 'SEVEN –ALKHARJ', nameAr: 'سفن - الخرج', desc: 'مشاريع الترفيه والوجهات العائلية الحديثة', y: 110 },
+  { id: 'almurabaa', nameEn: 'ALMURABAA', nameAr: 'المربع الجديد', desc: 'داون تاون الرياض الحديث ورمز التطوير العصري', y: 158 },
+  { id: 'ksp', nameEn: 'KSP', nameAr: 'حديقة الملك سلمان', desc: 'أكبر حدائق المدن في العالم والمرافق المرتبطة بها', y: 206 },
+  { id: 'aldiriyah', nameEn: 'ALDIRIYAH', nameAr: 'الدرعية', desc: 'بوابة التاريخ والثقافة وأعمال التراث العمراني الفاخر', y: 254 },
+  { id: 'riyadh-front', nameEn: 'RIYADH FRONT', nameAr: 'واجهة الرياض', desc: 'الوجهة الرائدة للأعمال والترفيه والتسوق', y: 302 },
+  { id: 'qiddiyah', nameEn: 'QIDDIYAH', nameAr: 'القدية', desc: 'عاصمة الترفيه والرياضة والفنون بالمملكة', y: 350 },
+  { id: 'roshn', nameEn: 'ROSHN', nameAr: 'روشن', desc: 'المجتمعات السكنية المتكاملة والأحياء الحضرية الذكية', y: 398 },
+  { id: 'kafd', nameEn: 'KAFD', nameAr: 'مركز الملك عبد الله المالي', desc: 'المركز المالي العالمي وأبراج الأعمال المتقدمة', y: 446 },
+  { id: 'boulevard', nameEn: 'BOULEVARD', nameAr: 'بوليفارد الرياض', desc: 'المرافق الترفيهية والتجارية وأضخم المسارح والفعاليات', y: 494 }
 ];
 
 const REGIONS = [
@@ -170,10 +170,10 @@ const SaudiPresenceMapSection = () => {
 
   return (
     <section className="relative w-full bg-[#141615] text-white pt-6 pb-28 select-none overflow-hidden" dir="rtl">
-      
+
       {/* Background Ambience & Lighting */}
-      <div className="absolute top-1/4 right-0 w-[550px] h-[550px] bg-[#FFB800]/10 rounded-full blur-[150px] pointer-events-none -z-0" />
-      <div className="absolute bottom-1/3 left-0 w-[650px] h-[650px] bg-[#2A352F]/40 rounded-full blur-[160px] pointer-events-none -z-0" />
+      <div className="absolute top-1/4 right-0 w-[550px] h-[550px] bg-[#FFB800]/5 rounded-full blur-[150px] pointer-events-none -z-0" />
+      <div className="absolute bottom-1/3 left-0 w-[650px] h-[650px] bg-[#2A352F]/30 rounded-full blur-[160px] pointer-events-none -z-0" />
 
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
 
@@ -195,22 +195,20 @@ const SaudiPresenceMapSection = () => {
           <div className="flex items-center bg-[#1E201E]/80 backdrop-blur-md p-1 rounded-2xl border border-white/10 shadow-lg">
             <button
               onClick={() => setViewMode('map')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 ${
-                viewMode === 'map'
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 ${viewMode === 'map'
                   ? 'bg-gradient-to-r from-[#FFB800] to-[#EAB308] text-black shadow-lg shadow-[#FFB800]/25'
                   : 'text-white/70 hover:text-white'
-              }`}
+                }`}
             >
               <Eye className="w-4 h-4" />
               <span>الخريطة التفاعلية 3D</span>
             </button>
             <button
               onClick={() => setViewMode('grid')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 ${
-                viewMode === 'grid'
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 ${viewMode === 'grid'
                   ? 'bg-gradient-to-r from-[#FFB800] to-[#EAB308] text-black shadow-lg shadow-[#FFB800]/25'
                   : 'text-white/70 hover:text-white'
-              }`}
+                }`}
             >
               <Layers className="w-4 h-4" />
               <span>دليل المواقع والمشاريع</span>
@@ -218,59 +216,29 @@ const SaudiPresenceMapSection = () => {
           </div>
         </div>
 
-        {/* VIEW 1: HIGH-TECH REALISTIC 3D MAP CALLOUTS */}
+        {/* VIEW 1: CLEAN PRECISION 3D INTERACTIVE SVG MAP */}
         {viewMode === 'map' && (
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            className="relative w-full rounded-3xl bg-gradient-to-b from-[#161816] via-[#121413] to-[#0E100F] border border-white/15 p-2 sm:p-4 lg:p-6 shadow-[0_30px_90px_rgba(0,0,0,0.9)] overflow-hidden"
+            className="relative w-full rounded-3xl bg-gradient-to-b from-[#141614] via-[#101211] to-[#0A0C0B] border border-white/10 p-2 sm:p-4 lg:p-6 shadow-[0_30px_90px_rgba(0,0,0,0.95)] overflow-hidden"
           >
             <div className="relative w-full max-w-[1300px] mx-auto overflow-x-auto select-none">
               <svg
                 viewBox="0 0 1920 1080"
+                direction="ltr"
+                style={{ direction: 'ltr' }}
                 className="w-full h-auto min-w-[950px] lg:min-w-0"
               >
                 <defs>
-                  {/* Linear Gradients for Connector Light Beams */}
-                  <linearGradient id="beam-vertical" x1="0%" y1="100%" x2="0%" y2="0%">
-                    <stop offset="0%" stopColor="#FFB800" stopOpacity="1" />
-                    <stop offset="60%" stopColor="#FFD166" stopOpacity="0.9" />
-                    <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.95" />
-                  </linearGradient>
-
-                  <linearGradient id="beam-horizontal-left" x1="100%" y1="0%" x2="0%" y2="0%">
-                    <stop offset="0%" stopColor="#FFB800" stopOpacity="1" />
-                    <stop offset="70%" stopColor="#FFD166" stopOpacity="0.85" />
-                    <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.95" />
-                  </linearGradient>
-
-                  <linearGradient id="beam-horizontal-right" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#FFB800" stopOpacity="1" />
-                    <stop offset="70%" stopColor="#FFD166" stopOpacity="0.85" />
-                    <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.95" />
-                  </linearGradient>
-
-                  {/* Gradient for Glass Callout Background */}
-                  <linearGradient id="badge-bg" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#1C1F1D" stopOpacity="0.95" />
-                    <stop offset="100%" stopColor="#121413" stopOpacity="0.92" />
-                  </linearGradient>
-
-                  <linearGradient id="badge-bg-active" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#FFB800" stopOpacity="0.25" />
-                    <stop offset="100%" stopColor="#181A18" stopOpacity="0.95" />
-                  </linearGradient>
-
-                  {/* Glowing Marker Radial */}
                   <radialGradient id="beacon-glow" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#FFB800" stopOpacity="0.8" />
-                    <stop offset="40%" stopColor="#FFB800" stopOpacity="0.35" />
+                    <stop offset="0%" stopColor="#FFB800" stopOpacity="0.85" />
+                    <stop offset="45%" stopColor="#FFB800" stopOpacity="0.35" />
                     <stop offset="100%" stopColor="#FFB800" stopOpacity="0" />
                   </radialGradient>
                 </defs>
 
-                {/* 3D Map Image Base */}
                 <image
                   href="/saudi_arabia_3d_map_no_text2.png"
                   x="0"
@@ -278,491 +246,536 @@ const SaudiPresenceMapSection = () => {
                   width="1920"
                   height="1080"
                   preserveAspectRatio="xMidYMid meet"
-                  className="brightness-105 contrast-110"
+                  className="brightness-105 contrast-105"
                 />
 
-                {/* ============================================================ */}
-                {/* 1. DUMAT-ALJANDAL CALLOUT */}
-                {/* ============================================================ */}
+                {/* 1. DUMAT-ALJANDAL */}
                 <g
                   className="cursor-pointer group"
                   onClick={() => handleSelectLocation('dumat-aljandal')}
                   onMouseEnter={() => setHoveredId('dumat-aljandal')}
                   onMouseLeave={() => setHoveredId(null)}
                 >
-                  {/* Ground Base Beacon */}
-                  <ellipse cx="684" cy="368" rx="22" ry="8" fill="url(#beacon-glow)" />
-                  <ellipse cx="684" cy="368" rx="8" ry="3" fill="#FFB800" />
-                  <circle cx="684" cy="368" r="4.5" fill="#FFFFFF" />
+                  <ellipse cx="708" cy="355" rx="16" ry="6.5" fill="url(#beacon-glow)" />
+                  <circle cx="708" cy="355" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
+                  <circle cx="708" cy="355" r="2" fill="#FFFFFF" />
 
-                  {/* Luminous Vertical Beam */}
-                  <line x1="684" y1="368" x2="684" y2="175" stroke="url(#beam-vertical)" strokeWidth="2.5" strokeLinecap="round" />
-                  <circle cx="684" cy="175" r="4" fill="#FFB800" stroke="#FFFFFF" strokeWidth="1.5" />
+                  <line
+                    x1="708"
+                    y1="355"
+                    x2="708"
+                    y2="140"
+                    stroke={hoveredId === 'dumat-aljandal' ? '#FFFFFF' : '#FFB800'}
+                    strokeWidth={hoveredId === 'dumat-aljandal' ? '3.5' : '2.8'}
+                    strokeLinecap="round"
+                    className="transition-all duration-300"
+                  />
+                  <circle cx="708" cy="140" r="5" fill={hoveredId === 'dumat-aljandal' ? '#FFFFFF' : '#FFB800'} />
 
-                  {/* Callout Pill Badge */}
-                  <g transform="translate(684, 140)">
-                    <rect
-                      x="-110"
-                      y="-18"
-                      width="220"
-                      height="36"
-                      rx="18"
-                      fill={hoveredId === 'dumat-aljandal' ? 'url(#badge-bg-active)' : 'url(#badge-bg)'}
-                      stroke={hoveredId === 'dumat-aljandal' ? '#FFB800' : 'rgba(255,184,0,0.5)'}
-                      strokeWidth={hoveredId === 'dumat-aljandal' ? '2' : '1.2'}
-                      className="transition-all duration-300"
-                    />
-                    <circle cx="-90" cy="0" r="4" fill="#FFB800" />
-                    <text
-                      x="-78"
-                      y="5"
-                      fill="#FFFFFF"
-                      fontSize="14"
-                      fontWeight="800"
-                      fontFamily="Inter, system-ui, sans-serif"
-                      letterSpacing="0.8"
-                    >
-                      DUMAT-ALJANDAL
-                    </text>
-                  </g>
+                  <text
+                    x="708"
+                    y="115"
+                    textAnchor="middle"
+                    direction="ltr"
+                    fill={hoveredId === 'dumat-aljandal' ? '#FFB800' : '#FFFFFF'}
+                    fontSize="22"
+                    fontWeight="800"
+                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                  >
+                    DUMAT-ALJANDAL
+                  </text>
                 </g>
 
-                {/* ============================================================ */}
-                {/* 2. NEOM CALLOUT (MEGA PROJECT) */}
-                {/* ============================================================ */}
+                {/* 2. NEOM */}
                 <g
                   className="cursor-pointer group"
                   onClick={() => handleSelectLocation('neom')}
                   onMouseEnter={() => setHoveredId('neom')}
                   onMouseLeave={() => setHoveredId(null)}
                 >
-                  <ellipse cx="345" cy="415" rx="26" ry="9" fill="url(#beacon-glow)" />
-                  <ellipse cx="345" cy="415" rx="9" ry="3.5" fill="#FFB800" />
-                  <circle cx="345" cy="415" r="4.5" fill="#FFFFFF" />
+                  <ellipse cx="420" cy="415" rx="18" ry="7" fill="url(#beacon-glow)" />
+                  <circle cx="420" cy="415" r="6" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
+                  <circle cx="420" cy="415" r="2.5" fill="#FFFFFF" />
 
-                  <line x1="345" y1="415" x2="345" y2="235" stroke="url(#beam-vertical)" strokeWidth="3" strokeLinecap="round" />
-                  <circle cx="345" cy="235" r="4.5" fill="#FFB800" stroke="#FFFFFF" strokeWidth="1.5" />
+                  <line
+                    x1="420"
+                    y1="415"
+                    x2="420"
+                    y2="220"
+                    stroke={hoveredId === 'neom' ? '#FFFFFF' : '#FFB800'}
+                    strokeWidth={hoveredId === 'neom' ? '3.5' : '2.8'}
+                    strokeLinecap="round"
+                    className="transition-all duration-300"
+                  />
+                  <circle cx="420" cy="220" r="5" fill={hoveredId === 'neom' ? '#FFFFFF' : '#FFB800'} />
 
-                  <g transform="translate(345, 195)">
-                    <rect
-                      x="-85"
-                      y="-20"
-                      width="170"
-                      height="40"
-                      rx="20"
-                      fill={hoveredId === 'neom' ? 'url(#badge-bg-active)' : 'url(#badge-bg)'}
-                      stroke="#FFB800"
-                      strokeWidth={hoveredId === 'neom' ? '2.5' : '1.6'}
-                      className="transition-all duration-300"
-                    />
-                    <circle cx="-62" cy="0" r="4.5" fill="#FFB800" />
-                    <text
-                      x="-48"
-                      y="6"
-                      fill="#FFFFFF"
-                      fontSize="16"
-                      fontWeight="900"
-                      fontFamily="Inter, system-ui, sans-serif"
-                      letterSpacing="1.5"
-                    >
-                      NEOM
-                    </text>
-                    <rect x="22" y="-10" width="48" height="20" rx="6" fill="#FFB800" fillOpacity="0.2" />
-                    <text x="46" y="4" textAnchor="middle" fill="#FFB800" fontSize="9" fontWeight="900">MEGA</text>
-                  </g>
+                  <text
+                    x="420"
+                    y="195"
+                    textAnchor="middle"
+                    direction="ltr"
+                    fill={hoveredId === 'neom' ? '#FFB800' : '#FFFFFF'}
+                    fontSize="24"
+                    fontWeight="900"
+                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
+                    letterSpacing="1.5"
+                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                  >
+                    NEOM
+                  </text>
                 </g>
 
-                {/* ============================================================ */}
-                {/* 3. SINDALLAH CALLOUT */}
-                {/* ============================================================ */}
+                {/* 3. SINDALLAH */}
                 <g
                   className="cursor-pointer group"
                   onClick={() => handleSelectLocation('sindallah')}
                   onMouseEnter={() => setHoveredId('sindallah')}
                   onMouseLeave={() => setHoveredId(null)}
                 >
-                  <ellipse cx="358" cy="452" rx="16" ry="6" fill="url(#beacon-glow)" />
-                  <circle cx="358" cy="452" r="4" fill="#FFB800" />
-                  <line x1="358" y1="452" x2="235" y2="452" stroke="url(#beam-horizontal-left)" strokeWidth="2.4" strokeLinecap="round" />
-                  <circle cx="235" cy="452" r="3.5" fill="#FFB800" />
+                  <ellipse cx="390" cy="450" rx="14" ry="5.5" fill="url(#beacon-glow)" />
+                  <circle cx="390" cy="450" r="5" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
+                  <circle cx="390" cy="450" r="2" fill="#FFFFFF" />
 
-                  <g transform="translate(225, 452)">
-                    <rect
-                      x="-140"
-                      y="-16"
-                      width="140"
-                      height="32"
-                      rx="16"
-                      fill={hoveredId === 'sindallah' ? 'url(#badge-bg-active)' : 'url(#badge-bg)'}
-                      stroke={hoveredId === 'sindallah' ? '#FFB800' : 'rgba(255,184,0,0.45)'}
-                      strokeWidth="1.2"
-                      className="transition-all duration-300"
-                    />
-                    <circle cx="-124" cy="0" r="3.5" fill="#FFB800" />
-                    <text x="-112" y="4.5" fill="#FFFFFF" fontSize="13" fontWeight="800" letterSpacing="0.8">
-                      SINDALLAH
-                    </text>
-                  </g>
+                  <line
+                    x1="390"
+                    y1="450"
+                    x2="230"
+                    y2="450"
+                    stroke={hoveredId === 'sindallah' ? '#FFFFFF' : '#FFB800'}
+                    strokeWidth={hoveredId === 'sindallah' ? '3.2' : '2.6'}
+                    strokeLinecap="round"
+                    className="transition-all duration-300"
+                  />
+                  <circle cx="230" cy="450" r="4.5" fill={hoveredId === 'sindallah' ? '#FFFFFF' : '#FFB800'} />
+
+                  <text
+                    x="215"
+                    y="456"
+                    textAnchor="end"
+                    direction="ltr"
+                    fill={hoveredId === 'sindallah' ? '#FFB800' : '#FFFFFF'}
+                    fontSize="21"
+                    fontWeight="800"
+                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                  >
+                    SINDALLAH
+                  </text>
                 </g>
 
-                {/* ============================================================ */}
-                {/* 4. OXAGON CALLOUT */}
-                {/* ============================================================ */}
+                {/* 4. OXAGON */}
                 <g
                   className="cursor-pointer group"
                   onClick={() => handleSelectLocation('oxagon')}
                   onMouseEnter={() => setHoveredId('oxagon')}
                   onMouseLeave={() => setHoveredId(null)}
                 >
-                  <ellipse cx="334" cy="482" rx="16" ry="6" fill="url(#beacon-glow)" />
-                  <circle cx="334" cy="482" r="4" fill="#FFB800" />
-                  <line x1="334" y1="482" x2="235" y2="482" stroke="url(#beam-horizontal-left)" strokeWidth="2.4" strokeLinecap="round" />
-                  <circle cx="235" cy="482" r="3.5" fill="#FFB800" />
+                  <ellipse cx="425" cy="495" rx="14" ry="5.5" fill="url(#beacon-glow)" />
+                  <circle cx="425" cy="495" r="5" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
+                  <circle cx="425" cy="495" r="2" fill="#FFFFFF" />
 
-                  <g transform="translate(225, 482)">
-                    <rect
-                      x="-130"
-                      y="-16"
-                      width="130"
-                      height="32"
-                      rx="16"
-                      fill={hoveredId === 'oxagon' ? 'url(#badge-bg-active)' : 'url(#badge-bg)'}
-                      stroke={hoveredId === 'oxagon' ? '#FFB800' : 'rgba(255,184,0,0.45)'}
-                      strokeWidth="1.2"
-                      className="transition-all duration-300"
-                    />
-                    <circle cx="-114" cy="0" r="3.5" fill="#FFB800" />
-                    <text x="-102" y="4.5" fill="#FFFFFF" fontSize="13" fontWeight="800" letterSpacing="0.8">
-                      OXAGON
-                    </text>
-                  </g>
+                  <line
+                    x1="425"
+                    y1="495"
+                    x2="230"
+                    y2="495"
+                    stroke={hoveredId === 'oxagon' ? '#FFFFFF' : '#FFB800'}
+                    strokeWidth={hoveredId === 'oxagon' ? '3.2' : '2.6'}
+                    strokeLinecap="round"
+                    className="transition-all duration-300"
+                  />
+                  <circle cx="230" cy="495" r="4.5" fill={hoveredId === 'oxagon' ? '#FFFFFF' : '#FFB800'} />
+
+                  <text
+                    x="215"
+                    y="501"
+                    textAnchor="end"
+                    direction="ltr"
+                    fill={hoveredId === 'oxagon' ? '#FFB800' : '#FFFFFF'}
+                    fontSize="21"
+                    fontWeight="800"
+                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                  >
+                    OXAGON
+                  </text>
                 </g>
 
-                {/* ============================================================ */}
-                {/* 5. TROJENA CALLOUT */}
-                {/* ============================================================ */}
+                {/* 5. TROJENA */}
                 <g
                   className="cursor-pointer group"
                   onClick={() => handleSelectLocation('trojena')}
                   onMouseEnter={() => setHoveredId('trojena')}
                   onMouseLeave={() => setHoveredId(null)}
                 >
-                  <ellipse cx="375" cy="515" rx="16" ry="6" fill="url(#beacon-glow)" />
-                  <circle cx="375" cy="515" r="4" fill="#FFB800" />
-                  <line x1="375" y1="515" x2="235" y2="515" stroke="url(#beam-horizontal-left)" strokeWidth="2.4" strokeLinecap="round" />
-                  <circle cx="235" cy="515" r="3.5" fill="#FFB800" />
+                  <ellipse cx="460" cy="545" rx="14" ry="5.5" fill="url(#beacon-glow)" />
+                  <circle cx="460" cy="545" r="5" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
+                  <circle cx="460" cy="545" r="2" fill="#FFFFFF" />
 
-                  <g transform="translate(225, 515)">
-                    <rect
-                      x="-130"
-                      y="-16"
-                      width="130"
-                      height="32"
-                      rx="16"
-                      fill={hoveredId === 'trojena' ? 'url(#badge-bg-active)' : 'url(#badge-bg)'}
-                      stroke={hoveredId === 'trojena' ? '#FFB800' : 'rgba(255,184,0,0.45)'}
-                      strokeWidth="1.2"
-                      className="transition-all duration-300"
-                    />
-                    <circle cx="-114" cy="0" r="3.5" fill="#FFB800" />
-                    <text x="-102" y="4.5" fill="#FFFFFF" fontSize="13" fontWeight="800" letterSpacing="0.8">
-                      TROJENA
-                    </text>
-                  </g>
+                  <line
+                    x1="460"
+                    y1="545"
+                    x2="230"
+                    y2="545"
+                    stroke={hoveredId === 'trojena' ? '#FFFFFF' : '#FFB800'}
+                    strokeWidth={hoveredId === 'trojena' ? '3.2' : '2.6'}
+                    strokeLinecap="round"
+                    className="transition-all duration-300"
+                  />
+                  <circle cx="230" cy="545" r="4.5" fill={hoveredId === 'trojena' ? '#FFFFFF' : '#FFB800'} />
+
+                  <text
+                    x="215"
+                    y="551"
+                    textAnchor="end"
+                    direction="ltr"
+                    fill={hoveredId === 'trojena' ? '#FFB800' : '#FFFFFF'}
+                    fontSize="21"
+                    fontWeight="800"
+                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                  >
+                    TROJENA
+                  </text>
                 </g>
 
-                {/* ============================================================ */}
-                {/* 6. MADINA CALLOUT */}
-                {/* ============================================================ */}
+                {/* 6. MADINA */}
                 <g
                   className="cursor-pointer group"
                   onClick={() => handleSelectLocation('madina')}
                   onMouseEnter={() => setHoveredId('madina')}
                   onMouseLeave={() => setHoveredId(null)}
                 >
-                  <ellipse cx="500" cy="590" rx="18" ry="6.5" fill="url(#beacon-glow)" />
-                  <circle cx="500" cy="590" r="4.5" fill="#FFB800" />
-                  <line x1="500" y1="590" x2="355" y2="590" stroke="url(#beam-horizontal-left)" strokeWidth="2.5" strokeLinecap="round" />
-                  <circle cx="355" cy="590" r="3.5" fill="#FFB800" />
+                  <ellipse cx="550" cy="600" rx="15" ry="6" fill="url(#beacon-glow)" />
+                  <circle cx="550" cy="600" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
+                  <circle cx="550" cy="600" r="2" fill="#FFFFFF" />
 
-                  <g transform="translate(345, 590)">
-                    <rect
-                      x="-130"
-                      y="-16"
-                      width="130"
-                      height="32"
-                      rx="16"
-                      fill={hoveredId === 'madina' ? 'url(#badge-bg-active)' : 'url(#badge-bg)'}
-                      stroke={hoveredId === 'madina' ? '#FFB800' : 'rgba(255,184,0,0.45)'}
-                      strokeWidth="1.2"
-                      className="transition-all duration-300"
-                    />
-                    <circle cx="-114" cy="0" r="3.5" fill="#FFB800" />
-                    <text x="-102" y="4.5" fill="#FFFFFF" fontSize="13" fontWeight="800" letterSpacing="0.8">
-                      MADINA
-                    </text>
-                  </g>
+                  <line
+                    x1="550"
+                    y1="600"
+                    x2="410"
+                    y2="600"
+                    stroke={hoveredId === 'madina' ? '#FFFFFF' : '#FFB800'}
+                    strokeWidth={hoveredId === 'madina' ? '3.2' : '2.6'}
+                    strokeLinecap="round"
+                    className="transition-all duration-300"
+                  />
+                  <circle cx="410" cy="600" r="4.5" fill={hoveredId === 'madina' ? '#FFFFFF' : '#FFB800'} />
+
+                  <text
+                    x="395"
+                    y="606"
+                    textAnchor="end"
+                    direction="ltr"
+                    fill={hoveredId === 'madina' ? '#FFB800' : '#FFFFFF'}
+                    fontSize="21"
+                    fontWeight="800"
+                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                  >
+                    MADINA
+                  </text>
                 </g>
 
-                {/* ============================================================ */}
-                {/* 7. JEDDAH CALLOUT */}
-                {/* ============================================================ */}
+                {/* 7. JEDDAH */}
                 <g
                   className="cursor-pointer group"
                   onClick={() => handleSelectLocation('jeddah')}
                   onMouseEnter={() => setHoveredId('jeddah')}
                   onMouseLeave={() => setHoveredId(null)}
                 >
-                  <ellipse cx="585" cy="662" rx="18" ry="6.5" fill="url(#beacon-glow)" />
-                  <circle cx="585" cy="662" r="4.5" fill="#FFB800" />
-                  <line x1="585" y1="662" x2="435" y2="662" stroke="url(#beam-horizontal-left)" strokeWidth="2.5" strokeLinecap="round" />
-                  <circle cx="435" cy="662" r="3.5" fill="#FFB800" />
+                  <ellipse cx="630" cy="660" rx="15" ry="6" fill="url(#beacon-glow)" />
+                  <circle cx="630" cy="660" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
+                  <circle cx="630" cy="660" r="2" fill="#FFFFFF" />
 
-                  <g transform="translate(425, 662)">
-                    <rect
-                      x="-130"
-                      y="-16"
-                      width="130"
-                      height="32"
-                      rx="16"
-                      fill={hoveredId === 'jeddah' ? 'url(#badge-bg-active)' : 'url(#badge-bg)'}
-                      stroke={hoveredId === 'jeddah' ? '#FFB800' : 'rgba(255,184,0,0.45)'}
-                      strokeWidth="1.2"
-                      className="transition-all duration-300"
-                    />
-                    <circle cx="-114" cy="0" r="3.5" fill="#FFB800" />
-                    <text x="-102" y="4.5" fill="#FFFFFF" fontSize="13" fontWeight="800" letterSpacing="0.8">
-                      JEDDAH
-                    </text>
-                  </g>
+                  <line
+                    x1="630"
+                    y1="660"
+                    x2="480"
+                    y2="660"
+                    stroke={hoveredId === 'jeddah' ? '#FFFFFF' : '#FFB800'}
+                    strokeWidth={hoveredId === 'jeddah' ? '3.2' : '2.6'}
+                    strokeLinecap="round"
+                    className="transition-all duration-300"
+                  />
+                  <circle cx="480" cy="660" r="4.5" fill={hoveredId === 'jeddah' ? '#FFFFFF' : '#FFB800'} />
+
+                  <text
+                    x="465"
+                    y="666"
+                    textAnchor="end"
+                    direction="ltr"
+                    fill={hoveredId === 'jeddah' ? '#FFB800' : '#FFFFFF'}
+                    fontSize="21"
+                    fontWeight="800"
+                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                  >
+                    JEDDAH
+                  </text>
                 </g>
 
-                {/* ============================================================ */}
-                {/* 8. MAKKAH CALLOUT */}
-                {/* ============================================================ */}
+                {/* 8. MAKKAH */}
                 <g
                   className="cursor-pointer group"
                   onClick={() => handleSelectLocation('makkah')}
                   onMouseEnter={() => setHoveredId('makkah')}
                   onMouseLeave={() => setHoveredId(null)}
                 >
-                  <ellipse cx="630" cy="712" rx="18" ry="6.5" fill="url(#beacon-glow)" />
-                  <circle cx="630" cy="712" r="4.5" fill="#FFB800" />
-                  <line x1="630" y1="712" x2="485" y2="712" stroke="url(#beam-horizontal-left)" strokeWidth="2.5" strokeLinecap="round" />
-                  <circle cx="485" cy="712" r="3.5" fill="#FFB800" />
+                  <ellipse cx="670" cy="715" rx="15" ry="6" fill="url(#beacon-glow)" />
+                  <circle cx="670" cy="715" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
+                  <circle cx="670" cy="715" r="2" fill="#FFFFFF" />
 
-                  <g transform="translate(475, 712)">
-                    <rect
-                      x="-130"
-                      y="-16"
-                      width="130"
-                      height="32"
-                      rx="16"
-                      fill={hoveredId === 'makkah' ? 'url(#badge-bg-active)' : 'url(#badge-bg)'}
-                      stroke={hoveredId === 'makkah' ? '#FFB800' : 'rgba(255,184,0,0.45)'}
-                      strokeWidth="1.2"
-                      className="transition-all duration-300"
-                    />
-                    <circle cx="-114" cy="0" r="3.5" fill="#FFB800" />
-                    <text x="-102" y="4.5" fill="#FFFFFF" fontSize="13" fontWeight="800" letterSpacing="0.8">
-                      MAKKAH
-                    </text>
-                  </g>
+                  <line
+                    x1="670"
+                    y1="715"
+                    x2="520"
+                    y2="715"
+                    stroke={hoveredId === 'makkah' ? '#FFFFFF' : '#FFB800'}
+                    strokeWidth={hoveredId === 'makkah' ? '3.2' : '2.6'}
+                    strokeLinecap="round"
+                    className="transition-all duration-300"
+                  />
+                  <circle cx="520" cy="715" r="4.5" fill={hoveredId === 'makkah' ? '#FFFFFF' : '#FFB800'} />
+
+                  <text
+                    x="505"
+                    y="721"
+                    textAnchor="end"
+                    direction="ltr"
+                    fill={hoveredId === 'makkah' ? '#FFB800' : '#FFFFFF'}
+                    fontSize="21"
+                    fontWeight="800"
+                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                  >
+                    MAKKAH
+                  </text>
                 </g>
 
-                {/* ============================================================ */}
-                {/* 9. JIZAN CALLOUT */}
-                {/* ============================================================ */}
+                {/* 9. JIZAN */}
                 <g
                   className="cursor-pointer group"
                   onClick={() => handleSelectLocation('jizan')}
                   onMouseEnter={() => setHoveredId('jizan')}
                   onMouseLeave={() => setHoveredId(null)}
                 >
-                  <ellipse cx="785" cy="840" rx="18" ry="6.5" fill="url(#beacon-glow)" />
-                  <circle cx="785" cy="840" r="4.5" fill="#FFB800" />
-                  <line x1="785" y1="840" x2="635" y2="840" stroke="url(#beam-horizontal-left)" strokeWidth="2.5" strokeLinecap="round" />
-                  <circle cx="635" cy="840" r="3.5" fill="#FFB800" />
+                  <ellipse cx="770" cy="815" rx="15" ry="6" fill="url(#beacon-glow)" />
+                  <circle cx="770" cy="815" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
+                  <circle cx="770" cy="815" r="2" fill="#FFFFFF" />
 
-                  <g transform="translate(625, 840)">
-                    <rect
-                      x="-125"
-                      y="-16"
-                      width="125"
-                      height="32"
-                      rx="16"
-                      fill={hoveredId === 'jizan' ? 'url(#badge-bg-active)' : 'url(#badge-bg)'}
-                      stroke={hoveredId === 'jizan' ? '#FFB800' : 'rgba(255,184,0,0.45)'}
-                      strokeWidth="1.2"
-                      className="transition-all duration-300"
-                    />
-                    <circle cx="-110" cy="0" r="3.5" fill="#FFB800" />
-                    <text x="-98" y="4.5" fill="#FFFFFF" fontSize="13" fontWeight="800" letterSpacing="0.8">
-                      JIZAN
-                    </text>
-                  </g>
+                  <line
+                    x1="770"
+                    y1="815"
+                    x2="630"
+                    y2="815"
+                    stroke={hoveredId === 'jizan' ? '#FFFFFF' : '#FFB800'}
+                    strokeWidth={hoveredId === 'jizan' ? '3.2' : '2.6'}
+                    strokeLinecap="round"
+                    className="transition-all duration-300"
+                  />
+                  <circle cx="630" cy="815" r="4.5" fill={hoveredId === 'jizan' ? '#FFFFFF' : '#FFB800'} />
+
+                  <text
+                    x="615"
+                    y="821"
+                    textAnchor="end"
+                    direction="ltr"
+                    fill={hoveredId === 'jizan' ? '#FFB800' : '#FFFFFF'}
+                    fontSize="21"
+                    fontWeight="800"
+                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                  >
+                    JIZAN
+                  </text>
                 </g>
 
-                {/* ============================================================ */}
-                {/* 10. NAJRAN CALLOUT */}
-                {/* ============================================================ */}
+                {/* 10. NAJRAN */}
                 <g
                   className="cursor-pointer group"
                   onClick={() => handleSelectLocation('najran')}
                   onMouseEnter={() => setHoveredId('najran')}
                   onMouseLeave={() => setHoveredId(null)}
                 >
-                  <ellipse cx="965" cy="820" rx="20" ry="7" fill="url(#beacon-glow)" />
-                  <circle cx="965" cy="820" r="4.5" fill="#FFB800" />
-                  <line x1="965" y1="820" x2="965" y2="955" stroke="url(#beam-vertical)" strokeWidth="2.5" strokeLinecap="round" />
-                  <circle cx="965" cy="955" r="4" fill="#FFB800" />
+                  <ellipse cx="965" cy="815" rx="16" ry="6.5" fill="url(#beacon-glow)" />
+                  <circle cx="965" cy="815" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
+                  <circle cx="965" cy="815" r="2" fill="#FFFFFF" />
 
-                  <g transform="translate(965, 985)">
-                    <rect
-                      x="-75"
-                      y="-18"
-                      width="150"
-                      height="36"
-                      rx="18"
-                      fill={hoveredId === 'najran' ? 'url(#badge-bg-active)' : 'url(#badge-bg)'}
-                      stroke={hoveredId === 'najran' ? '#FFB800' : 'rgba(255,184,0,0.5)'}
-                      strokeWidth="1.2"
-                      className="transition-all duration-300"
-                    />
-                    <circle cx="-55" cy="0" r="3.5" fill="#FFB800" />
-                    <text x="-42" y="5" fill="#FFFFFF" fontSize="14" fontWeight="800" letterSpacing="0.8">
-                      NAJRAN
-                    </text>
-                  </g>
+                  <line
+                    x1="965"
+                    y1="815"
+                    x2="965"
+                    y2="945"
+                    stroke={hoveredId === 'najran' ? '#FFFFFF' : '#FFB800'}
+                    strokeWidth={hoveredId === 'najran' ? '3.5' : '2.8'}
+                    strokeLinecap="round"
+                    className="transition-all duration-300"
+                  />
+                  <circle cx="965" cy="945" r="5" fill={hoveredId === 'najran' ? '#FFFFFF' : '#FFB800'} />
+
+                  <text
+                    x="965"
+                    y="980"
+                    textAnchor="middle"
+                    direction="ltr"
+                    fill={hoveredId === 'najran' ? '#FFB800' : '#FFFFFF'}
+                    fontSize="22"
+                    fontWeight="800"
+                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                  >
+                    NAJRAN
+                  </text>
                 </g>
 
-                {/* ============================================================ */}
-                {/* 11. ALQASSIM CALLOUT */}
-                {/* ============================================================ */}
+                {/* 11. ALQASSIM */}
                 <g
                   className="cursor-pointer group"
                   onClick={() => handleSelectLocation('alqassim')}
                   onMouseEnter={() => setHoveredId('alqassim')}
                   onMouseLeave={() => setHoveredId(null)}
                 >
-                  <ellipse cx="930" cy="535" rx="20" ry="7" fill="url(#beacon-glow)" />
-                  <circle cx="930" cy="535" r="4.5" fill="#FFB800" />
-                  <line x1="930" y1="535" x2="930" y2="305" stroke="url(#beam-vertical)" strokeWidth="2.5" strokeLinecap="round" />
-                  <circle cx="930" cy="305" r="4" fill="#FFB800" />
+                  <ellipse cx="935" cy="495" rx="16" ry="6.5" fill="url(#beacon-glow)" />
+                  <circle cx="935" cy="495" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
+                  <circle cx="935" cy="495" r="2" fill="#FFFFFF" />
 
-                  <g transform="translate(930, 275)">
-                    <rect
-                      x="-80"
-                      y="-18"
-                      width="160"
-                      height="36"
-                      rx="18"
-                      fill={hoveredId === 'alqassim' ? 'url(#badge-bg-active)' : 'url(#badge-bg)'}
-                      stroke={hoveredId === 'alqassim' ? '#FFB800' : 'rgba(255,184,0,0.5)'}
-                      strokeWidth="1.2"
-                      className="transition-all duration-300"
-                    />
-                    <circle cx="-60" cy="0" r="3.5" fill="#FFB800" />
-                    <text x="-48" y="5" fill="#FFFFFF" fontSize="14" fontWeight="800" letterSpacing="0.8">
-                      ALQASSIM
-                    </text>
-                  </g>
+                  <line
+                    x1="935"
+                    y1="495"
+                    x2="935"
+                    y2="260"
+                    stroke={hoveredId === 'alqassim' ? '#FFFFFF' : '#FFB800'}
+                    strokeWidth={hoveredId === 'alqassim' ? '3.5' : '2.8'}
+                    strokeLinecap="round"
+                    className="transition-all duration-300"
+                  />
+                  <circle cx="935" cy="260" r="5" fill={hoveredId === 'alqassim' ? '#FFFFFF' : '#FFB800'} />
+
+                  <text
+                    x="935"
+                    y="235"
+                    textAnchor="middle"
+                    direction="ltr"
+                    fill={hoveredId === 'alqassim' ? '#FFB800' : '#FFFFFF'}
+                    fontSize="23"
+                    fontWeight="800"
+                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                  >
+                    ALQASSIM
+                  </text>
                 </g>
 
-                {/* ============================================================ */}
-                {/* 12. DAMMAM CALLOUT */}
-                {/* ============================================================ */}
+                {/* 12. DAMMAM */}
                 <g
                   className="cursor-pointer group"
                   onClick={() => handleSelectLocation('dammam')}
                   onMouseEnter={() => setHoveredId('dammam')}
                   onMouseLeave={() => setHoveredId(null)}
                 >
-                  <ellipse cx="1720" cy="718" rx="22" ry="8" fill="url(#beacon-glow)" />
-                  <circle cx="1720" cy="718" r="5" fill="#FFB800" />
-                  <line x1="1720" y1="718" x2="1720" y2="480" stroke="url(#beam-vertical)" strokeWidth="2.5" strokeLinecap="round" />
-                  <circle cx="1720" cy="480" r="4" fill="#FFB800" />
+                  <ellipse cx="1570" cy="695" rx="18" ry="7" fill="url(#beacon-glow)" />
+                  <circle cx="1570" cy="695" r="6" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
+                  <circle cx="1570" cy="695" r="2.5" fill="#FFFFFF" />
 
-                  <g transform="translate(1720, 445)">
-                    <rect
-                      x="-80"
-                      y="-18"
-                      width="160"
-                      height="36"
-                      rx="18"
-                      fill={hoveredId === 'dammam' ? 'url(#badge-bg-active)' : 'url(#badge-bg)'}
-                      stroke={hoveredId === 'dammam' ? '#FFB800' : 'rgba(255,184,0,0.5)'}
-                      strokeWidth="1.2"
-                      className="transition-all duration-300"
-                    />
-                    <circle cx="-60" cy="0" r="3.5" fill="#FFB800" />
-                    <text x="-48" y="5" fill="#FFFFFF" fontSize="14" fontWeight="800" letterSpacing="0.8">
-                      DAMMAM
-                    </text>
-                  </g>
+                  <line
+                    x1="1570"
+                    y1="695"
+                    x2="1570"
+                    y2="360"
+                    stroke={hoveredId === 'dammam' ? '#FFFFFF' : '#FFB800'}
+                    strokeWidth={hoveredId === 'dammam' ? '3.5' : '2.8'}
+                    strokeLinecap="round"
+                    className="transition-all duration-300"
+                  />
+                  <circle cx="1570" cy="360" r="5" fill={hoveredId === 'dammam' ? '#FFFFFF' : '#FFB800'} />
+
+                  <text
+                    x="1570"
+                    y="335"
+                    textAnchor="middle"
+                    direction="ltr"
+                    fill={hoveredId === 'dammam' ? '#FFB800' : '#FFFFFF'}
+                    fontSize="24"
+                    fontWeight="900"
+                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
+                    letterSpacing="1.5"
+                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                  >
+                    DAMMAM
+                  </text>
                 </g>
 
-                {/* ============================================================ */}
-                {/* 13. RIYADH HUB & 9 MEGA PROJECTS TREE (THE SHOWSTOPPER) */}
-                {/* ============================================================ */}
-                {/* Riyadh Ground Beacon with pulsating radar ring */}
-                <ellipse cx="1065" cy="555" rx="30" ry="11" fill="url(#beacon-glow)" />
-                <ellipse cx="1065" cy="555" rx="12" ry="4.5" fill="#FFB800" />
-                <circle cx="1065" cy="555" r="5" fill="#FFFFFF" />
+                {/* 13. RIYADH HUB & 9 SUB-PROJECTS LIST (CLEARLY SPACED & ANCHORED) */}
+                {/* Riyadh Ground Beacon */}
+                <ellipse cx="1065" cy="540" rx="20" ry="8" fill="url(#beacon-glow)" />
+                <circle cx="1065" cy="540" r="6.5" fill="#FFB800" stroke="#000000" strokeWidth="2" />
+                <circle cx="1065" cy="540" r="2.5" fill="#FFFFFF" />
 
-                {/* Main Vertical Beam */}
-                <line x1="1065" y1="555" x2="1065" y2="280" stroke="url(#beam-vertical)" strokeWidth="3.2" strokeLinecap="round" />
-                <circle cx="1065" cy="280" r="4.5" fill="#FFB800" />
+                <line
+                  x1="1065"
+                  y1="540"
+                  x2="1065"
+                  y2="302"
+                  stroke={hoveredId === 'riyadh' ? '#FFFFFF' : '#FFB800'}
+                  strokeWidth={hoveredId === 'riyadh' ? '3.8' : '3.2'}
+                  strokeLinecap="round"
+                  className="transition-all duration-300"
+                />
+                <circle cx="1065" cy="302" r="5.5" fill={hoveredId === 'riyadh' ? '#FFFFFF' : '#FFB800'} />
 
-                {/* RIYADH Main Badge */}
-                <g
-                  className="cursor-pointer group"
+                <text
+                  x="1065"
+                  y="272"
+                  textAnchor="middle"
+                  direction="ltr"
+                  fill={hoveredId === 'riyadh' ? '#FFB800' : '#FFFFFF'}
+                  fontSize="25"
+                  fontWeight="900"
+                  fontFamily="Inter, -apple-system, system-ui, sans-serif"
+                  letterSpacing="1.5"
+                  className="cursor-pointer transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
                   onClick={() => handleSelectLocation('riyadh')}
                   onMouseEnter={() => setHoveredId('riyadh')}
                   onMouseLeave={() => setHoveredId(null)}
-                  transform="translate(1065, 235)"
                 >
-                  <rect
-                    x="-95"
-                    y="-22"
-                    width="190"
-                    height="44"
-                    rx="22"
-                    fill={hoveredId === 'riyadh' ? 'url(#badge-bg-active)' : 'url(#badge-bg)'}
-                    stroke="#FFB800"
-                    strokeWidth={hoveredId === 'riyadh' ? '2.5' : '1.8'}
-                    className="transition-all duration-300"
-                  />
-                  <circle cx="-70" cy="0" r="5" fill="#FFB800" />
-                  <text
-                    x="-54"
-                    y="7"
-                    fill="#FFFFFF"
-                    fontSize="18"
-                    fontWeight="900"
-                    fontFamily="Inter, system-ui, sans-serif"
-                    letterSpacing="1.8"
-                  >
-                    RIYADH
-                  </text>
-                  <rect x="24" y="-11" width="52" height="22" rx="7" fill="#FFB800" fillOpacity="0.25" />
-                  <text x="50" y="4" textAnchor="middle" fill="#FFB800" fontSize="10" fontWeight="900">HUB</text>
-                </g>
+                  RIYADH
+                </text>
 
-                {/* Circuit Connection from Riyadh to Project Tree */}
-                <path
-                  d="M 1065 295 L 1220 295"
-                  stroke="url(#beam-horizontal-right)"
-                  strokeWidth="2.8"
+                {/* Horizontal branch line from Riyadh vertical line across to the project tree spine */}
+                <line
+                  x1="1065"
+                  y1="302"
+                  x2="1220"
+                  y2="302"
+                  stroke="#FFB800"
+                  strokeWidth="3"
                   strokeLinecap="round"
-                  fill="none"
                 />
 
-                {/* Tree Vertical Spine connecting 9 projects */}
-                <line x1="1220" y1="100" x2="1220" y2="460" stroke="#FFB800" strokeWidth="2.5" strokeLinecap="round" />
-                <circle cx="1220" cy="295" r="4.5" fill="#FFFFFF" stroke="#FFB800" strokeWidth="1.5" />
+                {/* Vertical Tree Spine connecting all 9 sub-projects from y=110 to y=494 */}
+                <line
+                  x1="1220"
+                  y1="110"
+                  x2="1220"
+                  y2="494"
+                  stroke="#FFB800"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
 
-                {/* 9 Projects Branches with Interactive Callout Chips */}
+                {/* 9 Riyadh Sub-Projects with generous 48px vertical spacing */}
                 {RIYADH_PROJECTS.map((proj) => {
                   const isHovered = hoveredId === proj.id;
                   return (
@@ -773,44 +786,42 @@ const SaudiPresenceMapSection = () => {
                       onMouseEnter={() => setHoveredId(proj.id)}
                       onMouseLeave={() => setHoveredId(null)}
                     >
-                      {/* Horizontal Branch Line */}
+                      {/* Horizontal Connector Line */}
                       <line
                         x1="1220"
                         y1={proj.y}
-                        x2="1285"
+                        x2="1280"
                         y2={proj.y}
                         stroke={isHovered ? '#FFFFFF' : '#FFB800'}
-                        strokeWidth={isHovered ? '2.8' : '2'}
+                        strokeWidth={isHovered ? '3.2' : '2.4'}
                         strokeLinecap="round"
+                        className="transition-all duration-200"
                       />
-                      <circle cx="1285" cy={proj.y} r="3.5" fill={isHovered ? '#FFFFFF' : '#FFB800'} />
 
-                      {/* Floating Project Pill Chip */}
-                      <g transform={`translate(1295, ${proj.y})`}>
-                        <rect
-                          x="0"
-                          y="-16"
-                          width="210"
-                          height="32"
-                          rx="16"
-                          fill={isHovered ? 'url(#badge-bg-active)' : 'url(#badge-bg)'}
-                          stroke={isHovered ? '#FFB800' : 'rgba(255,184,0,0.4)'}
-                          strokeWidth={isHovered ? '1.8' : '1'}
-                          className="transition-all duration-300"
-                        />
-                        <circle cx="16" cy="0" r="3.5" fill={isHovered ? '#FFFFFF' : '#FFB800'} />
-                        <text
-                          x="28"
-                          y="4.5"
-                          fill="#FFFFFF"
-                          fontSize="13"
-                          fontWeight="800"
-                          fontFamily="Inter, system-ui, sans-serif"
-                          letterSpacing="0.8"
-                        >
-                          {proj.nameEn}
-                        </text>
-                      </g>
+                      {/* Branch Node Dot */}
+                      <circle
+                        cx="1280"
+                        cy={proj.y}
+                        r="4.5"
+                        fill={isHovered ? '#FFFFFF' : '#FFB800'}
+                        className="transition-all duration-200"
+                      />
+
+                      {/* Project Name Label positioned 16px to the right of node and flows strictly LTR to the right */}
+                      <text
+                        x="1296"
+                        y={proj.y + 6}
+                        textAnchor="start"
+                        direction="ltr"
+                        fill={isHovered ? '#FFB800' : '#FFFFFF'}
+                        fontSize="18"
+                        fontWeight="800"
+                        fontFamily="Inter, -apple-system, system-ui, sans-serif"
+                        letterSpacing="1px"
+                        className="transition-colors duration-200 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                      >
+                        {proj.nameEn}
+                      </text>
                     </g>
                   );
                 })}
@@ -852,11 +863,10 @@ const SaudiPresenceMapSection = () => {
                 <button
                   key={reg}
                   onClick={() => setSelectedRegion(reg)}
-                  className={`px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all ${
-                    selectedRegion === reg
+                  className={`px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all ${selectedRegion === reg
                       ? 'bg-[#FFB800] text-black shadow-md shadow-[#FFB800]/20'
                       : 'bg-[#1E201E] text-white/80 hover:bg-white/10 border border-white/10'
-                  }`}
+                    }`}
                 >
                   {reg}
                 </button>
