@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/ui/SectionTitle';
+import AdditionalProjectsSection from '../components/projects/AdditionalProjectsSection';
 import {
   MapPin,
   Calendar,
@@ -217,8 +218,16 @@ const Projects = () => {
             ))}
           </div>
 
-          {/* Bottom Call To Action */}
-          <div className="mt-20 p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-[#1C2420] via-[#1E201E] to-[#181D1A] border border-white/15 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl text-right">
+        </div>
+      </section>
+
+      {/* Additional Projects Section (المشاريع الإضافية - بدون صور بتصميم تقني احترافي) */}
+      <AdditionalProjectsSection />
+
+      {/* Bottom Call To Action */}
+      <section className="bg-[#111312] py-16 px-6 relative z-10" dir="rtl">
+        <div className="max-w-7xl mx-auto">
+          <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-[#1C2420] via-[#1E201E] to-[#181D1A] border border-white/15 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl text-right">
             <div className="space-y-3 max-w-xl">
               <div className="flex items-center gap-2 text-[#FFB800] text-xs sm:text-sm font-bold">
                 <Sparkles className="w-4 h-4" />
@@ -242,7 +251,6 @@ const Projects = () => {
               </Link>
             </div>
           </div>
-
         </div>
       </section>
 
