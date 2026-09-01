@@ -30,6 +30,7 @@ import HallOfFameSection from '../components/HallOfFameSection';
 import SafetyStatementSection from '../components/about/SafetyStatementSection';
 import QualityStatementSection from '../components/about/QualityStatementSection';
 import OurPresenceSection from '../components/about/OurPresenceSection';
+import SaudiPresenceMapSection from '../components/about/SaudiPresenceMapSection';
 
 const AboutUs = () => {
   useEffect(() => {
@@ -250,6 +251,9 @@ const AboutUs = () => {
 
       {/* Our Presence Section */}
       <OurPresenceSection />
+
+      {/* Saudi Presence 3D Map Section */}
+      <SaudiPresenceMapSection />
 
       {/* Capabilities Section */}
       <div id="تفاصيل-الشركة" className="pt-16 pb-20 overflow-hidden relative">

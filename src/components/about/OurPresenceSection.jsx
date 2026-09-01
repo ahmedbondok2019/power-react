@@ -4,7 +4,7 @@ import SectionTitle from '../ui/SectionTitle';
 
 const OurPresenceSection = () => {
   return (
-    <section className="w-full bg-[#141615] text-white pt-10 pb-24 select-none overflow-hidden" dir="rtl">
+    <section className="w-full bg-[#141615] text-white pt-10 pb-6 select-none overflow-hidden" dir="rtl">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col items-end text-right">
 
         {/* Header */}
