@@ -5,6 +5,7 @@ import Hero from '../components/Hero';
 import SectionTitle from '../components/ui/SectionTitle';
 import SmartStrategyFlowchart from '../components/strategy/SmartStrategyFlowchart';
 import LeanManagementSection from '../components/strategy/LeanManagementSection';
+import TwoWayCashFlowSection from '../components/strategy/TwoWayCashFlowSection';
 import {
   Target,
   Compass,
@@ -179,6 +180,9 @@ const Strategy = () => {
 
       {/* Section 3: Lean Management (إدارة رشيدة مع خريطة React Flow) */}
       <LeanManagementSection />
+
+      {/* Section 4: Two-Way Cash Flow Analysis (تحليل التدفق النقدي ذو الاتجاهين مع Line Chart) */}
+      <TwoWayCashFlowSection />
 
       {/* Main Strategy Content Area (Pillars, Methodology, Alignment, CTA) */}
       <section className="relative py-24 sm:py-32 overflow-hidden" dir="rtl">
