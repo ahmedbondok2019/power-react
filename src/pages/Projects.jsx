@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/ui/SectionTitle';
 import AdditionalProjectsSection from '../components/projects/AdditionalProjectsSection';
+import ProjectDetailsModal from '../components/projects/ProjectDetailsModal';
 import {
   MapPin,
   Calendar,
@@ -20,7 +21,13 @@ const PROJECTS_LIST = [
     category: 'النقل والبنية التحتية',
     location: 'الرياض',
     year: '2022 - 2024',
-    scope: 'الأعمال الكهروميكانيكية المتكاملة وأنظمة التهوية والتبريد والتحكم الذكي',
+    scope: 'الأعمال الكهروميكانيكية المتكاملة وأنظمة التهوية والتبريد والتحكم الذكي لمحطة المترو المركزية.',
+    deliverables: [
+      'أنظمة التبريد والتهوية لمحطات القطار السريع',
+      'غرف التحكم المركزي الذكية ونظم BMS',
+      'شبكات مكافحة الحريق والإنذار المبكر NFPA'
+    ],
+    stats: { capacity: '100k راكب/يوم', area: '45,000 م²' },
     image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop'
   },
   {
@@ -30,7 +37,13 @@ const PROJECTS_LIST = [
     category: 'المباني الطبية والصحية',
     location: 'القصيم',
     year: '2021 - 2023',
-    scope: 'التجهيزات الطبية المتخصصة، شبكات الغازات الطبية، وغرف العمليات المعقمة',
+    scope: 'التجهيزات الطبية المتخصصة، شبكات الغازات الطبية، وغرف العمليات المعقمة والتحكم بالضغط.',
+    deliverables: [
+      'شبكات الغازات الطبية والمحطات المركزية',
+      'تجهيز غرف العمليات بنظام التدفق الهوائي النقي Laminar Flow',
+      'أنظمة الطاقة الاحتياطية الحرجة للمستشفيات'
+    ],
+    stats: { beds: '300 سرير', theaters: '12 غرفة عمليات' },
     image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1200&auto=format&fit=crop'
   },
   {
@@ -40,7 +53,13 @@ const PROJECTS_LIST = [
     category: 'المشاريع الكبرى ونيوم',
     location: 'نيوم / تبوك',
     year: '2022 - مستمر',
-    scope: 'حلول البناء السريع، شبكات الطاقة المستقلة ومحطات تنقية المياه ومعالجة الصرف',
+    scope: 'حلول البناء السريع، شبكات الطاقة المستقلة ومحطات تنقية المياه ومعالجة الصرف الصحي.',
+    deliverables: [
+      'مبانٍ سكنية مسبقة الصنع عالية العزل',
+      'محطات تحلية وتنقية مياه مدمجة',
+      'شبكات اتصالات وبنية تحتية رقمية ذكية'
+    ],
+    stats: { capacity: '15,000 مقيم', units: '3,500 وحدة' },
     image: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?q=80&w=1200&auto=format&fit=crop'
   },
   {
@@ -50,7 +69,13 @@ const PROJECTS_LIST = [
     category: 'التعليم والمرافق الأكاديمية',
     location: 'الرياض',
     year: '2020 - 2022',
-    scope: 'المباني الأكاديمية الذكية، المجمعات الرياضية المغلقة والمختبرات العلمية',
+    scope: 'المباني الأكاديمية الذكية، المجمعات الرياضية المغلقة والمختبرات العلمية المتطورة.',
+    deliverables: [
+      'فصول تعليمية ذكية وأنظمة تحكم صوتي وضوئي',
+      'مجمعات مسابح وصالات رياضية مغطاة',
+      'أنظمة السلامة والتحكم الصوتي المتقدم'
+    ],
+    stats: { students: '2,500 طالب', labs: '24 مختبراً' },
     image: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1200&auto=format&fit=crop'
   },
   {
@@ -60,7 +85,13 @@ const PROJECTS_LIST = [
     category: 'المشاريع الكبرى ونيوم',
     location: 'نيوم / البحر الأحمر',
     year: '2023 - 2024',
-    scope: 'الأعمال البحرية والإنشائية الفاخرة وأنظمة الطاقة المستدامة',
+    scope: 'الأعمال البحرية والإنشائية الفاخرة وأنظمة الطاقة المستدامة والمراسي لليخوت.',
+    deliverables: [
+      'أرصفة عائمة ومرافق رسو لليخوت العالمية',
+      'أنظمة تبريد بحرية فائقة الكفاءة',
+      'حلول إنارة بيئية تحافظ على الحياة الفطرية'
+    ],
+    stats: { berths: '86 مرسى يخت', resorts: '3 منتجعات' },
     image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop'
   },
   {
@@ -70,7 +101,13 @@ const PROJECTS_LIST = [
     category: 'الوجهات الترفيهية والتجارية',
     location: 'الرياض',
     year: '2019 - 2021',
-    scope: 'مجمعات المكاتب الذكية، الواجهات الزجاجية المتطورة ومحطات التبريد المركزي',
+    scope: 'مجمعات المكاتب الذكية، الواجهات الزجاجية المتطورة ومحطات التبريد المركزي.',
+    deliverables: [
+      'واجهات زجاجية مزدوجة موفرة للطاقة',
+      'غرف اتصالات وتحكم أمنية مركزية',
+      'شبكات التغذية الكهربائية الاحتياطية'
+    ],
+    stats: { area: '180,000 م²', offices: '60+ مقراً' },
     image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=1200&auto=format&fit=crop'
   },
   {
@@ -80,7 +117,13 @@ const PROJECTS_LIST = [
     category: 'الوجهات الترفيهية والتجارية',
     location: 'الرياض / القدية',
     year: '2023 - مستمر',
-    scope: 'الإنشاءات الكبرى والمرافق الرياضية المتوافقة مع المعايير الأولمبية',
+    scope: 'الإنشاءات الكبرى والمرافق الرياضية المتوافقة مع المعايير الأولمبية العالمية.',
+    deliverables: [
+      'مدرجات ومرافق رياضية متطورة',
+      'شبكات تصريف مياه الأمطار والسيول الكبرى',
+      'أنظمة إنارة الملاعب التلفزيونية عالية الدقة'
+    ],
+    stats: { capacity: '40,000 متفرج', attractions: '18 مرفقاً' },
     image: 'https://images.unsplash.com/photo-1508873696983-2df5293cb32f?q=80&w=1200&auto=format&fit=crop'
   },
   {
@@ -90,7 +133,13 @@ const PROJECTS_LIST = [
     category: 'المشاريع الكبرى ونيوم',
     location: 'الرياض',
     year: '2023 - مستمر',
-    scope: 'أعمال البنية التحتية التأسيسية وشبكات الخدمات للمدينة الذكية المستقبلية',
+    scope: 'أعمال البنية التحتية التأسيسية وشبكات الخدمات للمدينة الذكية المستقبلية.',
+    deliverables: [
+      'أنفاق خدمات متكاملة للمرافق المشتركة',
+      'شبكات توزيع مياه الشرب والري المعالج',
+      'تجهيز مسارات الطاقة الذكية والألياف'
+    ],
+    stats: { area: '19 كم²', units: '104k وحدة' },
     image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop'
   },
   {
@@ -100,12 +149,20 @@ const PROJECTS_LIST = [
     category: 'الوجهات الترفيهية والتجارية',
     location: 'الخرج / المنطقة الوسطى',
     year: '2023 - 2024',
-    scope: 'المجمعات الترفيهية العائلية والمسارح المفتوحة والمطاعم الفاخرة',
+    scope: 'المجمعات الترفيهية العائلية والمسارح المفتوحة والمطاعم الفاخرة ومناطق الألعاب المغلقة.',
+    deliverables: [
+      'قاعات سينما متطورة بأنظمة عزل صوتي متقدمة',
+      'مناطق ترفيه مغلقة مع تكييف عالي القدرة',
+      'شبكات إنذار ومكافحة حريق مؤتمتة بالكامل'
+    ],
+    stats: { area: '65,000 م²', zones: '8 مناطق ترفيهية' },
     image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1200&auto=format&fit=crop'
   }
 ];
 
 const Projects = () => {
+  const [selectedProject, setSelectedProject] = useState(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -148,7 +205,7 @@ const Projects = () => {
           <div className="text-right mb-12 sm:mb-16">
             <SectionTitle title="مشاريعنا" theme="dark" />
             <p className="text-white/70 text-sm sm:text-base lg:text-lg mt-4 max-w-2xl">
-              بصمة هندسية متميزة في أضخم المشروعات التنموية والصناعية والحضرية في المملكة العربية السعودية.
+              بصمة هندسية متميزة في أضخم المشروعات التنموية والصناعية والحضرية في المملكة العربية السعودية. (اضغط على أي مشروع للاطلاع على التفاصيل الكاملة)
             </p>
           </div>
 
@@ -161,7 +218,8 @@ const Projects = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: (idx % 3) * 0.1 }}
-                className="group bg-[#1A1D1B] rounded-3xl border border-white/10 overflow-hidden hover:border-[#FFB800]/50 transition-all duration-500 hover:-translate-y-2 flex flex-col justify-between shadow-2xl"
+                onClick={() => setSelectedProject(project)}
+                className="group bg-[#1A1D1B] rounded-3xl border border-white/10 overflow-hidden hover:border-[#FFB800]/50 transition-all duration-500 hover:-translate-y-2 flex flex-col justify-between shadow-2xl cursor-pointer"
               >
                 <div>
                   {/* Project Image Banner */}
@@ -209,7 +267,7 @@ const Projects = () => {
                       <span>{project.year}</span>
                     </div>
                     <div className="flex items-center gap-1 text-[#FFB800] font-semibold group-hover:translate-x-1 transition-transform">
-                      <span>تفاصيل المشروع</span>
+                      <span>عرض تفاصيل المشروع</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </div>
                   </div>
@@ -222,7 +280,14 @@ const Projects = () => {
       </section>
 
       {/* Additional Projects Section (المشاريع الإضافية - بدون صور بتصميم تقني احترافي) */}
-      <AdditionalProjectsSection />
+      <AdditionalProjectsSection onSelectProject={(proj) => setSelectedProject(proj)} />
+
+      {/* Interactive Project Details Modal */}
+      <ProjectDetailsModal
+        project={selectedProject}
+        isOpen={!!selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
 
       {/* Bottom Call To Action */}
       <section className="bg-[#111312] py-16 px-6 relative z-10" dir="rtl">
@@ -259,3 +324,4 @@ const Projects = () => {
 };
 
 export default Projects;
+

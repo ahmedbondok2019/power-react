@@ -137,7 +137,7 @@ const ADDITIONAL_PROJECTS_DATA = [
   }
 ];
 
-const AdditionalProjectsSection = () => {
+const AdditionalProjectsSection = ({ onSelectProject }) => {
   return (
     <section 
       id="مشاريع-إضافية"
@@ -171,7 +171,8 @@ const AdditionalProjectsSection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: (idx % 3) * 0.08 }}
-                className="group relative rounded-2xl bg-[#1A1D1B] border border-white/10 p-5 sm:p-6 flex flex-col justify-between hover:border-[#FFB800]/50 transition-all duration-300 hover:-translate-y-1 shadow-lg"
+                onClick={() => onSelectProject && onSelectProject(project)}
+                className="group relative rounded-2xl bg-[#1A1D1B] border border-white/10 p-5 sm:p-6 flex flex-col justify-between hover:border-[#FFB800]/50 transition-all duration-300 hover:-translate-y-1 shadow-lg cursor-pointer"
               >
                 <div>
                   {/* Top Bar: Icon + Status Pill */}
