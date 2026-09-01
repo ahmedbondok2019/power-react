@@ -407,7 +407,7 @@ const SmartStrategyFlowchart = () => {
         {/* React Flow Interactive Canvas Container */}
         <div
           data-lenis-prevent="true"
-          className="relative w-full max-w-7xl mx-auto h-[560px] sm:h-[620px] rounded-3xl bg-[#141715]/90 border border-white/15 shadow-[0_20px_60px_rgba(0,0,0,0.8)] overflow-hidden"
+          className="relative w-full max-w-7xl mx-auto h-[560px] sm:h-[620px] rounded-3xl bg-[#141715]/90 border border-white/5  overflow-hidden"
           dir="ltr"
         >
           <ReactFlow
@@ -442,6 +442,7 @@ const SmartStrategyFlowchart = () => {
               <RotateCcw className="w-3.5 h-3.5" />
               <span>إعادة ضبط العرض</span>
             </button>
+
           </div>
         </div>
 

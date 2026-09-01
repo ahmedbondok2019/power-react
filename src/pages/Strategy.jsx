@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/ui/SectionTitle';
 import SmartStrategyFlowchart from '../components/strategy/SmartStrategyFlowchart';
+import LeanManagementSection from '../components/strategy/LeanManagementSection';
 import {
   Target,
   Compass,
@@ -175,6 +176,9 @@ const Strategy = () => {
 
       {/* Section 2: Interactive Smart Strategy Flowchart (خريطة التدفق الاستراتيجي التفاعلية) */}
       <SmartStrategyFlowchart />
+
+      {/* Section 3: Lean Management (إدارة رشيدة مع خريطة React Flow) */}
+      <LeanManagementSection />
 
       {/* Main Strategy Content Area (Pillars, Methodology, Alignment, CTA) */}
       <section className="relative py-24 sm:py-32 overflow-hidden" dir="rtl">
