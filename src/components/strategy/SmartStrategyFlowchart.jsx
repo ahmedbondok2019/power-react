@@ -1,31 +1,38 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useCallback, useMemo } from 'react';
+import {
+  ReactFlow,
+  Background,
+  Controls,
+  Handle,
+  Position,
+  useNodesState,
+  useEdgesState,
+  MarkerType
+} from '@xyflow/react';
+import '@xyflow/react/dist/style.css';
+import { motion } from 'framer-motion';
 import SectionTitle from '../ui/SectionTitle';
 import {
-  Sparkles,
-  TrendingUp,
+  Workflow,
+  Coins,
   ShieldAlert,
   Clock,
-  Coins,
+  TrendingUp,
   Cpu,
   CheckCircle2,
-  Workflow,
-  ArrowLeft,
-  Layers,
-  ChevronRight,
-  ChevronLeft
+  Sparkles,
+  Maximize2,
+  RotateCcw
 } from 'lucide-react';
 
-const STRATEGY_NODES = [
-  {
+// Data for each of the strategic nodes
+const STRATEGY_DATA = {
+  'lean-management': {
     id: 'lean-management',
-    number: '01',
     title: 'LEAN MANAGEMENT',
     titleAr: 'الإدارة الرشيقة والحد من الهدر',
-    position: 'top',
-    bgColor: '#FEF08A', // Pastel Warm Yellow
+    bgColor: '#FEF08A',
     textColor: '#1C1917',
-    borderColor: '#FACC15',
     icon: Workflow,
     summary: 'إزالة الفاقد في الوقت والمواد والمجهود لرفع كفاءة وسرعة التنفيذ الميداني.',
     details: [
@@ -35,15 +42,12 @@ const STRATEGY_NODES = [
     ],
     kpi: '30% تقليص في الهدر'
   },
-  {
+  'cash-flow': {
     id: 'cash-flow',
-    number: '02',
     title: 'TWO-WAY CASH FLOW ANALYSIS',
     titleAr: 'تحليل التدفق النقدي ثنائي الاتجاه',
-    position: 'top-right',
-    bgColor: '#BAE6FD', // Pastel Sky Blue
+    bgColor: '#BAE6FD',
     textColor: '#0C4A6E',
-    borderColor: '#38BDF8',
     icon: Coins,
     summary: 'موازنة دقيقة بين الالتزامات والمستخلصات لضمان استقرار السيولة واستمرارية التوريد دون انقطاع.',
     details: [
@@ -53,15 +57,12 @@ const STRATEGY_NODES = [
     ],
     kpi: 'استقرار مالي 100%'
   },
-  {
+  'safety-risk': {
     id: 'safety-risk',
-    number: '03',
     title: 'SAFETY RISK ANALYSIS',
     titleAr: 'تحليل مخاطر السلامة المهنية',
-    position: 'bottom-right',
-    bgColor: '#FECDD3', // Pastel Rose Pink
+    bgColor: '#FECDD3',
     textColor: '#881337',
-    borderColor: '#FB7185',
     icon: ShieldAlert,
     summary: 'تقييم شامل واستباقي لمخاطر السلامة والبيئة المهنية لحماية الكوادر والأصول والمشاريع.',
     details: [
@@ -71,15 +72,12 @@ const STRATEGY_NODES = [
     ],
     kpi: 'صفر حوادث مهنية (Zero LTI)'
   },
-  {
+  'lead-time': {
     id: 'lead-time',
-    number: '04',
     title: 'LEAD TIME ANALYSIS & REDISTRIBUTION',
     titleAr: 'تحليل وإعادة توزيع فترات التوريد',
-    position: 'bottom',
-    bgColor: '#A7F3D0', // Pastel Mint Green
+    bgColor: '#A7F3D0',
     textColor: '#064E3B',
-    borderColor: '#34D399',
     icon: Clock,
     summary: 'إدارة الجدول الزمني للمشتريات والتصنيع المباشر لتسليم المواد قبل موعد تركيبها الميداني.',
     details: [
@@ -89,15 +87,12 @@ const STRATEGY_NODES = [
     ],
     kpi: '40% تسريع في زمن التوريد'
   },
-  {
+  'value-engineering': {
     id: 'value-engineering',
-    number: '05',
     title: 'VALUE ENGINEERING',
     titleAr: 'الهندسة القيمة',
-    position: 'bottom-left',
-    bgColor: '#BBF7D0', // Pastel Sage Green
+    bgColor: '#BBF7D0',
     textColor: '#14532D',
-    borderColor: '#4ADE80',
     icon: TrendingUp,
     summary: 'ابتكار حلول وبدائل هندسية ذكية ترفع الكفاءة التشغيلية وتخفض التكاليف الرأسمالية دون المساس بالجودة.',
     details: [
@@ -107,15 +102,12 @@ const STRATEGY_NODES = [
     ],
     kpi: '20% توفير في تكلفة الدورة التشغيلية'
   },
-  {
+  'agile-resourcing': {
     id: 'agile-resourcing',
-    number: '06',
     title: 'AGILE RESOURCING',
     titleAr: 'التخصيص المرن للموارد',
-    position: 'top-left',
-    bgColor: '#DDD6FE', // Pastel Lavender Purple
+    bgColor: '#DDD6FE',
     textColor: '#4C1D95',
-    borderColor: '#A78BFA',
     icon: Cpu,
     summary: 'مرونة عالية في توجيه الكوادر الفنية والمعدات التخصصية بين مراحل ومواقع العمل وفق أولويات الإنجاز.',
     details: [
@@ -125,304 +117,372 @@ const STRATEGY_NODES = [
     ],
     kpi: 'استجابة ميدانية فائقة'
   }
-];
+};
+
+// 1. Custom Central Node Component
+const CentralCoreNode = ({ data, selected }) => {
+  return (
+    <div className={`relative w-[300px] h-[150px] rounded-3xl bg-[#1C3322] border-2 border-[#D4E128] shadow-[0_0_35px_rgba(212,225,40,0.3)] p-4 flex flex-col items-center justify-center text-center cursor-move transition-all duration-300 ${selected ? 'ring-4 ring-[#D4E128] scale-105' : ''
+      }`}>
+      {/* Visual Corner Brackets matching diagram */}
+      <div className="absolute top-2.5 right-2.5 w-5 h-5 border-t-2 border-r-2 border-[#D4E128]" />
+      <div className="absolute bottom-2.5 left-2.5 w-5 h-5 border-b-2 border-l-2 border-[#D4E128]" />
+
+      {/* Handles for all 6 connection directions */}
+      <Handle type="source" position={Position.Top} id="top" className="!bg-[#D4E128] !w-3 !h-3 !border-0 opacity-0" />
+      <Handle type="source" position={Position.Right} id="right-top" style={{ top: '25%' }} className="!bg-[#D4E128] !w-3 !h-3 !border-0 opacity-0" />
+      <Handle type="source" position={Position.Right} id="right-bottom" style={{ top: '75%' }} className="!bg-[#D4E128] !w-3 !h-3 !border-0 opacity-0" />
+      <Handle type="source" position={Position.Bottom} id="bottom" className="!bg-[#D4E128] !w-3 !h-3 !border-0 opacity-0" />
+      <Handle type="source" position={Position.Left} id="left-bottom" style={{ top: '75%' }} className="!bg-[#D4E128] !w-3 !h-3 !border-0 opacity-0" />
+      <Handle type="source" position={Position.Left} id="left-top" style={{ top: '25%' }} className="!bg-[#D4E128] !w-3 !h-3 !border-0 opacity-0" />
+
+      <span className="text-[11px] font-mono font-bold tracking-widest text-[#D4E128] uppercase mb-1 opacity-90">
+        {data.badge || 'CORE APPROACH'}
+      </span>
+      <h3 className="text-base sm:text-lg font-black text-white leading-snug tracking-wide font-sans">
+        SMART PROJECT <br />
+        MANAGEMENT <br />
+        STRATEGIES
+      </h3>
+    </div>
+  );
+};
+
+// 2. Custom Outer Strategy Pill Node Component
+const StrategyPillNode = ({ data, selected }) => {
+  const isSelected = selected || data.isActive;
+
+  return (
+    <div
+      onClick={data.onSelect}
+      style={{ backgroundColor: data.bgColor, color: data.textColor }}
+      className={`relative px-6 py-3.5 rounded-2xl shadow-xl font-extrabold text-xs sm:text-sm font-sans tracking-wide text-center cursor-pointer transition-all duration-300 min-w-[170px] max-w-[220px] select-none ${isSelected
+        ? 'ring-4 ring-[#D4E128] scale-105 shadow-[0_0_25px_rgba(212,225,40,0.5)]'
+        : 'hover:scale-105 opacity-95 hover:opacity-100'
+        }`}
+    >
+      {/* Target Handle connecting to center */}
+      <Handle
+        type="target"
+        position={data.handlePosition || Position.Left}
+        className="!bg-[#D4E128] !w-2.5 !h-2.5 !border-0 opacity-0"
+      />
+
+      <div className="leading-tight whitespace-pre-line">
+        {data.label}
+      </div>
+    </div>
+  );
+};
 
 const SmartStrategyFlowchart = () => {
   const [activeNodeId, setActiveNodeId] = useState('lean-management');
+  const [reactFlowInstance, setReactFlowInstance] = useState(null);
 
-  const activeNode = STRATEGY_NODES.find(n => n.id === activeNodeId) || STRATEGY_NODES[0];
+  const nodeTypes = useMemo(
+    () => ({
+      coreNode: CentralCoreNode,
+      pillNode: StrategyPillNode
+    }),
+    []
+  );
+
+  // Initial Nodes Layout matching the diagram geometry
+  const initialNodes = useMemo(
+    () => [
+      // Central Node
+      {
+        id: 'center-core',
+        type: 'coreNode',
+        position: { x: 330, y: 190 },
+        data: { badge: 'CORE APPROACH' },
+        draggable: true
+      },
+      // 1. Top (Lean Management)
+      {
+        id: 'lean-management',
+        type: 'pillNode',
+        position: { x: 385, y: 30 },
+        data: {
+          label: 'LEAN\nMANAGEMENT',
+          bgColor: STRATEGY_DATA['lean-management'].bgColor,
+          textColor: STRATEGY_DATA['lean-management'].textColor,
+          handlePosition: Position.Bottom,
+          isActive: activeNodeId === 'lean-management',
+          onSelect: () => setActiveNodeId('lean-management')
+        },
+        draggable: true
+      },
+      // 2. Top-Right (Two-Way Cash Flow Analysis)
+      {
+        id: 'cash-flow',
+        type: 'pillNode',
+        position: { x: 690, y: 60 },
+        data: {
+          label: 'TWO-WAY CASH\nFLOW ANALYSIS',
+          bgColor: STRATEGY_DATA['cash-flow'].bgColor,
+          textColor: STRATEGY_DATA['cash-flow'].textColor,
+          handlePosition: Position.Left,
+          isActive: activeNodeId === 'cash-flow',
+          onSelect: () => setActiveNodeId('cash-flow')
+        },
+        draggable: true
+      },
+      // 3. Bottom-Right (Safety Risk Analysis)
+      {
+        id: 'safety-risk',
+        type: 'pillNode',
+        position: { x: 690, y: 350 },
+        data: {
+          label: 'SAFETY RISK\nANALYSIS',
+          bgColor: STRATEGY_DATA['safety-risk'].bgColor,
+          textColor: STRATEGY_DATA['safety-risk'].textColor,
+          handlePosition: Position.Left,
+          isActive: activeNodeId === 'safety-risk',
+          onSelect: () => setActiveNodeId('safety-risk')
+        },
+        draggable: true
+      },
+      // 4. Bottom (Lead Time Analysis & Redistribution)
+      {
+        id: 'lead-time',
+        type: 'pillNode',
+        position: { x: 340, y: 430 },
+        data: {
+          label: 'LEAD TIME\nANALYSIS & REDISTRIBUTION',
+          bgColor: STRATEGY_DATA['lead-time'].bgColor,
+          textColor: STRATEGY_DATA['lead-time'].textColor,
+          handlePosition: Position.Top,
+          isActive: activeNodeId === 'lead-time',
+          onSelect: () => setActiveNodeId('lead-time')
+        },
+        draggable: true
+      },
+      // 5. Bottom-Left (Value Engineering)
+      {
+        id: 'value-engineering',
+        type: 'pillNode',
+        position: { x: 40, y: 350 },
+        data: {
+          label: 'VALUE\nENGINEERING',
+          bgColor: STRATEGY_DATA['value-engineering'].bgColor,
+          textColor: STRATEGY_DATA['value-engineering'].textColor,
+          handlePosition: Position.Right,
+          isActive: activeNodeId === 'value-engineering',
+          onSelect: () => setActiveNodeId('value-engineering')
+        },
+        draggable: true
+      },
+      // 6. Top-Left (Agile Resourcing)
+      {
+        id: 'agile-resourcing',
+        type: 'pillNode',
+        position: { x: 60, y: 60 },
+        data: {
+          label: 'AGILE\nRESOURCING',
+          bgColor: STRATEGY_DATA['agile-resourcing'].bgColor,
+          textColor: STRATEGY_DATA['agile-resourcing'].textColor,
+          handlePosition: Position.Right,
+          isActive: activeNodeId === 'agile-resourcing',
+          onSelect: () => setActiveNodeId('agile-resourcing')
+        },
+        draggable: true
+      }
+    ],
+    [activeNodeId]
+  );
+
+  // Initial Edges with neon green lines and smooth curves
+  const initialEdges = useMemo(
+    () => [
+      {
+        id: 'e-lean',
+        source: 'center-core',
+        sourceHandle: 'top',
+        target: 'lean-management',
+        type: 'smoothstep',
+        animated: activeNodeId === 'lean-management',
+        style: {
+          stroke: '#D4E128',
+          strokeWidth: activeNodeId === 'lean-management' ? 3.5 : 2.5,
+          filter: activeNodeId === 'lean-management' ? 'drop-shadow(0 0 8px rgba(212,225,40,0.8))' : 'none'
+        }
+      },
+      {
+        id: 'e-cash',
+        source: 'center-core',
+        sourceHandle: 'right-top',
+        target: 'cash-flow',
+        type: 'default',
+        animated: activeNodeId === 'cash-flow',
+        style: {
+          stroke: '#D4E128',
+          strokeWidth: activeNodeId === 'cash-flow' ? 3.5 : 2.5,
+          filter: activeNodeId === 'cash-flow' ? 'drop-shadow(0 0 8px rgba(212,225,40,0.8))' : 'none'
+        }
+      },
+      {
+        id: 'e-safety',
+        source: 'center-core',
+        sourceHandle: 'right-bottom',
+        target: 'safety-risk',
+        type: 'default',
+        animated: activeNodeId === 'safety-risk',
+        style: {
+          stroke: '#D4E128',
+          strokeWidth: activeNodeId === 'safety-risk' ? 3.5 : 2.5,
+          filter: activeNodeId === 'safety-risk' ? 'drop-shadow(0 0 8px rgba(212,225,40,0.8))' : 'none'
+        }
+      },
+      {
+        id: 'e-lead',
+        source: 'center-core',
+        sourceHandle: 'bottom',
+        target: 'lead-time',
+        type: 'smoothstep',
+        animated: activeNodeId === 'lead-time',
+        style: {
+          stroke: '#D4E128',
+          strokeWidth: activeNodeId === 'lead-time' ? 3.5 : 2.5,
+          filter: activeNodeId === 'lead-time' ? 'drop-shadow(0 0 8px rgba(212,225,40,0.8))' : 'none'
+        }
+      },
+      {
+        id: 'e-value',
+        source: 'center-core',
+        sourceHandle: 'left-bottom',
+        target: 'value-engineering',
+        type: 'default',
+        animated: activeNodeId === 'value-engineering',
+        style: {
+          stroke: '#D4E128',
+          strokeWidth: activeNodeId === 'value-engineering' ? 3.5 : 2.5,
+          filter: activeNodeId === 'value-engineering' ? 'drop-shadow(0 0 8px rgba(212,225,40,0.8))' : 'none'
+        }
+      },
+      {
+        id: 'e-agile',
+        source: 'center-core',
+        sourceHandle: 'left-top',
+        target: 'agile-resourcing',
+        type: 'default',
+        animated: activeNodeId === 'agile-resourcing',
+        style: {
+          stroke: '#D4E128',
+          strokeWidth: activeNodeId === 'agile-resourcing' ? 3.5 : 2.5,
+          filter: activeNodeId === 'agile-resourcing' ? 'drop-shadow(0 0 8px rgba(212,225,40,0.8))' : 'none'
+        }
+      }
+    ],
+    [activeNodeId]
+  );
+
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+  // Sync active state when nodes or activeNodeId change
+  const onNodeClick = useCallback((event, node) => {
+    if (node.id !== 'center-core' && STRATEGY_DATA[node.id]) {
+      setActiveNodeId(node.id);
+    }
+  }, []);
+
+  const handleResetView = () => {
+    if (reactFlowInstance) {
+      reactFlowInstance.fitView({ padding: 0.2, duration: 600 });
+    }
+  };
+
+  const activeNodeData = STRATEGY_DATA[activeNodeId] || STRATEGY_DATA['lean-management'];
 
   return (
-    <section 
+    <section
       id="النهج-الاستراتيجي"
       className="relative w-full bg-[#111312] text-white pt-56 sm:pt-64 pb-24 sm:pb-32 overflow-hidden select-none border-b border-white/5"
       dir="rtl"
     >
-      {/* Background Ambient Glows */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-[#D4E128]/5 rounded-full blur-[180px] pointer-events-none -z-0" />
-      <div className="absolute bottom-10 right-10 w-[450px] h-[450px] bg-[#2A352F]/40 rounded-full blur-[150px] pointer-events-none -z-0" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
-        {/* Section Header */}
-        <div className="flex flex-col items-center text-center w-full mb-14 sm:mb-20">
-          <SectionTitle title="منهجية إدارة المشاريع الذكية" theme="dark" />
-          <p className="text-white/70 text-sm sm:text-base lg:text-lg max-w-3xl mt-4 leading-relaxed font-medium">
-            خريطة التدفق الاستراتيجي المتكاملة التي تحكم كافة مراحل تنفيذ مشاريعنا، وتربط بين التخطيط الذكي والكفاءة التشغيلية لضمان أعلى معايير الجودة والسلامة. (اضغط على أي ركن للاطلاع على التفاصيل)
-          </p>
-        </div>
-
-        {/* Desktop Mindmap Flowchart Graphic Layout */}
-        <div className="relative w-full max-w-5xl mx-auto min-h-[580px] sm:min-h-[640px] hidden md:flex items-center justify-center p-4">
-
-          {/* SVG Connector Lines Layer */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 1000 600" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="neonGlowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#D4E128" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#EAB308" stopOpacity="0.9" />
-              </linearGradient>
-              <filter id="glowFilter" x="-20%" y="-20%" width="140%" height="140%">
-                <feGaussianBlur stdDeviation="4" result="blur" />
-                <feMerge>
-                  <feMergeNode in="blur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
-
-            {/* Central Node Bounds in SVG coordinates: center=(500, 300), width=280, height=140 */}
-            {/* Top Connector: (500, 230) -> (500, 90) */}
-            <motion.path
-              d="M 500 230 L 500 90"
-              fill="none"
-              stroke={activeNodeId === 'lean-management' ? '#D4E128' : '#D4E12888'}
-              strokeWidth={activeNodeId === 'lean-management' ? 4.5 : 2.5}
-              filter={activeNodeId === 'lean-management' ? 'url(#glowFilter)' : undefined}
-              className="transition-all duration-300"
+        {/* React Flow Interactive Canvas Container */}
+        <div
+          data-lenis-prevent="true"
+          className="relative w-full max-w-7xl mx-auto h-[560px] sm:h-[620px] rounded-3xl bg-[#141715]/90 border border-white/15 shadow-[0_20px_60px_rgba(0,0,0,0.8)] overflow-hidden"
+          dir="ltr"
+        >
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onNodeClick={onNodeClick}
+            nodeTypes={nodeTypes}
+            onInit={setReactFlowInstance}
+            fitView
+            fitViewOptions={{ padding: 0.15 }}
+            minZoom={0.5}
+            maxZoom={1.5}
+            preventScrolling={false}
+            proOptions={{ hideAttribution: true }}
+            className="react-flow-custom"
+          >
+            <Background color="#D4E12815" gap={24} size={1.5} />
+            <Controls
+              showInteractive={false}
+              className="!bg-[#1C201D] !border !border-white/20 !rounded-2xl !p-1 !shadow-2xl [&>button]:!bg-transparent [&>button]:!border-b [&>button]:!border-white/10 [&>button]:!fill-white [&>button:hover]:!bg-[#D4E128] [&>button:hover]:!fill-black"
             />
+          </ReactFlow>
 
-            {/* Top-Right Connector: (640, 260) -> (800, 140) */}
-            <motion.path
-              d="M 640 260 C 720 260, 740 140, 800 140"
-              fill="none"
-              stroke={activeNodeId === 'cash-flow' ? '#D4E128' : '#D4E12888'}
-              strokeWidth={activeNodeId === 'cash-flow' ? 4.5 : 2.5}
-              filter={activeNodeId === 'cash-flow' ? 'url(#glowFilter)' : undefined}
-              className="transition-all duration-300"
-            />
-
-            {/* Bottom-Right Connector: (640, 340) -> (800, 460) */}
-            <motion.path
-              d="M 640 340 C 720 340, 740 460, 800 460"
-              fill="none"
-              stroke={activeNodeId === 'safety-risk' ? '#D4E128' : '#D4E12888'}
-              strokeWidth={activeNodeId === 'safety-risk' ? 4.5 : 2.5}
-              filter={activeNodeId === 'safety-risk' ? 'url(#glowFilter)' : undefined}
-              className="transition-all duration-300"
-            />
-
-            {/* Bottom Connector: (500, 370) -> (500, 510) */}
-            <motion.path
-              d="M 500 370 L 500 510"
-              fill="none"
-              stroke={activeNodeId === 'lead-time' ? '#D4E128' : '#D4E12888'}
-              strokeWidth={activeNodeId === 'lead-time' ? 4.5 : 2.5}
-              filter={activeNodeId === 'lead-time' ? 'url(#glowFilter)' : undefined}
-              className="transition-all duration-300"
-            />
-
-            {/* Bottom-Left Connector: (360, 340) -> (200, 460) */}
-            <motion.path
-              d="M 360 340 C 280 340, 260 460, 200 460"
-              fill="none"
-              stroke={activeNodeId === 'value-engineering' ? '#D4E128' : '#D4E12888'}
-              strokeWidth={activeNodeId === 'value-engineering' ? 4.5 : 2.5}
-              filter={activeNodeId === 'value-engineering' ? 'url(#glowFilter)' : undefined}
-              className="transition-all duration-300"
-            />
-
-            {/* Top-Left Connector: (360, 260) -> (200, 140) */}
-            <motion.path
-              d="M 360 260 C 280 260, 260 140, 200 140"
-              fill="none"
-              stroke={activeNodeId === 'agile-resourcing' ? '#D4E128' : '#D4E12888'}
-              strokeWidth={activeNodeId === 'agile-resourcing' ? 4.5 : 2.5}
-              filter={activeNodeId === 'agile-resourcing' ? 'url(#glowFilter)' : undefined}
-              className="transition-all duration-300"
-            />
-          </svg>
-
-          {/* Central Core Node (Dark green with neon border & corner brackets) */}
-          <motion.div
-            whileHover={{ scale: 1.03 }}
-            className="relative z-10 w-[300px] sm:w-[340px] h-[150px] sm:h-[160px] rounded-3xl bg-[#1C3322] border-2 border-[#D4E128] shadow-[0_0_40px_rgba(212,225,40,0.25)] p-5 flex flex-col items-center justify-center text-center select-none"
-          >
-            {/* Top-Left Yellow Bracket */}
-            <div className="absolute top-2.5 right-2.5 w-5 h-5 border-t-2 border-r-2 border-[#D4E128]" />
-            {/* Bottom-Right Yellow Bracket */}
-            <div className="absolute bottom-2.5 left-2.5 w-5 h-5 border-b-2 border-l-2 border-[#D4E128]" />
-
-            <span className="text-[11px] font-mono font-bold tracking-widest text-[#D4E128] uppercase mb-1.5 opacity-90">
-              CORE APPROACH
-            </span>
-            <h3 className="text-lg sm:text-xl font-black text-white leading-snug tracking-wide font-sans">
-              SMART PROJECT <br />
-              MANAGEMENT <br />
-              STRATEGIES
-            </h3>
-          </motion.div>
-
-          {/* Node 1: Top (Lean Management) */}
-          <motion.div
-            onClick={() => setActiveNodeId('lean-management')}
-            whileHover={{ scale: 1.08, y: -4 }}
-            className={`absolute top-2 left-1/2 -translate-x-1/2 z-20 cursor-pointer rounded-2xl px-6 py-3.5 shadow-xl transition-all duration-300 ${
-              activeNodeId === 'lean-management' 
-                ? 'ring-4 ring-[#D4E128] scale-105 shadow-[0_0_25px_rgba(254,240,138,0.6)]' 
-                : 'opacity-90 hover:opacity-100'
-            }`}
-            style={{ backgroundColor: STRATEGY_NODES[0].bgColor, color: STRATEGY_NODES[0].textColor }}
-          >
-            <div className="text-center font-extrabold text-xs sm:text-sm font-sans tracking-wide">
-              {STRATEGY_NODES[0].title}
-            </div>
-          </motion.div>
-
-          {/* Node 2: Top-Right (Two-Way Cash Flow Analysis) */}
-          <motion.div
-            onClick={() => setActiveNodeId('cash-flow')}
-            whileHover={{ scale: 1.08 }}
-            className={`absolute top-12 left-4 sm:left-10 z-20 cursor-pointer rounded-2xl px-5 sm:px-6 py-3.5 shadow-xl transition-all duration-300 ${
-              activeNodeId === 'cash-flow' 
-                ? 'ring-4 ring-[#D4E128] scale-105 shadow-[0_0_25px_rgba(186,230,253,0.6)]' 
-                : 'opacity-90 hover:opacity-100'
-            }`}
-            style={{ backgroundColor: STRATEGY_NODES[1].bgColor, color: STRATEGY_NODES[1].textColor }}
-          >
-            <div className="text-center font-extrabold text-xs sm:text-sm font-sans tracking-wide">
-              TWO-WAY CASH <br /> FLOW ANALYSIS
-            </div>
-          </motion.div>
-
-          {/* Node 3: Bottom-Right (Safety Risk Analysis) */}
-          <motion.div
-            onClick={() => setActiveNodeId('safety-risk')}
-            whileHover={{ scale: 1.08 }}
-            className={`absolute bottom-12 left-4 sm:left-10 z-20 cursor-pointer rounded-2xl px-5 sm:px-6 py-3.5 shadow-xl transition-all duration-300 ${
-              activeNodeId === 'safety-risk' 
-                ? 'ring-4 ring-[#D4E128] scale-105 shadow-[0_0_25px_rgba(254,205,211,0.6)]' 
-                : 'opacity-90 hover:opacity-100'
-            }`}
-            style={{ backgroundColor: STRATEGY_NODES[2].bgColor, color: STRATEGY_NODES[2].textColor }}
-          >
-            <div className="text-center font-extrabold text-xs sm:text-sm font-sans tracking-wide">
-              SAFETY RISK <br /> ANALYSIS
-            </div>
-          </motion.div>
-
-          {/* Node 4: Bottom (Lead Time Analysis & Redistribution) */}
-          <motion.div
-            onClick={() => setActiveNodeId('lead-time')}
-            whileHover={{ scale: 1.08, y: 4 }}
-            className={`absolute bottom-2 left-1/2 -translate-x-1/2 z-20 cursor-pointer rounded-2xl px-6 py-3.5 shadow-xl transition-all duration-300 ${
-              activeNodeId === 'lead-time' 
-                ? 'ring-4 ring-[#D4E128] scale-105 shadow-[0_0_25px_rgba(167,243,208,0.6)]' 
-                : 'opacity-90 hover:opacity-100'
-            }`}
-            style={{ backgroundColor: STRATEGY_NODES[3].bgColor, color: STRATEGY_NODES[3].textColor }}
-          >
-            <div className="text-center font-extrabold text-xs sm:text-sm font-sans tracking-wide">
-              LEAD TIME <br /> ANALYSIS &amp; REDISTRIBUTION
-            </div>
-          </motion.div>
-
-          {/* Node 5: Bottom-Left (Value Engineering) */}
-          <motion.div
-            onClick={() => setActiveNodeId('value-engineering')}
-            whileHover={{ scale: 1.08 }}
-            className={`absolute bottom-12 right-4 sm:right-10 z-20 cursor-pointer rounded-2xl px-5 sm:px-6 py-3.5 shadow-xl transition-all duration-300 ${
-              activeNodeId === 'value-engineering' 
-                ? 'ring-4 ring-[#D4E128] scale-105 shadow-[0_0_25px_rgba(187,247,208,0.6)]' 
-                : 'opacity-90 hover:opacity-100'
-            }`}
-            style={{ backgroundColor: STRATEGY_NODES[4].bgColor, color: STRATEGY_NODES[4].textColor }}
-          >
-            <div className="text-center font-extrabold text-xs sm:text-sm font-sans tracking-wide">
-              VALUE <br /> ENGINEERING
-            </div>
-          </motion.div>
-
-          {/* Node 6: Top-Left (Agile Resourcing) */}
-          <motion.div
-            onClick={() => setActiveNodeId('agile-resourcing')}
-            whileHover={{ scale: 1.08 }}
-            className={`absolute top-12 right-4 sm:right-10 z-20 cursor-pointer rounded-2xl px-5 sm:px-6 py-3.5 shadow-xl transition-all duration-300 ${
-              activeNodeId === 'agile-resourcing' 
-                ? 'ring-4 ring-[#D4E128] scale-105 shadow-[0_0_25px_rgba(221,214,254,0.6)]' 
-                : 'opacity-90 hover:opacity-100'
-            }`}
-            style={{ backgroundColor: STRATEGY_NODES[5].bgColor, color: STRATEGY_NODES[5].textColor }}
-          >
-            <div className="text-center font-extrabold text-xs sm:text-sm font-sans tracking-wide">
-              AGILE <br /> RESOURCING
-            </div>
-          </motion.div>
-
-        </div>
-
-        {/* Mobile / Tablet Interactive Radial Carousel & Grid */}
-        <div className="md:hidden space-y-6">
-          
-          {/* Mobile Central Node */}
-          <div className="relative w-full max-w-sm mx-auto rounded-3xl bg-[#1C3322] border-2 border-[#D4E128] shadow-xl p-5 flex flex-col items-center justify-center text-center">
-            <div className="absolute top-2.5 right-2.5 w-4 h-4 border-t-2 border-r-2 border-[#D4E128]" />
-            <div className="absolute bottom-2.5 left-2.5 w-4 h-4 border-b-2 border-l-2 border-[#D4E128]" />
-            <span className="text-[10px] font-mono font-bold tracking-widest text-[#D4E128] uppercase mb-1">
-              CORE APPROACH
-            </span>
-            <h3 className="text-base font-black text-white">
-              SMART PROJECT MANAGEMENT STRATEGIES
-            </h3>
-          </div>
-
-          {/* Mobile Interactive 6 Pills Grid */}
-          <div className="grid grid-cols-2 gap-3">
-            {STRATEGY_NODES.map((node) => (
-              <button
-                key={node.id}
-                onClick={() => setActiveNodeId(node.id)}
-                style={{ backgroundColor: node.bgColor, color: node.textColor }}
-                className={`p-3.5 rounded-2xl text-center font-bold text-xs shadow-md transition-all ${
-                  activeNodeId === node.id 
-                    ? 'ring-3 ring-[#D4E128] scale-[1.03]' 
-                    : 'opacity-85 hover:opacity-100'
-                }`}
-              >
-                {node.title}
-              </button>
-            ))}
+          {/* Top Canvas Controls Bar */}
+          <div className="absolute top-4 right-4 z-20 flex items-center gap-2" dir="rtl">
+            <button
+              onClick={handleResetView}
+              className="px-3.5 py-2 rounded-xl bg-black/60 backdrop-blur-md border border-white/15 text-xs text-white/90 hover:text-[#D4E128] hover:border-[#D4E128]/50 transition-all flex items-center gap-1.5 shadow-lg cursor-pointer"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>إعادة ضبط العرض</span>
+            </button>
           </div>
         </div>
 
-        {/* Interactive Active Pillar Detail Card (Shows full corporate explanation of selected node) */}
+        {/* Interactive Active Pillar Detail Card (Updates on click) */}
         <motion.div
-          key={activeNode.id}
+          key={activeNodeData.id}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="mt-12 sm:mt-16 max-w-4xl mx-auto rounded-3xl bg-gradient-to-r from-[#181B19] to-[#141615] border border-white/15 p-6 sm:p-8 shadow-2xl"
+          className="mt-10 sm:mt-14 max-w-4xl mx-auto rounded-3xl bg-gradient-to-r from-[#181B19] to-[#141615] border border-white/15 p-6 sm:p-8 shadow-2xl"
         >
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-5 border-b border-white/10">
             <div className="flex items-center gap-4 text-right">
-              <div 
+              <div
                 className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-inner shrink-0"
-                style={{ backgroundColor: activeNode.bgColor, color: activeNode.textColor }}
+                style={{ backgroundColor: activeNodeData.bgColor, color: activeNodeData.textColor }}
               >
-                <activeNode.icon className="w-6 h-6" />
+                <activeNodeData.icon className="w-6 h-6" />
               </div>
               <div>
                 <span className="text-xs font-mono font-bold text-[#D4E128]">
-                  {activeNode.title}
+                  {activeNodeData.title}
                 </span>
                 <h4 className="text-xl sm:text-2xl font-black text-white mt-0.5">
-                  {activeNode.titleAr}
+                  {activeNodeData.titleAr}
                 </h4>
               </div>
             </div>
 
             <div className="px-4 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-mono text-[#D4E128] shrink-0">
-              {activeNode.kpi}
+              {activeNodeData.kpi}
             </div>
           </div>
 
           <div className="mt-5 space-y-4 text-right">
             <p className="text-sm sm:text-base text-white/80 leading-relaxed font-medium">
-              {activeNode.summary}
+              {activeNodeData.summary}
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-              {activeNode.details.map((item, idx) => (
+              {activeNodeData.details.map((item, idx) => (
                 <div key={idx} className="flex items-start gap-2.5 p-3 rounded-xl bg-black/30 border border-white/5 text-xs text-white/90">
                   <CheckCircle2 className="w-4 h-4 text-[#D4E128] shrink-0 mt-0.5" />
                   <span className="leading-relaxed">{item}</span>
