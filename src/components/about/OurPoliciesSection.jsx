@@ -13,6 +13,7 @@ import {
   Lock,
   Sparkles
 } from 'lucide-react';
+import SectionTitle from '../ui/SectionTitle';
 import { 
   Accordion, 
   AccordionItem, 
@@ -125,37 +126,25 @@ const OurPoliciesSection = () => {
       <div className="absolute bottom-1/4 left-0 w-[550px] h-[550px] bg-[#2A352F]/30 rounded-full blur-[160px] pointer-events-none -z-0" />
       <div className="absolute -top-10 left-1/3 w-[300px] h-[300px] bg-[#FFB800]/5 rounded-full blur-[120px] pointer-events-none -z-0" />
 
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10">
 
-        {/* Section Header with Distinctive Yellow Brand Tag */}
-        <div className="flex flex-col items-start mb-12 sm:mb-16">
-          
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="flex items-center gap-3 mb-4"
-          >
-            {/* The Brand Yellow Block Accent from user image */}
-            <div className="relative inline-flex items-center">
-              <span className="bg-[#FFB800] text-[#141615] font-black text-2xl sm:text-3xl lg:text-4xl px-4 sm:px-6 py-2 rounded-lg sm:rounded-xl shadow-lg shadow-[#FFB800]/20 tracking-wide">
-                سياستنا
-              </span>
-            </div>
-          </motion.div>
-
-          {/* Subtitle / Descriptive Context */}
-          <motion.p 
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-white/70 text-sm sm:text-base lg:text-lg max-w-2xl mt-2 leading-relaxed"
-          >
-            نلتزم في <span className="text-[#FFB800] font-bold">مجموعة باور</span> بأعلى معايير الحوكمة والنزاهة المؤسسية والمسؤولية الاجتماعية، لضمان بيئة عمل آمنة، عادلة وموثوقة لكافة شركائنا وعملائنا ومنسوبينا.
-          </motion.p>
+        {/* Section Header with Standard SectionTitle */}
+        <div className="flex flex-col items-start w-full mb-10 sm:mb-12">
+          <SectionTitle title="سياستنا" theme="dark" />
         </div>
+
+        {/* Content Description */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="w-full mb-12 sm:mb-14"
+        >
+          <p className="text-white/80 text-lg sm:text-xl lg:text-[22px] font-medium leading-[2.2]">
+            نلتزم في <span className="text-[#FFB800] font-bold">مجموعة باور</span> بأعلى معايير الحوكمة والنزاهة المؤسسية والمسؤولية الاجتماعية، لضمان بيئة عمل آمنة، عادلة وموثوقة لكافة شركائنا وعملائنا ومنسوبينا.
+          </p>
+        </motion.div>
 
         {/* Accordion Component List */}
         <motion.div
