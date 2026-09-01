@@ -1,7 +1,11 @@
 import { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Lenis from '@studio-freight/lenis';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, AnimatePresence } from 'framer-motion';
+
+gsap.registerPlugin(ScrollTrigger);
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Container from './components/ui/Container';
@@ -15,10 +19,10 @@ function App() {
   const location = useLocation();
   const isHomePage = location.pathname === '/' || location.pathname === '';
 
-  // Initialize Smooth Scrolling (Lenis) for the cinematic feel
+  // Initialize Smooth Scrolling (Lenis) and sync with GSAP ScrollTrigger
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       direction: 'vertical',
       gestureDirection: 'vertical',
@@ -29,14 +33,17 @@ function App() {
       infinite: false,
     });
 
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
+    lenis.on('scroll', ScrollTrigger.update);
 
-    requestAnimationFrame(raf);
+    const updateTicker = (time) => {
+      lenis.raf(time * 1000);
+    };
+
+    gsap.ticker.add(updateTicker);
+    gsap.ticker.lagSmoothing(0);
 
     return () => {
+      gsap.ticker.remove(updateTicker);
       lenis.destroy();
     };
   }, []);

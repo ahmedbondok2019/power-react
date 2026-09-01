@@ -87,10 +87,16 @@ const AgileResourcingSection = () => {
     const st = ScrollTrigger.create({
       trigger: triggerContainerRef.current,
       start: "top top",
-      end: `+=${totalStages * 220}`, // Fast, lightweight, responsive scroll distance
+      end: `+=${totalStages * 500}`, // Balanced, smooth pacing (2000px total)
       pin: pinnedTimelineRef.current,
       pinSpacing: true,
-      scrub: 0.1, // Instant response to wheel
+      scrub: 0.5,
+      snap: {
+        snapTo: 1 / (totalStages - 1), // Snaps firmly to 0, 0.333, 0.666, 1.0
+        duration: { min: 0.2, max: 0.4 },
+        delay: 0.05,
+        ease: "power1.inOut"
+      },
       anticipatePin: 1,
       onUpdate: (self) => {
         const progress = self.progress;
