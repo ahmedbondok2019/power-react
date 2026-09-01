@@ -10,6 +10,7 @@ const Navbar = () => {
 
   const isAboutPage = location.pathname.toLowerCase().includes('about');
   const isProjectsPage = location.pathname.toLowerCase().includes('project');
+  const isStrategyPage = location.pathname.toLowerCase().includes('strategy') || location.pathname.includes('استراتيجيتنا');
 
   const navItems = [
     { label: 'الرئيسية', to: '/', hash: '#الرئيسية' },
@@ -18,7 +19,7 @@ const Navbar = () => {
     { label: 'هيكل المجموعة', to: '/#هيكل-المجموعة', hash: '#هيكل-المجموعة' },
     { label: 'مشاريعنا', to: '/projects', isRoute: true, active: isProjectsPage },
     { label: 'مالية', to: '/#مالية', hash: '#مالية' },
-    { label: 'استراتيجياتنا', to: '/#استراتيجياتنا', hash: '#استراتيجياتنا' },
+    { label: 'استراتيجياتنا', to: '/strategy', isRoute: true, active: isStrategyPage },
     { label: 'وظائف', to: '/#وظائف', hash: '#وظائف' },
     { label: 'اتصل بنا', to: '/#اتصل-بنا', hash: '#اتصل-بنا' },
   ];
