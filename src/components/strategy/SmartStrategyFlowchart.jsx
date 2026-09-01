@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import {
   ReactFlow,
   Background,
@@ -6,11 +6,10 @@ import {
   Handle,
   Position,
   useNodesState,
-  useEdgesState,
-  MarkerType
+  useEdgesState
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import SectionTitle from '../ui/SectionTitle';
 import {
   Workflow,
@@ -21,20 +20,23 @@ import {
   Cpu,
   CheckCircle2,
   Sparkles,
-  Maximize2,
-  RotateCcw
+  RotateCcw,
+  X,
+  Layers,
+  ArrowRight
 } from 'lucide-react';
 
 // Data for each of the strategic nodes
 const STRATEGY_DATA = {
   'lean-management': {
     id: 'lean-management',
+    number: '01',
     title: 'LEAN MANAGEMENT',
     titleAr: 'الإدارة الرشيقة والحد من الهدر',
     bgColor: '#FEF08A',
     textColor: '#1C1917',
     icon: Workflow,
-    summary: 'إزالة الفاقد في الوقت والمواد والمجهود لرفع كفاءة وسرعة التنفيذ الميداني.',
+    summary: 'إزالة الفاقد في الوقت والمواد والمجهود لرفع كفاءة وسرعة التنفيذ الميداني وضمان استمرارية الإنجاز.',
     details: [
       'تطبيق مبادئ 5S في تنظيم ومراقبة مواقع العمل الإنشائية',
       'تقليص فترات التوقف بين فرق الأعمال المختلفة',
@@ -44,6 +46,7 @@ const STRATEGY_DATA = {
   },
   'cash-flow': {
     id: 'cash-flow',
+    number: '02',
     title: 'TWO-WAY CASH FLOW ANALYSIS',
     titleAr: 'تحليل التدفق النقدي ثنائي الاتجاه',
     bgColor: '#BAE6FD',
@@ -59,6 +62,7 @@ const STRATEGY_DATA = {
   },
   'safety-risk': {
     id: 'safety-risk',
+    number: '03',
     title: 'SAFETY RISK ANALYSIS',
     titleAr: 'تحليل مخاطر السلامة المهنية',
     bgColor: '#FECDD3',
@@ -74,6 +78,7 @@ const STRATEGY_DATA = {
   },
   'lead-time': {
     id: 'lead-time',
+    number: '04',
     title: 'LEAD TIME ANALYSIS & REDISTRIBUTION',
     titleAr: 'تحليل وإعادة توزيع فترات التوريد',
     bgColor: '#A7F3D0',
@@ -89,6 +94,7 @@ const STRATEGY_DATA = {
   },
   'value-engineering': {
     id: 'value-engineering',
+    number: '05',
     title: 'VALUE ENGINEERING',
     titleAr: 'الهندسة القيمة',
     bgColor: '#BBF7D0',
@@ -104,6 +110,7 @@ const STRATEGY_DATA = {
   },
   'agile-resourcing': {
     id: 'agile-resourcing',
+    number: '06',
     title: 'AGILE RESOURCING',
     titleAr: 'التخصيص المرن للموارد',
     bgColor: '#DDD6FE',
@@ -122,8 +129,9 @@ const STRATEGY_DATA = {
 // 1. Custom Central Node Component
 const CentralCoreNode = ({ data, selected }) => {
   return (
-    <div className={`relative w-[300px] h-[150px] rounded-3xl bg-[#1C3322] border-2 border-[#D4E128] shadow-[0_0_35px_rgba(212,225,40,0.3)] p-4 flex flex-col items-center justify-center text-center cursor-move transition-all duration-300 ${selected ? 'ring-4 ring-[#D4E128] scale-105' : ''
-      }`}>
+    <div className={`relative w-[300px] h-[150px] rounded-3xl bg-[#1C3322] border-2 border-[#D4E128] shadow-[0_0_35px_rgba(212,225,40,0.3)] p-4 flex flex-col items-center justify-center text-center cursor-move transition-all duration-300 ${
+      selected ? 'ring-4 ring-[#D4E128] scale-105' : ''
+    }`}>
       {/* Visual Corner Brackets matching diagram */}
       <div className="absolute top-2.5 right-2.5 w-5 h-5 border-t-2 border-r-2 border-[#D4E128]" />
       <div className="absolute bottom-2.5 left-2.5 w-5 h-5 border-b-2 border-l-2 border-[#D4E128]" />
@@ -150,16 +158,11 @@ const CentralCoreNode = ({ data, selected }) => {
 
 // 2. Custom Outer Strategy Pill Node Component
 const StrategyPillNode = ({ data, selected }) => {
-  const isSelected = selected || data.isActive;
-
   return (
     <div
       onClick={data.onSelect}
       style={{ backgroundColor: data.bgColor, color: data.textColor }}
-      className={`relative px-6 py-3.5 rounded-2xl shadow-xl font-extrabold text-xs sm:text-sm font-sans tracking-wide text-center cursor-pointer transition-all duration-300 min-w-[170px] max-w-[220px] select-none ${isSelected
-        ? 'ring-4 ring-[#D4E128] scale-105 shadow-[0_0_25px_rgba(212,225,40,0.5)]'
-        : 'hover:scale-105 opacity-95 hover:opacity-100'
-        }`}
+      className="relative px-6 py-3.5 rounded-2xl shadow-xl font-extrabold text-xs sm:text-sm font-sans tracking-wide text-center cursor-pointer transition-all duration-300 min-w-[170px] max-w-[220px] select-none hover:scale-105 hover:shadow-[0_0_25px_rgba(212,225,40,0.5)] opacity-95 hover:opacity-100 hover:ring-2 hover:ring-[#D4E128]"
     >
       {/* Target Handle connecting to center */}
       <Handle
@@ -167,7 +170,7 @@ const StrategyPillNode = ({ data, selected }) => {
         position={data.handlePosition || Position.Left}
         className="!bg-[#D4E128] !w-2.5 !h-2.5 !border-0 opacity-0"
       />
-
+      
       <div className="leading-tight whitespace-pre-line">
         {data.label}
       </div>
@@ -176,8 +179,25 @@ const StrategyPillNode = ({ data, selected }) => {
 };
 
 const SmartStrategyFlowchart = () => {
-  const [activeNodeId, setActiveNodeId] = useState('lean-management');
+  const [selectedModalNode, setSelectedModalNode] = useState(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
+
+  // Lock body scroll when modal is open and handle ESC key
+  useEffect(() => {
+    if (selectedModalNode) {
+      document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e) => {
+        if (e.key === 'Escape') setSelectedModalNode(null);
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = 'unset';
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [selectedModalNode]);
 
   const nodeTypes = useMemo(
     () => ({
@@ -208,8 +228,7 @@ const SmartStrategyFlowchart = () => {
           bgColor: STRATEGY_DATA['lean-management'].bgColor,
           textColor: STRATEGY_DATA['lean-management'].textColor,
           handlePosition: Position.Bottom,
-          isActive: activeNodeId === 'lean-management',
-          onSelect: () => setActiveNodeId('lean-management')
+          onSelect: () => setSelectedModalNode(STRATEGY_DATA['lean-management'])
         },
         draggable: true
       },
@@ -223,8 +242,7 @@ const SmartStrategyFlowchart = () => {
           bgColor: STRATEGY_DATA['cash-flow'].bgColor,
           textColor: STRATEGY_DATA['cash-flow'].textColor,
           handlePosition: Position.Left,
-          isActive: activeNodeId === 'cash-flow',
-          onSelect: () => setActiveNodeId('cash-flow')
+          onSelect: () => setSelectedModalNode(STRATEGY_DATA['cash-flow'])
         },
         draggable: true
       },
@@ -238,8 +256,7 @@ const SmartStrategyFlowchart = () => {
           bgColor: STRATEGY_DATA['safety-risk'].bgColor,
           textColor: STRATEGY_DATA['safety-risk'].textColor,
           handlePosition: Position.Left,
-          isActive: activeNodeId === 'safety-risk',
-          onSelect: () => setActiveNodeId('safety-risk')
+          onSelect: () => setSelectedModalNode(STRATEGY_DATA['safety-risk'])
         },
         draggable: true
       },
@@ -253,8 +270,7 @@ const SmartStrategyFlowchart = () => {
           bgColor: STRATEGY_DATA['lead-time'].bgColor,
           textColor: STRATEGY_DATA['lead-time'].textColor,
           handlePosition: Position.Top,
-          isActive: activeNodeId === 'lead-time',
-          onSelect: () => setActiveNodeId('lead-time')
+          onSelect: () => setSelectedModalNode(STRATEGY_DATA['lead-time'])
         },
         draggable: true
       },
@@ -268,8 +284,7 @@ const SmartStrategyFlowchart = () => {
           bgColor: STRATEGY_DATA['value-engineering'].bgColor,
           textColor: STRATEGY_DATA['value-engineering'].textColor,
           handlePosition: Position.Right,
-          isActive: activeNodeId === 'value-engineering',
-          onSelect: () => setActiveNodeId('value-engineering')
+          onSelect: () => setSelectedModalNode(STRATEGY_DATA['value-engineering'])
         },
         draggable: true
       },
@@ -283,13 +298,12 @@ const SmartStrategyFlowchart = () => {
           bgColor: STRATEGY_DATA['agile-resourcing'].bgColor,
           textColor: STRATEGY_DATA['agile-resourcing'].textColor,
           handlePosition: Position.Right,
-          isActive: activeNodeId === 'agile-resourcing',
-          onSelect: () => setActiveNodeId('agile-resourcing')
+          onSelect: () => setSelectedModalNode(STRATEGY_DATA['agile-resourcing'])
         },
         draggable: true
       }
     ],
-    [activeNodeId]
+    []
   );
 
   // Initial Edges with neon green lines and smooth curves
@@ -301,11 +315,11 @@ const SmartStrategyFlowchart = () => {
         sourceHandle: 'top',
         target: 'lean-management',
         type: 'smoothstep',
-        animated: activeNodeId === 'lean-management',
+        animated: true,
         style: {
           stroke: '#D4E128',
-          strokeWidth: activeNodeId === 'lean-management' ? 3.5 : 2.5,
-          filter: activeNodeId === 'lean-management' ? 'drop-shadow(0 0 8px rgba(212,225,40,0.8))' : 'none'
+          strokeWidth: 2.5,
+          filter: 'drop-shadow(0 0 5px rgba(212,225,40,0.6))'
         }
       },
       {
@@ -314,11 +328,11 @@ const SmartStrategyFlowchart = () => {
         sourceHandle: 'right-top',
         target: 'cash-flow',
         type: 'default',
-        animated: activeNodeId === 'cash-flow',
+        animated: true,
         style: {
           stroke: '#D4E128',
-          strokeWidth: activeNodeId === 'cash-flow' ? 3.5 : 2.5,
-          filter: activeNodeId === 'cash-flow' ? 'drop-shadow(0 0 8px rgba(212,225,40,0.8))' : 'none'
+          strokeWidth: 2.5,
+          filter: 'drop-shadow(0 0 5px rgba(212,225,40,0.6))'
         }
       },
       {
@@ -327,11 +341,11 @@ const SmartStrategyFlowchart = () => {
         sourceHandle: 'right-bottom',
         target: 'safety-risk',
         type: 'default',
-        animated: activeNodeId === 'safety-risk',
+        animated: true,
         style: {
           stroke: '#D4E128',
-          strokeWidth: activeNodeId === 'safety-risk' ? 3.5 : 2.5,
-          filter: activeNodeId === 'safety-risk' ? 'drop-shadow(0 0 8px rgba(212,225,40,0.8))' : 'none'
+          strokeWidth: 2.5,
+          filter: 'drop-shadow(0 0 5px rgba(212,225,40,0.6))'
         }
       },
       {
@@ -340,11 +354,11 @@ const SmartStrategyFlowchart = () => {
         sourceHandle: 'bottom',
         target: 'lead-time',
         type: 'smoothstep',
-        animated: activeNodeId === 'lead-time',
+        animated: true,
         style: {
           stroke: '#D4E128',
-          strokeWidth: activeNodeId === 'lead-time' ? 3.5 : 2.5,
-          filter: activeNodeId === 'lead-time' ? 'drop-shadow(0 0 8px rgba(212,225,40,0.8))' : 'none'
+          strokeWidth: 2.5,
+          filter: 'drop-shadow(0 0 5px rgba(212,225,40,0.6))'
         }
       },
       {
@@ -353,11 +367,11 @@ const SmartStrategyFlowchart = () => {
         sourceHandle: 'left-bottom',
         target: 'value-engineering',
         type: 'default',
-        animated: activeNodeId === 'value-engineering',
+        animated: true,
         style: {
           stroke: '#D4E128',
-          strokeWidth: activeNodeId === 'value-engineering' ? 3.5 : 2.5,
-          filter: activeNodeId === 'value-engineering' ? 'drop-shadow(0 0 8px rgba(212,225,40,0.8))' : 'none'
+          strokeWidth: 2.5,
+          filter: 'drop-shadow(0 0 5px rgba(212,225,40,0.6))'
         }
       },
       {
@@ -366,48 +380,45 @@ const SmartStrategyFlowchart = () => {
         sourceHandle: 'left-top',
         target: 'agile-resourcing',
         type: 'default',
-        animated: activeNodeId === 'agile-resourcing',
+        animated: true,
         style: {
           stroke: '#D4E128',
-          strokeWidth: activeNodeId === 'agile-resourcing' ? 3.5 : 2.5,
-          filter: activeNodeId === 'agile-resourcing' ? 'drop-shadow(0 0 8px rgba(212,225,40,0.8))' : 'none'
+          strokeWidth: 2.5,
+          filter: 'drop-shadow(0 0 5px rgba(212,225,40,0.6))'
         }
       }
     ],
-    [activeNodeId]
+    []
   );
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-  // Sync active state when nodes or activeNodeId change
+  // Open popup modal on node click
   const onNodeClick = useCallback((event, node) => {
     if (node.id !== 'center-core' && STRATEGY_DATA[node.id]) {
-      setActiveNodeId(node.id);
+      setSelectedModalNode(STRATEGY_DATA[node.id]);
     }
   }, []);
 
   const handleResetView = () => {
     if (reactFlowInstance) {
-      reactFlowInstance.fitView({ padding: 0.2, duration: 600 });
+      reactFlowInstance.fitView({ padding: 0.15, duration: 600 });
     }
   };
 
-  const activeNodeData = STRATEGY_DATA[activeNodeId] || STRATEGY_DATA['lean-management'];
-
   return (
-    <section
+    <section 
       id="النهج-الاستراتيجي"
-      className="relative w-full bg-[#111312] text-white pt-56 sm:pt-64 pb-24 sm:pb-32 overflow-hidden select-none border-b border-white/5"
+      className="relative w-full bg-[#111312] text-white pt-56 sm:pt-64 pb-20 overflow-hidden select-none border-b border-white/5"
       dir="rtl"
     >
-
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
         {/* React Flow Interactive Canvas Container */}
-        <div
+        <div 
           data-lenis-prevent="true"
-          className="relative w-full max-w-7xl mx-auto h-[560px] sm:h-[620px] rounded-3xl bg-[#141715]/90 border border-white/5  overflow-hidden"
+          className="relative w-full max-w-7xl mx-auto h-[560px] sm:h-[620px] rounded-3xl bg-[#141715]/90 border border-white/5 overflow-hidden"
           dir="ltr"
         >
           <ReactFlow
@@ -427,7 +438,7 @@ const SmartStrategyFlowchart = () => {
             className="react-flow-custom"
           >
             <Background color="#D4E12815" gap={24} size={1.5} />
-            <Controls
+            <Controls 
               showInteractive={false}
               className="!bg-[#1C201D] !border !border-white/20 !rounded-2xl !p-1 !shadow-2xl [&>button]:!bg-transparent [&>button]:!border-b [&>button]:!border-white/10 [&>button]:!fill-white [&>button:hover]:!bg-[#D4E128] [&>button:hover]:!fill-black"
             />
@@ -442,58 +453,121 @@ const SmartStrategyFlowchart = () => {
               <RotateCcw className="w-3.5 h-3.5" />
               <span>إعادة ضبط العرض</span>
             </button>
-
           </div>
         </div>
 
-        {/* Interactive Active Pillar Detail Card (Updates on click) */}
-        <motion.div
-          key={activeNodeData.id}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="mt-10 sm:mt-14 max-w-4xl mx-auto rounded-3xl bg-gradient-to-r from-[#181B19] to-[#141615] border border-white/15 p-6 sm:p-8 shadow-2xl"
-        >
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-5 border-b border-white/10">
-            <div className="flex items-center gap-4 text-right">
-              <div
-                className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-inner shrink-0"
-                style={{ backgroundColor: activeNodeData.bgColor, color: activeNodeData.textColor }}
-              >
-                <activeNodeData.icon className="w-6 h-6" />
-              </div>
-              <div>
-                <span className="text-xs font-mono font-bold text-[#D4E128]">
-                  {activeNodeData.title}
-                </span>
-                <h4 className="text-xl sm:text-2xl font-black text-white mt-0.5">
-                  {activeNodeData.titleAr}
-                </h4>
-              </div>
-            </div>
-
-            <div className="px-4 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-mono text-[#D4E128] shrink-0">
-              {activeNodeData.kpi}
-            </div>
-          </div>
-
-          <div className="mt-5 space-y-4 text-right">
-            <p className="text-sm sm:text-base text-white/80 leading-relaxed font-medium">
-              {activeNodeData.summary}
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-              {activeNodeData.details.map((item, idx) => (
-                <div key={idx} className="flex items-start gap-2.5 p-3 rounded-xl bg-black/30 border border-white/5 text-xs text-white/90">
-                  <CheckCircle2 className="w-4 h-4 text-[#D4E128] shrink-0 mt-0.5" />
-                  <span className="leading-relaxed">{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
-
       </div>
+
+      {/* Interactive Popup Modal for Selected Node */}
+      <AnimatePresence>
+        {selectedModalNode && (
+          <div 
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 select-none" 
+            dir="rtl"
+            data-lenis-prevent="true"
+          >
+            {/* Backdrop Blur Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              onClick={() => setSelectedModalNode(null)}
+              className="fixed inset-0 bg-black/80 backdrop-blur-md cursor-pointer"
+            />
+
+            {/* Modal Dialog Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              data-lenis-prevent="true"
+              onWheel={(e) => e.stopPropagation()}
+              onTouchMove={(e) => e.stopPropagation()}
+              className="relative w-full max-w-2xl bg-[#171A18] border border-white/15 rounded-3xl shadow-[0_25px_60px_rgba(0,0,0,0.9)] text-white z-10 overflow-hidden"
+            >
+              {/* Floating Close Button */}
+              <button
+                onClick={() => setSelectedModalNode(null)}
+                aria-label="Close"
+                className="absolute top-4 left-4 z-20 w-10 h-10 rounded-full bg-white/10 hover:bg-[#D4E128] text-white hover:text-black transition-all flex items-center justify-center cursor-pointer shadow-lg hover:scale-105"
+              >
+                <X className="w-5 h-5 stroke-[2.5]" />
+              </button>
+
+              {/* Modal Header */}
+              <div className="p-6 sm:p-8 border-b border-white/10 bg-gradient-to-r from-[#1E2320] to-[#171A18] text-right">
+                <div className="flex items-center gap-4">
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-inner shrink-0"
+                    style={{ backgroundColor: selectedModalNode.bgColor, color: selectedModalNode.textColor }}
+                  >
+                    {React.createElement(selectedModalNode.icon, { className: 'w-7 h-7' })}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-mono font-bold text-[#D4E128]">
+                        {selectedModalNode.title}
+                      </span>
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-black text-white mt-1">
+                      {selectedModalNode.titleAr}
+                    </h3>
+                  </div>
+                </div>
+              </div>
+
+              {/* Modal Body */}
+              <div className="p-6 sm:p-8 space-y-6 text-right max-h-[60vh] overflow-y-auto custom-modal-scroll" data-lenis-prevent="true">
+                
+                {/* KPI Pill & Summary */}
+                <div className="space-y-3">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-mono text-[#D4E128]">
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>مؤشر الأداء: {selectedModalNode.kpi}</span>
+                  </div>
+                  <p className="text-sm sm:text-base text-white/80 leading-relaxed font-medium">
+                    {selectedModalNode.summary}
+                  </p>
+                </div>
+
+                {/* Key Deliverables / Execution Points */}
+                <div className="space-y-3">
+                  <h4 className="text-sm font-bold text-[#D4E128] flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4" />
+                    <span>أبرز إجراءات التنفيذ والمخرجات:</span>
+                  </h4>
+                  <div className="space-y-2.5">
+                    {selectedModalNode.details.map((item, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-start gap-3 p-3.5 rounded-2xl bg-black/30 border border-white/5 text-xs sm:text-sm text-white/90 leading-relaxed"
+                      >
+                        <div className="w-2 h-2 rounded-full bg-[#D4E128] shrink-0 mt-2" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Modal Footer */}
+              <div className="p-4 sm:p-5 bg-[#121413] border-t border-white/10 flex items-center justify-end">
+                <button
+                  onClick={() => setSelectedModalNode(null)}
+                  className="px-6 py-2.5 rounded-full bg-[#D4E128] hover:bg-[#EAB308] text-black font-extrabold text-xs sm:text-sm transition-all duration-300 shadow-md cursor-pointer hover:scale-105"
+                >
+                  إغلاق
+                </button>
+              </div>
+
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
     </section>
   );
 };

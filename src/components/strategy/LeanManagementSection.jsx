@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import {
   ReactFlow,
   Background,
@@ -19,8 +19,7 @@ import {
   CheckCircle2,
   Sparkles,
   RotateCcw,
-  Zap,
-  Target
+  X
 } from 'lucide-react';
 
 const LEAN_PILLARS = {
@@ -85,8 +84,9 @@ const LEAN_PILLARS = {
 // 1. Central Circular Lean Core Node
 const LeanCentralNode = ({ data, selected }) => {
   return (
-    <div className={`relative w-[240px] sm:w-[260px] h-[240px] sm:h-[260px] rounded-full bg-gradient-to-br from-[#1C3322] via-[#14261A] to-[#0D1A11] border-2 border-[#D4E128] shadow-[0_0_50px_rgba(212,225,40,0.35)] flex flex-col items-center justify-center text-center select-none cursor-move transition-all duration-300 ${selected ? 'ring-4 ring-[#D4E128] scale-105' : ''
-      }`}>
+    <div className={`relative w-[240px] sm:w-[260px] h-[240px] sm:h-[260px] rounded-full bg-gradient-to-br from-[#1C3322] via-[#14261A] to-[#0D1A11] border-2 border-[#D4E128] shadow-[0_0_50px_rgba(212,225,40,0.35)] flex flex-col items-center justify-center text-center select-none cursor-move transition-all duration-300 ${
+      selected ? 'ring-4 ring-[#D4E128] scale-105' : ''
+    }`}>
       {/* Concentric inner rings */}
       <div className="absolute inset-3 rounded-full border border-[#D4E128]/25 pointer-events-none" />
       <div className="absolute inset-7 rounded-full border border-white/10 pointer-events-none" />
@@ -117,16 +117,11 @@ const LeanCentralNode = ({ data, selected }) => {
 };
 
 // 2. Outer White/Cream Pill Node Component
-const LeanPillNode = ({ data, selected }) => {
-  const isSelected = selected || data.isActive;
-
+const LeanPillNode = ({ data }) => {
   return (
     <div
       onClick={data.onSelect}
-      className={`relative px-6 py-4 rounded-3xl bg-[#F6F6F2] text-[#1C1D1B] shadow-2xl min-w-[210px] sm:min-w-[230px] cursor-pointer transition-all duration-300 text-left select-none border border-black/5 ${isSelected
-          ? 'ring-4 ring-[#D4E128] scale-105 shadow-[0_0_30px_rgba(212,225,40,0.5)]'
-          : 'hover:scale-105 hover:shadow-xl opacity-95 hover:opacity-100'
-        }`}
+      className="relative px-6 py-4 rounded-3xl bg-[#F6F6F2] text-[#1C1D1B] shadow-2xl min-w-[210px] sm:min-w-[230px] cursor-pointer transition-all duration-300 text-left select-none border border-black/5 hover:scale-105 hover:ring-2 hover:ring-[#D4E128] hover:shadow-[0_0_25px_rgba(212,225,40,0.5)] opacity-95 hover:opacity-100"
     >
       {/* Target Handle */}
       <Handle
@@ -151,8 +146,25 @@ const LeanPillNode = ({ data, selected }) => {
 };
 
 const LeanManagementSection = () => {
-  const [activeNodeId, setActiveNodeId] = useState('people');
+  const [selectedModalNode, setSelectedModalNode] = useState(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
+
+  // Lock body scroll when modal is open and handle ESC key
+  useEffect(() => {
+    if (selectedModalNode) {
+      document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e) => {
+        if (e.key === 'Escape') setSelectedModalNode(null);
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = 'unset';
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [selectedModalNode]);
 
   const nodeTypes = useMemo(
     () => ({
@@ -162,12 +174,6 @@ const LeanManagementSection = () => {
     []
   );
 
-  // Nodes position matching the layout in the image:
-  // Node 01 (Top-Left): PEOPLE
-  // Node 02 (Top-Right): PROCESS
-  // Node 03 (Bottom-Right): TECHNOLOGY
-  // Node 04 (Bottom-Left): CONTINUOUS IMPROVEMENT
-  // Center: LEAN MANAGEMENT
   const initialNodes = useMemo(
     () => [
       // Central Circular Node
@@ -188,8 +194,7 @@ const LeanManagementSection = () => {
           title: LEAN_PILLARS.people.title,
           subtitle: LEAN_PILLARS.people.titleAr,
           handlePosition: Position.Right,
-          isActive: activeNodeId === 'people',
-          onSelect: () => setActiveNodeId('people')
+          onSelect: () => setSelectedModalNode(LEAN_PILLARS.people)
         },
         draggable: true
       },
@@ -203,8 +208,7 @@ const LeanManagementSection = () => {
           title: LEAN_PILLARS.process.title,
           subtitle: LEAN_PILLARS.process.titleAr,
           handlePosition: Position.Left,
-          isActive: activeNodeId === 'process',
-          onSelect: () => setActiveNodeId('process')
+          onSelect: () => setSelectedModalNode(LEAN_PILLARS.process)
         },
         draggable: true
       },
@@ -218,8 +222,7 @@ const LeanManagementSection = () => {
           title: LEAN_PILLARS.technology.title,
           subtitle: LEAN_PILLARS.technology.titleAr,
           handlePosition: Position.Left,
-          isActive: activeNodeId === 'technology',
-          onSelect: () => setActiveNodeId('technology')
+          onSelect: () => setSelectedModalNode(LEAN_PILLARS.technology)
         },
         draggable: true
       },
@@ -233,13 +236,12 @@ const LeanManagementSection = () => {
           title: LEAN_PILLARS.improvement.title,
           subtitle: LEAN_PILLARS.improvement.titleAr,
           handlePosition: Position.Right,
-          isActive: activeNodeId === 'improvement',
-          onSelect: () => setActiveNodeId('improvement')
+          onSelect: () => setSelectedModalNode(LEAN_PILLARS.improvement)
         },
         draggable: true
       }
     ],
-    [activeNodeId]
+    []
   );
 
   // Dashed neon curved edges matching the diagram
@@ -254,9 +256,9 @@ const LeanManagementSection = () => {
         animated: true,
         style: {
           stroke: '#D4E128',
-          strokeWidth: activeNodeId === 'people' ? 3.5 : 2,
+          strokeWidth: 2.5,
           strokeDasharray: '6, 6',
-          filter: activeNodeId === 'people' ? 'drop-shadow(0 0 8px rgba(212,225,40,0.8))' : 'none'
+          filter: 'drop-shadow(0 0 5px rgba(212,225,40,0.6))'
         }
       },
       {
@@ -268,9 +270,9 @@ const LeanManagementSection = () => {
         animated: true,
         style: {
           stroke: '#D4E128',
-          strokeWidth: activeNodeId === 'process' ? 3.5 : 2,
+          strokeWidth: 2.5,
           strokeDasharray: '6, 6',
-          filter: activeNodeId === 'process' ? 'drop-shadow(0 0 8px rgba(212,225,40,0.8))' : 'none'
+          filter: 'drop-shadow(0 0 5px rgba(212,225,40,0.6))'
         }
       },
       {
@@ -282,9 +284,9 @@ const LeanManagementSection = () => {
         animated: true,
         style: {
           stroke: '#D4E128',
-          strokeWidth: activeNodeId === 'technology' ? 3.5 : 2,
+          strokeWidth: 2.5,
           strokeDasharray: '6, 6',
-          filter: activeNodeId === 'technology' ? 'drop-shadow(0 0 8px rgba(212,225,40,0.8))' : 'none'
+          filter: 'drop-shadow(0 0 5px rgba(212,225,40,0.6))'
         }
       },
       {
@@ -296,13 +298,13 @@ const LeanManagementSection = () => {
         animated: true,
         style: {
           stroke: '#D4E128',
-          strokeWidth: activeNodeId === 'improvement' ? 3.5 : 2,
+          strokeWidth: 2.5,
           strokeDasharray: '6, 6',
-          filter: activeNodeId === 'improvement' ? 'drop-shadow(0 0 8px rgba(212,225,40,0.8))' : 'none'
+          filter: 'drop-shadow(0 0 5px rgba(212,225,40,0.6))'
         }
       }
     ],
-    [activeNodeId]
+    []
   );
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -310,7 +312,7 @@ const LeanManagementSection = () => {
 
   const onNodeClick = useCallback((event, node) => {
     if (node.id !== 'lean-core' && LEAN_PILLARS[node.id]) {
-      setActiveNodeId(node.id);
+      setSelectedModalNode(LEAN_PILLARS[node.id]);
     }
   }, []);
 
@@ -320,24 +322,18 @@ const LeanManagementSection = () => {
     }
   };
 
-  const activePillar = LEAN_PILLARS[activeNodeId] || LEAN_PILLARS.people;
-
   return (
-    <section
+    <section 
       id="إدارة-رشيدة"
       className="relative w-full bg-[#111312] text-white py-24 sm:py-32 overflow-hidden select-none border-b border-white/5"
       dir="rtl"
     >
-      {/* Background Ambient Glows */}
-      <div className="absolute top-1/4 right-0 w-[550px] h-[550px] bg-[#D4E128]/5 rounded-full blur-[180px] pointer-events-none -z-0" />
-      <div className="absolute bottom-1/4 left-0 w-[600px] h-[600px] bg-[#2A352F]/35 rounded-full blur-[180px] pointer-events-none -z-0" />
-
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
         {/* Section Header & Description (Exact text from design) */}
         <div className="mb-14 sm:mb-20 text-right space-y-6 max-w-4xl">
           <SectionTitle title="إدارة رشيدة" theme="dark" />
-
+          
           <div className="space-y-4 text-white/85 text-sm sm:text-base lg:text-lg leading-relaxed font-medium">
             <p>
               تسمح الإدارة الرشيدة باتخاذ قرارات سريعة بناءً على الحقائق والقيود التي لا تتطلب عملية موافقة لكل تفصيل دقيق. توفر مساحة لمهندسي الموقع لاتخاذ قرارات بشأن الأمور البسيطة ضمن الحدود المحددة مسبقًا.
@@ -374,7 +370,7 @@ const LeanManagementSection = () => {
             className="react-flow-custom"
           >
             <Background color="#D4E12815" gap={24} size={1.5} />
-            <Controls
+            <Controls 
               showInteractive={false}
               className="!bg-[#1C201D] !border !border-white/20 !rounded-2xl !p-1 !shadow-2xl [&>button]:!bg-transparent [&>button]:!border-b [&>button]:!border-white/10 [&>button]:!fill-white [&>button:hover]:!bg-[#D4E128] [&>button:hover]:!fill-black"
             />
@@ -392,55 +388,114 @@ const LeanManagementSection = () => {
           </div>
         </div>
 
-        {/* Bottom Tagline from Design & Detail Drawer */}
-        <div className="mt-10 sm:mt-14 max-w-4xl mx-auto space-y-6" dir="rtl">
-
-          {/* Active Pillar Detail Card */}
-          <motion.div
-            key={activePillar.id}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35 }}
-            className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-[#181B19] to-[#141615] border border-white/15 shadow-2xl text-right"
-          >
-            <div className="flex items-center gap-4 pb-4 border-b border-white/10">
-              <div className="w-12 h-12 rounded-2xl bg-[#D4E128]/10 border border-[#D4E128]/30 flex items-center justify-center text-[#D4E128] shadow-inner shrink-0">
-                <activePillar.icon className="w-6 h-6" />
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono font-bold text-[#D4E128]">
-                    {activePillar.number} · {activePillar.title}
-                  </span>
-                </div>
-                <h4 className="text-xl sm:text-2xl font-black text-white mt-0.5">
-                  {activePillar.titleAr}
-                </h4>
-              </div>
-            </div>
-
-            <p className="text-sm sm:text-base text-white/80 leading-relaxed font-medium mt-4">
-              {activePillar.desc}
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4">
-              {activePillar.points.map((pt, idx) => (
-                <div key={idx} className="flex items-start gap-2.5 p-3 rounded-xl bg-black/30 border border-white/5 text-xs text-white/90">
-                  <CheckCircle2 className="w-4 h-4 text-[#D4E128] shrink-0 mt-0.5" />
-                  <span className="leading-relaxed">{pt}</span>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Bottom Tagline Bar matching the diagram */}
+        {/* Bottom Tagline from Design */}
+        <div className="mt-8 max-w-4xl mx-auto" dir="rtl">
           <div className="p-4 rounded-2xl bg-white/5 border border-white/5 text-center text-xs sm:text-sm text-white/70 font-semibold tracking-wide">
             تقليل الهدر • تحسين التدفق • رفع كفاءة الموارد • دعم التنفيذ
           </div>
-
         </div>
 
       </div>
+
+      {/* Interactive Popup Modal for Selected Pillar */}
+      <AnimatePresence>
+        {selectedModalNode && (
+          <div 
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 select-none" 
+            dir="rtl"
+            data-lenis-prevent="true"
+          >
+            {/* Backdrop Blur Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              onClick={() => setSelectedModalNode(null)}
+              className="fixed inset-0 bg-black/80 backdrop-blur-md cursor-pointer"
+            />
+
+            {/* Modal Dialog Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              data-lenis-prevent="true"
+              onWheel={(e) => e.stopPropagation()}
+              onTouchMove={(e) => e.stopPropagation()}
+              className="relative w-full max-w-2xl bg-[#171A18] border border-white/15 rounded-3xl shadow-[0_25px_60px_rgba(0,0,0,0.9)] text-white z-10 overflow-hidden"
+            >
+              {/* Floating Close Button */}
+              <button
+                onClick={() => setSelectedModalNode(null)}
+                aria-label="Close"
+                className="absolute top-4 left-4 z-20 w-10 h-10 rounded-full bg-white/10 hover:bg-[#D4E128] text-white hover:text-black transition-all flex items-center justify-center cursor-pointer shadow-lg hover:scale-105"
+              >
+                <X className="w-5 h-5 stroke-[2.5]" />
+              </button>
+
+              {/* Modal Header */}
+              <div className="p-6 sm:p-8 border-b border-white/10 bg-gradient-to-r from-[#1E2320] to-[#171A18] text-right">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-2xl bg-[#D4E128]/10 border border-[#D4E128]/30 flex items-center justify-center text-[#D4E128] shadow-inner shrink-0">
+                    {React.createElement(selectedModalNode.icon, { className: 'w-7 h-7' })}
+                  </div>
+                  <div>
+                    <span className="text-xs font-mono font-bold text-[#D4E128]">
+                      {selectedModalNode.number} · {selectedModalNode.title}
+                    </span>
+                    <h3 className="text-xl sm:text-2xl font-black text-white mt-1">
+                      {selectedModalNode.titleAr}
+                    </h3>
+                  </div>
+                </div>
+              </div>
+
+              {/* Modal Body */}
+              <div className="p-6 sm:p-8 space-y-6 text-right max-h-[60vh] overflow-y-auto custom-modal-scroll" data-lenis-prevent="true">
+                
+                {/* Summary */}
+                <p className="text-sm sm:text-base text-white/85 leading-relaxed font-medium">
+                  {selectedModalNode.desc}
+                </p>
+
+                {/* Key Deliverables / Execution Points */}
+                <div className="space-y-3">
+                  <h4 className="text-sm font-bold text-[#D4E128] flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4" />
+                    <span>أبرز محاور التطبيق الميداني:</span>
+                  </h4>
+                  <div className="space-y-2.5">
+                    {selectedModalNode.points.map((item, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-start gap-3 p-3.5 rounded-2xl bg-black/30 border border-white/5 text-xs sm:text-sm text-white/90 leading-relaxed"
+                      >
+                        <div className="w-2 h-2 rounded-full bg-[#D4E128] shrink-0 mt-2" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Modal Footer */}
+              <div className="p-4 sm:p-5 bg-[#121413] border-t border-white/10 flex items-center justify-end">
+                <button
+                  onClick={() => setSelectedModalNode(null)}
+                  className="px-6 py-2.5 rounded-full bg-[#D4E128] hover:bg-[#EAB308] text-black font-extrabold text-xs sm:text-sm transition-all duration-300 shadow-md cursor-pointer hover:scale-105"
+                >
+                  إغلاق
+                </button>
+              </div>
+
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
     </section>
   );
 };
