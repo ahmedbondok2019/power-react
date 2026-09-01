@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -10,11 +10,7 @@ import {
   Package,
   CheckCircle2,
   Sparkles,
-  ChevronRight,
-  ChevronLeft,
-  ShieldCheck,
-  Zap,
-  ArrowRight
+  ShieldCheck
 } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -103,22 +99,22 @@ const AgileResourcingSection = () => {
   const sectionRef = useRef(null);
   const pinnedContentRef = useRef(null);
   const scrollTriggerInstanceRef = useRef(null);
+  const isWheelingRef = useRef(false);
 
-  // GSAP ScrollTrigger pinning and step scrub
+  // GSAP ScrollTrigger Pin to lock the viewport and scrub through stages
   useGSAP(() => {
     const totalStages = TIMELINE_STAGES.length; // 4
 
     const st = ScrollTrigger.create({
       trigger: sectionRef.current,
       start: "top top",
-      end: `+=${totalStages * 900}`, // Gives 3600px of smooth scroll distance
+      end: `+=${totalStages * 800}`, // Scroll distance for 4 stages
       pin: pinnedContentRef.current,
       pinSpacing: true,
-      scrub: 0.6,
+      scrub: 0.5,
       anticipatePin: 1,
       onUpdate: (self) => {
         const progress = self.progress;
-        // Map 0 -> 1 progress to stages 0, 1, 2, 3
         const rawStage = progress * (totalStages - 1);
         const currentStage = Math.min(Math.round(rawStage), totalStages - 1);
         setActiveIdx(currentStage);
@@ -132,7 +128,29 @@ const AgileResourcingSection = () => {
     };
   }, { scope: sectionRef });
 
-  // Step click navigation helper that scrolls window to match the stage progress
+  // Direct wheel stepping to smoothly lock & flip between timeline stages
+  const handleWheel = (e) => {
+    if (isWheelingRef.current) return;
+
+    if (Math.abs(e.deltaY) > 20 || Math.abs(e.deltaX) > 20) {
+      const isDown = e.deltaY > 0 || e.deltaX > 0;
+      
+      // If scrolling down and haven't reached last stage, or scrolling up and haven't reached first stage
+      if ((isDown && activeIdx < TIMELINE_STAGES.length - 1) || (!isDown && activeIdx > 0)) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        isWheelingRef.current = true;
+        const nextIdx = isDown ? activeIdx + 1 : activeIdx - 1;
+        goToStage(nextIdx);
+
+        setTimeout(() => {
+          isWheelingRef.current = false;
+        }, 400);
+      }
+    }
+  };
+
   const goToStage = (idx) => {
     setActiveIdx(idx);
     if (scrollTriggerInstanceRef.current) {
@@ -146,282 +164,216 @@ const AgileResourcingSection = () => {
     }
   };
 
-  const handleNext = () => {
-    if (activeIdx < TIMELINE_STAGES.length - 1) {
-      goToStage(activeIdx + 1);
-    }
-  };
-
-  const handlePrev = () => {
-    if (activeIdx > 0) {
-      goToStage(activeIdx - 1);
-    }
-  };
-
   return (
     <section 
       ref={sectionRef}
       id="التوزيع-المرن-للموارد"
+      onWheel={handleWheel}
       className="relative w-full bg-[#111312] text-white overflow-hidden select-none border-b border-white/5"
       dir="rtl"
     >
-      {/* Ambient Background Glows */}
-      <div className="absolute top-1/3 right-0 w-[550px] h-[550px] bg-[#D4E128]/5 rounded-full blur-[180px] pointer-events-none -z-0" />
-      <div className="absolute bottom-10 left-10 w-[600px] h-[600px] bg-[#2A352F]/35 rounded-full blur-[180px] pointer-events-none -z-0" />
+      {/* Ambient Lighting Background */}
+      <div className="absolute top-1/3 right-0 w-[600px] h-[600px] bg-[#D4E128]/5 rounded-full blur-[180px] pointer-events-none -z-0" />
+      <div className="absolute bottom-10 left-10 w-[650px] h-[650px] bg-[#2A352F]/35 rounded-full blur-[180px] pointer-events-none -z-0" />
 
-      {/* Pinned Viewport Container */}
+      {/* Pinned Full Viewport Container (Takes full width, no container box or outer borders) */}
       <div 
         ref={pinnedContentRef}
-        className="w-full min-h-screen flex flex-col justify-center py-12 sm:py-16 px-6 relative z-10"
+        className="w-full min-h-screen flex flex-col justify-center py-12 sm:py-16 px-4 sm:px-8 lg:px-12 relative z-10"
       >
         <div className="max-w-7xl mx-auto w-full">
 
           {/* Section Header & Strategic Context */}
-          <div className="mb-8 sm:mb-10 text-right space-y-4 max-w-4xl">
+          <div className="mb-10 sm:mb-14 text-right space-y-4 max-w-4xl">
             <SectionTitle title="التوزيع المرن للموارد" theme="dark" />
 
-            <div className="space-y-2 text-white/85 text-xs sm:text-sm lg:text-base leading-relaxed font-medium">
+            <div className="space-y-3 text-white/85 text-xs sm:text-sm lg:text-base leading-relaxed font-medium">
               <p>
-                التوزيع المرن للموارد هو طريقة لحساب موارد المشروع بناءً على الطلب في الوقت المناسب. يتيح تخصيص القوى العاملة بشكل جزئي وشراء المواد والمعدات بحسب الحاجة الفعلية فقط.
+                التوزيع المرن للموارد هو طريقة لحساب موارد المشروع بناءً على الطلب في الوقت المناسب. مما يعني أنه ليس من الضروري أن تكون جميع الموارد متواجدة في الموقع طوال مدة المشروع.
               </p>
-              <p className="text-[#D4E128] font-bold text-xs sm:text-sm">
-                يمنح هذا شركة Power Preparation Ltd ميزة كبيرة في التسعير مع الحفاظ على أعلى معايير الجودة.
+              <p>
+                يتيح هذا تخصيص القوى العاملة بشكل جزئي أثناء المشاريع، وشراء المعدات والمواد بناءً على الاحتياج والطلب فقط.
+              </p>
+              <p className="text-[#D4E128] font-bold">
+                يمنح هذا شركة Power Preparation Ltd ميزة كبيرة في التسعير مع الحفاظ على مستوى الجودة المطلوب من قبل عملائنا.
               </p>
             </div>
           </div>
 
-          {/* Main Interactive Timeline & Cards Slider Container */}
-          <div className="rounded-3xl sm:rounded-[2.5rem] bg-[#141715]/95 border border-white/10 p-6 sm:p-8 md:p-10 shadow-[0_30px_70px_rgba(0,0,0,0.85)]">
+          {/* Timeline Label */}
+          <div className="mb-8 text-left" dir="ltr">
+            <span className="text-xs font-mono font-black tracking-widest text-[#D4E128] uppercase">
+              PROJECT DELIVERY TIMELINE
+            </span>
+          </div>
+
+          {/* Full-Width Interactive Timeline Rail */}
+          <div className="relative mb-12 sm:mb-16 px-4 sm:px-8 hidden md:block" dir="ltr">
+            {/* Background Base Rail Line */}
+            <div className="absolute top-[18px] left-8 right-8 h-1 bg-white/10 rounded-full" />
             
-            {/* Header with Title and Slider Controls */}
-            <div className="flex items-center justify-between mb-6 sm:mb-8" dir="ltr">
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono font-black tracking-widest text-[#D4E128] uppercase">
-                    PROJECT DELIVERY TIMELINE
-                  </span>
-                  <span className="px-2.5 py-0.5 rounded-full bg-[#D4E128]/10 border border-[#D4E128]/20 text-[10px] font-mono text-[#D4E128]">
-                    Scroll to advance
-                  </span>
-                </div>
-                <p className="text-[11px] font-mono text-white/50 hidden sm:block">
-                  اسكرول بالماوس للتنقل التلقائي بين محطات التايم لاين
-                </p>
-              </div>
+            {/* Active Glowing Progress Line */}
+            <motion.div
+              className="absolute top-[18px] left-8 h-1 bg-gradient-to-r from-[#D4E128] to-[#EAB308] rounded-full shadow-[0_0_12px_rgba(212,225,40,0.8)]"
+              animate={{ 
+                width: `${(activeIdx / (TIMELINE_STAGES.length - 1)) * 92 + 8}%` 
+              }}
+              transition={{ duration: 0.4, ease: 'easeInOut' }}
+            />
 
-              {/* Slider Navigation Buttons */}
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={handlePrev}
-                  disabled={activeIdx === 0}
-                  aria-label="Previous step"
-                  className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
-                    activeIdx === 0
-                      ? 'border-white/10 text-white/20 cursor-not-allowed'
-                      : 'border-white/20 bg-white/5 text-white hover:bg-[#D4E128] hover:text-black hover:border-[#D4E128]'
-                  }`}
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
+            {/* 4 Interactive Timeline Milestone Nodes */}
+            <div className="relative flex items-start justify-between z-10">
+              {TIMELINE_STAGES.map((stage, idx) => {
+                const isActive = idx === activeIdx;
+                const isPassed = idx <= activeIdx;
 
-                <button
-                  onClick={handleNext}
-                  disabled={activeIdx === TIMELINE_STAGES.length - 1}
-                  aria-label="Next step"
-                  className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
-                    activeIdx === TIMELINE_STAGES.length - 1
-                      ? 'border-white/10 text-white/20 cursor-not-allowed'
-                      : 'border-white/20 bg-white/5 text-white hover:bg-[#D4E128] hover:text-black hover:border-[#D4E128]'
-                  }`}
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Interactive Timeline Rail at Top */}
-            <div className="relative mb-8 sm:mb-10 px-4 sm:px-8 hidden md:block" dir="ltr">
-              {/* Background Rail Line */}
-              <div className="absolute top-[18px] left-8 right-8 h-1 bg-white/10 rounded-full" />
-              
-              {/* Active Glowing Progress Rail Line */}
-              <motion.div
-                className="absolute top-[18px] left-8 h-1 bg-gradient-to-r from-[#D4E128] to-[#EAB308] rounded-full shadow-[0_0_12px_rgba(212,225,40,0.8)]"
-                animate={{ 
-                  width: `${(activeIdx / (TIMELINE_STAGES.length - 1)) * 92 + 8}%` 
-                }}
-                transition={{ duration: 0.4, ease: 'easeInOut' }}
-              />
-
-              {/* 4 Interactive Timeline Milestone Nodes */}
-              <div className="relative flex items-start justify-between z-10">
-                {TIMELINE_STAGES.map((stage, idx) => {
-                  const isActive = idx === activeIdx;
-                  const isPassed = idx <= activeIdx;
-
-                  return (
+                return (
+                  <div
+                    key={stage.id}
+                    onClick={() => goToStage(idx)}
+                    className="flex flex-col items-center group cursor-pointer"
+                  >
+                    {/* Glowing Circular Milestone Node */}
                     <div
-                      key={stage.id}
-                      onClick={() => goToStage(idx)}
-                      className="flex flex-col items-center group cursor-pointer"
+                      className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
+                        isActive
+                          ? 'bg-[#D4E128] ring-4 ring-[#D4E128]/30 shadow-[0_0_20px_rgba(212,225,40,0.9)] scale-125 text-black'
+                          : isPassed
+                          ? 'bg-[#D4E128] text-black shadow-md'
+                          : 'bg-[#222724] border-2 border-white/20 text-white/50 group-hover:border-[#D4E128]'
+                      }`}
                     >
-                      {/* Glowing Circular Milestone Dot */}
-                      <div
-                        className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
-                          isActive
-                            ? 'bg-[#D4E128] ring-4 ring-[#D4E128]/30 shadow-[0_0_20px_rgba(212,225,40,0.9)] scale-125 text-black'
-                            : isPassed
-                            ? 'bg-[#D4E128] text-black shadow-md'
-                            : 'bg-[#222724] border-2 border-white/20 text-white/50 group-hover:border-[#D4E128]'
-                        }`}
-                      >
-                        <div className={`w-3 h-3 rounded-full ${isActive ? 'bg-black' : isPassed ? 'bg-black/60' : 'bg-white/30'}`} />
-                      </div>
-
-                      {/* Milestone Titles & Subtitle */}
-                      <div className="mt-3 text-center space-y-0.5">
-                        <h5 className={`text-xs sm:text-sm font-black font-sans tracking-wider transition-colors uppercase ${
-                          isActive ? 'text-[#D4E128]' : 'text-white/80 group-hover:text-white'
-                        }`}>
-                          {stage.stageName}
-                        </h5>
-                        <p className="text-[11px] font-mono text-white/50">
-                          {stage.stageSubtitle}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Mobile Step Selector Pills */}
-            <div className="md:hidden grid grid-cols-2 gap-2 mb-6" dir="rtl">
-              {TIMELINE_STAGES.map((stage, idx) => {
-                const isActive = idx === activeIdx;
-                return (
-                  <button
-                    key={stage.id}
-                    onClick={() => goToStage(idx)}
-                    className={`p-3 rounded-2xl text-right transition-all flex items-center justify-between border ${
-                      isActive
-                        ? 'bg-[#D4E128]/15 border-[#D4E128] text-white shadow-lg'
-                        : 'bg-black/30 border-white/10 text-white/60'
-                    }`}
-                  >
-                    <div>
-                      <span className="text-[10px] font-mono text-[#D4E128] block">{stage.number}</span>
-                      <span className="text-xs font-bold font-sans uppercase">{stage.stageName}</span>
-                    </div>
-                    <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-[#D4E128]' : 'bg-white/20'}`} />
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* 4 Cards Row (Active card highlighted, others dimmed/faded as requested) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5" dir="ltr">
-              {TIMELINE_STAGES.map((stage, idx) => {
-                const isActive = idx === activeIdx;
-                const IconComp = stage.icon;
-
-                return (
-                  <motion.div
-                    key={stage.id}
-                    onClick={() => goToStage(idx)}
-                    animate={{
-                      opacity: isActive ? 1 : 0.35,
-                      scale: isActive ? 1.02 : 0.96,
-                      y: isActive ? -4 : 0
-                    }}
-                    transition={{ duration: 0.35, ease: 'easeOut' }}
-                    className={`relative rounded-3xl p-5 sm:p-6 flex flex-col justify-between transition-all duration-300 cursor-pointer text-left select-none border ${
-                      isActive
-                        ? 'bg-[#1C201D] border-[#D4E128] shadow-[0_0_35px_rgba(212,225,40,0.25)] ring-1 ring-[#D4E128]'
-                        : 'bg-[#161817]/70 border-white/10 hover:border-white/30 hover:opacity-70'
-                    }`}
-                  >
-                    <div>
-                      {/* Top Resource Badge */}
-                      <div className="flex items-center justify-between mb-3.5">
-                        <span className={`text-[11px] font-mono font-black tracking-wider uppercase ${
-                          isActive ? 'text-[#D4E128]' : 'text-white/60'
-                        }`}>
-                          {stage.resourceTag}
-                        </span>
-                        <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors ${
-                          isActive ? 'bg-[#D4E128] text-black shadow-md' : 'bg-white/5 text-white/60'
-                        }`}>
-                          <IconComp className="w-4 h-4" />
-                        </div>
-                      </div>
-
-                      {/* Stage Titles */}
-                      <div className="space-y-0.5 mb-2.5">
-                        <h4 className="text-sm sm:text-base font-black font-sans tracking-wide text-white uppercase leading-snug">
-                          {stage.stageName}
-                        </h4>
-                        <p className="text-[10px] text-white/50 font-medium">
-                          {stage.resourceSubtitle}
-                        </p>
-                      </div>
-
-                      {/* Arabic Title & Context Description */}
-                      <div className="space-y-1.5 mb-4" dir="rtl">
-                        <h5 className={`text-xs sm:text-sm font-bold transition-colors ${
-                          isActive ? 'text-[#D4E128]' : 'text-white/90'
-                        }`}>
-                          {stage.titleAr}
-                        </h5>
-                        <p className="text-[11px] text-white/70 leading-relaxed line-clamp-3">
-                          {stage.description}
-                        </p>
-                      </div>
-
-                      {/* Deliverables Checklist */}
-                      <div className="space-y-1.5 pt-2.5 border-t border-white/10 mb-3.5" dir="rtl">
-                        {stage.deliverables.map((item, dIdx) => (
-                          <div key={dIdx} className="flex items-start gap-1.5 text-[10.5px] text-white/80">
-                            <CheckCircle2 className={`w-3 h-3 shrink-0 mt-0.5 ${
-                              isActive ? 'text-[#D4E128]' : 'text-white/40'
-                            }`} />
-                            <span className="leading-tight">{item}</span>
-                          </div>
-                        ))}
-                      </div>
+                      <div className={`w-3 h-3 rounded-full ${isActive ? 'bg-black' : isPassed ? 'bg-black/60' : 'bg-white/30'}`} />
                     </div>
 
-                    {/* Bottom Metric Pill */}
-                    <div className="pt-2.5 border-t border-white/10 flex items-center justify-between text-[11px]" dir="rtl">
-                      <div className={`flex items-center gap-1 font-bold ${
-                        isActive ? 'text-[#D4E128]' : 'text-white/50'
+                    {/* Milestone Titles & Subtitle */}
+                    <div className="mt-3.5 text-center space-y-0.5">
+                      <h5 className={`text-xs sm:text-sm font-black font-sans tracking-wider transition-colors uppercase ${
+                        isActive ? 'text-[#D4E128]' : 'text-white/80 group-hover:text-white'
                       }`}>
-                        <Sparkles className="w-3 h-3" />
-                        <span className="font-mono text-[10px]">{stage.metric}</span>
-                      </div>
-                      <span className="text-[9px] font-mono text-white/40">
-                        {stage.progressLabel}
-                      </span>
+                        {stage.stageName}
+                      </h5>
+                      <p className="text-[11px] font-mono text-white/50">
+                        {stage.stageSubtitle}
+                      </p>
                     </div>
-                  </motion.div>
+                  </div>
                 );
               })}
             </div>
+          </div>
 
-            {/* Bottom Step Indicator Dots */}
-            <div className="flex items-center justify-center gap-2 mt-6">
-              {TIMELINE_STAGES.map((_, idx) => (
+          {/* Mobile Step Selector Pills */}
+          <div className="md:hidden grid grid-cols-2 gap-2.5 mb-8" dir="rtl">
+            {TIMELINE_STAGES.map((stage, idx) => {
+              const isActive = idx === activeIdx;
+              return (
                 <button
-                  key={idx}
+                  key={stage.id}
                   onClick={() => goToStage(idx)}
-                  aria-label={`Go to step ${idx + 1}`}
-                  className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                    idx === activeIdx ? 'w-8 bg-[#D4E128]' : 'w-2 bg-white/20 hover:bg-white/40'
+                  className={`p-3.5 rounded-2xl text-right transition-all flex items-center justify-between border ${
+                    isActive
+                      ? 'bg-[#D4E128]/15 border-[#D4E128] text-white shadow-lg'
+                      : 'bg-black/40 border-white/10 text-white/60'
                   }`}
-                />
-              ))}
-            </div>
+                >
+                  <div>
+                    <span className="text-[10px] font-mono text-[#D4E128] block">{stage.number}</span>
+                    <span className="text-xs font-bold font-sans uppercase">{stage.stageName}</span>
+                  </div>
+                  <div className={`w-2.5 h-2.5 rounded-full ${isActive ? 'bg-[#D4E128]' : 'bg-white/20'}`} />
+                </button>
+              );
+            })}
+          </div>
 
+          {/* Full-Width 4 Cards Grid (Seamlessly on background without bounding box) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6" dir="ltr">
+            {TIMELINE_STAGES.map((stage, idx) => {
+              const isActive = idx === activeIdx;
+              const IconComp = stage.icon;
+
+              return (
+                <motion.div
+                  key={stage.id}
+                  onClick={() => goToStage(idx)}
+                  animate={{
+                    opacity: isActive ? 1 : 0.35,
+                    scale: isActive ? 1.02 : 0.96,
+                    y: isActive ? -4 : 0
+                  }}
+                  transition={{ duration: 0.35, ease: 'easeOut' }}
+                  className={`relative rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 cursor-pointer text-left select-none border ${
+                    isActive
+                      ? 'bg-[#181C19] border-[#D4E128] shadow-[0_0_35px_rgba(212,225,40,0.25)] ring-1 ring-[#D4E128]'
+                      : 'bg-[#141715]/80 border-white/10 hover:border-white/30 hover:opacity-70'
+                  }`}
+                >
+                  <div>
+                    {/* Top Resource Badge */}
+                    <div className="flex items-center justify-between mb-4">
+                      <span className={`text-xs font-mono font-black tracking-wider uppercase ${
+                        isActive ? 'text-[#D4E128]' : 'text-white/60'
+                      }`}>
+                        {stage.resourceTag}
+                      </span>
+                      <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
+                        isActive ? 'bg-[#D4E128] text-black shadow-md' : 'bg-white/5 text-white/60'
+                      }`}>
+                        <IconComp className="w-4 h-4" />
+                      </div>
+                    </div>
+
+                    {/* Stage Titles */}
+                    <div className="space-y-1 mb-3">
+                      <h4 className="text-base sm:text-lg font-black font-sans tracking-wide text-white uppercase leading-snug">
+                        {stage.stageName}
+                      </h4>
+                      <p className="text-[11px] text-white/50 font-medium">
+                        {stage.resourceSubtitle}
+                      </p>
+                    </div>
+
+                    {/* Arabic Title & Context Description */}
+                    <div className="space-y-2 mb-4" dir="rtl">
+                      <h5 className={`text-xs sm:text-sm font-bold transition-colors ${
+                        isActive ? 'text-[#D4E128]' : 'text-white/90'
+                      }`}>
+                        {stage.titleAr}
+                      </h5>
+                      <p className="text-xs text-white/70 leading-relaxed line-clamp-3">
+                        {stage.description}
+                      </p>
+                    </div>
+
+                    {/* Deliverables Checklist */}
+                    <div className="space-y-2 pt-3 border-t border-white/10 mb-4" dir="rtl">
+                      {stage.deliverables.map((item, dIdx) => (
+                        <div key={dIdx} className="flex items-start gap-2 text-[11px] text-white/80">
+                          <CheckCircle2 className={`w-3.5 h-3.5 shrink-0 mt-0.5 ${
+                            isActive ? 'text-[#D4E128]' : 'text-white/40'
+                          }`} />
+                          <span className="leading-tight">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Bottom Metric Pill */}
+                  <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs" dir="rtl">
+                    <div className={`flex items-center gap-1.5 font-bold ${
+                      isActive ? 'text-[#D4E128]' : 'text-white/50'
+                    }`}>
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span className="text-[11px] font-mono">{stage.metric}</span>
+                    </div>
+                    <span className="text-[10px] font-mono text-white/40">
+                      {stage.progressLabel}
+                    </span>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
 
         </div>
