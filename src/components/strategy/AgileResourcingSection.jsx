@@ -102,7 +102,7 @@ const AgileResourcingSection = () => {
         const progress = self.progress;
         const rawStage = progress * (totalStages - 1);
         const currentStage = Math.min(Math.round(rawStage), totalStages - 1);
-        setActiveIdx(currentStage);
+        setActiveIdx((prev) => (prev !== currentStage ? currentStage : prev));
       }
     });
 

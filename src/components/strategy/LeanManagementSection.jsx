@@ -244,7 +244,7 @@ const LeanManagementSection = () => {
     []
   );
 
-  // Dashed neon curved edges matching the diagram
+  // Dashed neon curved edges matching the diagram (hardware accelerated)
   const initialEdges = useMemo(
     () => [
       {
@@ -256,9 +256,8 @@ const LeanManagementSection = () => {
         animated: true,
         style: {
           stroke: '#D4E128',
-          strokeWidth: 2.5,
-          strokeDasharray: '6, 6',
-          filter: 'drop-shadow(0 0 5px rgba(212,225,40,0.6))'
+          strokeWidth: 2,
+          strokeDasharray: '6, 6'
         }
       },
       {
@@ -270,9 +269,8 @@ const LeanManagementSection = () => {
         animated: true,
         style: {
           stroke: '#D4E128',
-          strokeWidth: 2.5,
-          strokeDasharray: '6, 6',
-          filter: 'drop-shadow(0 0 5px rgba(212,225,40,0.6))'
+          strokeWidth: 2,
+          strokeDasharray: '6, 6'
         }
       },
       {
@@ -284,9 +282,8 @@ const LeanManagementSection = () => {
         animated: true,
         style: {
           stroke: '#D4E128',
-          strokeWidth: 2.5,
-          strokeDasharray: '6, 6',
-          filter: 'drop-shadow(0 0 5px rgba(212,225,40,0.6))'
+          strokeWidth: 2,
+          strokeDasharray: '6, 6'
         }
       },
       {
@@ -298,9 +295,8 @@ const LeanManagementSection = () => {
         animated: true,
         style: {
           stroke: '#D4E128',
-          strokeWidth: 2.5,
-          strokeDasharray: '6, 6',
-          filter: 'drop-shadow(0 0 5px rgba(212,225,40,0.6))'
+          strokeWidth: 2,
+          strokeDasharray: '6, 6'
         }
       }
     ],
@@ -365,6 +361,8 @@ const LeanManagementSection = () => {
             fitViewOptions={{ padding: 0.15 }}
             minZoom={0.5}
             maxZoom={1.5}
+            panOnScroll={false}
+            zoomOnScroll={false}
             preventScrolling={false}
             proOptions={{ hideAttribution: true }}
             className="react-flow-custom"

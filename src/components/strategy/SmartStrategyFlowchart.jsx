@@ -306,7 +306,7 @@ const SmartStrategyFlowchart = () => {
     []
   );
 
-  // Initial Edges with neon green lines and smooth curves
+  // Initial Edges with clean neon green lines and smooth curves (hardware accelerated)
   const initialEdges = useMemo(
     () => [
       {
@@ -316,11 +316,7 @@ const SmartStrategyFlowchart = () => {
         target: 'lean-management',
         type: 'smoothstep',
         animated: true,
-        style: {
-          stroke: '#D4E128',
-          strokeWidth: 2.5,
-          filter: 'drop-shadow(0 0 5px rgba(212,225,40,0.6))'
-        }
+        style: { stroke: '#D4E128', strokeWidth: 2 }
       },
       {
         id: 'e-cash',
@@ -329,11 +325,7 @@ const SmartStrategyFlowchart = () => {
         target: 'cash-flow',
         type: 'default',
         animated: true,
-        style: {
-          stroke: '#D4E128',
-          strokeWidth: 2.5,
-          filter: 'drop-shadow(0 0 5px rgba(212,225,40,0.6))'
-        }
+        style: { stroke: '#D4E128', strokeWidth: 2 }
       },
       {
         id: 'e-safety',
@@ -342,11 +334,7 @@ const SmartStrategyFlowchart = () => {
         target: 'safety-risk',
         type: 'default',
         animated: true,
-        style: {
-          stroke: '#D4E128',
-          strokeWidth: 2.5,
-          filter: 'drop-shadow(0 0 5px rgba(212,225,40,0.6))'
-        }
+        style: { stroke: '#D4E128', strokeWidth: 2 }
       },
       {
         id: 'e-lead',
@@ -355,11 +343,7 @@ const SmartStrategyFlowchart = () => {
         target: 'lead-time',
         type: 'smoothstep',
         animated: true,
-        style: {
-          stroke: '#D4E128',
-          strokeWidth: 2.5,
-          filter: 'drop-shadow(0 0 5px rgba(212,225,40,0.6))'
-        }
+        style: { stroke: '#D4E128', strokeWidth: 2 }
       },
       {
         id: 'e-value',
@@ -368,11 +352,7 @@ const SmartStrategyFlowchart = () => {
         target: 'value-engineering',
         type: 'default',
         animated: true,
-        style: {
-          stroke: '#D4E128',
-          strokeWidth: 2.5,
-          filter: 'drop-shadow(0 0 5px rgba(212,225,40,0.6))'
-        }
+        style: { stroke: '#D4E128', strokeWidth: 2 }
       },
       {
         id: 'e-agile',
@@ -381,11 +361,7 @@ const SmartStrategyFlowchart = () => {
         target: 'agile-resourcing',
         type: 'default',
         animated: true,
-        style: {
-          stroke: '#D4E128',
-          strokeWidth: 2.5,
-          filter: 'drop-shadow(0 0 5px rgba(212,225,40,0.6))'
-        }
+        style: { stroke: '#D4E128', strokeWidth: 2 }
       }
     ],
     []
@@ -433,6 +409,8 @@ const SmartStrategyFlowchart = () => {
             fitViewOptions={{ padding: 0.15 }}
             minZoom={0.5}
             maxZoom={1.5}
+            panOnScroll={false}
+            zoomOnScroll={false}
             preventScrolling={false}
             proOptions={{ hideAttribution: true }}
             className="react-flow-custom"
