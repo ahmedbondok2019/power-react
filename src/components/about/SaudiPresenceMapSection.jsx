@@ -10,11 +10,7 @@ const LOCATIONS_DATA = [
     nameAr: 'دومة الجندل',
     region: 'الشمالية',
     sector: 'مشاريع البنية التحتية والطاقة المتجددة',
-    desc: 'تنفيذ أعمال هندسية ومشاريع متخصصة تسهم في تنمية وتطوير المنطقة الشمالية.',
-    pin: { x: 35.8, y: 37.5 },
-    label: { x: 35.8, y: 21 },
-    lineType: 'vertical-up',
-    color: '#FFB800'
+    desc: 'تنفيذ أعمال هندسية ومشاريع متخصصة تسهم في تنمية وتطوير المنطقة الشمالية.'
   },
   {
     id: 'neom',
@@ -23,10 +19,6 @@ const LOCATIONS_DATA = [
     region: 'نيوم والمشاريع الكبرى',
     sector: 'مدن المستقبل والابتكار المستدام',
     desc: 'المساهمة في تنفيذ الحلول الكهروميكانيكية والإنشائية لأعظم مشاريع القرن.',
-    pin: { x: 17.8, y: 41.2 },
-    label: { x: 17.8, y: 29 },
-    lineType: 'vertical-up',
-    color: '#FFB800',
     isMega: true
   },
   {
@@ -36,10 +28,6 @@ const LOCATIONS_DATA = [
     region: 'نيوم والمشاريع الكبرى',
     sector: 'الضيافة الفاخرة والمنتجعات العالمية',
     desc: 'أعمال كهروميكانيكية وهندسية متقدمة لأولى وجهات نيوم الفاخرة للسياحة البحرية.',
-    pin: { x: 18.2, y: 45.8 },
-    label: { x: 12.8, y: 45.8 },
-    lineType: 'horizontal-left',
-    color: '#FFB800',
     isMega: true
   },
   {
@@ -49,10 +37,6 @@ const LOCATIONS_DATA = [
     region: 'نيوم والمشاريع الكبرى',
     sector: 'المدينة الصناعية المتقدمة والموانئ الذكية',
     desc: 'حلول متكاملة للصناعات المتقدمة وسلاسل الإمداد ومرافق الطاقة النظيفة.',
-    pin: { x: 17.2, y: 48.8 },
-    label: { x: 12.8, y: 48.8 },
-    lineType: 'horizontal-left',
-    color: '#FFB800',
     isMega: true
   },
   {
@@ -62,10 +46,6 @@ const LOCATIONS_DATA = [
     region: 'نيوم والمشاريع الكبرى',
     sector: 'السياحة الجبلية والمرافق الاستثنائية',
     desc: 'مشاريع نوعية في البيئات الجبلية المعقدة بأعلى معايير الاستدامة والسلامة.',
-    pin: { x: 20.3, y: 51.8 },
-    label: { x: 15.2, y: 51.8 },
-    lineType: 'horizontal-left',
-    color: '#FFB800',
     isMega: true
   },
   {
@@ -74,11 +54,7 @@ const LOCATIONS_DATA = [
     nameAr: 'المدينة المنورة',
     region: 'الغربية',
     sector: 'الضيافة، الإسكان، والمرافق الخدمية',
-    desc: 'تنفيذ أعمال التطوير العمراني وخدمات المقاولات المتخصصة لخدمة ضيوف الرحمن.',
-    pin: { x: 26.6, y: 58.2 },
-    label: { x: 21.2, y: 58.2 },
-    lineType: 'horizontal-left',
-    color: '#FFB800'
+    desc: 'تنفيذ أعمال التطوير العمراني وخدمات المقاولات المتخصصة لخدمة ضيوف الرحمن.'
   },
   {
     id: 'jeddah',
@@ -86,11 +62,7 @@ const LOCATIONS_DATA = [
     nameAr: 'جدة',
     region: 'الغربية',
     sector: 'المشاريع التجارية والسكنية والبنية التحتية',
-    desc: 'تنفيذ مشاريع تجارية وسكنية رائدة على الساحل الغربي بأعلى مواصفات الجودة.',
-    pin: { x: 31.2, y: 64.5 },
-    label: { x: 25.8, y: 64.5 },
-    lineType: 'horizontal-left',
-    color: '#FFB800'
+    desc: 'تنفيذ مشاريع تجارية وسكنية رائدة على الساحل الغربي بأعلى مواصفات الجودة.'
   },
   {
     id: 'makkah',
@@ -98,11 +70,7 @@ const LOCATIONS_DATA = [
     nameAr: 'مكة المكرمة',
     region: 'الغربية',
     sector: 'المشاريع الفندقية والتطوير العقاري',
-    desc: 'خبرات متقدمة في المشروعات الضخمة والمرافق الحيوية في أقدس بقاع الأرض.',
-    pin: { x: 33.8, y: 69.0 },
-    label: { x: 28.4, y: 69.0 },
-    lineType: 'horizontal-left',
-    color: '#FFB800'
+    desc: 'خبرات متقدمة في المشروعات الضخمة والمرافق الحيوية في أقدس بقاع الأرض.'
   },
   {
     id: 'jizan',
@@ -110,11 +78,7 @@ const LOCATIONS_DATA = [
     nameAr: 'جازان',
     region: 'الجنوبية',
     sector: 'المشاريع الصناعية والتنموية',
-    desc: 'مشاريع مقاولات نوعية تدعم التنمية الاقتصادية والصناعية في المنطقة الجنوبية.',
-    pin: { x: 41.2, y: 81.2 },
-    label: { x: 34.8, y: 81.2 },
-    lineType: 'horizontal-left',
-    color: '#FFB800'
+    desc: 'مشاريع مقاولات نوعية تدعم التنمية الاقتصادية والصناعية في المنطقة الجنوبية.'
   },
   {
     id: 'najran',
@@ -122,11 +86,7 @@ const LOCATIONS_DATA = [
     nameAr: 'نجران',
     region: 'الجنوبية',
     sector: 'المباني والمرافق الحكومية والتجارية',
-    desc: 'تنفيذ أعمال المقاولات العامة والتشطيبات الكهروميكانيكية المتكاملة.',
-    pin: { x: 51.8, y: 79.2 },
-    label: { x: 51.8, y: 92.5 },
-    lineType: 'vertical-down',
-    color: '#FFB800'
+    desc: 'تنفيذ أعمال المقاولات العامة والتشطيبات الكهروميكانيكية المتكاملة.'
   },
   {
     id: 'alqassim',
@@ -134,11 +94,7 @@ const LOCATIONS_DATA = [
     nameAr: 'القصيم',
     region: 'الوسطى',
     sector: 'المرافق التعليمية والتجارية والخدمية',
-    desc: 'مشاريع حيوية وبنية تحتية تدعم النمو الاقتصادي والتجاري بالمنطقة.',
-    pin: { x: 49.8, y: 52.0 },
-    label: { x: 49.8, y: 35.0 },
-    lineType: 'vertical-up',
-    color: '#FFB800'
+    desc: 'مشاريع حيوية وبنية تحتية تدعم النمو الاقتصادي والتجاري بالمنطقة.'
   },
   {
     id: 'dammam',
@@ -146,25 +102,30 @@ const LOCATIONS_DATA = [
     nameAr: 'الدمام',
     region: 'الشرقية',
     sector: 'المنشآت الصناعية والمقرات اللوجستية',
-    desc: 'خدمات هندسية متقدمة في قلب المنطقة الشرقية لقطاعات الصناعة واللوجستيات.',
-    pin: { x: 89.5, y: 68.8 },
-    label: { x: 89.5, y: 51.5 },
-    lineType: 'vertical-up',
-    color: '#FFB800'
+    desc: 'خدمات هندسية متقدمة في قلب المنطقة الشرقية لقطاعات الصناعة واللوجستيات.'
+  },
+  {
+    id: 'riyadh',
+    nameEn: 'RIYADH',
+    nameAr: 'مدينة الرياض',
+    region: 'الوسطى',
+    sector: 'المشاريع العملاقة والمقرات الرئيسية',
+    desc: 'مركز الثقل الاقتصادي ومقر أكبر محفظة من المشاريع التنموية الكبرى في المملكة.',
+    isMega: true
   }
 ];
 
 // Riyadh Sub-projects list
 const RIYADH_PROJECTS = [
-  { id: 'seven-alkharj', nameEn: 'SEVEN –ALKHARJ', nameAr: 'سفن - الخرج', desc: 'مشاريع الترفيه والوجهات العائلية الحديثة', y: 12.8 },
-  { id: 'almurabaa', nameEn: 'ALMURABAA', nameAr: 'المربع الجديد', desc: 'داون تاون الرياض الحديث ورمز التطوير العصري', y: 16.6 },
-  { id: 'ksp', nameEn: 'KSP', nameAr: 'حديقة الملك سلمان', desc: 'أكبر حدائق المدن في العالم والمرافق المرتبطة بها', y: 20.4 },
-  { id: 'aldiriyah', nameEn: 'ALDIRIYAH', nameAr: 'الدرعية', desc: 'بوابة التاريخ والثقافة وأعمال التراث العمراني الفاخر', y: 24.2 },
-  { id: 'riyadh-front', nameEn: 'RIYADH FRONT', nameAr: 'واجهة الرياض', desc: 'الوجهة الرائدة للأعمال والترفيه والتسوق', y: 28.0 },
-  { id: 'qiddiyah', nameEn: 'QIDDIYAH', nameAr: 'القدية', desc: 'عاصمة الترفيه والرياضة والفنون بالمملكة', y: 31.8 },
-  { id: 'roshn', nameEn: 'ROSHN', nameAr: 'روشن', desc: 'المجتمعات السكنية المتكاملة والأحياء الحضرية الذكية', y: 35.6 },
-  { id: 'kafd', nameEn: 'KAFD', nameAr: 'مركز الملك عبد الله المالي', desc: 'المركز المالي العالمي وأبراج الأعمال المتقدمة', y: 39.4 },
-  { id: 'boulevard', nameEn: 'BOULEVARD', nameAr: 'بوليفارد الرياض', desc: 'المرافق الترفيهية والتجارية وأضخم المسارح والفعاليات', y: 43.2 }
+  { id: 'seven-alkharj', nameEn: 'SEVEN –ALKHARJ', nameAr: 'سفن - الخرج', desc: 'مشاريع الترفيه والوجهات العائلية الحديثة', y: 125 },
+  { id: 'almurabaa', nameEn: 'ALMURABAA', nameAr: 'المربع الجديد', desc: 'داون تاون الرياض الحديث ورمز التطوير العصري', y: 165 },
+  { id: 'ksp', nameEn: 'KSP', nameAr: 'حديقة الملك سلمان', desc: 'أكبر حدائق المدن في العالم والمرافق المرتبطة بها', y: 205 },
+  { id: 'aldiriyah', nameEn: 'ALDIRIYAH', nameAr: 'الدرعية', desc: 'بوابة التاريخ والثقافة وأعمال التراث العمراني الفاخر', y: 245 },
+  { id: 'riyadh-front', nameEn: 'RIYADH FRONT', nameAr: 'واجهة الرياض', desc: 'الوجهة الرائدة للأعمال والترفيه والتسوق', y: 285 },
+  { id: 'qiddiyah', nameEn: 'QIDDIYAH', nameAr: 'القدية', desc: 'عاصمة الترفيه والرياضة والفنون بالمملكة', y: 325 },
+  { id: 'roshn', nameEn: 'ROSHN', nameAr: 'روشن', desc: 'المجتمعات السكنية المتكاملة والأحياء الحضرية الذكية', y: 365 },
+  { id: 'kafd', nameEn: 'KAFD', nameAr: 'مركز الملك عبد الله المالي', desc: 'المركز المالي العالمي وأبراج الأعمال المتقدمة', y: 405 },
+  { id: 'boulevard', nameEn: 'BOULEVARD', nameAr: 'بوليفارد الرياض', desc: 'المرافق الترفيهية والتجارية وأضخم المسارح والفعاليات', y: 445 }
 ];
 
 const REGIONS = [
@@ -191,6 +152,20 @@ const SaudiPresenceMapSection = () => {
     if (selectedRegion === 'الجنوبية') return loc.region === 'الجنوبية';
     return true;
   });
+
+  const handleSelectLocation = (id) => {
+    const found = LOCATIONS_DATA.find(d => d.id === id);
+    if (found) setActiveItem(found);
+  };
+
+  const handleSelectRiyadhProject = (proj) => {
+    setActiveItem({
+      ...proj,
+      region: 'الوسطى ومشاريع العاصمة',
+      sector: 'مشاريع الرياض الكبرى',
+      isMega: true
+    });
+  };
 
   return (
     <section className="relative w-full bg-[#141615] text-white pt-4 pb-24 select-none overflow-hidden" dir="rtl">
@@ -237,333 +212,368 @@ const SaudiPresenceMapSection = () => {
           </div>
         </div>
 
-        {/* VIEW 1: INTERACTIVE 3D MAP */}
+        {/* VIEW 1: UNIFIED HIGH-PRECISION 3D INTERACTIVE SVG MAP */}
         {viewMode === 'map' && (
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            className="relative w-full rounded-3xl bg-[#111312] border border-white/10 p-2 sm:p-4 lg:p-8 shadow-2xl overflow-hidden"
+            className="relative w-full rounded-3xl bg-[#111312] border border-white/10 p-2 sm:p-4 lg:p-6 shadow-2xl overflow-hidden"
           >
-            {/* Aspect Ratio Container for the Map */}
-            <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] min-h-[560px] sm:min-h-[640px] lg:min-h-[720px] max-w-[1250px] mx-auto flex items-center justify-center overflow-x-auto select-none">
-              
-              {/* The 3D Saudi Map Background */}
-              <img
-                src="/saudi_arabia_3d_map_no_text2.png"
-                alt="Saudi Arabia 3D Project Map"
-                className="absolute inset-0 w-full h-full object-contain pointer-events-none drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] filter brightness-105 contrast-110"
-              />
-
-              {/* SVG Connector Lines Layer */}
+            <div className="relative w-full max-w-[1280px] mx-auto overflow-x-auto select-none">
               <svg
-                viewBox="0 0 1000 650"
-                className="absolute inset-0 w-full h-full pointer-events-none z-10"
-                preserveAspectRatio="none"
+                viewBox="0 0 1920 1080"
+                className="w-full h-auto min-w-[900px] lg:min-w-0"
               >
-                <defs>
-                  {/* Subtle Glow Filter for SVG lines */}
-                  <filter id="gold-glow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feGaussianBlur stdDeviation="1.5" result="blur" />
-                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                  </filter>
-                </defs>
+                {/* 3D Map Image */}
+                <image
+                  href="/saudi_arabia_3d_map_no_text2.png"
+                  x="0"
+                  y="0"
+                  width="1920"
+                  height="1080"
+                  preserveAspectRatio="xMidYMid meet"
+                  className="brightness-105 contrast-110"
+                />
 
-                {/* 1. DUMAT-ALJANDAL (Vertical Up) */}
-                <line x1="358" y1="245" x2="358" y2="155" stroke="#FFB800" strokeWidth="1.6" filter="url(#gold-glow)" />
-                <circle cx="358" cy="245" r="3.5" fill="#FFB800" />
-                <circle cx="358" cy="155" r="2.5" fill="#FFB800" />
-
-                {/* 2. NEOM (Vertical Up) */}
-                <line x1="178" y1="268" x2="178" y2="208" stroke="#FFB800" strokeWidth="1.6" filter="url(#gold-glow)" />
-                <circle cx="178" cy="268" r="3.5" fill="#FFB800" />
-                <circle cx="178" cy="208" r="2.5" fill="#FFB800" />
-
-                {/* 3. SINDALLAH (Horizontal Left) */}
-                <line x1="182" y1="298" x2="135" y2="298" stroke="#FFB800" strokeWidth="1.6" filter="url(#gold-glow)" />
-                <circle cx="182" cy="298" r="3.5" fill="#FFB800" />
-                <circle cx="135" cy="298" r="2.5" fill="#FFB800" />
-
-                {/* 4. OXAGON (Horizontal Left) */}
-                <line x1="172" y1="317" x2="135" y2="317" stroke="#FFB800" strokeWidth="1.6" filter="url(#gold-glow)" />
-                <circle cx="172" cy="317" r="3.5" fill="#FFB800" />
-                <circle cx="135" cy="317" r="2.5" fill="#FFB800" />
-
-                {/* 5. TROJENA (Horizontal Left) */}
-                <line x1="203" y1="337" x2="159" y2="337" stroke="#FFB800" strokeWidth="1.6" filter="url(#gold-glow)" />
-                <circle cx="203" cy="337" r="3.5" fill="#FFB800" />
-                <circle cx="159" cy="337" r="2.5" fill="#FFB800" />
-
-                {/* 6. MADINA (Horizontal Left) */}
-                <line x1="266" y1="378" x2="218" y2="378" stroke="#FFB800" strokeWidth="1.6" filter="url(#gold-glow)" />
-                <circle cx="266" cy="378" r="3.5" fill="#FFB800" />
-                <circle cx="218" cy="378" r="2.5" fill="#FFB800" />
-
-                {/* 7. JEDDAH (Horizontal Left) */}
-                <line x1="312" y1="419" x2="264" y2="419" stroke="#FFB800" strokeWidth="1.6" filter="url(#gold-glow)" />
-                <circle cx="312" cy="419" r="3.5" fill="#FFB800" />
-                <circle cx="264" cy="419" r="2.5" fill="#FFB800" />
-
-                {/* 8. MAKKAH (Horizontal Left) */}
-                <line x1="338" y1="448" x2="290" y2="448" stroke="#FFB800" strokeWidth="1.6" filter="url(#gold-glow)" />
-                <circle cx="338" cy="448" r="3.5" fill="#FFB800" />
-                <circle cx="290" cy="448" r="2.5" fill="#FFB800" />
-
-                {/* 9. JIZAN (Horizontal Left) */}
-                <line x1="412" y1="528" x2="355" y2="528" stroke="#FFB800" strokeWidth="1.6" filter="url(#gold-glow)" />
-                <circle cx="412" cy="528" r="3.5" fill="#FFB800" />
-                <circle cx="355" cy="528" r="2.5" fill="#FFB800" />
-
-                {/* 10. NAJRAN (Vertical Down) */}
-                <line x1="518" y1="515" x2="518" y2="585" stroke="#FFB800" strokeWidth="1.6" filter="url(#gold-glow)" />
-                <circle cx="518" cy="515" r="3.5" fill="#FFB800" />
-                <circle cx="518" cy="585" r="2.5" fill="#FFB800" />
-
-                {/* 11. ALQASSIM (Vertical Up) */}
-                <line x1="498" y1="338" x2="498" y2="245" stroke="#FFB800" strokeWidth="1.6" filter="url(#gold-glow)" />
-                <circle cx="498" cy="338" r="3.5" fill="#FFB800" />
-                <circle cx="498" cy="245" r="2.5" fill="#FFB800" />
-
-                {/* 12. DAMMAM (Vertical Up) */}
-                <line x1="895" y1="447" x2="895" y2="355" stroke="#FFB800" strokeWidth="1.6" filter="url(#gold-glow)" />
-                <circle cx="895" cy="447" r="3.5" fill="#FFB800" />
-                <circle cx="895" cy="355" r="2.5" fill="#FFB800" />
-
-                {/* 13. RIYADH HUB & TREE STRUCTURE */}
-                {/* Vertical stem from Riyadh map pin up to label */}
-                <line x1="581" y1="348" x2="581" y2="225" stroke="#FFB800" strokeWidth="1.8" filter="url(#gold-glow)" />
-                <circle cx="581" cy="348" r="4" fill="#FFB800" />
-                <circle cx="581" cy="225" r="2.5" fill="#FFB800" />
-
-                {/* Horizontal branch from Riyadh text rightward to tree spine */}
-                <line x1="595" y1="225" x2="662" y2="225" stroke="#FFB800" strokeWidth="1.6" filter="url(#gold-glow)" />
-
-                {/* Vertical Spine for Riyadh Projects (from top project to bottom project) */}
-                <line x1="662" y1="83" x2="662" y2="281" stroke="#FFB800" strokeWidth="1.6" filter="url(#gold-glow)" />
-
-                {/* 9 Horizontal Project Branches */}
-                {RIYADH_PROJECTS.map((proj, idx) => {
-                  const yCoord = 83 + idx * 24.75;
-                  return (
-                    <g key={proj.id}>
-                      <line x1="662" y1={yCoord} x2="714" y2={yCoord} stroke="#FFB800" strokeWidth="1.4" filter="url(#gold-glow)" />
-                      <circle cx="714" cy={yCoord} r="2.5" fill="#FFB800" />
-                    </g>
-                  );
-                })}
-              </svg>
-
-              {/* INTERACTIVE HOTSPOTS & LABELS LAYER */}
-              <div className="absolute inset-0 w-full h-full z-20 pointer-events-auto font-sans" dir="ltr">
-
+                {/* ============================================================ */}
                 {/* 1. DUMAT-ALJANDAL */}
-                <div
-                  className="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer group"
-                  style={{ left: '35.8%', top: '21%' }}
-                  onClick={() => setActiveItem(LOCATIONS_DATA.find(d => d.id === 'dumat-aljandal'))}
-                >
-                  <span className="text-[10px] sm:text-xs lg:text-sm font-extrabold text-white tracking-wider group-hover:text-[#FFB800] transition-colors whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-                    DUMAT-ALJANDAL
-                  </span>
-                </div>
-
-                {/* 2. NEOM */}
-                <div
-                  className="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer group"
-                  style={{ left: '17.8%', top: '29%' }}
-                  onClick={() => setActiveItem(LOCATIONS_DATA.find(d => d.id === 'neom'))}
-                >
-                  <span className="text-[11px] sm:text-xs lg:text-sm font-extrabold text-white tracking-wider group-hover:text-[#FFB800] transition-colors whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-                    NEOM
-                  </span>
-                </div>
-
-                {/* 3. SINDALLAH */}
-                <div
-                  className="absolute -translate-x-full -translate-y-1/2 cursor-pointer group pr-2"
-                  style={{ left: '13.2%', top: '45.8%' }}
-                  onClick={() => setActiveItem(LOCATIONS_DATA.find(d => d.id === 'sindallah'))}
-                >
-                  <span className="text-[10px] sm:text-xs lg:text-sm font-extrabold text-white tracking-wider group-hover:text-[#FFB800] transition-colors whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-                    SINDALLAH
-                  </span>
-                </div>
-
-                {/* 4. OXAGON */}
-                <div
-                  className="absolute -translate-x-full -translate-y-1/2 cursor-pointer group pr-2"
-                  style={{ left: '13.2%', top: '48.8%' }}
-                  onClick={() => setActiveItem(LOCATIONS_DATA.find(d => d.id === 'oxagon'))}
-                >
-                  <span className="text-[10px] sm:text-xs lg:text-sm font-extrabold text-white tracking-wider group-hover:text-[#FFB800] transition-colors whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-                    OXAGON
-                  </span>
-                </div>
-
-                {/* 5. TROJENA */}
-                <div
-                  className="absolute -translate-x-full -translate-y-1/2 cursor-pointer group pr-2"
-                  style={{ left: '15.6%', top: '51.8%' }}
-                  onClick={() => setActiveItem(LOCATIONS_DATA.find(d => d.id === 'trojena'))}
-                >
-                  <span className="text-[10px] sm:text-xs lg:text-sm font-extrabold text-white tracking-wider group-hover:text-[#FFB800] transition-colors whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-                    TROJENA
-                  </span>
-                </div>
-
-                {/* 6. MADINA */}
-                <div
-                  className="absolute -translate-x-full -translate-y-1/2 cursor-pointer group pr-2"
-                  style={{ left: '21.5%', top: '58.2%' }}
-                  onClick={() => setActiveItem(LOCATIONS_DATA.find(d => d.id === 'madina'))}
-                >
-                  <span className="text-[10px] sm:text-xs lg:text-sm font-extrabold text-white tracking-wider group-hover:text-[#FFB800] transition-colors whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-                    MADINA
-                  </span>
-                </div>
-
-                {/* 7. JEDDAH */}
-                <div
-                  className="absolute -translate-x-full -translate-y-1/2 cursor-pointer group pr-2"
-                  style={{ left: '26.0%', top: '64.5%' }}
-                  onClick={() => setActiveItem(LOCATIONS_DATA.find(d => d.id === 'jeddah'))}
-                >
-                  <span className="text-[10px] sm:text-xs lg:text-sm font-extrabold text-white tracking-wider group-hover:text-[#FFB800] transition-colors whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-                    JEDDAH
-                  </span>
-                </div>
-
-                {/* 8. MAKKAH */}
-                <div
-                  className="absolute -translate-x-full -translate-y-1/2 cursor-pointer group pr-2"
-                  style={{ left: '28.6%', top: '69.0%' }}
-                  onClick={() => setActiveItem(LOCATIONS_DATA.find(d => d.id === 'makkah'))}
-                >
-                  <span className="text-[10px] sm:text-xs lg:text-sm font-extrabold text-white tracking-wider group-hover:text-[#FFB800] transition-colors whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-                    MAKKAH
-                  </span>
-                </div>
-
-                {/* 9. JIZAN */}
-                <div
-                  className="absolute -translate-x-full -translate-y-1/2 cursor-pointer group pr-2"
-                  style={{ left: '35.0%', top: '81.2%' }}
-                  onClick={() => setActiveItem(LOCATIONS_DATA.find(d => d.id === 'jizan'))}
-                >
-                  <span className="text-[10px] sm:text-xs lg:text-sm font-extrabold text-white tracking-wider group-hover:text-[#FFB800] transition-colors whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-                    JIZAN
-                  </span>
-                </div>
-
-                {/* 10. NAJRAN */}
-                <div
-                  className="absolute -translate-x-1/2 translate-y-1 cursor-pointer group"
-                  style={{ left: '51.8%', top: '90.0%' }}
-                  onClick={() => setActiveItem(LOCATIONS_DATA.find(d => d.id === 'najran'))}
-                >
-                  <span className="text-[10px] sm:text-xs lg:text-sm font-extrabold text-white tracking-wider group-hover:text-[#FFB800] transition-colors whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-                    NAJRAN
-                  </span>
-                </div>
-
-                {/* 11. ALQASSIM */}
-                <div
-                  className="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer group"
-                  style={{ left: '49.8%', top: '35.0%' }}
-                  onClick={() => setActiveItem(LOCATIONS_DATA.find(d => d.id === 'alqassim'))}
-                >
-                  <span className="text-[10px] sm:text-xs lg:text-sm font-extrabold text-white tracking-wider group-hover:text-[#FFB800] transition-colors whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-                    ALQASSIM
-                  </span>
-                </div>
-
-                {/* 12. DAMMAM */}
-                <div
-                  className="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer group"
-                  style={{ left: '89.5%', top: '51.5%' }}
-                  onClick={() => setActiveItem(LOCATIONS_DATA.find(d => d.id === 'dammam'))}
-                >
-                  <span className="text-[10px] sm:text-xs lg:text-sm font-extrabold text-white tracking-wider group-hover:text-[#FFB800] transition-colors whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-                    DAMMAM
-                  </span>
-                </div>
-
-                {/* 13. RIYADH HUB LABEL */}
-                <div
-                  className="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer group"
-                  style={{ left: '58.1%', top: '29.5%' }}
-                  onClick={() => setActiveItem({
-                    id: 'riyadh',
-                    nameEn: 'RIYADH',
-                    nameAr: 'مدينة الرياض',
-                    region: 'الوسطى',
-                    sector: 'المشاريع العملاقة والمقرات الرئيسية',
-                    desc: 'مركز الثقل الاقتصادي ومقر أكبر محفظة من المشاريع التنموية الكبرى في المملكة.',
-                    projectsCount: 9
-                  })}
-                >
-                  <span className="text-xs sm:text-sm lg:text-base font-black text-white tracking-wider group-hover:text-[#FFB800] transition-colors whitespace-nowrap drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
-                    RIYADH
-                  </span>
-                </div>
-
-                {/* 14. RIYADH 9 SUB-PROJECTS LIST */}
-                {RIYADH_PROJECTS.map((proj, idx) => {
-                  const topPercent = 12.8 + idx * 3.8;
-                  return (
-                    <div
-                      key={proj.id}
-                      className="absolute -translate-y-1/2 cursor-pointer group pl-2 transition-transform hover:translate-x-1"
-                      style={{ left: '72.0%', top: `${topPercent}%` }}
-                      onClick={() => setActiveItem({
-                        ...proj,
-                        region: 'الوسطى ومشاريع العاصمة',
-                        sector: 'مشاريع الرياض الكبرى',
-                        isMega: true
-                      })}
-                    >
-                      <span className="text-[9px] sm:text-[11px] lg:text-xs font-bold text-white tracking-wide group-hover:text-[#FFB800] transition-colors whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-                        {proj.nameEn}
-                      </span>
-                    </div>
-                  );
-                })}
-
-                {/* PULSING RADAR RINGS ON ALL MAP PINS */}
-                {LOCATIONS_DATA.map((loc) => (
-                  <div
-                    key={`pin-${loc.id}`}
-                    className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-auto cursor-pointer"
-                    style={{ left: `${loc.pin.x}%`, top: `${loc.pin.y}%` }}
-                    onClick={() => setActiveItem(loc)}
+                {/* ============================================================ */}
+                <g className="cursor-pointer group" onClick={() => handleSelectLocation('dumat-aljandal')}>
+                  {/* Pin on map */}
+                  <circle cx="684" cy="368" r="6" fill="#FFB800" stroke="#000000" strokeWidth="2" />
+                  {/* Vertical Connector Line (الشرطة) */}
+                  <line x1="684" y1="368" x2="684" y2="230" stroke="#FFB800" strokeWidth="3" strokeLinecap="round" />
+                  {/* Dot on line end */}
+                  <circle cx="684" cy="230" r="5" fill="#FFB800" />
+                  {/* Text Label */}
+                  <text
+                    x="684"
+                    y="205"
+                    textAnchor="middle"
+                    fill="#FFFFFF"
+                    fontSize="22"
+                    fontWeight="800"
+                    fontFamily="Inter, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="hover:fill-[#FFB800] transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]"
                   >
-                    <span className="relative flex h-3 w-3 sm:h-3.5 sm:w-3.5 items-center justify-center">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFB800] opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-[#FFB800] ring-2 ring-black shadow-[0_0_8px_#FFB800]" />
-                    </span>
-                  </div>
+                    DUMAT-ALJANDAL
+                  </text>
+                </g>
+
+                {/* ============================================================ */}
+                {/* 2. NEOM */}
+                {/* ============================================================ */}
+                <g className="cursor-pointer group" onClick={() => handleSelectLocation('neom')}>
+                  <circle cx="345" cy="415" r="6" fill="#FFB800" stroke="#000000" strokeWidth="2" />
+                  <line x1="345" y1="415" x2="345" y2="305" stroke="#FFB800" strokeWidth="3" strokeLinecap="round" />
+                  <circle cx="345" cy="305" r="5" fill="#FFB800" />
+                  <text
+                    x="345"
+                    y="280"
+                    textAnchor="middle"
+                    fill="#FFFFFF"
+                    fontSize="24"
+                    fontWeight="800"
+                    fontFamily="Inter, system-ui, sans-serif"
+                    letterSpacing="1.5"
+                    className="hover:fill-[#FFB800] transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]"
+                  >
+                    NEOM
+                  </text>
+                </g>
+
+                {/* ============================================================ */}
+                {/* 3. SINDALLAH */}
+                {/* ============================================================ */}
+                <g className="cursor-pointer group" onClick={() => handleSelectLocation('sindallah')}>
+                  <circle cx="358" cy="452" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="2" />
+                  <line x1="358" y1="452" x2="290" y2="452" stroke="#FFB800" strokeWidth="3" strokeLinecap="round" />
+                  <circle cx="290" cy="452" r="4.5" fill="#FFB800" />
+                  <text
+                    x="275"
+                    y="459"
+                    textAnchor="end"
+                    fill="#FFFFFF"
+                    fontSize="21"
+                    fontWeight="800"
+                    fontFamily="Inter, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="hover:fill-[#FFB800] transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]"
+                  >
+                    SINDALLAH
+                  </text>
+                </g>
+
+                {/* ============================================================ */}
+                {/* 4. OXAGON */}
+                {/* ============================================================ */}
+                <g className="cursor-pointer group" onClick={() => handleSelectLocation('oxagon')}>
+                  <circle cx="334" cy="482" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="2" />
+                  <line x1="334" y1="482" x2="255" y2="482" stroke="#FFB800" strokeWidth="3" strokeLinecap="round" />
+                  <circle cx="255" cy="482" r="4.5" fill="#FFB800" />
+                  <text
+                    x="240"
+                    y="489"
+                    textAnchor="end"
+                    fill="#FFFFFF"
+                    fontSize="21"
+                    fontWeight="800"
+                    fontFamily="Inter, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="hover:fill-[#FFB800] transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]"
+                  >
+                    OXAGON
+                  </text>
+                </g>
+
+                {/* ============================================================ */}
+                {/* 5. TROJENA */}
+                {/* ============================================================ */}
+                <g className="cursor-pointer group" onClick={() => handleSelectLocation('trojena')}>
+                  <circle cx="375" cy="515" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="2" />
+                  <line x1="375" y1="515" x2="290" y2="515" stroke="#FFB800" strokeWidth="3" strokeLinecap="round" />
+                  <circle cx="290" cy="515" r="4.5" fill="#FFB800" />
+                  <text
+                    x="275"
+                    y="522"
+                    textAnchor="end"
+                    fill="#FFFFFF"
+                    fontSize="21"
+                    fontWeight="800"
+                    fontFamily="Inter, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="hover:fill-[#FFB800] transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]"
+                  >
+                    TROJENA
+                  </text>
+                </g>
+
+                {/* ============================================================ */}
+                {/* 6. MADINA */}
+                {/* ============================================================ */}
+                <g className="cursor-pointer group" onClick={() => handleSelectLocation('madina')}>
+                  <circle cx="500" cy="590" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="2" />
+                  <line x1="500" y1="590" x2="430" y2="590" stroke="#FFB800" strokeWidth="3" strokeLinecap="round" />
+                  <circle cx="430" cy="590" r="4.5" fill="#FFB800" />
+                  <text
+                    x="415"
+                    y="597"
+                    textAnchor="end"
+                    fill="#FFFFFF"
+                    fontSize="21"
+                    fontWeight="800"
+                    fontFamily="Inter, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="hover:fill-[#FFB800] transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]"
+                  >
+                    MADINA
+                  </text>
+                </g>
+
+                {/* ============================================================ */}
+                {/* 7. JEDDAH */}
+                {/* ============================================================ */}
+                <g className="cursor-pointer group" onClick={() => handleSelectLocation('jeddah')}>
+                  <circle cx="585" cy="662" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="2" />
+                  <line x1="585" y1="662" x2="500" y2="662" stroke="#FFB800" strokeWidth="3" strokeLinecap="round" />
+                  <circle cx="500" cy="662" r="4.5" fill="#FFB800" />
+                  <text
+                    x="485"
+                    y="669"
+                    textAnchor="end"
+                    fill="#FFFFFF"
+                    fontSize="21"
+                    fontWeight="800"
+                    fontFamily="Inter, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="hover:fill-[#FFB800] transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]"
+                  >
+                    JEDDAH
+                  </text>
+                </g>
+
+                {/* ============================================================ */}
+                {/* 8. MAKKAH */}
+                {/* ============================================================ */}
+                <g className="cursor-pointer group" onClick={() => handleSelectLocation('makkah')}>
+                  <circle cx="630" cy="712" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="2" />
+                  <line x1="630" y1="712" x2="550" y2="712" stroke="#FFB800" strokeWidth="3" strokeLinecap="round" />
+                  <circle cx="550" cy="712" r="4.5" fill="#FFB800" />
+                  <text
+                    x="535"
+                    y="719"
+                    textAnchor="end"
+                    fill="#FFFFFF"
+                    fontSize="21"
+                    fontWeight="800"
+                    fontFamily="Inter, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="hover:fill-[#FFB800] transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]"
+                  >
+                    MAKKAH
+                  </text>
+                </g>
+
+                {/* ============================================================ */}
+                {/* 9. JIZAN */}
+                {/* ============================================================ */}
+                <g className="cursor-pointer group" onClick={() => handleSelectLocation('jizan')}>
+                  <circle cx="785" cy="840" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="2" />
+                  <line x1="785" y1="840" x2="685" y2="840" stroke="#FFB800" strokeWidth="3" strokeLinecap="round" />
+                  <circle cx="685" cy="840" r="4.5" fill="#FFB800" />
+                  <text
+                    x="670"
+                    y="847"
+                    textAnchor="end"
+                    fill="#FFFFFF"
+                    fontSize="21"
+                    fontWeight="800"
+                    fontFamily="Inter, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="hover:fill-[#FFB800] transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]"
+                  >
+                    JIZAN
+                  </text>
+                </g>
+
+                {/* ============================================================ */}
+                {/* 10. NAJRAN */}
+                {/* ============================================================ */}
+                <g className="cursor-pointer group" onClick={() => handleSelectLocation('najran')}>
+                  <circle cx="965" cy="820" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="2" />
+                  <line x1="965" y1="820" x2="965" y2="930" stroke="#FFB800" strokeWidth="3" strokeLinecap="round" />
+                  <circle cx="965" cy="930" r="5" fill="#FFB800" />
+                  <text
+                    x="965"
+                    y="960"
+                    textAnchor="middle"
+                    fill="#FFFFFF"
+                    fontSize="22"
+                    fontWeight="800"
+                    fontFamily="Inter, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="hover:fill-[#FFB800] transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]"
+                  >
+                    NAJRAN
+                  </text>
+                </g>
+
+                {/* ============================================================ */}
+                {/* 11. ALQASSIM */}
+                {/* ============================================================ */}
+                <g className="cursor-pointer group" onClick={() => handleSelectLocation('alqassim')}>
+                  <circle cx="930" cy="535" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="2" />
+                  <line x1="930" y1="535" x2="930" y2="375" stroke="#FFB800" strokeWidth="3" strokeLinecap="round" />
+                  <circle cx="930" cy="375" r="5" fill="#FFB800" />
+                  <text
+                    x="930"
+                    y="350"
+                    textAnchor="middle"
+                    fill="#FFFFFF"
+                    fontSize="23"
+                    fontWeight="800"
+                    fontFamily="Inter, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="hover:fill-[#FFB800] transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]"
+                  >
+                    ALQASSIM
+                  </text>
+                </g>
+
+                {/* ============================================================ */}
+                {/* 12. DAMMAM */}
+                {/* ============================================================ */}
+                <g className="cursor-pointer group" onClick={() => handleSelectLocation('dammam')}>
+                  <circle cx="1720" cy="718" r="6" fill="#FFB800" stroke="#000000" strokeWidth="2" />
+                  <line x1="1720" y1="718" x2="1720" y2="555" stroke="#FFB800" strokeWidth="3" strokeLinecap="round" />
+                  <circle cx="1720" cy="555" r="5" fill="#FFB800" />
+                  <text
+                    x="1720"
+                    y="530"
+                    textAnchor="middle"
+                    fill="#FFFFFF"
+                    fontSize="24"
+                    fontWeight="800"
+                    fontFamily="Inter, system-ui, sans-serif"
+                    letterSpacing="1.5"
+                    className="hover:fill-[#FFB800] transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]"
+                  >
+                    DAMMAM
+                  </text>
+                </g>
+
+                {/* ============================================================ */}
+                {/* 13. RIYADH HUB & TREE BRANCHES */}
+                {/* ============================================================ */}
+                {/* Riyadh Pin on map */}
+                <circle cx="1065" cy="555" r="7" fill="#FFB800" stroke="#000000" strokeWidth="2.5" />
+
+                {/* Vertical Line from Riyadh Pin to Label */}
+                <line x1="1065" y1="555" x2="1065" y2="335" stroke="#FFB800" strokeWidth="3.2" strokeLinecap="round" />
+                <circle cx="1065" cy="335" r="5" fill="#FFB800" />
+
+                {/* Riyadh Main Label */}
+                <text
+                  x="1065"
+                  y="310"
+                  textAnchor="middle"
+                  fill="#FFFFFF"
+                  fontSize="25"
+                  fontWeight="900"
+                  fontFamily="Inter, system-ui, sans-serif"
+                  letterSpacing="1.5"
+                  className="hover:fill-[#FFB800] cursor-pointer transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]"
+                  onClick={() => handleSelectLocation('riyadh')}
+                >
+                  RIYADH
+                </text>
+
+                {/* Horizontal branch line from Riyadh vertical line to tree spine */}
+                <line x1="1065" y1="350" x2="1220" y2="350" stroke="#FFB800" strokeWidth="3" strokeLinecap="round" />
+
+                {/* Vertical Tree Spine connecting all 9 sub-projects */}
+                <line x1="1220" y1="125" x2="1220" y2="445" stroke="#FFB800" strokeWidth="3" strokeLinecap="round" />
+
+                {/* 9 Riyadh Sub-Projects Horizontal Lines (الشرط), Dots & Labels */}
+                {RIYADH_PROJECTS.map((proj) => (
+                  <g
+                    key={proj.id}
+                    className="cursor-pointer group"
+                    onClick={() => handleSelectRiyadhProject(proj)}
+                  >
+                    {/* Horizontal connector line (الشرطة) */}
+                    <line
+                      x1="1220"
+                      y1={proj.y}
+                      x2="1300"
+                      y2={proj.y}
+                      stroke="#FFB800"
+                      strokeWidth="2.6"
+                      strokeLinecap="round"
+                    />
+                    {/* Yellow Node Dot */}
+                    <circle cx="1300" cy={proj.y} r="4.5" fill="#FFB800" />
+                    
+                    {/* Project Label */}
+                    <text
+                      x="1315"
+                      y={proj.y + 6.5}
+                      textAnchor="start"
+                      fill="#FFFFFF"
+                      fontSize="19"
+                      fontWeight="800"
+                      fontFamily="Inter, system-ui, sans-serif"
+                      letterSpacing="1.2"
+                      className="group-hover:fill-[#FFB800] transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]"
+                    >
+                      {proj.nameEn}
+                    </text>
+                  </g>
                 ))}
 
-                {/* Riyadh Central Pin */}
-                <div
-                  className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-auto cursor-pointer"
-                  style={{ left: '58.1%', top: '53.5%' }}
-                  onClick={() => setActiveItem({
-                    id: 'riyadh',
-                    nameEn: 'RIYADH',
-                    nameAr: 'مدينة الرياض',
-                    region: 'الوسطى',
-                    sector: 'المشاريع العملاقة والمقرات الرئيسية',
-                    desc: 'مركز الثقل الاقتصادي ومقر أكبر محفظة من المشاريع التنموية الكبرى في المملكة.'
-                  })}
-                >
-                  <span className="relative flex h-3.5 w-3.5 sm:h-4 sm:w-4 items-center justify-center">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFB800] opacity-80" />
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 sm:h-3 sm:w-3 bg-[#FFB800] ring-2 ring-black shadow-[0_0_12px_#FFB800]" />
-                  </span>
-                </div>
-
-              </div>
+              </svg>
             </div>
 
             {/* Interactive Info Banner at the bottom of Map */}
@@ -669,11 +679,7 @@ const SaudiPresenceMapSection = () => {
                     {RIYADH_PROJECTS.map((proj) => (
                       <div
                         key={proj.id}
-                        onClick={() => setActiveItem({
-                          ...proj,
-                          region: 'الوسطى ومشاريع العاصمة',
-                          sector: 'مشاريع الرياض الكبرى'
-                        })}
+                        onClick={() => handleSelectRiyadhProject(proj)}
                         className="p-3.5 rounded-xl bg-black/40 border border-white/10 hover:border-[#FFB800]/50 hover:bg-[#FFB800]/10 transition-all cursor-pointer group text-right"
                       >
                         <div className="flex items-center justify-between mb-1">
