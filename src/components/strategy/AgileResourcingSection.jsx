@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import SectionTitle from '../ui/SectionTitle';
 import {
   Users,
@@ -7,29 +7,32 @@ import {
   Package,
   CheckCircle2,
   Sparkles,
-  ArrowRight,
+  ChevronRight,
+  ChevronLeft,
   Clock,
+  ShieldCheck,
+  Cpu,
   Layers,
   Zap,
-  TrendingDown,
-  ShieldCheck,
-  Cpu
+  ArrowRight
 } from 'lucide-react';
 
 const TIMELINE_STAGES = [
   {
     id: 'planning',
     number: '01',
-    title: 'PLANNING',
-    subtitle: 'Resource planning',
+    stageName: 'PLANNING',
+    stageSubtitle: 'Resource planning',
+    resourceTag: 'RESOURCE 01 · PEOPLE',
+    resourceSubtitle: 'Right expertise at the right stage',
+    icon: Users,
     titleAr: 'تخطيط الموارد وجدولة الاحتياج',
-    description: 'تحديد دقيق لحجم الكفاءات والمعدات والمواد المطلوبة لكل مرحلة زمنية، وتوزيعها بناءً على محطات العمل المحددة.',
-    percentage: '15%',
-    progress: 15,
-    focus: 'PEOPLE',
-    activeResourceIdx: 0,
+    description: 'تحديد دقيق لحجم الكفاءات والمعدات والمواد المطلوبة لكل مرحلة زمنية، وتوزيعها بناءً على محطات العمل المحددة لمنع تكدس العمالة ورفع الإنتاجية.',
+    progressPct: 15,
+    progressLabel: '15% اكتمال التخطيط',
+    metric: '95% كفاءة استغلال الكوادر',
     deliverables: [
-      'تقدير احتياج العمالة المتخصصة وتوقيت استدعائها',
+      'تقدير احتياج العمالة المتخصصة وتوقيت استدعائها الميداني',
       'برمجة طلبيات المواد طويلة الأجل (Long-Lead Items)',
       'وضع مصفوفة تسعير تنافسية خالية من تكاليف الاحتفاظ الزائد'
     ]
@@ -37,92 +40,101 @@ const TIMELINE_STAGES = [
   {
     id: 'design',
     number: '02',
-    title: 'DESIGN',
-    subtitle: 'Technical capacity',
+    stageName: 'DESIGN',
+    stageSubtitle: 'Technical capacity',
+    resourceTag: 'RESOURCE 03 · MATERIALS',
+    resourceSubtitle: 'Availability managed around milestones',
+    icon: Package,
     titleAr: 'التصميم الفني والهندسة القيمة',
-    description: 'إشراك مهندسي التصميم ونمذجة BIM لتحسين المواصفات وتحديد المعدات المناسبة لاحتياجات المشروع الفعلية.',
-    percentage: '40%',
-    progress: 40,
-    focus: 'MATERIALS',
-    activeResourceIdx: 2,
+    description: 'إشراك مهندسي التصميم ونمذجة BIM لتحسين المواصفات وتحديد المواد والمعدات المناسبة لاحتياجات المشروع الفعلية مع تفادي أي تعارضات.',
+    progressPct: 40,
+    progressLabel: '40% الهندسة والتوريد',
+    metric: 'صفر هدر في المواد وسلاسل الإمداد',
     deliverables: [
-      'تحديد مواصفات المواد المعيارية المعتمدة',
-      'فحص تعارضات المخططات التنفيذية بدقة',
-      'جدولة تصنيع مجاري الهواء وموزعات التكييف بمصانعنا'
+      'تحديد مواصفات المواد المعيارية المعتمدة ومطابقتها للكود',
+      'فحص تعارضات المخططات التنفيذية عبر نمذجة BIM ثلاثية الأبعاد',
+      'جدولة تصنيع مجاري الهواء وموزعات التكييف بمصانعنا التابعة'
     ]
   },
   {
     id: 'execution',
     number: '03',
-    title: 'EXECUTION',
-    subtitle: 'Field deployment',
+    stageName: 'EXECUTION',
+    stageSubtitle: 'Field deployment',
+    resourceTag: 'RESOURCE 02 · EQUIPMENT',
+    resourceSubtitle: 'Capacity aligned with site demand',
+    icon: Wrench,
     titleAr: 'التنفيذ والانتشار الميداني المرن',
-    description: 'استدعاء الفرق الهندسية وتوريد الآلات والمعدات الثقيلة في موعد العمل المباشر لتجنب فترات التعطيل والهدر المالي.',
-    percentage: '80%',
-    progress: 80,
-    focus: 'EQUIPMENT',
-    activeResourceIdx: 1,
+    description: 'استدعاء الفرق الهندسية وتوريد الآلات والمعدات الثقيلة في موعد العمل المباشر لتجنب فترات التعطيل والهدر المالي مع تشغيل المعدات بكامل طاقتها.',
+    progressPct: 80,
+    progressLabel: '80% التنفيذ الميداني',
+    metric: '40% خفض في تكاليف المعدات',
     deliverables: [
-      'تشغيل الآلات والمعدات بطاقة استيعابية 100%',
-      'استلام المواد وتوريدها مباشرة إلى خطوط التركيب (JIT)',
-      'توجيه الفرق التخصصية بين قطاعات المشروع بمرونة عالية'
+      'تشغيل الآلات والمعدات التخصصية بطاقة استيعابية 100%',
+      'استلام المواد وتوريدها مباشرة إلى خطوط التركيب (Just-in-Time)',
+      'توجيه الفرق التخصصية بين قطاعات المشروع بمرونة وسرعة'
     ]
   },
   {
     id: 'delivery',
     number: '04',
-    title: 'DELIVERY',
-    subtitle: 'Close-out',
+    stageName: 'DELIVERY',
+    stageSubtitle: 'Close-out',
+    resourceTag: 'PROJECT CLOSE-OUT',
+    resourceSubtitle: 'Testing, Commissioning & Handover',
+    icon: ShieldCheck,
     titleAr: 'التشغيل والتسليم النهائي (Close-out)',
-    description: 'إعادة توزيع الموارد المتبقية وسحب المعدات الميدانية فور إتمام الأعمال لتقليل تكاليف الإغلاق والتسليم.',
-    percentage: '100%',
-    progress: 100,
-    focus: 'PEOPLE',
-    activeResourceIdx: 0,
+    description: 'إجراء الاختبارات التشغيلية الشاملة وإعادة توزيع الموارد وسحب المعدات الميدانية فور إتمام الأعمال لتقليل تكاليف الإغلاق والتسليم في الموعد.',
+    progressPct: 100,
+    progressLabel: '100% التسليم المعتمد',
+    metric: 'تسليم معتمد بنسبة 100%',
     deliverables: [
       'إجراء اختبارات الفحص والتشغيل التجريبي (Testing & Commissioning)',
-      'تسليم المشروع وفق معايير الجودة المعتمدة وفي الوقت المحدد',
-      'تحرير المعدات والفرق للمشاريع التنموية التالية'
+      'تسليم المشروع وفق معايير الجودة والمواصفات المعتمدة',
+      'تحرير المعدات والفرق الهندسية للمشاريع التنموية التالية'
     ]
   }
 ];
 
-const RESOURCE_CARDS = [
-  {
-    id: 'people',
-    resourceNum: 'RESOURCE 01',
-    title: 'PEOPLE',
-    subtitle: 'Right expertise at the right stage.',
-    titleAr: 'الكوادر والخبرات البشرية',
-    icon: Users,
-    desc: 'توفير الكفاءات الهندسية والفنية المتخصصة عند الحاجة الفعلية فقط، مما يمنع تكدس العمالة ويرفع الإنتاجية الفردية.',
-    metric: '95% كفاءة استغلال الكوادر'
-  },
-  {
-    id: 'equipment',
-    resourceNum: 'RESOURCE 02',
-    title: 'EQUIPMENT',
-    subtitle: 'Capacity aligned with site demand.',
-    titleAr: 'المعدات والآلات التخصصية',
-    icon: Wrench,
-    desc: 'مواءمة سعة الآلات والمعدات الثقيلة مع متطلبات الموقع الميدانية، لتقليل تكاليف الاستئجار ورسوم الوقوف غير المستغل.',
-    metric: '40% خفض في تكلفة المعدات'
-  },
-  {
-    id: 'materials',
-    resourceNum: 'RESOURCE 03',
-    title: 'MATERIALS',
-    subtitle: 'Availability managed around milestones.',
-    titleAr: 'المواد وسلاسل الإمداد',
-    icon: Package,
-    desc: 'إدارة توريد المواد وفق محطات الإنجاز الميدانية (Just-in-Time)، لتفادي التلف وتكاليف التخزين الموقعي غير الضرورية.',
-    metric: 'صفر هدر في التخزين الموقعي'
-  }
-];
-
 const AgileResourcingSection = () => {
-  const [activeStageId, setActiveStageId] = useState('planning');
-  const activeStage = TIMELINE_STAGES.find(s => s.id === activeStageId) || TIMELINE_STAGES[0];
+  const [activeIdx, setActiveIdx] = useState(0);
+  const containerRef = useRef(null);
+  const isWheelingRef = useRef(false);
+
+  const activeStage = TIMELINE_STAGES[activeIdx];
+
+  // Wheel scroll handler (بكرة الماوس للتنقل السلس بين الخطوات)
+  const handleWheel = (e) => {
+    if (isWheelingRef.current) return;
+
+    if (Math.abs(e.deltaY) > 25 || Math.abs(e.deltaX) > 25) {
+      const direction = (e.deltaY > 0 || e.deltaX > 0) ? 1 : -1;
+      const nextIdx = activeIdx + direction;
+
+      if (nextIdx >= 0 && nextIdx < TIMELINE_STAGES.length) {
+        e.preventDefault();
+        e.stopPropagation();
+        isWheelingRef.current = true;
+        setActiveIdx(nextIdx);
+
+        setTimeout(() => {
+          isWheelingRef.current = false;
+        }, 500);
+      }
+    }
+  };
+
+  const handleNext = () => {
+    if (activeIdx < TIMELINE_STAGES.length - 1) {
+      setActiveIdx(prev => prev + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (activeIdx > 0) {
+      setActiveIdx(prev => prev - 1);
+    }
+  };
 
   return (
     <section 
@@ -153,45 +165,83 @@ const AgileResourcingSection = () => {
           </div>
         </div>
 
-        {/* Project Delivery Timeline Container */}
-        <div className="rounded-3xl sm:rounded-[2.5rem] bg-[#171A18] border border-white/10 p-6 sm:p-10 md:p-12 shadow-[0_30px_70px_rgba(0,0,0,0.85)] mb-12">
-          
-          {/* Timeline Title Header */}
-          <div className="mb-10 text-left" dir="ltr">
-            <span className="text-xs font-mono font-black tracking-widest text-[#D4E128] uppercase">
-              PROJECT DELIVERY TIMELINE
-            </span>
+        {/* Main Interactive Timeline & Cards Slider Container */}
+        <div 
+          ref={containerRef}
+          onWheel={handleWheel}
+          data-lenis-prevent="true"
+          className="rounded-3xl sm:rounded-[2.5rem] bg-[#141715]/95 border border-white/10 p-6 sm:p-10 md:p-12 shadow-[0_30px_70px_rgba(0,0,0,0.85)]"
+        >
+          {/* Header with Title and Slider Controls */}
+          <div className="flex items-center justify-between mb-8 sm:mb-12" dir="ltr">
+            <div className="space-y-1">
+              <span className="text-xs font-mono font-black tracking-widest text-[#D4E128] uppercase">
+                PROJECT DELIVERY TIMELINE
+              </span>
+              <p className="text-[11px] font-mono text-white/50 hidden sm:block">
+                Scroll with mouse wheel or use controls to step through stages
+              </p>
+            </div>
+
+            {/* Slider Navigation Buttons */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handlePrev}
+                disabled={activeIdx === 0}
+                aria-label="Previous step"
+                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
+                  activeIdx === 0
+                    ? 'border-white/10 text-white/20 cursor-not-allowed'
+                    : 'border-white/20 bg-white/5 text-white hover:bg-[#D4E128] hover:text-black hover:border-[#D4E128]'
+                }`}
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+
+              <button
+                onClick={handleNext}
+                disabled={activeIdx === TIMELINE_STAGES.length - 1}
+                aria-label="Next step"
+                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
+                  activeIdx === TIMELINE_STAGES.length - 1
+                    ? 'border-white/10 text-white/20 cursor-not-allowed'
+                    : 'border-white/20 bg-white/5 text-white hover:bg-[#D4E128] hover:text-black hover:border-[#D4E128]'
+                }`}
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
           </div>
 
-          {/* Interactive Horizontal Timeline Rail (Desktop / Tablet) */}
-          <div className="relative mb-14 px-4 sm:px-8 hidden md:block" dir="ltr">
-            
-            {/* Background Base Rail Line */}
+          {/* Interactive Timeline Rail at Top */}
+          <div className="relative mb-12 sm:mb-16 px-4 sm:px-8 hidden md:block" dir="ltr">
+            {/* Background Rail Line */}
             <div className="absolute top-[18px] left-8 right-8 h-1 bg-white/10 rounded-full" />
             
             {/* Active Glowing Progress Rail Line */}
             <motion.div
               className="absolute top-[18px] left-8 h-1 bg-gradient-to-r from-[#D4E128] to-[#EAB308] rounded-full shadow-[0_0_12px_rgba(212,225,40,0.8)]"
-              initial={{ width: '15%' }}
-              animate={{ width: `${activeStage.progress}%` }}
-              transition={{ duration: 0.5, ease: 'easeInOut' }}
+              animate={{ 
+                width: `${(activeIdx / (TIMELINE_STAGES.length - 1)) * 92 + 8}%` 
+              }}
+              transition={{ duration: 0.4, ease: 'easeInOut' }}
             />
 
             {/* 4 Interactive Timeline Milestone Nodes */}
             <div className="relative flex items-start justify-between z-10">
               {TIMELINE_STAGES.map((stage, idx) => {
-                const isActive = stage.id === activeStageId;
-                const isPassed = stage.progress <= activeStage.progress;
+                const isActive = idx === activeIdx;
+                const isPassed = idx <= activeIdx;
 
                 return (
                   <div
                     key={stage.id}
-                    onClick={() => setActiveStageId(stage.id)}
+                    onClick={() => setActiveIdx(idx)}
                     className="flex flex-col items-center group cursor-pointer"
                   >
                     {/* Glowing Circular Milestone Dot */}
                     <div
-                      className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-400 ${
+                      className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
                         isActive
                           ? 'bg-[#D4E128] ring-4 ring-[#D4E128]/30 shadow-[0_0_20px_rgba(212,225,40,0.9)] scale-125 text-black'
                           : isPassed
@@ -203,14 +253,14 @@ const AgileResourcingSection = () => {
                     </div>
 
                     {/* Milestone Titles & Subtitle matching the diagram */}
-                    <div className="mt-4 text-center space-y-0.5">
+                    <div className="mt-3.5 text-center space-y-0.5">
                       <h5 className={`text-xs sm:text-sm font-black font-sans tracking-wider transition-colors uppercase ${
-                        isActive ? 'text-[#D4E128]' : 'text-white/90 group-hover:text-white'
+                        isActive ? 'text-[#D4E128]' : 'text-white/80 group-hover:text-white'
                       }`}>
-                        {stage.title}
+                        {stage.stageName}
                       </h5>
                       <p className="text-[11px] font-mono text-white/50">
-                        {stage.subtitle}
+                        {stage.stageSubtitle}
                       </p>
                     </div>
                   </div>
@@ -219,124 +269,133 @@ const AgileResourcingSection = () => {
             </div>
           </div>
 
-          {/* Mobile Vertical Responsive Timeline Rail */}
-          <div className="md:hidden space-y-4 mb-10" dir="rtl">
-            <div className="grid grid-cols-2 gap-2.5">
-              {TIMELINE_STAGES.map((stage) => {
-                const isActive = stage.id === activeStageId;
-                return (
-                  <button
-                    key={stage.id}
-                    onClick={() => setActiveStageId(stage.id)}
-                    className={`p-3.5 rounded-2xl text-right transition-all flex items-center justify-between border ${
-                      isActive
-                        ? 'bg-[#D4E128]/15 border-[#D4E128] text-white shadow-lg'
-                        : 'bg-black/30 border-white/10 text-white/70'
-                    }`}
-                  >
-                    <div>
-                      <span className="text-[10px] font-mono text-[#D4E128] block">{stage.number}</span>
-                      <span className="text-xs font-bold font-sans uppercase">{stage.title}</span>
-                    </div>
-                    <div className={`w-2.5 h-2.5 rounded-full ${isActive ? 'bg-[#D4E128]' : 'bg-white/20'}`} />
-                  </button>
-                );
-              })}
-            </div>
+          {/* Mobile Step Selector Pills */}
+          <div className="md:hidden grid grid-cols-2 gap-2.5 mb-8" dir="rtl">
+            {TIMELINE_STAGES.map((stage, idx) => {
+              const isActive = idx === activeIdx;
+              return (
+                <button
+                  key={stage.id}
+                  onClick={() => setActiveIdx(idx)}
+                  className={`p-3 rounded-2xl text-right transition-all flex items-center justify-between border ${
+                    isActive
+                      ? 'bg-[#D4E128]/15 border-[#D4E128] text-white shadow-lg'
+                      : 'bg-black/30 border-white/10 text-white/60'
+                  }`}
+                >
+                  <div>
+                    <span className="text-[10px] font-mono text-[#D4E128] block">{stage.number}</span>
+                    <span className="text-xs font-bold font-sans uppercase">{stage.stageName}</span>
+                  </div>
+                  <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-[#D4E128]' : 'bg-white/20'}`} />
+                </button>
+              );
+            })}
           </div>
 
-          {/* Active Stage Description & Deliverables Box */}
-          <motion.div
-            key={activeStage.id}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35 }}
-            className="p-6 rounded-2xl bg-black/40 border border-white/10 text-right space-y-4"
-            dir="rtl"
-          >
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
-              <div className="space-y-0.5">
-                <span className="text-xs font-mono font-bold text-[#D4E128]">
-                  المرحلة {activeStage.number}: {activeStage.title} ({activeStage.subtitle})
-                </span>
-                <h4 className="text-lg sm:text-xl font-bold text-white">
-                  {activeStage.titleAr}
-                </h4>
-              </div>
-              <span className="px-3.5 py-1.5 rounded-xl bg-[#D4E128]/10 border border-[#D4E128]/30 text-xs font-mono font-bold text-[#D4E128]">
-                نسبة الإنجاز: {activeStage.percentage}
-              </span>
-            </div>
+          {/* 4 Slider Cards Grid (Active card prominently highlighted, non-active dimmed) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6" dir="ltr">
+            {TIMELINE_STAGES.map((stage, idx) => {
+              const isActive = idx === activeIdx;
+              const IconComp = stage.icon;
 
-            <p className="text-sm text-white/80 leading-relaxed font-medium">
-              {activeStage.description}
-            </p>
+              return (
+                <motion.div
+                  key={stage.id}
+                  onClick={() => setActiveIdx(idx)}
+                  animate={{
+                    opacity: isActive ? 1 : 0.4,
+                    scale: isActive ? 1.02 : 0.96,
+                    y: isActive ? -4 : 0
+                  }}
+                  transition={{ duration: 0.35, ease: 'easeOut' }}
+                  className={`relative rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 cursor-pointer text-left select-none border ${
+                    isActive
+                      ? 'bg-[#1C201D] border-[#D4E128] shadow-[0_0_35px_rgba(212,225,40,0.25)] ring-1 ring-[#D4E128]'
+                      : 'bg-[#161817]/80 border-white/10 hover:border-white/30 hover:opacity-75'
+                  }`}
+                >
+                  <div>
+                    {/* Top Resource Badge */}
+                    <div className="flex items-center justify-between mb-4">
+                      <span className={`text-xs font-mono font-black tracking-wider uppercase ${
+                        isActive ? 'text-[#D4E128]' : 'text-white/60'
+                      }`}>
+                        {stage.resourceTag}
+                      </span>
+                      <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
+                        isActive ? 'bg-[#D4E128] text-black shadow-md' : 'bg-white/5 text-white/60'
+                      }`}>
+                        <IconComp className="w-4 h-4" />
+                      </div>
+                    </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-              {activeStage.deliverables.map((item, idx) => (
-                <div key={idx} className="flex items-start gap-2.5 p-3 rounded-xl bg-white/5 border border-white/5 text-xs text-white/90">
-                  <CheckCircle2 className="w-4 h-4 text-[#D4E128] shrink-0 mt-0.5" />
-                  <span className="leading-relaxed">{item}</span>
-                </div>
-              ))}
-            </div>
-          </motion.div>
+                    {/* Stage Titles */}
+                    <div className="space-y-1 mb-3">
+                      <h4 className="text-base sm:text-lg font-black font-sans tracking-wide text-white uppercase leading-snug">
+                        {stage.stageName}
+                      </h4>
+                      <p className="text-[11px] text-white/50 font-medium">
+                        {stage.resourceSubtitle}
+                      </p>
+                    </div>
 
-        </div>
+                    {/* Arabic Title & Context Description */}
+                    <div className="space-y-2 mb-5" dir="rtl">
+                      <h5 className={`text-sm font-bold transition-colors ${
+                        isActive ? 'text-[#D4E128]' : 'text-white/90'
+                      }`}>
+                        {stage.titleAr}
+                      </h5>
+                      <p className="text-xs text-white/75 leading-relaxed">
+                        {stage.description}
+                      </p>
+                    </div>
 
-        {/* 3 Dark Resource Pillars Cards matching diagram exactly */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8" dir="ltr">
-          {RESOURCE_CARDS.map((card, idx) => {
-            const IconComp = card.icon;
-            const isHighlight = activeStage.activeResourceIdx === idx;
-
-            return (
-              <motion.div
-                key={card.id}
-                whileHover={{ y: -6, scale: 1.02 }}
-                className={`relative rounded-3xl p-6 sm:p-8 flex flex-col justify-between transition-all duration-400 shadow-2xl text-left border ${
-                  isHighlight
-                    ? 'bg-[#1D221F] border-[#D4E128] shadow-[0_0_30px_rgba(212,225,40,0.2)] ring-1 ring-[#D4E128]'
-                    : 'bg-[#181B19] border-white/10 hover:border-white/20'
-                }`}
-              >
-                <div>
-                  {/* Top Badge matching design */}
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-mono font-black text-[#D4E128] tracking-widest uppercase">
-                      {card.resourceNum}
-                    </span>
-                    <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[#D4E128]">
-                      <IconComp className="w-5 h-5" />
+                    {/* Deliverables Checklist (Shown cleanly) */}
+                    <div className="space-y-2 pt-3 border-t border-white/10 mb-4" dir="rtl">
+                      {stage.deliverables.map((item, dIdx) => (
+                        <div key={dIdx} className="flex items-start gap-2 text-[11px] text-white/80">
+                          <CheckCircle2 className={`w-3.5 h-3.5 shrink-0 mt-0.5 ${
+                            isActive ? 'text-[#D4E128]' : 'text-white/40'
+                          }`} />
+                          <span className="leading-tight">{item}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
 
-                  {/* Title & Subtitle matching design */}
-                  <div className="space-y-1 mb-4">
-                    <h4 className="text-lg sm:text-xl font-black font-sans tracking-wide text-white uppercase">
-                      {card.title}
-                    </h4>
-                    <p className="text-xs text-white/60 font-medium">
-                      {card.subtitle}
-                    </p>
+                  {/* Bottom Metric Pill */}
+                  <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs" dir="rtl">
+                    <div className={`flex items-center gap-1.5 font-bold ${
+                      isActive ? 'text-[#D4E128]' : 'text-white/50'
+                    }`}>
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span className="text-[11px] font-mono">{stage.metric}</span>
+                    </div>
+                    <span className="text-[10px] font-mono text-white/40">
+                      {stage.progressLabel}
+                    </span>
                   </div>
+                </motion.div>
+              );
+            })}
+          </div>
 
-                  {/* Arabic Context Description */}
-                  <p className="text-xs sm:text-sm text-white/75 leading-relaxed mb-6" dir="rtl">
-                    {card.desc}
-                  </p>
-                </div>
+          {/* Bottom Interactive Indicator Dots */}
+          <div className="flex items-center justify-center gap-2 mt-8">
+            {TIMELINE_STAGES.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActiveIdx(idx)}
+                aria-label={`Go to step ${idx + 1}`}
+                className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                  idx === activeIdx ? 'w-8 bg-[#D4E128]' : 'w-2 bg-white/20 hover:bg-white/40'
+                }`}
+              />
+            ))}
+          </div>
 
-                {/* Bottom Metric Tag */}
-                <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs" dir="rtl">
-                  <div className="flex items-center gap-1.5 text-[#D4E128] font-bold">
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span>{card.metric}</span>
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
         </div>
 
       </div>
