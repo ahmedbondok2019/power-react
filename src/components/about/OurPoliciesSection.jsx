@@ -1,24 +1,24 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { 
-  ShieldCheck, 
-  UserX, 
-  HandMetal, 
-  HeartHandshake, 
-  Users, 
-  MessageSquareWarning, 
-  CheckCircle2, 
-  FileText, 
+import {
+  ShieldCheck,
+  UserX,
+  HandMetal,
+  HeartHandshake,
+  Users,
+  MessageSquareWarning,
+  CheckCircle2,
+  FileText,
   ExternalLink,
   Lock,
   Sparkles
 } from 'lucide-react';
 import SectionTitle from '../ui/SectionTitle';
-import { 
-  Accordion, 
-  AccordionItem, 
-  AccordionTrigger, 
-  AccordionContent 
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent
 } from '../ui/accordion';
 
 const POLICIES_DATA = [
@@ -116,8 +116,8 @@ const POLICIES_DATA = [
 
 const OurPoliciesSection = () => {
   return (
-    <section 
-      id="سياستنا" 
+    <section
+      id="سياستنا"
       className="relative w-full bg-[#141615] text-white py-20 lg:py-28 overflow-hidden select-none"
       dir="rtl"
     >
@@ -158,8 +158,8 @@ const OurPoliciesSection = () => {
             {POLICIES_DATA.map((policy, idx) => {
               const IconComponent = policy.icon;
               return (
-                <AccordionItem 
-                  key={policy.id} 
+                <AccordionItem
+                  key={policy.id}
                   value={policy.id}
                   className="rounded-2xl sm:rounded-3xl bg-white text-[#141615] border border-white/20 shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:border-[#FFB800]/40"
                 >
@@ -195,7 +195,7 @@ const OurPoliciesSection = () => {
                       </h4>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                         {policy.points.map((point, pIdx) => (
-                          <div 
+                          <div
                             key={pIdx}
                             className="flex items-start gap-3 p-3.5 rounded-xl bg-white border border-[#E5E7EB] shadow-sm hover:border-[#FFB800]/50 transition-colors"
                           >
@@ -225,37 +225,6 @@ const OurPoliciesSection = () => {
               );
             })}
           </Accordion>
-        </motion.div>
-
-        {/* Global Compliance & Whistleblower Notice Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-12 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-[#1A1D1B] to-[#121413] border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl"
-        >
-          <div className="flex items-center gap-4 text-right">
-            <div className="w-12 h-12 rounded-2xl bg-[#FFB800]/10 border border-[#FFB800]/20 flex items-center justify-center shrink-0">
-              <Sparkles className="w-6 h-6 text-[#FFB800]" />
-            </div>
-            <div>
-              <h3 className="font-extrabold text-white text-base sm:text-lg">
-                قناة الإبلاغ والامتثال المؤسسي
-              </h3>
-              <p className="text-xs sm:text-sm text-white/70 mt-1">
-                نضمن السرية المطلقة والحماية التامة لكافة البلاغات المتعلقة بأي انتهاك للسياسات عبر إدارة الامتثال.
-              </p>
-            </div>
-          </div>
-
-          <a
-            href="mailto:compliance@power-group.com"
-            className="shrink-0 px-6 py-3 rounded-2xl bg-gradient-to-r from-[#FFB800] to-[#EAB308] text-black font-extrabold text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-[#FFB800]/20 hover:scale-105 transition-transform"
-          >
-            <ExternalLink className="w-4 h-4" />
-            <span>التواصل مع إدارة الامتثال</span>
-          </a>
         </motion.div>
 
       </div>
