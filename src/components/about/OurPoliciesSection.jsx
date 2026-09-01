@@ -1,0 +1,277 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { 
+  ShieldCheck, 
+  UserX, 
+  HandMetal, 
+  HeartHandshake, 
+  Users, 
+  MessageSquareWarning, 
+  CheckCircle2, 
+  FileText, 
+  ExternalLink,
+  Lock,
+  Sparkles
+} from 'lucide-react';
+import { 
+  Accordion, 
+  AccordionItem, 
+  AccordionTrigger, 
+  AccordionContent 
+} from '../ui/accordion';
+
+const POLICIES_DATA = [
+  {
+    id: 'anti-corruption',
+    title: 'سياسة مكافحة الفساد',
+    titleEn: 'Anti-Corruption & Bribery Policy',
+    icon: ShieldCheck,
+    badge: 'النزاهة والامتثال',
+    summary: 'تلتزم مجموعة باور التزاماً صارماً بأعلى معايير الشفافية والنزاهة، مع حظر قاطع لكافة أشكال الرشوة والاحتيال وتضارب المصالح في جميع تعاملاتنا.',
+    points: [
+      'الامتثال الكامل للأنظمة واللوائح الوطنية لمكافحة الفساد (هيئة نزاهة) والمعايير الدولية (ISO 37001).',
+      'حظر تام لتقديم أو قبول أي رشى أو هدايا عينية أو تسهيلات مالية غير مشروعة للتأثير على القرارات.',
+      'توفير قناة إبلاغ سرية ومحمية تماماً (Whistleblowing) تضمن عدم تعرض المبلغين لأي مساءلة أو تداعيات.',
+      'إجراء عمليات تدقيق مالي وإداري دورية مستقلة لكافة العمليات وسلاسل التوريد والتعاقدات.'
+    ],
+    governanceCode: 'GOV-POL-01'
+  },
+  {
+    id: 'child-labor',
+    title: 'سياسة عمل الأطفال',
+    titleEn: 'Child Labor Prohibition Policy',
+    icon: UserX,
+    badge: 'حماية الطفولة وحقوق الإنسان',
+    summary: 'نحظر بشكل قاطع تشغيل الأطفال أو من هم دون السن القانوني في كافة مواقع العمل، المشاريع، وسلاسل الإمداد والشركاء المتعاقدين.',
+    points: [
+      'الالتزام الصارم بمعايير منظمة العمل الدولية (ILO) ونظام العمل والعمال في المملكة العربية السعودية.',
+      'التحقق الإلزامي من الهويات الرسمية ووثائق السن لكافة العاملين قبل الالتحاق بالعمل.',
+      'إلزام كافة المقاولين من الباطن والموردين ببنود تعاقدية صارمة تمنع عمالة الأطفال تحت طائلة فسخ التعاقد الفوري.',
+      'جولات تفتيشية دورية ومفاجئة على كافة المنشآت ومواقع المشاريع لضمان الامتثال التام.'
+    ],
+    governanceCode: 'GOV-POL-02'
+  },
+  {
+    id: 'anti-slavery',
+    title: 'سياسة مكافحة العبودية والاتجار بالبشر',
+    titleEn: 'Anti-Slavery & Human Trafficking Policy',
+    icon: HandMetal,
+    badge: 'الكرامة الإنسانية والعمل اللائق',
+    summary: 'نرفض ونكافح كافة ممارسات العمل الجبري، السخرة، واحتجاز الوثائق، مع ضمان توفير بيئة عمل كريمة وعادلة تحفظ حرية وحقوق جميع العاملين.',
+    points: [
+      'حظر احتجاز جوازات السفر أو الوثائق الرسمية للعمال، مع ضمان حرية التنقل والمغادرة وفق الأنظمة.',
+      'صرف الأجور بانتظام عبر نظام حماية الأجور الرسمي (WPS) ومطابقة العقود بكافة اللغات المعتمدة.',
+      'توفير مجمعات سكنية عصرية تلتزم بأعلى معايير السلامة والصحة والراحة والكرامة المعيشية.',
+      'حظر فرض أي رسوم استقدام أو توظيف على العمال، وتحمل الشركة لكافة تكاليف التعيين القانونية.'
+    ],
+    governanceCode: 'GOV-POL-03'
+  },
+  {
+    id: 'workplace-harassment',
+    title: 'سياسة التحرش في مكان العمل',
+    titleEn: 'Workplace Harassment & Anti-Bullying Policy',
+    icon: HeartHandshake,
+    badge: 'بيئة عمل آمنة ومحترمة',
+    summary: 'نلتزم بتوفير بيئة عمل مهنية آمنة، عادلة ومحترمة، خالية تماماً من كافة مظاهر التحرش اللفظي، الجسدي، النفسي أو التنمر والتمييز.',
+    points: [
+      'سياسة عدم التسامح المطلق (Zero-Tolerance) تجاه أي سلوك ينتهك الكرامة أو يسبب الإيذاء النفسي والمهني.',
+      'لجنة تحقيق مستقلة ومحايدة تتولى فحص الشكاوى بسرية تامة وتطبيق الإجراءات الانضباطية والقانونية الرادعة.',
+      'حماية كاملة للضحايا والشهود من أي تصرفات انتقامية أو مضايقات أثناء أو بعد التحقيق.',
+      'برامج توعية وتدريب دورية لترسيخ الاحترام المتبادل وثقافة بيئة العمل الإيجابية.'
+    ],
+    governanceCode: 'GOV-POL-04'
+  },
+  {
+    id: 'diversity-inclusion',
+    title: 'سياسة المساواة والتنوع والشمول',
+    titleEn: 'Equality, Diversity & Inclusion Policy',
+    icon: Users,
+    badge: 'تكافؤ الفرص وتمكين الكفاءات',
+    summary: 'نؤمن بأن تنوع فريق العمل هو جوهر تميزنا، ونلتزم بتحقيق العدالة وتكافؤ الفرص في التوظيف والترقية والتدريب دون أي تمييز.',
+    points: [
+      'اعتماد معايير الكفاءة، الجدارة والأداء فقط في قرارات التعيين، التقييم والترقيات.',
+      'دعم وتمكين الكفاءات الوطنية السعودية تماشياً مع رؤية المملكة 2030 وبرامج التوطين النوعي.',
+      'تعزيز مشاركة المرأة وتمكينها في المناصب القيادية والميدانية والهندسية المتخصصة.',
+      'توفير بيئة عمل ملائمة وشاملة تدعم أصحاب الهمم وتهيئ لهم كافة التجهيزات الميسرة.'
+    ],
+    governanceCode: 'GOV-POL-05'
+  },
+  {
+    id: 'customer-complaints',
+    title: 'سياسة إدارة شكاوى العملاء',
+    titleEn: 'Customer Complaints Management Policy',
+    icon: MessageSquareWarning,
+    badge: 'جودة الخدمة ورضا العملاء',
+    summary: 'نظام حوكمة متطور وموثق لاستقبال شكاوى وملاحظات العملاء والشركاء، ومعالجتها بشفافية وسرعة لضمان أعلى مستويات الرضا والجودة.',
+    points: [
+      'منصة رقمية موحدة تتيح تسجيل الشكوى وتتبع مسارها إلكترونياً وتزويد العميل برقم مرجعي مباشر.',
+      'التزام بأطر زمنية محددة (SLA) للاستجابة المبدئية خلال 24 ساعة والحل الجذري خلال 3 أيام عمل.',
+      'تحليل الأسباب الجذرية لكل شكوى لتحسين العمليات والخدمات ومنع تكرار أي خلل تشغيلي.',
+      'استطلاعات رأي دورية لقياس رضا العملاء عن طريقة التعامل مع ملاحظاتهم وحلها.'
+    ],
+    governanceCode: 'GOV-POL-06'
+  }
+];
+
+const OurPoliciesSection = () => {
+  return (
+    <section 
+      id="سياستنا" 
+      className="relative w-full bg-[#141615] text-white py-20 lg:py-28 overflow-hidden select-none"
+      dir="rtl"
+    >
+      {/* Background Decorative Lighting */}
+      <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-[#FFB800]/5 rounded-full blur-[160px] pointer-events-none -z-0" />
+      <div className="absolute bottom-1/4 left-0 w-[550px] h-[550px] bg-[#2A352F]/30 rounded-full blur-[160px] pointer-events-none -z-0" />
+      <div className="absolute -top-10 left-1/3 w-[300px] h-[300px] bg-[#FFB800]/5 rounded-full blur-[120px] pointer-events-none -z-0" />
+
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+        {/* Section Header with Distinctive Yellow Brand Tag */}
+        <div className="flex flex-col items-start mb-12 sm:mb-16">
+          
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="flex items-center gap-3 mb-4"
+          >
+            {/* The Brand Yellow Block Accent from user image */}
+            <div className="relative inline-flex items-center">
+              <span className="bg-[#FFB800] text-[#141615] font-black text-2xl sm:text-3xl lg:text-4xl px-4 sm:px-6 py-2 rounded-lg sm:rounded-xl shadow-lg shadow-[#FFB800]/20 tracking-wide">
+                سياستنا
+              </span>
+            </div>
+          </motion.div>
+
+          {/* Subtitle / Descriptive Context */}
+          <motion.p 
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-white/70 text-sm sm:text-base lg:text-lg max-w-2xl mt-2 leading-relaxed"
+          >
+            نلتزم في <span className="text-[#FFB800] font-bold">مجموعة باور</span> بأعلى معايير الحوكمة والنزاهة المؤسسية والمسؤولية الاجتماعية، لضمان بيئة عمل آمنة، عادلة وموثوقة لكافة شركائنا وعملائنا ومنسوبينا.
+          </motion.p>
+        </div>
+
+        {/* Accordion Component List */}
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="space-y-4"
+        >
+          <Accordion type="single" collapsible className="w-full space-y-4">
+            {POLICIES_DATA.map((policy, idx) => {
+              const IconComponent = policy.icon;
+              return (
+                <AccordionItem 
+                  key={policy.id} 
+                  value={policy.id}
+                  className="rounded-2xl sm:rounded-3xl bg-white text-[#141615] border border-white/20 shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:border-[#FFB800]/40"
+                >
+                  <AccordionTrigger className="hover:no-underline py-5 sm:py-6 px-6 sm:px-8">
+                    <div className="flex items-center gap-3 sm:gap-4 text-right">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#FFB800]/15 text-[#B45309] flex items-center justify-center shrink-0 border border-[#FFB800]/30 shadow-inner">
+                        <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-[#141615]" />
+                      </div>
+                      <div className="flex flex-col text-right">
+                        <span className="text-lg sm:text-xl lg:text-2xl font-black text-[#141615]">
+                          {policy.title}
+                        </span>
+                        <span className="text-xs sm:text-sm text-[#4B5563] font-medium mt-0.5">
+                          {policy.badge} • <span className="font-mono text-xs">{policy.governanceCode}</span>
+                        </span>
+                      </div>
+                    </div>
+                  </AccordionTrigger>
+
+                  <AccordionContent className="text-[#374151] pt-4 pb-8 px-6 sm:px-8">
+                    {/* Policy Summary */}
+                    <div className="p-4 sm:p-5 rounded-2xl bg-[#F9FAFB] border border-[#E5E7EB] mb-6">
+                      <p className="text-sm sm:text-base text-[#1F2937] leading-relaxed font-semibold">
+                        {policy.summary}
+                      </p>
+                    </div>
+
+                    {/* Key Policy Clauses / Points */}
+                    <div className="mb-6">
+                      <h4 className="text-xs sm:text-sm font-extrabold text-[#111827] uppercase tracking-wider mb-4 flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-[#FFB800]" />
+                        <span>أبرز البنود والالتزامات التشغيلية:</span>
+                      </h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                        {policy.points.map((point, pIdx) => (
+                          <div 
+                            key={pIdx}
+                            className="flex items-start gap-3 p-3.5 rounded-xl bg-white border border-[#E5E7EB] shadow-sm hover:border-[#FFB800]/50 transition-colors"
+                          >
+                            <span className="flex h-2 w-2 rounded-full bg-[#FFB800] mt-2 shrink-0" />
+                            <span className="text-xs sm:text-sm text-[#374151] font-medium leading-relaxed">
+                              {point}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Bottom Meta & Whistleblower / Compliance Footer */}
+                    <div className="pt-4 border-t border-gray-200 flex flex-wrap items-center justify-between gap-4 text-xs text-[#6B7280]">
+                      <div className="flex items-center gap-2">
+                        <Lock className="w-3.5 h-3.5 text-[#FFB800]" />
+                        <span>تخضع هذه السياسة للمراجعة السنوية من قبل لجنة الحوكمة والامتثال</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="bg-[#141615] text-white px-3 py-1 rounded-full text-xs font-bold">
+                          معتمد ومفعّل
+                        </span>
+                      </div>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              );
+            })}
+          </Accordion>
+        </motion.div>
+
+        {/* Global Compliance & Whistleblower Notice Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-12 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-[#1A1D1B] to-[#121413] border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl"
+        >
+          <div className="flex items-center gap-4 text-right">
+            <div className="w-12 h-12 rounded-2xl bg-[#FFB800]/10 border border-[#FFB800]/20 flex items-center justify-center shrink-0">
+              <Sparkles className="w-6 h-6 text-[#FFB800]" />
+            </div>
+            <div>
+              <h3 className="font-extrabold text-white text-base sm:text-lg">
+                قناة الإبلاغ والامتثال المؤسسي
+              </h3>
+              <p className="text-xs sm:text-sm text-white/70 mt-1">
+                نضمن السرية المطلقة والحماية التامة لكافة البلاغات المتعلقة بأي انتهاك للسياسات عبر إدارة الامتثال.
+              </p>
+            </div>
+          </div>
+
+          <a
+            href="mailto:compliance@power-group.com"
+            className="shrink-0 px-6 py-3 rounded-2xl bg-gradient-to-r from-[#FFB800] to-[#EAB308] text-black font-extrabold text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-[#FFB800]/20 hover:scale-105 transition-transform"
+          >
+            <ExternalLink className="w-4 h-4" />
+            <span>التواصل مع إدارة الامتثال</span>
+          </a>
+        </motion.div>
+
+      </div>
+    </section>
+  );
+};
+
+export default OurPoliciesSection;

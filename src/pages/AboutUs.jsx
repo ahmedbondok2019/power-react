@@ -31,6 +31,7 @@ import SafetyStatementSection from '../components/about/SafetyStatementSection';
 import QualityStatementSection from '../components/about/QualityStatementSection';
 import OurPresenceSection from '../components/about/OurPresenceSection';
 import SaudiPresenceMapSection from '../components/about/SaudiPresenceMapSection';
+import OurPoliciesSection from '../components/about/OurPoliciesSection';
 
 const AboutUs = () => {
   useEffect(() => {
@@ -254,6 +255,9 @@ const AboutUs = () => {
 
       {/* Saudi Presence 3D Map Section */}
       <SaudiPresenceMapSection />
+
+      {/* Our Policies Section (سياستنا - Shadcn Accordion) */}
+      <OurPoliciesSection />
 
       {/* Capabilities Section */}
       <div id="تفاصيل-الشركة" className="pt-16 pb-20 overflow-hidden relative">
