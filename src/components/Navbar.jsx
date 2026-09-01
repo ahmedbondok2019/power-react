@@ -9,13 +9,14 @@ const Navbar = () => {
   const location = useLocation();
 
   const isAboutPage = location.pathname.toLowerCase().includes('about');
+  const isProjectsPage = location.pathname.toLowerCase().includes('project');
 
   const navItems = [
     { label: 'الرئيسية', to: '/', hash: '#الرئيسية' },
-    { label: 'من نحن', to: '/about', isRoute: true },
+    { label: 'من نحن', to: '/about', isRoute: true, active: isAboutPage },
     { label: 'خدماتنا', to: '/#خدماتنا', hash: '#خدماتنا' },
     { label: 'هيكل المجموعة', to: '/#هيكل-المجموعة', hash: '#هيكل-المجموعة' },
-    { label: 'مشاريعنا', to: '/#مشاريعنا', hash: '#مشاريعنا' },
+    { label: 'مشاريعنا', to: '/projects', isRoute: true, active: isProjectsPage },
     { label: 'مالية', to: '/#مالية', hash: '#مالية' },
     { label: 'استراتيجياتنا', to: '/#استراتيجياتنا', hash: '#استراتيجياتنا' },
     { label: 'وظائف', to: '/#وظائف', hash: '#وظائف' },
@@ -39,7 +40,7 @@ const Navbar = () => {
         {/* Links (Desktop) */}
         <div className="hidden lg:flex items-center gap-4 xl:gap-7">
           {navItems.map((item) => {
-            const isActive = item.isRoute && isAboutPage;
+            const isActive = !!item.active;
 
             return (
               <motion.div key={item.label} whileHover={{ scale: 1.05 }}>
@@ -116,7 +117,7 @@ const Navbar = () => {
                   to={item.to}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`text-right py-2 text-base font-medium transition-colors ${
-                    (item.isRoute && isAboutPage)
+                    item.active
                       ? 'text-[#EAB308] font-bold'
                       : 'text-white/80 hover:text-[#EAB308]'
                   }`}

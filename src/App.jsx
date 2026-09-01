@@ -8,6 +8,7 @@ import Container from './components/ui/Container';
 import SlideNavigator from './components/ui/SlideNavigator';
 import Home from './pages/Home';
 import AboutUs from './pages/AboutUs';
+import Projects from './pages/Projects';
 
 function App() {
   const location = useLocation();
@@ -68,6 +69,8 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<AboutUs />} />
               <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/our-projects" element={<Projects />} />
               <Route path="*" element={<Home />} />
             </Routes>
           </AnimatePresence>
