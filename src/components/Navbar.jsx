@@ -83,12 +83,13 @@ const Navbar = () => {
             <span className="absolute top-2 right-2 w-2 h-2 bg-blue-500 rounded-full border border-surface"></span>
           </button>
           
-          <button 
+          <Link 
+            to="/auth/login"
             aria-label="Profile"
             className="w-10 h-10 flex items-center justify-center bg-white/10 rounded-lg hover:bg-primary hover:text-background transition-colors duration-300 text-white"
           >
             <User className="w-5 h-5" />
-          </button>
+          </Link>
 
           {/* Mobile Menu Toggle */}
           <button 

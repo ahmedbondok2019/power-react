@@ -14,10 +14,14 @@ import Home from './pages/Home';
 import AboutUs from './pages/AboutUs';
 import Projects from './pages/Projects';
 import Strategy from './pages/Strategy';
+import Login from './pages/auth/Login';
+import Signup from './pages/auth/Signup';
+import ForgotPassword from './pages/auth/ForgotPassword';
 
 function App() {
   const location = useLocation();
   const isHomePage = location.pathname === '/' || location.pathname === '';
+  const isAuthPage = location.pathname.startsWith('/auth');
 
   // Initialize Smooth Scrolling (Lenis) and sync with GSAP ScrollTrigger
   useEffect(() => {
@@ -68,26 +72,39 @@ function App() {
       {/* Top Presentation Slide Navigator (on Home page) */}
       {isHomePage && !location.hash && <SlideNavigator />}
 
-      <Container className="relative">
-        <Navbar />
-        
+      {isAuthPage ? (
         <main>
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<AboutUs />} />
-              <Route path="/about-us" element={<AboutUs />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/our-projects" element={<Projects />} />
-              <Route path="/strategy" element={<Strategy />} />
-              <Route path="/our-strategy" element={<Strategy />} />
+              <Route path="/auth/login" element={<Login />} />
+              <Route path="/auth/signup" element={<Signup />} />
+              <Route path="/auth/forgot-password" element={<ForgotPassword />} />
               <Route path="*" element={<Home />} />
             </Routes>
           </AnimatePresence>
         </main>
-        
-        <Footer />
-      </Container>
+      ) : (
+        <Container className="relative">
+          <Navbar />
+          
+          <main>
+            <AnimatePresence mode="wait">
+              <Routes location={location} key={location.pathname}>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<AboutUs />} />
+                <Route path="/about-us" element={<AboutUs />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/our-projects" element={<Projects />} />
+                <Route path="/strategy" element={<Strategy />} />
+                <Route path="/our-strategy" element={<Strategy />} />
+                <Route path="*" element={<Home />} />
+              </Routes>
+            </AnimatePresence>
+          </main>
+          
+          <Footer />
+        </Container>
+      )}
     </div>
   );
 }
