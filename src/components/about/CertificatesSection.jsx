@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation } from 'swiper/modules';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 import SectionTitle from '../ui/SectionTitle';
+import { cardVariants } from '../../utils/animations';
 import 'swiper/css';
 
 const CERTIFICATES = [
@@ -99,10 +100,10 @@ const CertificatesSection = () => {
             {CERTIFICATES.map((cert) => (
               <SwiperSlide key={cert.id}>
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false }}
-                  transition={{ duration: 0.6 }}
+                  variants={cardVariants}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: false, amount: 0.1, margin: "0px 0px -50px 0px" }}
                   className="bg-white rounded-[24px] p-6 sm:p-8 shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col items-center border border-gray-100"
                 >
                   <h3 className="text-2xl sm:text-3xl font-black text-black mb-8 text-center tracking-wide">

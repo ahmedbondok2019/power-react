@@ -247,21 +247,23 @@ const CapabilitiesWheel = () => {
                         top: `${topPos}%`,
                       }}
                     >
-                      {/* Circular Stage Label Node: Active Stage is Dominant in Size & Contrast at the Center-Front */}
-                      <div
-                        ref={(el) => (cardsRef.current[idx] = el)}
-                        className={`rounded-full flex items-center justify-center text-center transition-all duration-500 will-change-transform ${isActive
-                          ? "w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 bg-white text-black font-extrabold shadow-[0_15px_40px_rgba(0,0,0,0.85)] border-4 sm:border-6 border-[#FF5722] scale-110"
-                          : "w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 bg-[#262827] text-white/80 font-bold border-2 border-white/20 hover:border-[#EBFB38] hover:text-white opacity-80"
-                          }`}
-                        style={{ aspectRatio: "1 / 1" }}
-                      >
-                        <span className={`leading-tight whitespace-pre-line px-1 ${isActive
-                          ? "text-xs sm:text-sm md:text-base font-black text-black"
-                          : "text-[9px] sm:text-xs md:text-xs font-bold text-white/80"
-                          }`}>
-                          {stage.nodeTitle}
-                        </span>
+                      {/* GSAP Counter-Rotation Wrapper (No CSS transitions here!) */}
+                      <div ref={(el) => (cardsRef.current[idx] = el)} className="will-change-transform">
+                        {/* Circular Stage Label Node: Active Stage is Dominant in Size & Contrast at the Center-Front */}
+                        <div
+                          className={`rounded-full flex items-center justify-center text-center transition-all duration-500 ${isActive
+                            ? "w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 bg-white text-black font-extrabold shadow-[0_15px_40px_rgba(0,0,0,0.85)] border-4 sm:border-6 border-[#FF5722] scale-110"
+                            : "w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 bg-[#262827] text-white/80 font-bold border-2 border-white/20 hover:border-[#EBFB38] hover:text-white opacity-80"
+                            }`}
+                          style={{ aspectRatio: "1 / 1" }}
+                        >
+                          <span className={`leading-tight whitespace-pre-line px-1 ${isActive
+                            ? "text-xs sm:text-sm md:text-base font-black text-black"
+                            : "text-[9px] sm:text-xs md:text-xs font-bold text-white/80"
+                            }`}>
+                            {stage.nodeTitle}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   );
@@ -292,26 +294,26 @@ const CapabilitiesWheel = () => {
                   }}
                 >
                   {/* Category Accent Badge */}
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#EBFB38]/20 text-[#EBFB38] text-xs font-bold mb-3">
-                    <span className="w-2 h-2 rounded-full bg-[#EBFB38] animate-pulse" />
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#EBFB38]/20 text-[#EBFB38] text-sm font-bold mb-5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#EBFB38] animate-pulse" />
                     <span>{stage.category}</span>
                   </div>
 
                   {/* Stage Main Heading */}
-                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white leading-tight mb-3 tracking-tight">
+                  <h3 className="text-3xl sm:text-4xl md:text-[42px] font-extrabold text-white leading-tight mb-5 tracking-tight">
                     {stage.heading}
                   </h3>
 
                   {/* Stage Detailed Description */}
-                  <p className="text-white/80 text-xs sm:text-sm md:text-base leading-relaxed mb-5 font-normal max-w-xl">
+                  <p className="text-white/80 text-sm sm:text-base md:text-lg leading-[1.8] mb-8 font-medium max-w-2xl">
                     {stage.description}
                   </p>
 
                   {/* Distinct Bullet Points */}
-                  <ul className="space-y-2.5 border-t border-white/10 pt-4">
+                  <ul className="space-y-4 border-t border-white/10 pt-6">
                     {stage.details.map((bullet, bIdx) => (
-                      <li key={bIdx} className="flex items-start gap-3 justify-start text-xs sm:text-sm text-white/90">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#EBFB38] mt-1.5 shrink-0 shadow-[0_0_8px_rgba(235,251,56,0.8)]" />
+                      <li key={bIdx} className="flex items-start gap-3 justify-start text-sm sm:text-base md:text-lg text-white/90">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#EBFB38] mt-2 shrink-0 shadow-[0_0_8px_rgba(235,251,56,0.8)]" />
                         <span className="font-medium">{bullet}</span>
                       </li>
                     ))}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import SectionTitle from '../ui/SectionTitle';
+import { containerVariants, cardVariants } from '../../utils/animations';
 import {
   Server,
   Droplets,
@@ -159,7 +160,13 @@ const AdditionalProjectsSection = ({ onSelectProject }) => {
         </div>
 
         {/* Streamlined Minimalist Engineering Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: false, amount: 0.1, margin: '0px 0px -100px 0px' }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
           {ADDITIONAL_PROJECTS_DATA.map((project, idx) => {
             const IconComponent = project.icon;
             const isCompleted = project.statusType === 'completed';
@@ -167,10 +174,7 @@ const AdditionalProjectsSection = ({ onSelectProject }) => {
             return (
               <motion.div
                 key={project.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.4, delay: (idx % 3) * 0.08 }}
+                variants={cardVariants}
                 onClick={() => onSelectProject && onSelectProject(project)}
                 className="group relative rounded-2xl bg-[#1A1D1B] border border-white/10 p-5 sm:p-6 flex flex-col justify-between hover:border-[#FFB800]/50 transition-all duration-300 hover:-translate-y-1 shadow-lg cursor-pointer"
               >
@@ -241,7 +245,7 @@ const AdditionalProjectsSection = ({ onSelectProject }) => {
               </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
       </div>
     </section>

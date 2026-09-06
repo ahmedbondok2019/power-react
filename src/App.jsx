@@ -69,7 +69,7 @@ function App() {
   }, [location]);
 
   return (
-    <div className="min-h-screen bg-background overflow-hidden relative">
+    <div className="min-h-screen bg-background overflow-x-clip relative">
       {/* Top Presentation Slide Navigator (on Home page) */}
       {isHomePage && !location.hash && <SlideNavigator />}
 

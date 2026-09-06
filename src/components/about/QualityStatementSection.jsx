@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import SectionTitle from '../ui/SectionTitle';
+import { containerVariants, slideFromRight, slideFromLeft } from '../../utils/animations';
 
 const QualityStatementSection = () => {
   return (
@@ -12,14 +13,17 @@ const QualityStatementSection = () => {
           <SectionTitle title="بيان الجودة" theme="dark" />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: false, amount: 0.1, margin: '0px 0px -100px 0px' }}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center"
+        >
           
           {/* Right side (Image) - RTL so first in DOM */}
           <motion.div 
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false }}
-            transition={{ duration: 0.8 }}
+            variants={slideFromRight}
             className="w-full h-[400px] sm:h-[550px] rounded-3xl overflow-hidden shadow-2xl border border-white/10"
           >
             <img 
@@ -31,10 +35,7 @@ const QualityStatementSection = () => {
 
           {/* Left side (Content) */}
           <motion.div 
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            variants={slideFromLeft}
             className="flex flex-col items-center justify-center text-center px-2 sm:px-6"
           >
             <img src="/ISO-9001.png" alt="ISO 9001 Certified" className="w-32 sm:w-48 h-auto mb-10 object-contain" />
@@ -47,8 +48,7 @@ const QualityStatementSection = () => {
               "لذلك، قمنا بتعيين مكتب إدارة مشاريع خارجي (PMO) وتكليف EIS للتأكد من أننا نقدم أعلى جودة إدارية وتنفيذية ممكنة لعملائنا. ولاء العملاء هو نتيجة الالتزام بالجودة."
             </p>
           </motion.div>
-
-        </div>
+        </motion.div>
       </div>
     </section>
   );

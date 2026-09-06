@@ -47,21 +47,34 @@ const Hero = ({
       id={id}
       className="relative min-h-[760px] md:min-h-[820px] lg:h-[108vh] max-h-[1200px] w-full flex flex-col justify-between rounded-b-[2.5rem] md:rounded-b-[4rem] shadow-2xl overflow-hidden"
     >
-      {/* ── Background image: zooms in from large scale on load ── */}
+      {/* ── Background image: cinematic reveal on load ── */}
       <motion.div
-        className="absolute inset-0 z-0"
-        initial={{ scale: 1.25, opacity: 0 }}
-        animate={{ scale: 1.03, opacity: 1 }}
-        transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] }}
+        className="absolute inset-0 z-0 origin-center"
+        initial={{ 
+          scale: 1.4, 
+          opacity: 0,
+          filter: "blur(20px) brightness(1.5)",
+          clipPath: "inset(20% 20% 20% 20% round 150px)" 
+        }}
+        animate={{ 
+          scale: 1.03, 
+          opacity: 1,
+          filter: "blur(0px) brightness(1)",
+          clipPath: "inset(0% 0% 0% 0% round 0px)" 
+        }}
+        transition={{ 
+          duration: 2.8, 
+          ease: [0.19, 1, 0.22, 1] // Ultra smooth easing
+        }}
       >
         {/* slow breathe after initial entrance */}
         <motion.div
           className="w-full h-full"
-          animate={{ scale: [1.03, 1.07, 1.03] }}
-          transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
+          animate={{ scale: [1.03, 1.08, 1.03] }}
+          transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 2.8 }}
         >
-          <div className="absolute inset-0 bg-gradient-to-l from-black/60 via-black/30 to-black/15 z-10" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-black/20 z-10" />
+          <div className="absolute inset-0 bg-gradient-to-l from-black/60 via-black/30 to-black/15 z-10 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/30 z-10 pointer-events-none" />
           {mediaType === 'video' ? (
             <video autoPlay loop muted playsInline className="w-full h-full object-cover" src={bgImage} />
           ) : (
@@ -105,7 +118,14 @@ const Hero = ({
             initial={{ opacity: 0, x: 80 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.9, delay: 0.5, ease: EASE }}
-            className="text-lg sm:text-xl font-bold text-[#EAB308] mb-3"
+            className="mb-2 w-full text-right"
+            style={{
+              fontFamily: "'Tajawal', sans-serif",
+              fontWeight: 700,
+              fontSize: '32px',
+              lineHeight: '78px',
+              textAlign: 'right'
+            }}
           >
             {badge}
           </motion.div>
@@ -116,7 +136,14 @@ const Hero = ({
           initial={{ opacity: 0, x: 120, skewX: -6 }}
           animate={{ opacity: 1, x: 0, skewX: 0 }}
           transition={{ duration: 1.1, delay: 0.55, ease: EASE }}
-          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.2] drop-shadow-2xl font-sans mb-4"
+          className="text-white drop-shadow-2xl mb-4 w-full text-right"
+          style={{
+            fontFamily: "'HSN Shahd Bold', 'HSN Shahd', sans-serif",
+            fontWeight: 700,
+            fontSize: '48px',
+            lineHeight: '78px',
+            textAlign: 'right'
+          }}
         >
           {title}
         </motion.h1>
@@ -127,7 +154,14 @@ const Hero = ({
             initial={{ opacity: 0, x: -80 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.0, delay: 0.75, ease: EASE }}
-            className="text-white/80 text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl text-right font-medium mb-4"
+            className="text-white mb-4 max-w-3xl w-full text-right"
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontWeight: 500,
+              fontSize: '15px',
+              lineHeight: '38px',
+              textAlign: 'right'
+            }}
           >
             {subtitle}
           </motion.div>
@@ -139,14 +173,23 @@ const Hero = ({
             initial={{ opacity: 0, y: 60, scale: 0.85 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 1.0, delay: 0.95, ease: EASE }}
-            className="pt-2 flex justify-start"
+            className="pt-4 flex w-full justify-start"
+            dir="rtl"
           >
             <a
               href={buttonLink}
-              className="group relative inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/10 hover:bg-[#FFB800] backdrop-blur-md border border-white/20 hover:border-[#FFB800] text-white hover:text-[#1E201E] font-bold text-base md:text-lg transition-all duration-300 shadow-xl hover:shadow-[0_0_30px_rgba(255,184,0,0.5)] hover:-translate-x-1"
+              className="group relative inline-flex items-center gap-4 text-white transition-all duration-300 hover:-translate-x-2"
+              style={{
+                fontFamily: "'Inter', sans-serif",
+                fontWeight: 500,
+                fontSize: '36px',
+                lineHeight: '109px',
+                textAlign: 'center'
+              }}
             >
-              <ArrowLeftCircle className="w-6 h-6 md:w-7 md:h-7 group-hover:-translate-x-1.5 transition-transform duration-300 stroke-[2]" />
               <span>{buttonText}</span>
+              {/* Arrow icon is placed after text so in RTL it appears on the left */}
+              <ArrowLeftCircle className="w-10 h-10 md:w-12 md:h-12 group-hover:-translate-x-2 transition-transform duration-300 stroke-[1.5]" />
             </a>
           </motion.div>
         )}
