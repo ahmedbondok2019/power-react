@@ -14,6 +14,7 @@ import Home from './pages/Home';
 import AboutUs from './pages/AboutUs';
 import Projects from './pages/Projects';
 import Strategy from './pages/Strategy';
+import ContactUs from './pages/ContactUs';
 import Login from './pages/auth/Login';
 import Signup from './pages/auth/Signup';
 import ForgotPassword from './pages/auth/ForgotPassword';
@@ -97,6 +98,8 @@ function App() {
                 <Route path="/our-projects" element={<Projects />} />
                 <Route path="/strategy" element={<Strategy />} />
                 <Route path="/our-strategy" element={<Strategy />} />
+                <Route path="/contact" element={<ContactUs />} />
+                <Route path="/contact-us" element={<ContactUs />} />
                 <Route path="*" element={<Home />} />
               </Routes>
             </AnimatePresence>
