@@ -40,7 +40,7 @@ const LeadershipSection = () => {
           <motion.p
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.8, delay: 0.15 }}
             className="text-white/90 text-base sm:text-lg lg:text-xl font-medium tracking-wide mt-4"
           >
@@ -55,7 +55,7 @@ const LeadershipSection = () => {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.8 }}
             className="flex flex-col items-center text-center mb-20 max-w-5xl mx-auto"
           >
@@ -79,7 +79,7 @@ const LeadershipSection = () => {
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="flex flex-col text-right"
             >
@@ -100,7 +100,7 @@ const LeadershipSection = () => {
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               transition={{ duration: 0.8, delay: 0.4 }}
               className="flex flex-col text-right"
             >

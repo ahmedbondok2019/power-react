@@ -65,7 +65,7 @@ const ValuesSection = () => {
           <motion.p
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.8, delay: 0.1 }}
             className="text-white/80 text-sm sm:text-base md:text-lg max-w-2xl font-normal leading-relaxed mt-4"
           >
@@ -80,7 +80,7 @@ const ValuesSection = () => {
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: false, margin: "-100px" }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
           >
             {VALUES.map((val) => (

@@ -169,7 +169,7 @@ const AdditionalProjectsSection = ({ onSelectProject }) => {
                 key={project.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false }}
                 transition={{ duration: 0.4, delay: (idx % 3) * 0.08 }}
                 onClick={() => onSelectProject && onSelectProject(project)}
                 className="group relative rounded-2xl bg-[#1A1D1B] border border-white/10 p-5 sm:p-6 flex flex-col justify-between hover:border-[#FFB800]/50 transition-all duration-300 hover:-translate-y-1 shadow-lg cursor-pointer"

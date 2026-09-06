@@ -39,7 +39,7 @@ const VisionMissionSection = () => {
             <motion.div 
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               transition={{ duration: 0.8 }}
               className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-12 text-right relative z-10"
             >
@@ -80,7 +80,7 @@ const VisionMissionSection = () => {
             <motion.div 
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               transition={{ duration: 0.8, delay: 0.15 }}
               className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-12 text-right relative z-10"
             >
@@ -130,7 +130,7 @@ const VisionMissionSection = () => {
               <motion.div 
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
+                viewport={{ once: false }}
                 transition={{ duration: 0.8 }}
                 className="flex flex-col items-center text-center z-10 bg-[#141615] py-4 px-2"
               >

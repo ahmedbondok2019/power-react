@@ -16,7 +16,7 @@ const SectionTitle = ({
       <motion.h2 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-40px" }}
+        viewport={{ once: false, margin: "-40px" }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         className={`typography-heading-main ${textColor} relative z-10 select-none pb-1`}
       >
@@ -26,7 +26,7 @@ const SectionTitle = ({
           <motion.span 
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             className="absolute bottom-0 right-0 left-0 h-3.5 sm:h-4 md:h-5 bg-[#FFB800] -z-10 rounded-sm origin-right"
           />

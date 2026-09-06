@@ -18,7 +18,7 @@ const QualityStatementSection = () => {
           <motion.div 
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.8 }}
             className="w-full h-[400px] sm:h-[550px] rounded-3xl overflow-hidden shadow-2xl border border-white/10"
           >
@@ -33,7 +33,7 @@ const QualityStatementSection = () => {
           <motion.div 
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex flex-col items-center justify-center text-center px-2 sm:px-6"
           >
