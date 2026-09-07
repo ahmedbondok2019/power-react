@@ -122,7 +122,7 @@ const AboutUs = () => {
           </div>
         }
         buttonText="استكشف مشاريعنا"
-        buttonLink="/#مشاريعنا"
+        buttonLink="/projects"
         bgImage="/saudi_engineers_construction.jpg"
         showVisionLogo={false}
         showStatsCards={true}

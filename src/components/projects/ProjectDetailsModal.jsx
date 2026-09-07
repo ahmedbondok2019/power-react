@@ -234,7 +234,7 @@ const ProjectDetailsModal = ({ project, isOpen, onClose }) => {
               </p>
               <div className="flex items-center gap-3 w-full sm:w-auto">
                 <Link
-                  to="/#اتصل-بنا"
+                  to="/contact"
                   onClick={onClose}
                   className="flex-1 sm:flex-none px-6 py-2.5 rounded-full bg-[#FFB800] hover:bg-[#EAB308] text-black font-extrabold text-xs sm:text-sm transition-all duration-300 shadow-lg shadow-[#FFB800]/20 flex items-center justify-center gap-2 hover:scale-105"
                 >

@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -9,21 +10,21 @@ const featuredCards = [
     description: 'نقدم مجموعة واسعة من خدمات المقاولات، من المقاولات الجزئية إلى المقاولات العامة، مع تغطية لعدة قطاعات.',
     image: '/saudi_engineers_construction.jpg',
     buttonText: 'اقرأ المزيد',
-    link: '#مشاريعنا',
+    link: '/projects',
   },
   {
     title: 'مشاريعنا',
     description: 'نقدم مجموعة واسعة من خدمات المقاولات، من المقاولات الجزئية إلى المقاولات العامة، مع تغطية لعدة قطاعات.',
     image: '/saudi_engineers_construction.jpg',
     buttonText: 'اقرأ المزيد',
-    link: '#مشاريعنا',
+    link: '/projects',
   },
   {
     title: 'مشاريعنا',
     description: 'نقدم مجموعة واسعة من خدمات المقاولات، من المقاولات الجزئية إلى المقاولات العامة، مع تغطية لعدة قطاعات.',
     image: '/saudi_engineers_construction.jpg',
     buttonText: 'اقرأ المزيد',
-    link: '#مشاريعنا',
+    link: '/projects',
   },
 ];
 
@@ -87,12 +88,12 @@ const FeaturedProjectsCards = () => (
                 </p>
               </div>
               <div className="flex justify-end pt-4">
-                <a
-                  href={card.link}
+                <Link
+                  to={card.link}
                   className="bg-[#D4E128] hover:bg-[#c2ce23] text-[#1E201E] font-bold text-sm px-6 py-2.5 rounded-full transition-all duration-300 shadow-lg hover:scale-105 active:scale-95"
                 >
                   {card.buttonText}
-                </a>
+                </Link>
               </div>
             </div>
           </motion.div>

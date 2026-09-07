@@ -181,7 +181,7 @@ const Projects = () => {
           </p>
         }
         buttonText="اتصل بنا"
-        buttonLink="/#اتصل-بنا"
+        buttonLink="/contact"
         bgImage="/projects-hero-bg.jpg"
         showVisionLogo={false}
         showStatsCards={true}
@@ -308,7 +308,7 @@ const Projects = () => {
 
             <div className="flex flex-wrap items-center gap-4 shrink-0">
               <Link
-                to="/#اتصل-بنا"
+                to="/contact"
                 className="px-8 py-4 rounded-2xl bg-[#FFB800] text-black font-extrabold text-sm sm:text-base hover:bg-[#EAB308] shadow-lg shadow-[#FFB800]/25 transition-all hover:scale-105 flex items-center gap-2"
               >
                 <PhoneCall className="w-4 h-4" />

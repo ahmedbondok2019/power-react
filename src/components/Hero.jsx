@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useInView, animate } from 'framer-motion';
 import { ArrowLeftCircle, ChevronDown } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 // ── Animated Counter ─────────────────────────────────────────────────────────
 const AnimatedCounter = ({ target, duration = 2 }) => {
@@ -30,7 +31,7 @@ const Hero = ({
   title = 'نبني الخبرة. ننفذ بثقة. نصنع أثرًا يدوم.',
   subtitle = 'شركة متخصصة في خدمات المقاولات وتنفيذ المشاريع في ....',
   buttonText = 'استكشف مشاريعنا',
-  buttonLink = '#مشاريعنا',
+  buttonLink = '/projects',
   bgImage = '/hero-bg.jpg',
   showVisionLogo = true,
   mediaType = 'image',
@@ -179,21 +180,33 @@ const Hero = ({
             className="pt-4 flex w-full justify-start"
             dir="rtl"
           >
-            <a
-              href={buttonLink}
-              className="group relative inline-flex items-center gap-4 text-white transition-all duration-300 hover:-translate-x-2"
-              style={{
-                fontFamily: "'Inter', sans-serif",
-                fontWeight: 500,
-                fontSize: '36px',
-                lineHeight: '109px',
-                textAlign: 'center'
-              }}
-            >
-              <span>{buttonText}</span>
-              {/* Arrow icon is placed after text so in RTL it appears on the left */}
-              <ArrowLeftCircle className="w-10 h-10 md:w-12 md:h-12 group-hover:-translate-x-2 transition-transform duration-300 stroke-[1.5]" />
-            </a>
+            {buttonLink.startsWith('/') ? (
+              <Link
+                to={buttonLink}
+                className="inline-flex items-center justify-center gap-6 px-7 sm:px-9 py-3 sm:py-4 rounded-full bg-[#D4E128] text-[#1E201E] font-bold text-sm sm:text-base tracking-wide shadow-xl hover:bg-[#c2ce23] hover:scale-105 active:scale-95 transition-all duration-300 group"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  letterSpacing: '0.04em',
+                  textAlign: 'center'
+                }}
+              >
+                <span>{buttonText}</span>
+                <ArrowLeftCircle className="w-10 h-10 md:w-12 md:h-12 group-hover:-translate-x-2 transition-transform duration-300 stroke-[1.5]" />
+              </Link>
+            ) : (
+              <a
+                href={buttonLink}
+                className="inline-flex items-center justify-center gap-6 px-7 sm:px-9 py-3 sm:py-4 rounded-full bg-[#D4E128] text-[#1E201E] font-bold text-sm sm:text-base tracking-wide shadow-xl hover:bg-[#c2ce23] hover:scale-105 active:scale-95 transition-all duration-300 group"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  letterSpacing: '0.04em',
+                  textAlign: 'center'
+                }}
+              >
+                <span>{buttonText}</span>
+                <ArrowLeftCircle className="w-10 h-10 md:w-12 md:h-12 group-hover:-translate-x-2 transition-transform duration-300 stroke-[1.5]" />
+              </a>
+            )}
           </motion.div>
         )}
       </div>

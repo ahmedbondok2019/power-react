@@ -33,31 +33,31 @@ const Footer = () => {
                   من نحن ورؤيتنا
                 </Link>
               </li>
-              <li><Link to="/#هيكل-المجموعة" className="text-text-muted hover:text-primary transition-colors text-sm">هيكل المجموعة</Link></li>
-              <li><Link to="/#استراتيجياتنا" className="text-text-muted hover:text-primary transition-colors text-sm">استراتيجيات النمو</Link></li>
-              <li><Link to="/#مالية" className="text-text-muted hover:text-primary transition-colors text-sm">التقارير المالية</Link></li>
+              <li><Link to="/about" className="text-text-muted hover:text-primary transition-colors text-sm">هيكل المجموعة والقدرات</Link></li>
+              <li><Link to="/strategy" className="text-text-muted hover:text-primary transition-colors text-sm">استراتيجيات النمو والإدارة</Link></li>
+              <li><Link to="/strategy" className="text-text-muted hover:text-primary transition-colors text-sm">التقارير المالية والتدفقات</Link></li>
             </ul>
           </div>
 
           {/* Column 2: الخدمات */}
           <div>
-            <h4 className="font-bold text-lg mb-6 text-[#EAB308]">قطاعات الأعمال</h4>
+            <h4 className="font-bold text-lg mb-6 text-[#EAB308]">قطاعات الأعمال والمشاريع</h4>
             <ul className="space-y-4">
-              <li><Link to="/#خدماتنا" className="text-text-muted hover:text-primary transition-colors text-sm">الأعمال الكهروميكانيكية (MEP)</Link></li>
-              <li><Link to="/#خدماتنا" className="text-text-muted hover:text-primary transition-colors text-sm">المقاولات الإنشائية العامة</Link></li>
-              <li><Link to="/#خدماتنا" className="text-text-muted hover:text-primary transition-colors text-sm">تصنيع مجاري الهواء (Ducts)</Link></li>
-              <li><Link to="/#خدماتنا" className="text-text-muted hover:text-primary transition-colors text-sm">حلول معالجة المياه ومضخات KSB</Link></li>
+              <li><Link to="/projects" className="text-text-muted hover:text-primary transition-colors text-sm">الأعمال الكهروميكانيكية (MEP)</Link></li>
+              <li><Link to="/projects" className="text-text-muted hover:text-primary transition-colors text-sm">المقاولات الإنشائية العامة</Link></li>
+              <li><Link to="/projects" className="text-text-muted hover:text-primary transition-colors text-sm">تصنيع مجاري الهواء (Ducts)</Link></li>
+              <li><Link to="/projects" className="text-text-muted hover:text-primary transition-colors text-sm">حلول معالجة المياه ومضخات KSB</Link></li>
             </ul>
           </div>
 
           {/* Column 3: المشاريع والفرص */}
           <div>
-            <h4 className="font-bold text-lg mb-6 text-[#EAB308]">المشاريع والتوظيف</h4>
+            <h4 className="font-bold text-lg mb-6 text-[#EAB308]">المشاريع والتواصل</h4>
             <ul className="space-y-4">
-              <li><Link to="/#مشاريعنا" className="text-text-muted hover:text-primary transition-colors text-sm">المشاريع المنجزة</Link></li>
-              <li><Link to="/#مشاريعنا" className="text-text-muted hover:text-primary transition-colors text-sm">مشاريع قيد التنفيذ</Link></li>
-              <li><Link to="/#وظائف" className="text-text-muted hover:text-primary transition-colors text-sm">الوظائف والفرص الوظيفية</Link></li>
-              <li><Link to="/#اتصل-بنا" className="text-text-muted hover:text-primary transition-colors text-sm">تواصل معنا</Link></li>
+              <li><Link to="/projects" className="text-text-muted hover:text-primary transition-colors text-sm">المشاريع المنجزة</Link></li>
+              <li><Link to="/projects" className="text-text-muted hover:text-primary transition-colors text-sm">مشاريع قيد التنفيذ</Link></li>
+              <li><Link to="/contact" className="text-text-muted hover:text-primary transition-colors text-sm">الوظائف والفرص الوظيفية</Link></li>
+              <li><Link to="/contact" className="text-text-muted hover:text-primary transition-colors text-sm">تواصل معنا</Link></li>
             </ul>
           </div>
 

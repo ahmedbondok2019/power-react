@@ -279,65 +279,27 @@ export function initCinematicAnimations() {
     }
 
     // ────────────────────────────────────────────────────────────────
-    // 05. PROJECTS — clip-path reveals + inner image parallax
+    // 05. PROJECTS — background subtle depth & parallax
     // ────────────────────────────────────────────────────────────────
     const projectsSection = document.querySelector('#مشاريعنا');
 
     if (projectsSection) {
       const projectCards = projectsSection.querySelectorAll(
-        '.rounded-\\[18px\\], [class*="max-w-\\[529px\\"]'
+        '.rounded-\\[22px\\], .rounded-\\[18px\\], [class*="max-w-\\[529px\\"]'
       );
 
-      projectCards.forEach((card, i) => {
-        // Cinematic clip-path entry from bottom
-        gsap.fromTo(card,
-          {
-            clipPath: 'inset(6% 2% 0% 2% round 18px)',
-            opacity: 0,
-            y: 24,
-          },
-          {
-            clipPath: 'inset(0% 0% 0% 0% round 18px)',
-            opacity: 1,
-            y: 0,
-            duration: 1.3,
-            delay: i * 0.2,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: projectsSection,
-              start: 'top 75%',
-              once: true,
-            },
-          }
-        );
-
-        // Inner image scale correction on entrance
+      projectCards.forEach((card) => {
         const img = card.querySelector('img');
         if (img) {
-          gsap.fromTo(img,
-            { scale: 1.1 },
-            {
-              scale: 1,
-              duration: 1.6,
-              delay: i * 0.2,
-              ease: 'power2.out',
-              scrollTrigger: {
-                trigger: projectsSection,
-                start: 'top 75%',
-                once: true,
-              },
-            }
-          );
-
           // Subtle vertical parallax on scroll (image moves slower than card)
           gsap.to(img, {
-            y: -30,
+            y: -25,
             ease: 'none',
             scrollTrigger: {
               trigger: card,
               start: 'top bottom',
               end: 'bottom top',
-              scrub: 1.5,
+              scrub: 1.2,
             },
           });
         }
