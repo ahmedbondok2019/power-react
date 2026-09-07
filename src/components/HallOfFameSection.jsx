@@ -82,21 +82,27 @@ const HallOfFameSection = ({ title = "قاعة المشاهير" }) => {
 
       {/* Horizontal Continuous Logo Slider Track with Tall Band & Tight Gaps */}
       <div className="w-full bg-[#E5E5E5] py-6 sm:py-8 shadow-sm border-y border-[#DCDCDC] relative">
+        <style>{`
+          .continuous-slider .swiper-wrapper {
+            transition-timing-function: linear !important;
+          }
+        `}</style>
         <div className="w-full px-2">
           <Swiper
             modules={[Autoplay]}
             loop={true}
             dir="rtl"
-            speed={2500}
+            speed={4000}
             autoplay={{
               delay: 0,
               disableOnInteraction: false,
               pauseOnMouseEnter: false,
               reverseDirection: false,
             }}
+            allowTouchMove={false}
             slidesPerView={'auto'}
             spaceBetween={18}
-            className="w-full flex items-center pointer-events-none select-none"
+            className="continuous-slider w-full flex items-center pointer-events-none select-none"
           >
             {clients.concat(clients).concat(clients).map((client, index) => (
               <SwiperSlide key={index} className="!w-auto flex items-center justify-center">

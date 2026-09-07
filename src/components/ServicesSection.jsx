@@ -42,8 +42,21 @@ const ServicesSection = () => (
 
     <div className="max-w-7xl mx-auto px-6">
 
-      {/* Header — title from right, link from left */}
+      {/* Header — title on right, link on left (in RTL, first element is on the right) */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
+        
+        {/* Title — FIRST in DOM, so it appears on the RIGHT in RTL */}
+        <motion.div
+          className="text-right"
+          initial={{ opacity: 0, x: 70 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: false, margin: '-60px' }}
+          transition={{ duration: 0.9, ease: EASE }}
+        >
+          <SectionTitle title="خدماتنا" theme="dark" />
+        </motion.div>
+
+        {/* Link — SECOND in DOM, so it appears on the LEFT in RTL */}
         <motion.div
           initial={{ opacity: 0, x: -70 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -56,15 +69,6 @@ const ServicesSection = () => (
           </a>
         </motion.div>
 
-        <motion.div
-          className="text-right"
-          initial={{ opacity: 0, x: 70 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: false, margin: '-60px' }}
-          transition={{ duration: 0.9, ease: EASE }}
-        >
-          <SectionTitle title="خدماتنا" theme="dark" />
-        </motion.div>
       </div>
 
       {/* Description — from right */}

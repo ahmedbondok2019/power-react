@@ -29,7 +29,7 @@ const Navbar = () => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, delay: 0.5, ease: [0.77, 0, 0.175, 1] }}
-      className="fixed w-full z-50 top-0 left-0 border-b border-white/10 bg-[#111312]/80 backdrop-blur-xl"
+      className="fixed w-full z-50 top-0 left-0 border-b border-white/20 bg-white/10 backdrop-blur-xl shadow-sm"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-5 lg:py-6">
         

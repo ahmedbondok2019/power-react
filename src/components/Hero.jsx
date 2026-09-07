@@ -26,9 +26,9 @@ const EASE = [0.22, 1, 0.36, 1];
 
 const Hero = ({
   id = 'الرئيسية',
-  badge,
-  title = (<>نبني ما يصنع <br /> مستقبل المملكة</>),
-  subtitle,
+  badge = 'من نحن',
+  title = 'نبني الخبرة. ننفذ بثقة. نصنع أثرًا يدوم.',
+  subtitle = 'شركة متخصصة في خدمات المقاولات وتنفيذ المشاريع في ....',
   buttonText = 'استكشف مشاريعنا',
   buttonLink = '#مشاريعنا',
   bgImage = '/hero-bg.jpg',
@@ -50,20 +50,20 @@ const Hero = ({
       {/* ── Background image: cinematic reveal on load ── */}
       <motion.div
         className="absolute inset-0 z-0 origin-center"
-        initial={{ 
-          scale: 1.4, 
+        initial={{
+          scale: 1.4,
           opacity: 0,
           filter: "blur(20px) brightness(1.5)",
-          clipPath: "inset(20% 20% 20% 20% round 150px)" 
+          clipPath: "inset(20% 20% 20% 20% round 150px)"
         }}
-        animate={{ 
-          scale: 1.03, 
+        animate={{
+          scale: 1.03,
           opacity: 1,
           filter: "blur(0px) brightness(1)",
-          clipPath: "inset(0% 0% 0% 0% round 0px)" 
+          clipPath: "inset(0% 0% 0% 0% round 0px)"
         }}
-        transition={{ 
-          duration: 2.8, 
+        transition={{
+          duration: 2.8,
           ease: [0.19, 1, 0.22, 1] // Ultra smooth easing
         }}
       >
@@ -92,7 +92,10 @@ const Hero = ({
       />
 
       {/* ── Content ── */}
-      <div className="relative z-20 max-w-7xl mx-auto px-6 w-full flex flex-col items-start text-right pt-28 sm:pt-32 my-auto">
+      <div
+        className="relative z-20 max-w-7xl mx-auto px-6 w-full flex flex-col items-start text-right pt-28 sm:pt-32 my-auto"
+        dir="rtl"
+      >
 
         {/* Vision 2030 logo — falls from top */}
         {showVisionLogo && (
@@ -100,14 +103,14 @@ const Hero = ({
             initial={{ opacity: 0, y: -60, scale: 0.7 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 1.1, delay: 0.3, ease: EASE }}
-            className="mb-3 sm:mb-4 opacity-95"
+            className="mb-8 sm:mb-10 opacity-100 flex justify-start w-full"
           >
             <motion.img
               animate={{ y: [0, -6, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
               src="/Vision2030.png"
               alt="Vision 2030"
-              className="h-12 md:h-16 object-contain brightness-0 invert drop-shadow-xl"
+              className="h-32 sm:h-40 md:h-48 lg:h-[220px] w-auto object-contain brightness-0 invert drop-shadow-2xl origin-right"
             />
           </motion.div>
         )}
@@ -118,7 +121,7 @@ const Hero = ({
             initial={{ opacity: 0, x: 80 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.9, delay: 0.5, ease: EASE }}
-            className="mb-2 w-full text-right"
+            className="mb-2 max-w-4xl"
             style={{
               fontFamily: "'Tajawal', sans-serif",
               fontWeight: 700,
@@ -136,12 +139,12 @@ const Hero = ({
           initial={{ opacity: 0, x: 120, skewX: -6 }}
           animate={{ opacity: 1, x: 0, skewX: 0 }}
           transition={{ duration: 1.1, delay: 0.55, ease: EASE }}
-          className="text-white drop-shadow-2xl mb-4 w-full text-right"
+          className="text-white drop-shadow-2xl mb-4 max-w-5xl"
           style={{
             fontFamily: "'HSN Shahd Bold', 'HSN Shahd', sans-serif",
             fontWeight: 700,
             fontSize: '48px',
-            lineHeight: '78px',
+            lineHeight: '1.4',
             textAlign: 'right'
           }}
         >
@@ -154,7 +157,7 @@ const Hero = ({
             initial={{ opacity: 0, x: -80 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.0, delay: 0.75, ease: EASE }}
-            className="text-white mb-4 max-w-3xl w-full text-right"
+            className="text-white mb-6 max-w-3xl"
             style={{
               fontFamily: "'Inter', sans-serif",
               fontWeight: 500,

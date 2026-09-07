@@ -103,44 +103,44 @@ const VisionMissionSection = () => {
                     </p>
                   </div>
 
-                  {/* Glowing Yellow Connected Dot */}
-                  <div className="hidden lg:flex items-center justify-center shrink-0 ml-1 relative">
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#EBFB38] shadow-[0_0_12px_3px_rgba(235,251,56,0.5)] z-10 relative" />
-                    <div className="absolute top-1/2 -translate-y-1/2 right-full w-8 xl:w-12 h-[1.5px] bg-[#555] -z-10" />
-                    <div className="absolute top-1/2 right-[calc(100%+2rem)] xl:right-[calc(100%+3rem)] w-[1.5px] h-[50vh] bg-[#555] -z-10" />
-                  </div>
+                {/* Glowing Yellow Connected Dot */}
+                <div className="hidden lg:flex items-center justify-center shrink-0 ml-1 relative">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#EBFB38] shadow-[0_0_12px_3px_rgba(235,251,56,0.5)] z-10 relative" />
+                  <div className="absolute top-1/2 -translate-y-1/2 right-full w-8 xl:w-12 h-[1.5px] bg-[#555] -z-10" />
+                  <div className="absolute top-1/2 right-[calc(100%+2rem)] xl:right-[calc(100%+3rem)] w-[1.5px] h-[140px] bg-[#555] -z-10" />
                 </div>
-              </motion.div>
+              </div>
+            </motion.div>
 
-              {/* ROW 2: رسالتنا (Our Mission) */}
-              <motion.div 
-                style={{ opacity: missionOpacity, x: missionX }}
-                className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-12 text-right relative z-10"
-              >
-                {/* Title */}
-                <div className="shrink-0 self-start md:self-center">
-                  <h2 className="text-4xl sm:text-5xl lg:text-[70px] font-black text-white tracking-tight leading-none drop-shadow-md">
-                    رسالتنا
-                  </h2>
+            {/* ROW 2: رسالتنا (Our Mission) */}
+            <motion.div 
+              style={{ opacity: missionOpacity, x: missionX }}
+              className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-12 text-right relative z-10"
+            >
+              {/* Title */}
+              <div className="shrink-0 self-start md:self-center">
+                <h2 className="text-4xl sm:text-5xl lg:text-[70px] font-black text-white tracking-tight leading-none drop-shadow-md">
+                  رسالتنا
+                </h2>
+              </div>
+
+              {/* Paragraphs */}
+              <div className="relative flex-1 flex items-center gap-5">
+                <div className="space-y-2.5 text-[#B0B0B0] text-sm sm:text-base md:text-[16px] leading-[1.8] font-normal">
+                  <p>
+                    تقديم خدمات مقاولات استثنائية تركز على الجودة والسلامة ودقة التنفيذ، مع توفير حلول متكاملة في التطوير والاستشارات وتحليل التصميم وهندسة القيمة لتجاوز توقعات العملاء.
+                  </p>
+                  <p>
+                    نعمل على تحقيق ذلك من خلال الجمع بين الخبرة التنفيذية والحلول المتخصصة، بما يساعد على تلبية احتياجات المشاريع وتحقيق مستويات عالية من رضا العملاء.
+                  </p>
                 </div>
 
-                {/* Paragraphs */}
-                <div className="relative flex-1 flex items-center gap-5">
-                  <div className="space-y-2.5 text-[#B0B0B0] text-sm sm:text-base md:text-[16px] leading-[1.8] font-normal">
-                    <p>
-                      تقديم خدمات مقاولات استثنائية تركز على الجودة والسلامة ودقة التنفيذ، مع توفير حلول متكاملة في التطوير والاستشارات وتحليل التصميم وهندسة القيمة لتجاوز توقعات العملاء.
-                    </p>
-                    <p>
-                      نعمل على تحقيق ذلك من خلال الجمع بين الخبرة التنفيذية والحلول المتخصصة، بما يساعد على تلبية احتياجات المشاريع وتحقيق مستويات عالية من رضا العملاء.
-                    </p>
-                  </div>
-
-                  {/* Glowing Yellow Connected Dot */}
-                  <div className="hidden lg:flex items-center justify-center shrink-0 ml-1 relative">
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#EBFB38] shadow-[0_0_12px_3px_rgba(235,251,56,0.5)] z-10 relative" />
-                    <div className="absolute top-1/2 -translate-y-1/2 right-full w-8 xl:w-12 h-[1.5px] bg-[#555] -z-10" />
-                    <div className="absolute bottom-1/2 right-[calc(100%+2rem)] xl:right-[calc(100%+3rem)] w-[1.5px] h-[50vh] bg-[#555] -z-10" />
-                  </div>
+                {/* Glowing Yellow Connected Dot */}
+                <div className="hidden lg:flex items-center justify-center shrink-0 ml-1 relative">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#EBFB38] shadow-[0_0_12px_3px_rgba(235,251,56,0.5)] z-10 relative" />
+                  <div className="absolute top-1/2 -translate-y-1/2 right-full w-8 xl:w-12 h-[1.5px] bg-[#555] -z-10" />
+                  <div className="absolute bottom-1/2 right-[calc(100%+2rem)] xl:right-[calc(100%+3rem)] w-[1.5px] h-[140px] bg-[#555] -z-10" />
+                </div>
                 </div>
               </motion.div>
 

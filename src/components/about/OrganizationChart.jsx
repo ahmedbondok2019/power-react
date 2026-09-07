@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import SectionTitle from '../ui/SectionTitle';
 
 const ORG_DATA = {
@@ -50,19 +51,31 @@ const ORG_DATA = {
 };
 
 // Reusable Box Components
-const BlackBox = ({ title, name, className = "" }) => (
-  <div className={`bg-black text-white rounded-[8px] px-2 py-4 shadow-md w-[200px] flex flex-col items-center justify-center text-center z-10 relative ${className}`}>
+const BlackBox = ({ title, name, className = "", delay = 0 }) => (
+  <motion.div 
+    initial={{ opacity: 0, y: -50 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: '-40px' }}
+    transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+    className={`bg-black text-white rounded-[8px] px-2 py-4 shadow-md w-[200px] flex flex-col items-center justify-center text-center z-10 relative ${className}`}
+  >
     <h4 className="font-bold text-[13px] tracking-wide leading-tight mb-1">{title}</h4>
     {name && <p className="text-[#FFB800] text-[12px] font-medium">{name}</p>}
-  </div>
+  </motion.div>
 );
 
-const WhiteBox = ({ title, name, desc, className = "", h = "min-h-[60px]" }) => (
-  <div className={`bg-white text-black border border-gray-300 rounded-[8px] px-2 py-3 shadow-sm w-[200px] flex flex-col items-center justify-center text-center z-10 relative ${h} ${className}`}>
+const WhiteBox = ({ title, name, desc, className = "", h = "min-h-[60px]", delay = 0 }) => (
+  <motion.div 
+    initial={{ opacity: 0, y: -50 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: '-40px' }}
+    transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+    className={`bg-white text-black border border-gray-300 rounded-[8px] px-2 py-3 shadow-sm w-[200px] flex flex-col items-center justify-center text-center z-10 relative ${h} ${className}`}
+  >
     <h4 className="font-bold text-[12px] tracking-tight leading-tight">{title}</h4>
     {name && <p className="text-gray-500 text-[11px] font-medium mt-1">{name}</p>}
     {desc && <p className="text-gray-400 text-[11px] mt-1">{desc}</p>}
-  </div>
+  </motion.div>
 );
 
 const OrganizationChart = () => {
@@ -81,7 +94,7 @@ const OrganizationChart = () => {
 
             {/* Level 1: GM */}
             <div className="relative flex flex-col items-center">
-              <BlackBox title={ORG_DATA.gm.title} name={ORG_DATA.gm.name} className="w-[280px]" />
+              <BlackBox title={ORG_DATA.gm.title} name={ORG_DATA.gm.name} className="w-[280px]" delay={0.1} />
               {/* Line down to CEO */}
               <div className="w-px h-8 bg-black"></div>
             </div>
@@ -89,12 +102,12 @@ const OrganizationChart = () => {
             {/* Level 2: CEO & Secretary */}
             <div className="relative flex flex-col items-center">
               <div className="relative">
-                <BlackBox title={ORG_DATA.ceo.title} name={ORG_DATA.ceo.name} className="w-[280px]" />
+                <BlackBox title={ORG_DATA.ceo.title} name={ORG_DATA.ceo.name} className="w-[280px]" delay={0.3} />
 
                 {/* Secretary Box (Attached to left of CEO) */}
                 <div className="absolute top-1/2 right-[100%] -translate-y-1/2 flex items-center pr-8">
                   <div className="absolute right-0 top-1/2 w-8 border-t border-dashed border-gray-400 -z-10"></div>
-                  <WhiteBox title={ORG_DATA.secretary.title} name={ORG_DATA.secretary.name} className="w-[180px]" />
+                  <WhiteBox title={ORG_DATA.secretary.title} name={ORG_DATA.secretary.name} className="w-[180px]" delay={0.5} />
                 </div>
               </div>
 
@@ -114,7 +127,7 @@ const OrganizationChart = () => {
                     <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-px h-6 bg-black"></div>
 
                     {/* Header Box */}
-                    <BlackBox title={branch.header.title} name={branch.header.name} />
+                    <BlackBox title={branch.header.title} name={branch.header.name} delay={0.6 + idx * 0.1} />
 
                     {/* Sub Items */}
                     <div className="flex flex-col items-center mt-6 gap-6 relative">
@@ -128,6 +141,7 @@ const OrganizationChart = () => {
                           name={item.name}
                           desc={item.desc}
                           h={item.h}
+                          delay={0.6 + idx * 0.1 + (i + 1) * 0.15}
                         />
                       ))}
                     </div>
@@ -144,20 +158,33 @@ const OrganizationChart = () => {
                 title="HSE & SAFETY"
                 name="Independent Function"
                 className="w-[200px]"
+                delay={1.5}
               />
 
               {/* Center: Project & Site Operations */}
-              <div className="bg-white border border-gray-300 rounded-[12px] p-4 flex flex-col items-center w-[600px] shadow-sm ml-auto mr-auto">
+              <motion.div 
+                initial={{ opacity: 0, y: -50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.7, delay: 1.6, ease: [0.22, 1, 0.36, 1] }}
+                className="bg-white border border-gray-300 rounded-[12px] p-4 flex flex-col items-center w-[600px] shadow-sm ml-auto mr-auto"
+              >
                 <h4 className="font-bold text-[13px] mb-4 text-center">PROJECT & SITE OPERATIONS</h4>
                 <div className="flex flex-row justify-between w-full px-8">
                   <span className="text-[11px] font-bold text-gray-700">PROJECT TEAMS</span>
                   <span className="text-[11px] font-bold text-gray-700">SITE OPERATIONS</span>
                   <span className="text-[11px] font-bold text-gray-700">TECHNICAL TEAMS</span>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Right: Legend */}
-              <div className="flex flex-col gap-2 w-[200px]">
+              <motion.div 
+                initial={{ opacity: 0, y: -50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.7, delay: 1.7, ease: [0.22, 1, 0.36, 1] }}
+                className="flex flex-col gap-2 w-[200px]"
+              >
                 <h4 className="font-bold text-[12px] mb-1">LEGEND</h4>
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-3 bg-black rounded-sm"></div>
@@ -175,7 +202,7 @@ const OrganizationChart = () => {
                   <div className="w-4 h-3 bg-gray-100 border border-gray-200 rounded-sm"></div>
                   <span className="text-[10px] text-gray-600 font-medium">Teams / Staff</span>
                 </div>
-              </div>
+              </motion.div>
 
             </div>
 
