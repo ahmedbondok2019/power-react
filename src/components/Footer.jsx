@@ -41,12 +41,12 @@ const Footer = () => {
 
           {/* Column 2: الخدمات */}
           <div>
-            <h4 className="font-bold text-lg mb-6 text-[#EAB308]">قطاعات الأعمال والمشاريع</h4>
+            <h4 className="font-bold text-lg mb-6 text-[#EAB308]">قطاعات الأعمال والخدمات</h4>
             <ul className="space-y-4">
-              <li><Link to="/projects" className="text-text-muted hover:text-primary transition-colors text-sm">الأعمال الكهروميكانيكية (MEP)</Link></li>
-              <li><Link to="/projects" className="text-text-muted hover:text-primary transition-colors text-sm">المقاولات الإنشائية العامة</Link></li>
-              <li><Link to="/projects" className="text-text-muted hover:text-primary transition-colors text-sm">تصنيع مجاري الهواء (Ducts)</Link></li>
-              <li><Link to="/projects" className="text-text-muted hover:text-primary transition-colors text-sm">حلول معالجة المياه ومضخات KSB</Link></li>
+              <li><Link to="/services" className="text-text-muted hover:text-primary transition-colors text-sm">الأعمال الكهروميكانيكية (MEP)</Link></li>
+              <li><Link to="/services" className="text-text-muted hover:text-primary transition-colors text-sm">المقاولات الإنشائية والتطوير السكني</Link></li>
+              <li><Link to="/services" className="text-text-muted hover:text-primary transition-colors text-sm">تصنيع مجاري الهواء (Ducts)</Link></li>
+              <li><Link to="/services" className="text-text-muted hover:text-primary transition-colors text-sm">حلول البنية التحتية ومعالجة المياه</Link></li>
             </ul>
           </div>
 

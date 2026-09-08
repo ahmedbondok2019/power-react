@@ -221,62 +221,8 @@ export function initCinematicAnimations() {
     }
 
     // ────────────────────────────────────────────────────────────────
-    // 04. GROUP STRUCTURE — dark palette + logo cascade
+    // 04. GROUP STRUCTURE — Handled directly in GroupStructureSection
     // ────────────────────────────────────────────────────────────────
-    const groupSection = document.querySelector('#هيكل-المجموعة');
-
-    if (groupSection) {
-      // Main logo reveal
-      const mainLogo = groupSection.querySelector('img[alt*="Power"]');
-      if (mainLogo) {
-        gsap.fromTo(mainLogo,
-          { opacity: 0, x: 40, filter: 'blur(6px)' },
-          {
-            opacity: 1, x: 0, filter: 'blur(0px)',
-            duration: 1.3, ease: 'power3.out',
-            scrollTrigger: { trigger: groupSection, start: 'top 80%', once: true },
-          }
-        );
-      }
-
-      // All company logos — staggered cascade
-      const allLogos = groupSection.querySelectorAll('img:not([alt*="Power"])');
-      gsap.fromTo(allLogos,
-        { opacity: 0, y: 28, scale: 0.85, filter: 'blur(4px)' },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          filter: 'blur(0px)',
-          duration: 1.0,
-          stagger: {
-            each: 0.12,
-            from: 'start',
-            ease: 'power1.inOut',
-          },
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: groupSection,
-            start: 'top 75%',
-            once: true,
-          },
-        }
-      );
-
-      // Section headings
-      const groupHeadings = groupSection.querySelectorAll('h2, h3');
-      groupHeadings.forEach((h, i) => {
-        gsap.fromTo(h,
-          { opacity: 0, y: 20 },
-          {
-            opacity: 1, y: 0,
-            duration: 0.9, delay: i * 0.15,
-            ease: 'power2.out',
-            scrollTrigger: { trigger: groupSection, start: 'top 80%', once: true },
-          }
-        );
-      });
-    }
 
     // ────────────────────────────────────────────────────────────────
     // 05. PROJECTS — background subtle depth & parallax

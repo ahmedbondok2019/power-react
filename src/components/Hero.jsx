@@ -46,7 +46,7 @@ const Hero = ({
   return (
     <section
       id={id}
-      className="relative min-h-[760px] md:min-h-[820px] lg:h-[108vh] max-h-[1200px] w-full flex flex-col justify-between rounded-b-[2.5rem] md:rounded-b-[4rem] shadow-2xl overflow-hidden"
+      className={`relative min-h-[760px] md:min-h-[820px] lg:h-[108vh] max-h-[1200px] w-full flex flex-col justify-between rounded-b-[2.5rem] md:rounded-b-[4rem] shadow-2xl ${showStatsCards ? 'overflow-visible' : 'overflow-hidden'}`}
     >
       {/* ── Background image: cinematic reveal on load ── */}
       <motion.div
@@ -170,8 +170,6 @@ const Hero = ({
             {subtitle}
           </motion.div>
         )}
-
-        {/* CTA button — rises from bottom */}
         {buttonText && (
           <motion.div
             initial={{ opacity: 0, y: 60, scale: 0.85 }}
@@ -183,28 +181,36 @@ const Hero = ({
             {buttonLink.startsWith('/') ? (
               <Link
                 to={buttonLink}
-                className="inline-flex items-center justify-center gap-6 px-7 sm:px-9 py-3 sm:py-4 rounded-full bg-[#D4E128] text-[#1E201E] font-bold text-sm sm:text-base tracking-wide shadow-xl hover:bg-[#c2ce23] hover:scale-105 active:scale-95 transition-all duration-300 group"
+                className="inline-flex items-center justify-center gap-3 text-white hover:text-[#D4E128] transition-colors duration-300 group cursor-pointer"
                 style={{
-                  fontFamily: 'Inter, sans-serif',
-                  letterSpacing: '0.04em',
-                  textAlign: 'center'
+                  fontFamily: "'Inter', sans-serif",
+                  fontWeight: 500,
+                  fontSize: '36px',
+                  lineHeight: '109px',
+                  letterSpacing: '0%',
+                  textAlign: 'center',
+                  verticalAlign: 'middle',
                 }}
               >
                 <span>{buttonText}</span>
-                <ArrowLeftCircle className="w-10 h-10 md:w-12 md:h-12 group-hover:-translate-x-2 transition-transform duration-300 stroke-[1.5]" />
+                <ArrowLeftCircle className="w-8 h-8 group-hover:-translate-x-2 transition-transform duration-300 text-[#D4E128]" />
               </Link>
             ) : (
               <a
                 href={buttonLink}
-                className="inline-flex items-center justify-center gap-6 px-7 sm:px-9 py-3 sm:py-4 rounded-full bg-[#D4E128] text-[#1E201E] font-bold text-sm sm:text-base tracking-wide shadow-xl hover:bg-[#c2ce23] hover:scale-105 active:scale-95 transition-all duration-300 group"
+                className="inline-flex items-center justify-center gap-3 text-white hover:text-[#D4E128] transition-colors duration-300 group cursor-pointer"
                 style={{
-                  fontFamily: 'Inter, sans-serif',
-                  letterSpacing: '0.04em',
-                  textAlign: 'center'
+                  fontFamily: "'Inter', sans-serif",
+                  fontWeight: 500,
+                  fontSize: '36px',
+                  lineHeight: '109px',
+                  letterSpacing: '0%',
+                  textAlign: 'center',
+                  verticalAlign: 'middle',
                 }}
               >
                 <span>{buttonText}</span>
-                <ArrowLeftCircle className="w-10 h-10 md:w-12 md:h-12 group-hover:-translate-x-2 transition-transform duration-300 stroke-[1.5]" />
+                <ArrowLeftCircle className="w-8 h-8 group-hover:-translate-x-2 transition-transform duration-300 text-[#D4E128]" />
               </a>
             )}
           </motion.div>

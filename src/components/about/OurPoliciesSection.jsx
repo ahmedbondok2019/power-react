@@ -146,86 +146,110 @@ const OurPoliciesSection = () => {
           </p>
         </motion.div>
 
-        {/* Accordion Component List */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="space-y-4"
-        >
+        {/* Accordion Component List with Bubble Entry & Bubble Hover */}
+        <div className="w-full">
           <Accordion type="single" collapsible className="w-full space-y-4">
             {POLICIES_DATA.map((policy, idx) => {
               const IconComponent = policy.icon;
               return (
-                <AccordionItem
+                <motion.div
                   key={policy.id}
-                  value={policy.id}
-                  className="rounded-2xl sm:rounded-3xl bg-white text-[#141615] border border-white/20 shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:border-[#FFB800]/40"
+                  initial={{ opacity: 0, scale: 0.75, y: 35 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 260,
+                    damping: 18,
+                    mass: 0.8,
+                    delay: idx * 0.12
+                  }}
+                  whileHover={{
+                    scale: 1.025,
+                    y: -5,
+                    transition: {
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 12
+                    }
+                  }}
+                  whileTap={{
+                    scale: 0.98,
+                    transition: { type: "spring", stiffness: 500, damping: 15 }
+                  }}
                 >
-                  <AccordionTrigger className="hover:no-underline py-5 sm:py-6 px-6 sm:px-8">
-                    <div className="flex items-center gap-3 sm:gap-4 text-right">
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#FFB800]/15 text-[#B45309] flex items-center justify-center shrink-0 border border-[#FFB800]/30 shadow-inner">
-                        <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-[#141615]" />
+                  <AccordionItem
+                    value={policy.id}
+                    className="rounded-2xl sm:rounded-3xl bg-white text-[#141615] border border-white/20 shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:border-[#FFB800]/40 mb-0"
+                  >
+                    <AccordionTrigger className="hover:no-underline py-5 sm:py-6 px-6 sm:px-8">
+                      <div className="flex items-center gap-3 sm:gap-4 text-right">
+                        <motion.div
+                          whileHover={{ rotate: [0, -10, 10, -5, 0], scale: 1.15 }}
+                          transition={{ duration: 0.4 }}
+                          className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#FFB800]/15 text-[#B45309] flex items-center justify-center shrink-0 border border-[#FFB800]/30 shadow-inner"
+                        >
+                          <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-[#141615]" />
+                        </motion.div>
+                        <div className="flex flex-col text-right">
+                          <span className="text-lg sm:text-xl lg:text-2xl font-black text-[#141615]">
+                            {policy.title}
+                          </span>
+                          <span className="text-xs sm:text-sm text-[#4B5563] font-medium mt-0.5">
+                            {policy.badge} • <span className="font-mono text-xs">{policy.governanceCode}</span>
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex flex-col text-right">
-                        <span className="text-lg sm:text-xl lg:text-2xl font-black text-[#141615]">
-                          {policy.title}
-                        </span>
-                        <span className="text-xs sm:text-sm text-[#4B5563] font-medium mt-0.5">
-                          {policy.badge} • <span className="font-mono text-xs">{policy.governanceCode}</span>
-                        </span>
-                      </div>
-                    </div>
-                  </AccordionTrigger>
+                    </AccordionTrigger>
 
-                  <AccordionContent className="text-[#374151] pt-4 pb-8 px-6 sm:px-8">
-                    {/* Policy Summary */}
-                    <div className="p-4 sm:p-5 rounded-2xl bg-[#F9FAFB] border border-[#E5E7EB] mb-6">
-                      <p className="text-sm sm:text-base text-[#1F2937] leading-relaxed font-semibold">
-                        {policy.summary}
-                      </p>
-                    </div>
+                    <AccordionContent className="text-[#374151] pt-4 pb-8 px-6 sm:px-8">
+                      {/* Policy Summary */}
+                      <div className="p-4 sm:p-5 rounded-2xl bg-[#F9FAFB] border border-[#E5E7EB] mb-6">
+                        <p className="text-sm sm:text-base text-[#1F2937] leading-relaxed font-semibold">
+                          {policy.summary}
+                        </p>
+                      </div>
 
-                    {/* Key Policy Clauses / Points */}
-                    <div className="mb-6">
-                      <h4 className="text-xs sm:text-sm font-extrabold text-[#111827] uppercase tracking-wider mb-4 flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-[#FFB800]" />
-                        <span>أبرز البنود والالتزامات التشغيلية:</span>
-                      </h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-                        {policy.points.map((point, pIdx) => (
-                          <div
-                            key={pIdx}
-                            className="flex items-start gap-3 p-3.5 rounded-xl bg-white border border-[#E5E7EB] shadow-sm hover:border-[#FFB800]/50 transition-colors"
-                          >
-                            <span className="flex h-2 w-2 rounded-full bg-[#FFB800] mt-2 shrink-0" />
-                            <span className="text-xs sm:text-sm text-[#374151] font-medium leading-relaxed">
-                              {point}
-                            </span>
-                          </div>
-                        ))}
+                      {/* Key Policy Clauses / Points */}
+                      <div className="mb-6">
+                        <h4 className="text-xs sm:text-sm font-extrabold text-[#111827] uppercase tracking-wider mb-4 flex items-center gap-2">
+                          <CheckCircle2 className="w-4 h-4 text-[#FFB800]" />
+                          <span>أبرز البنود والالتزامات التشغيلية:</span>
+                        </h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                          {policy.points.map((point, pIdx) => (
+                            <div
+                              key={pIdx}
+                              className="flex items-start gap-3 p-3.5 rounded-xl bg-white border border-[#E5E7EB] shadow-sm hover:border-[#FFB800]/50 transition-colors"
+                            >
+                              <span className="flex h-2 w-2 rounded-full bg-[#FFB800] mt-2 shrink-0" />
+                              <span className="text-xs sm:text-sm text-[#374151] font-medium leading-relaxed">
+                                {point}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Bottom Meta & Whistleblower / Compliance Footer */}
-                    <div className="pt-4 border-t border-gray-200 flex flex-wrap items-center justify-between gap-4 text-xs text-[#6B7280]">
-                      <div className="flex items-center gap-2">
-                        <Lock className="w-3.5 h-3.5 text-[#FFB800]" />
-                        <span>تخضع هذه السياسة للمراجعة السنوية من قبل لجنة الحوكمة والامتثال</span>
+                      {/* Bottom Meta & Whistleblower / Compliance Footer */}
+                      <div className="pt-4 border-t border-gray-200 flex flex-wrap items-center justify-between gap-4 text-xs text-[#6B7280]">
+                        <div className="flex items-center gap-2">
+                          <Lock className="w-3.5 h-3.5 text-[#FFB800]" />
+                          <span>تخضع هذه السياسة للمراجعة السنوية من قبل لجنة الحوكمة والامتثال</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="bg-[#141615] text-white px-3 py-1 rounded-full text-xs font-bold">
+                            معتمد ومفعّل
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <span className="bg-[#141615] text-white px-3 py-1 rounded-full text-xs font-bold">
-                          معتمد ومفعّل
-                        </span>
-                      </div>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
+                    </AccordionContent>
+                  </AccordionItem>
+                </motion.div>
               );
             })}
           </Accordion>
-        </motion.div>
+        </div>
 
       </div>
     </section>

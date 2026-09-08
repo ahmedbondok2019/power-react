@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import SectionTitle from '../ui/SectionTitle';
 
 const TABLE_DATA = [
@@ -51,17 +52,28 @@ const WorkforceTable = () => {
 
                 {/* Table Body */}
                 <tbody className="text-white/80 text-xs sm:text-sm font-medium">
-                  {TABLE_DATA.map((row, index) => (
-                    <tr
-                      key={index}
-                      className={`border-b border-white/10 last:border-b-0 hover:bg-white/5 transition-colors duration-200`}
-                    >
-                      <td className="py-3 px-4 border-r border-white/10 uppercase">{row.function}</td>
-                      <td className="py-3 px-4 border-r border-white/10">{row.staff}</td>
-                      <td className="py-3 px-4 border-r border-white/10">{row.exp}</td>
-                      <td className="py-3 px-4">{row.level}</td>
-                    </tr>
-                  ))}
+                  {TABLE_DATA.map((row, index) => {
+                    const fromRight = index % 2 === 0;
+                    return (
+                      <motion.tr
+                        key={index}
+                        initial={{ opacity: 0, x: fromRight ? 80 : -80 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: '-20px' }}
+                        transition={{
+                          duration: 0.65,
+                          delay: (index % 6) * 0.08,
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
+                        className="border-b border-white/10 last:border-b-0 hover:bg-white/5 transition-colors duration-200"
+                      >
+                        <td className="py-3 px-4 border-r border-white/10 uppercase">{row.function}</td>
+                        <td className="py-3 px-4 border-r border-white/10">{row.staff}</td>
+                        <td className="py-3 px-4 border-r border-white/10">{row.exp}</td>
+                        <td className="py-3 px-4">{row.level}</td>
+                      </motion.tr>
+                    );
+                  })}
                 </tbody>
 
               </table>

@@ -136,28 +136,34 @@ const AboutUs = () => {
       {/* 2nd Section: من نحن & ما يميز منهجنا (Matching the exact design with 3D Saudi Map Background) */}
       <section className="relative bg-[#404040C4] text-white pt-60 pb-24 overflow-hidden border-b border-white/5">
 
-        {/* Subtle Dark 3D Map of Saudi Arabia positioned strictly on the far left */}
-        <div className="absolute top-1/2 -translate-y-1/2 left-0 z-0 pointer-events-none opacity-25 flex items-center justify-start overflow-hidden">
+        {/* Subtle Dark 3D Map of Saudi Arabia sliding in from Left to Right */}
+        <motion.div
+          initial={{ opacity: 0, x: -140 }}
+          whileInView={{ opacity: 0.28, x: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute top-1/2 -translate-y-1/2 left-0 z-0 pointer-events-none flex items-center justify-start overflow-hidden"
+        >
           <img
             src="/saudi_arabia_3d_map_no_text2.png"
             alt="Saudi Arabia 3D Map"
             className="h-[650px] sm:h-[750px] lg:h-[900px] w-auto max-w-none object-contain -translate-x-[18%] sm:-translate-x-[15%] grayscale contrast-125"
           />
-        </div>
+        </motion.div>
 
         <div className="max-w-7xl mx-auto px-6 relative z-10">
 
-          {/* Top Text Header: "من نحن" Section Title & Paragraph */}
-          <div className="text-right space-y-6 max-w-4xl mr-0 ml-auto mb-20">
+          {/* Top Text Header: "من نحن" Section Title & Paragraph sliding in from Right to Left */}
+          <motion.div
+            initial={{ opacity: 0, x: 100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-right space-y-6 max-w-4xl mr-0 ml-auto mb-20"
+          >
             <SectionTitle title="من نحن" theme="dark" />
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="text-[#E0E0E0] text-sm sm:text-base md:text-lg leading-relaxed space-y-3 font-normal"
-            >
+            <div className="text-[#E0E0E0] text-sm sm:text-base md:text-lg leading-relaxed space-y-3 font-normal">
               <p>
                 نحن فريق متخصص يعمل على تحويل متطلبات المشاريع إلى حلول تنفيذية مدروسة وفعالة.
               </p>
@@ -167,8 +173,8 @@ const AboutUs = () => {
               <p>
                 وتشمل خدماتنا نطاقات مختلفة من المقاولات الجزئية إلى المقاولات العامة، إلى جانب القدرات المرتبطة بالتطوير والاستشارات وتحليل التصميم وهندسة القيمة.
               </p>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
 
           {/* Section Subheading: "ما يميز منهجنا" */}
           <div className="text-right mb-12">

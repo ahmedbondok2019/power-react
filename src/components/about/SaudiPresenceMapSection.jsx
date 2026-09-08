@@ -137,6 +137,18 @@ const REGIONS = [
   'الجنوبية'
 ];
 
+// Staggered raindrop drop-down animation variant for SVG pins & markers
+const dropPinVariant = (delay = 0.8) => ({
+  initial: { opacity: 0, y: -45 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: {
+    duration: 0.65,
+    delay: delay,
+    ease: [0.34, 1.56, 0.64, 1] // bouncy raindrop landing
+  }
+});
+
 const SaudiPresenceMapSection = () => {
   const [activeItem, setActiveItem] = useState(null);
   const [hoveredId, setHoveredId] = useState(null);
@@ -239,7 +251,8 @@ const SaudiPresenceMapSection = () => {
                   </radialGradient>
                 </defs>
 
-                <image
+                {/* 3D Map Base with Zoom-in from inside-out */}
+                <motion.image
                   href="/saudi_arabia_3d_map_no_text2.png"
                   x="0"
                   y="0"
@@ -247,10 +260,16 @@ const SaudiPresenceMapSection = () => {
                   height="1080"
                   preserveAspectRatio="xMidYMid meet"
                   className="brightness-105 contrast-105"
+                  style={{ transformOrigin: "960px 540px" }}
+                  initial={{ scale: 0.65, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
                 />
 
-                {/* 1. DUMAT-ALJANDAL */}
-                <g
+                {/* 1. DUMAT-ALJANDAL (Top: y=115) */}
+                <motion.g
+                  {...dropPinVariant(0.7)}
                   className="cursor-pointer group"
                   onClick={() => handleSelectLocation('dumat-aljandal')}
                   onMouseEnter={() => setHoveredId('dumat-aljandal')}
@@ -286,10 +305,11 @@ const SaudiPresenceMapSection = () => {
                   >
                     DUMAT-ALJANDAL
                   </text>
-                </g>
+                </motion.g>
 
-                {/* 2. NEOM */}
-                <g
+                {/* 2. NEOM (y=195) */}
+                <motion.g
+                  {...dropPinVariant(0.85)}
                   className="cursor-pointer group"
                   onClick={() => handleSelectLocation('neom')}
                   onMouseEnter={() => setHoveredId('neom')}
@@ -325,10 +345,11 @@ const SaudiPresenceMapSection = () => {
                   >
                     NEOM
                   </text>
-                </g>
+                </motion.g>
 
-                {/* 3. SINDALLAH */}
-                <g
+                {/* 3. SINDALLAH (y=450) */}
+                <motion.g
+                  {...dropPinVariant(1.2)}
                   className="cursor-pointer group"
                   onClick={() => handleSelectLocation('sindallah')}
                   onMouseEnter={() => setHoveredId('sindallah')}
@@ -364,10 +385,11 @@ const SaudiPresenceMapSection = () => {
                   >
                     SINDALLAH
                   </text>
-                </g>
+                </motion.g>
 
-                {/* 4. OXAGON */}
-                <g
+                {/* 4. OXAGON (y=495) */}
+                <motion.g
+                  {...dropPinVariant(1.35)}
                   className="cursor-pointer group"
                   onClick={() => handleSelectLocation('oxagon')}
                   onMouseEnter={() => setHoveredId('oxagon')}
@@ -403,10 +425,11 @@ const SaudiPresenceMapSection = () => {
                   >
                     OXAGON
                   </text>
-                </g>
+                </motion.g>
 
-                {/* 5. TROJENA */}
-                <g
+                {/* 5. TROJENA (y=545) */}
+                <motion.g
+                  {...dropPinVariant(1.45)}
                   className="cursor-pointer group"
                   onClick={() => handleSelectLocation('trojena')}
                   onMouseEnter={() => setHoveredId('trojena')}
@@ -442,205 +465,11 @@ const SaudiPresenceMapSection = () => {
                   >
                     TROJENA
                   </text>
-                </g>
+                </motion.g>
 
-                {/* 6. MADINA */}
-                <g
-                  className="cursor-pointer group"
-                  onClick={() => handleSelectLocation('madina')}
-                  onMouseEnter={() => setHoveredId('madina')}
-                  onMouseLeave={() => setHoveredId(null)}
-                >
-                  <ellipse cx="550" cy="600" rx="15" ry="6" fill="url(#beacon-glow)" />
-                  <circle cx="550" cy="600" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
-                  <circle cx="550" cy="600" r="2" fill="#FFFFFF" />
-
-                  <line
-                    x1="550"
-                    y1="600"
-                    x2="410"
-                    y2="600"
-                    stroke={hoveredId === 'madina' ? '#FFFFFF' : '#FFB800'}
-                    strokeWidth={hoveredId === 'madina' ? '3.2' : '2.6'}
-                    strokeLinecap="round"
-                    className="transition-all duration-300"
-                  />
-                  <circle cx="410" cy="600" r="4.5" fill={hoveredId === 'madina' ? '#FFFFFF' : '#FFB800'} />
-
-                  <text
-                    x="395"
-                    y="606"
-                    textAnchor="end"
-                    direction="ltr"
-                    fill={hoveredId === 'madina' ? '#FFB800' : '#FFFFFF'}
-                    fontSize="21"
-                    fontWeight="800"
-                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
-                    letterSpacing="1.2"
-                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
-                  >
-                    MADINA
-                  </text>
-                </g>
-
-                {/* 7. JEDDAH */}
-                <g
-                  className="cursor-pointer group"
-                  onClick={() => handleSelectLocation('jeddah')}
-                  onMouseEnter={() => setHoveredId('jeddah')}
-                  onMouseLeave={() => setHoveredId(null)}
-                >
-                  <ellipse cx="630" cy="660" rx="15" ry="6" fill="url(#beacon-glow)" />
-                  <circle cx="630" cy="660" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
-                  <circle cx="630" cy="660" r="2" fill="#FFFFFF" />
-
-                  <line
-                    x1="630"
-                    y1="660"
-                    x2="480"
-                    y2="660"
-                    stroke={hoveredId === 'jeddah' ? '#FFFFFF' : '#FFB800'}
-                    strokeWidth={hoveredId === 'jeddah' ? '3.2' : '2.6'}
-                    strokeLinecap="round"
-                    className="transition-all duration-300"
-                  />
-                  <circle cx="480" cy="660" r="4.5" fill={hoveredId === 'jeddah' ? '#FFFFFF' : '#FFB800'} />
-
-                  <text
-                    x="465"
-                    y="666"
-                    textAnchor="end"
-                    direction="ltr"
-                    fill={hoveredId === 'jeddah' ? '#FFB800' : '#FFFFFF'}
-                    fontSize="21"
-                    fontWeight="800"
-                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
-                    letterSpacing="1.2"
-                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
-                  >
-                    JEDDAH
-                  </text>
-                </g>
-
-                {/* 8. MAKKAH */}
-                <g
-                  className="cursor-pointer group"
-                  onClick={() => handleSelectLocation('makkah')}
-                  onMouseEnter={() => setHoveredId('makkah')}
-                  onMouseLeave={() => setHoveredId(null)}
-                >
-                  <ellipse cx="670" cy="715" rx="15" ry="6" fill="url(#beacon-glow)" />
-                  <circle cx="670" cy="715" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
-                  <circle cx="670" cy="715" r="2" fill="#FFFFFF" />
-
-                  <line
-                    x1="670"
-                    y1="715"
-                    x2="520"
-                    y2="715"
-                    stroke={hoveredId === 'makkah' ? '#FFFFFF' : '#FFB800'}
-                    strokeWidth={hoveredId === 'makkah' ? '3.2' : '2.6'}
-                    strokeLinecap="round"
-                    className="transition-all duration-300"
-                  />
-                  <circle cx="520" cy="715" r="4.5" fill={hoveredId === 'makkah' ? '#FFFFFF' : '#FFB800'} />
-
-                  <text
-                    x="505"
-                    y="721"
-                    textAnchor="end"
-                    direction="ltr"
-                    fill={hoveredId === 'makkah' ? '#FFB800' : '#FFFFFF'}
-                    fontSize="21"
-                    fontWeight="800"
-                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
-                    letterSpacing="1.2"
-                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
-                  >
-                    MAKKAH
-                  </text>
-                </g>
-
-                {/* 9. JIZAN */}
-                <g
-                  className="cursor-pointer group"
-                  onClick={() => handleSelectLocation('jizan')}
-                  onMouseEnter={() => setHoveredId('jizan')}
-                  onMouseLeave={() => setHoveredId(null)}
-                >
-                  <ellipse cx="770" cy="815" rx="15" ry="6" fill="url(#beacon-glow)" />
-                  <circle cx="770" cy="815" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
-                  <circle cx="770" cy="815" r="2" fill="#FFFFFF" />
-
-                  <line
-                    x1="770"
-                    y1="815"
-                    x2="630"
-                    y2="815"
-                    stroke={hoveredId === 'jizan' ? '#FFFFFF' : '#FFB800'}
-                    strokeWidth={hoveredId === 'jizan' ? '3.2' : '2.6'}
-                    strokeLinecap="round"
-                    className="transition-all duration-300"
-                  />
-                  <circle cx="630" cy="815" r="4.5" fill={hoveredId === 'jizan' ? '#FFFFFF' : '#FFB800'} />
-
-                  <text
-                    x="615"
-                    y="821"
-                    textAnchor="end"
-                    direction="ltr"
-                    fill={hoveredId === 'jizan' ? '#FFB800' : '#FFFFFF'}
-                    fontSize="21"
-                    fontWeight="800"
-                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
-                    letterSpacing="1.2"
-                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
-                  >
-                    JIZAN
-                  </text>
-                </g>
-
-                {/* 10. NAJRAN */}
-                <g
-                  className="cursor-pointer group"
-                  onClick={() => handleSelectLocation('najran')}
-                  onMouseEnter={() => setHoveredId('najran')}
-                  onMouseLeave={() => setHoveredId(null)}
-                >
-                  <ellipse cx="965" cy="815" rx="16" ry="6.5" fill="url(#beacon-glow)" />
-                  <circle cx="965" cy="815" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
-                  <circle cx="965" cy="815" r="2" fill="#FFFFFF" />
-
-                  <line
-                    x1="965"
-                    y1="815"
-                    x2="965"
-                    y2="945"
-                    stroke={hoveredId === 'najran' ? '#FFFFFF' : '#FFB800'}
-                    strokeWidth={hoveredId === 'najran' ? '3.5' : '2.8'}
-                    strokeLinecap="round"
-                    className="transition-all duration-300"
-                  />
-                  <circle cx="965" cy="945" r="5" fill={hoveredId === 'najran' ? '#FFFFFF' : '#FFB800'} />
-
-                  <text
-                    x="965"
-                    y="980"
-                    textAnchor="middle"
-                    direction="ltr"
-                    fill={hoveredId === 'najran' ? '#FFB800' : '#FFFFFF'}
-                    fontSize="22"
-                    fontWeight="800"
-                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
-                    letterSpacing="1.2"
-                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
-                  >
-                    NAJRAN
-                  </text>
-                </g>
-
-                {/* 11. ALQASSIM */}
-                <g
+                {/* 11. ALQASSIM (y=235) */}
+                <motion.g
+                  {...dropPinVariant(0.95)}
                   className="cursor-pointer group"
                   onClick={() => handleSelectLocation('alqassim')}
                   onMouseEnter={() => setHoveredId('alqassim')}
@@ -676,10 +505,11 @@ const SaudiPresenceMapSection = () => {
                   >
                     ALQASSIM
                   </text>
-                </g>
+                </motion.g>
 
-                {/* 12. DAMMAM */}
-                <g
+                {/* 12. DAMMAM (y=335) */}
+                <motion.g
+                  {...dropPinVariant(1.1)}
                   className="cursor-pointer group"
                   onClick={() => handleSelectLocation('dammam')}
                   onMouseEnter={() => setHoveredId('dammam')}
@@ -715,46 +545,256 @@ const SaudiPresenceMapSection = () => {
                   >
                     DAMMAM
                   </text>
-                </g>
+                </motion.g>
+
+                {/* 6. MADINA (y=600) */}
+                <motion.g
+                  {...dropPinVariant(1.55)}
+                  className="cursor-pointer group"
+                  onClick={() => handleSelectLocation('madina')}
+                  onMouseEnter={() => setHoveredId('madina')}
+                  onMouseLeave={() => setHoveredId(null)}
+                >
+                  <ellipse cx="550" cy="600" rx="15" ry="6" fill="url(#beacon-glow)" />
+                  <circle cx="550" cy="600" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
+                  <circle cx="550" cy="600" r="2" fill="#FFFFFF" />
+
+                  <line
+                    x1="550"
+                    y1="600"
+                    x2="410"
+                    y2="600"
+                    stroke={hoveredId === 'madina' ? '#FFFFFF' : '#FFB800'}
+                    strokeWidth={hoveredId === 'madina' ? '3.2' : '2.6'}
+                    strokeLinecap="round"
+                    className="transition-all duration-300"
+                  />
+                  <circle cx="410" cy="600" r="4.5" fill={hoveredId === 'madina' ? '#FFFFFF' : '#FFB800'} />
+
+                  <text
+                    x="395"
+                    y="606"
+                    textAnchor="end"
+                    direction="ltr"
+                    fill={hoveredId === 'madina' ? '#FFB800' : '#FFFFFF'}
+                    fontSize="21"
+                    fontWeight="800"
+                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                  >
+                    MADINA
+                  </text>
+                </motion.g>
+
+                {/* 7. JEDDAH (y=660) */}
+                <motion.g
+                  {...dropPinVariant(1.65)}
+                  className="cursor-pointer group"
+                  onClick={() => handleSelectLocation('jeddah')}
+                  onMouseEnter={() => setHoveredId('jeddah')}
+                  onMouseLeave={() => setHoveredId(null)}
+                >
+                  <ellipse cx="630" cy="660" rx="15" ry="6" fill="url(#beacon-glow)" />
+                  <circle cx="630" cy="660" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
+                  <circle cx="630" cy="660" r="2" fill="#FFFFFF" />
+
+                  <line
+                    x1="630"
+                    y1="660"
+                    x2="480"
+                    y2="660"
+                    stroke={hoveredId === 'jeddah' ? '#FFFFFF' : '#FFB800'}
+                    strokeWidth={hoveredId === 'jeddah' ? '3.2' : '2.6'}
+                    strokeLinecap="round"
+                    className="transition-all duration-300"
+                  />
+                  <circle cx="480" cy="660" r="4.5" fill={hoveredId === 'jeddah' ? '#FFFFFF' : '#FFB800'} />
+
+                  <text
+                    x="465"
+                    y="666"
+                    textAnchor="end"
+                    direction="ltr"
+                    fill={hoveredId === 'jeddah' ? '#FFB800' : '#FFFFFF'}
+                    fontSize="21"
+                    fontWeight="800"
+                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                  >
+                    JEDDAH
+                  </text>
+                </motion.g>
+
+                {/* 8. MAKKAH (y=715) */}
+                <motion.g
+                  {...dropPinVariant(1.75)}
+                  className="cursor-pointer group"
+                  onClick={() => handleSelectLocation('makkah')}
+                  onMouseEnter={() => setHoveredId('makkah')}
+                  onMouseLeave={() => setHoveredId(null)}
+                >
+                  <ellipse cx="670" cy="715" rx="15" ry="6" fill="url(#beacon-glow)" />
+                  <circle cx="670" cy="715" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
+                  <circle cx="670" cy="715" r="2" fill="#FFFFFF" />
+
+                  <line
+                    x1="670"
+                    y1="715"
+                    x2="520"
+                    y2="715"
+                    stroke={hoveredId === 'makkah' ? '#FFFFFF' : '#FFB800'}
+                    strokeWidth={hoveredId === 'makkah' ? '3.2' : '2.6'}
+                    strokeLinecap="round"
+                    className="transition-all duration-300"
+                  />
+                  <circle cx="520" cy="715" r="4.5" fill={hoveredId === 'makkah' ? '#FFFFFF' : '#FFB800'} />
+
+                  <text
+                    x="505"
+                    y="721"
+                    textAnchor="end"
+                    direction="ltr"
+                    fill={hoveredId === 'makkah' ? '#FFB800' : '#FFFFFF'}
+                    fontSize="21"
+                    fontWeight="800"
+                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                  >
+                    MAKKAH
+                  </text>
+                </motion.g>
+
+                {/* 9. JIZAN (y=815) */}
+                <motion.g
+                  {...dropPinVariant(1.85)}
+                  className="cursor-pointer group"
+                  onClick={() => handleSelectLocation('jizan')}
+                  onMouseEnter={() => setHoveredId('jizan')}
+                  onMouseLeave={() => setHoveredId(null)}
+                >
+                  <ellipse cx="770" cy="815" rx="15" ry="6" fill="url(#beacon-glow)" />
+                  <circle cx="770" cy="815" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
+                  <circle cx="770" cy="815" r="2" fill="#FFFFFF" />
+
+                  <line
+                    x1="770"
+                    y1="815"
+                    x2="630"
+                    y2="815"
+                    stroke={hoveredId === 'jizan' ? '#FFFFFF' : '#FFB800'}
+                    strokeWidth={hoveredId === 'jizan' ? '3.2' : '2.6'}
+                    strokeLinecap="round"
+                    className="transition-all duration-300"
+                  />
+                  <circle cx="630" cy="815" r="4.5" fill={hoveredId === 'jizan' ? '#FFFFFF' : '#FFB800'} />
+
+                  <text
+                    x="615"
+                    y="821"
+                    textAnchor="end"
+                    direction="ltr"
+                    fill={hoveredId === 'jizan' ? '#FFB800' : '#FFFFFF'}
+                    fontSize="21"
+                    fontWeight="800"
+                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                  >
+                    JIZAN
+                  </text>
+                </motion.g>
+
+                {/* 10. NAJRAN (y=815 -> 980) */}
+                <motion.g
+                  {...dropPinVariant(1.95)}
+                  className="cursor-pointer group"
+                  onClick={() => handleSelectLocation('najran')}
+                  onMouseEnter={() => setHoveredId('najran')}
+                  onMouseLeave={() => setHoveredId(null)}
+                >
+                  <ellipse cx="965" cy="815" rx="16" ry="6.5" fill="url(#beacon-glow)" />
+                  <circle cx="965" cy="815" r="5.5" fill="#FFB800" stroke="#000000" strokeWidth="1.5" />
+                  <circle cx="965" cy="815" r="2" fill="#FFFFFF" />
+
+                  <line
+                    x1="965"
+                    y1="815"
+                    x2="965"
+                    y2="945"
+                    stroke={hoveredId === 'najran' ? '#FFFFFF' : '#FFB800'}
+                    strokeWidth={hoveredId === 'najran' ? '3.5' : '2.8'}
+                    strokeLinecap="round"
+                    className="transition-all duration-300"
+                  />
+                  <circle cx="965" cy="945" r="5" fill={hoveredId === 'najran' ? '#FFFFFF' : '#FFB800'} />
+
+                  <text
+                    x="965"
+                    y="980"
+                    textAnchor="middle"
+                    direction="ltr"
+                    fill={hoveredId === 'najran' ? '#FFB800' : '#FFFFFF'}
+                    fontSize="22"
+                    fontWeight="800"
+                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
+                    letterSpacing="1.2"
+                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                  >
+                    NAJRAN
+                  </text>
+                </motion.g>
 
                 {/* 13. RIYADH HUB & 9 SUB-PROJECTS LIST (CLEARLY SPACED & ANCHORED) */}
-                {/* Riyadh Ground Beacon */}
-                <ellipse cx="1065" cy="540" rx="20" ry="8" fill="url(#beacon-glow)" />
-                <circle cx="1065" cy="540" r="6.5" fill="#FFB800" stroke="#000000" strokeWidth="2" />
-                <circle cx="1065" cy="540" r="2.5" fill="#FFFFFF" />
-
-                <line
-                  x1="1065"
-                  y1="540"
-                  x2="1065"
-                  y2="302"
-                  stroke={hoveredId === 'riyadh' ? '#FFFFFF' : '#FFB800'}
-                  strokeWidth={hoveredId === 'riyadh' ? '3.8' : '3.2'}
-                  strokeLinecap="round"
-                  className="transition-all duration-300"
-                />
-                <circle cx="1065" cy="302" r="5.5" fill={hoveredId === 'riyadh' ? '#FFFFFF' : '#FFB800'} />
-
-                <text
-                  x="1065"
-                  y="272"
-                  textAnchor="middle"
-                  direction="ltr"
-                  fill={hoveredId === 'riyadh' ? '#FFB800' : '#FFFFFF'}
-                  fontSize="25"
-                  fontWeight="900"
-                  fontFamily="Inter, -apple-system, system-ui, sans-serif"
-                  letterSpacing="1.5"
-                  className="cursor-pointer transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                {/* Riyadh Ground Beacon & Main Pin */}
+                <motion.g
+                  {...dropPinVariant(1.0)}
+                  className="cursor-pointer group"
                   onClick={() => handleSelectLocation('riyadh')}
                   onMouseEnter={() => setHoveredId('riyadh')}
                   onMouseLeave={() => setHoveredId(null)}
                 >
-                  RIYADH
-                </text>
+                  <ellipse cx="1065" cy="540" rx="20" ry="8" fill="url(#beacon-glow)" />
+                  <circle cx="1065" cy="540" r="6.5" fill="#FFB800" stroke="#000000" strokeWidth="2" />
+                  <circle cx="1065" cy="540" r="2.5" fill="#FFFFFF" />
+
+                  <line
+                    x1="1065"
+                    y1="540"
+                    x2="1065"
+                    y2="302"
+                    stroke={hoveredId === 'riyadh' ? '#FFFFFF' : '#FFB800'}
+                    strokeWidth={hoveredId === 'riyadh' ? '3.8' : '3.2'}
+                    strokeLinecap="round"
+                    className="transition-all duration-300"
+                  />
+                  <circle cx="1065" cy="302" r="5.5" fill={hoveredId === 'riyadh' ? '#FFFFFF' : '#FFB800'} />
+
+                  <text
+                    x="1065"
+                    y="272"
+                    textAnchor="middle"
+                    direction="ltr"
+                    fill={hoveredId === 'riyadh' ? '#FFB800' : '#FFFFFF'}
+                    fontSize="25"
+                    fontWeight="900"
+                    fontFamily="Inter, -apple-system, system-ui, sans-serif"
+                    letterSpacing="1.5"
+                    className="transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                  >
+                    RIYADH
+                  </text>
+                </motion.g>
 
                 {/* Horizontal branch line from Riyadh vertical line across to the project tree spine */}
-                <line
+                <motion.line
+                  initial={{ opacity: 0, scaleX: 0 }}
+                  whileInView={{ opacity: 1, scaleX: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 1.15 }}
+                  style={{ transformOrigin: "1065px 302px" }}
                   x1="1065"
                   y1="302"
                   x2="1220"
@@ -765,7 +805,12 @@ const SaudiPresenceMapSection = () => {
                 />
 
                 {/* Vertical Tree Spine connecting all 9 sub-projects from y=110 to y=494 */}
-                <line
+                <motion.line
+                  initial={{ opacity: 0, scaleY: 0 }}
+                  whileInView={{ opacity: 1, scaleY: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 1.25 }}
+                  style={{ transformOrigin: "1220px 110px" }}
                   x1="1220"
                   y1="110"
                   x2="1220"
@@ -775,12 +820,16 @@ const SaudiPresenceMapSection = () => {
                   strokeLinecap="round"
                 />
 
-                {/* 9 Riyadh Sub-Projects with generous 48px vertical spacing */}
-                {RIYADH_PROJECTS.map((proj) => {
+                {/* 9 Riyadh Sub-Projects with raindrop fall from top to bottom */}
+                {RIYADH_PROJECTS.map((proj, idx) => {
                   const isHovered = hoveredId === proj.id;
+                  // Sequential raindrop delay starting after the vertical spine reveals
+                  const rainDelay = 1.35 + (idx * 0.08);
+
                   return (
-                    <g
+                    <motion.g
                       key={proj.id}
+                      {...dropPinVariant(rainDelay)}
                       className="cursor-pointer group"
                       onClick={() => handleSelectRiyadhProject(proj)}
                       onMouseEnter={() => setHoveredId(proj.id)}
@@ -822,7 +871,7 @@ const SaudiPresenceMapSection = () => {
                       >
                         {proj.nameEn}
                       </text>
-                    </g>
+                    </motion.g>
                   );
                 })}
 
