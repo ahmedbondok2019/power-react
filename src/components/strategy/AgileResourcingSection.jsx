@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useMemo } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -74,15 +74,44 @@ const TIMELINE_STAGES = [
   }
 ];
 
-const AgileResourcingSection = () => {
+const AGILE_ICON_MAP = {
+  Users,
+  Wrench,
+  Package,
+  ShieldCheck
+};
+
+const AgileResourcingSection = ({ data }) => {
   const [activeIdx, setActiveIdx] = useState(0);
   const triggerContainerRef = useRef(null);
   const pinnedTimelineRef = useRef(null);
   const scrollTriggerInstanceRef = useRef(null);
 
+  const stages = useMemo(() => {
+    if (!data?.stages || data.stages.length === 0) return TIMELINE_STAGES;
+    return data.stages.map((stage, idx) => {
+      const fallback = TIMELINE_STAGES[idx] || TIMELINE_STAGES[0];
+      const IconComp = (typeof stage.icon === 'string' ? AGILE_ICON_MAP[stage.icon] : stage.icon) || fallback.icon || Users;
+      return {
+        id: stage.id || fallback.id,
+        number: stage.number || fallback.number,
+        stageName: stage.stage_name || stage.stageName || fallback.stageName,
+        stageSubtitle: stage.stage_subtitle || stage.stageSubtitle || fallback.stageSubtitle,
+        resourceTag: stage.resource_tag || stage.resourceTag || fallback.resourceTag,
+        resourceSubtitle: stage.resource_subtitle || stage.resourceSubtitle || fallback.resourceSubtitle,
+        icon: IconComp,
+        titleAr: stage.title || stage.titleAr || fallback.titleAr,
+        summaryAr: stage.summary || stage.summaryAr || fallback.summaryAr,
+        progressPct: stage.progress_pct ?? fallback.progressPct,
+        progressLabel: stage.progress_label || fallback.progressLabel,
+        metric: stage.metric || fallback.metric
+      };
+    });
+  }, [data?.stages]);
+
   // GSAP ScrollTrigger Pin: Pins ONLY the Timeline & Cards when they arrive in full view
   useGSAP(() => {
-    const totalStages = TIMELINE_STAGES.length; // 4
+    const totalStages = stages.length;
 
     const st = ScrollTrigger.create({
       trigger: triggerContainerRef.current,
@@ -92,7 +121,7 @@ const AgileResourcingSection = () => {
       pinSpacing: true,
       scrub: 0.5,
       snap: {
-        snapTo: 1 / (totalStages - 1), // Snaps firmly to 0, 0.333, 0.666, 1.0
+        snapTo: totalStages > 1 ? 1 / (totalStages - 1) : 1,
         duration: { min: 0.2, max: 0.4 },
         delay: 0.05,
         ease: "power1.inOut"
@@ -111,13 +140,13 @@ const AgileResourcingSection = () => {
     return () => {
       st.kill();
     };
-  }, { scope: triggerContainerRef });
+  }, { scope: triggerContainerRef, dependencies: [stages] });
 
   const goToStage = (idx) => {
     setActiveIdx(idx);
     if (scrollTriggerInstanceRef.current) {
       const st = scrollTriggerInstanceRef.current;
-      const targetProgress = idx / (TIMELINE_STAGES.length - 1);
+      const targetProgress = stages.length > 1 ? idx / (stages.length - 1) : 0;
       const targetScroll = st.start + (st.end - st.start) * targetProgress;
       window.scrollTo({
         top: targetScroll,
@@ -139,17 +168,25 @@ const AgileResourcingSection = () => {
       {/* Part 1: Section Header & Context (Normal page scroll) */}
       <div className="max-w-7xl mx-auto px-6 pt-24 sm:pt-32 pb-12 relative z-10">
         <div className="text-right space-y-4 max-w-4xl">
-          <SectionTitle title="التوزيع المرن للموارد" theme="dark" />
+          <SectionTitle title={data?.title || "التوزيع المرن للموارد"} theme="dark" />
 
           <div className="space-y-3 text-white/85 text-xs sm:text-sm lg:text-base leading-relaxed font-medium">
-            <p>
-              التوزيع المرن للموارد هو طريقة لحساب موارد المشروع بناءً على الطلب في الوقت المناسب. مما يعني أنه ليس من الضروري أن تكون جميع الموارد متواجدة في الموقع طوال مدة المشروع.
-            </p>
-            <p>
-              يتيح هذا تخصيص القوى العاملة بشكل جزئي أثناء المشاريع، وشراء المعدات والمواد بناءً على الاحتياج والطلب فقط.
-            </p>
+            {data?.paragraphs && data.paragraphs.length > 0 ? (
+              data.paragraphs.map((p, idx) => (
+                <p key={idx}>{p}</p>
+              ))
+            ) : (
+              <>
+                <p>
+                  التوزيع المرن للموارد هو طريقة لحساب موارد المشروع بناءً على الطلب في الوقت المناسب. مما يعني أنه ليس من الضروري أن تكون جميع الموارد متواجدة في الموقع طوال مدة المشروع.
+                </p>
+                <p>
+                  يتيح هذا تخصيص القوى العاملة بشكل جزئي أثناء المشاريع، وشراء المعدات والمواد بناءً على الاحتياج والطلب فقط.
+                </p>
+              </>
+            )}
             <p className="text-[#D4E128] font-bold">
-              يمنح هذا شركة Power Preparation Ltd ميزة كبيرة في التسعير مع الحفاظ على مستوى الجودة المطلوب من قبل عملائنا.
+              {data?.highlight || "يمنح هذا شركة Power Preparation Ltd ميزة كبيرة في التسعير مع الحفاظ على مستوى الجودة المطلوب من قبل عملائنا."}
             </p>
           </div>
         </div>
@@ -167,7 +204,7 @@ const AgileResourcingSection = () => {
           {/* Timeline Header Label */}
           <div className="mb-6 text-left" dir="ltr">
             <span className="text-xs font-mono font-black tracking-widest text-[#D4E128] uppercase">
-              PROJECT DELIVERY TIMELINE
+              {data?.timeline_title || "PROJECT DELIVERY TIMELINE"}
             </span>
           </div>
 
@@ -180,14 +217,14 @@ const AgileResourcingSection = () => {
             <motion.div
               className="absolute top-[18px] left-8 h-1 bg-gradient-to-r from-[#D4E128] to-[#EAB308] rounded-full shadow-[0_0_12px_rgba(212,225,40,0.8)]"
               animate={{ 
-                width: `${(activeIdx / (TIMELINE_STAGES.length - 1)) * 92 + 8}%` 
+                width: `${stages.length > 1 ? (activeIdx / (stages.length - 1)) * 92 + 8 : 100}%` 
               }}
               transition={{ duration: 0.35, ease: 'easeInOut' }}
             />
 
-            {/* 4 Interactive Timeline Milestone Nodes */}
+            {/* Interactive Timeline Milestone Nodes */}
             <div className="relative flex items-start justify-between z-10">
-              {TIMELINE_STAGES.map((stage, idx) => {
+              {stages.map((stage, idx) => {
                 const isActive = idx === activeIdx;
                 const isPassed = idx <= activeIdx;
 
@@ -229,7 +266,7 @@ const AgileResourcingSection = () => {
 
           {/* Mobile Step Selector Pills */}
           <div className="md:hidden grid grid-cols-2 gap-2.5 mb-6" dir="rtl">
-            {TIMELINE_STAGES.map((stage, idx) => {
+            {stages.map((stage, idx) => {
               const isActive = idx === activeIdx;
               return (
                 <button
@@ -251,9 +288,9 @@ const AgileResourcingSection = () => {
             })}
           </div>
 
-          {/* High-Contrast Clear 4 Cards Grid */}
+          {/* High-Contrast Clear Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6" dir="ltr">
-            {TIMELINE_STAGES.map((stage, idx) => {
+            {stages.map((stage, idx) => {
               const isActive = idx === activeIdx;
               const IconComp = stage.icon;
 

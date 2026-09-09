@@ -8,6 +8,7 @@ export const ENDPOINTS = {
   HOME: '/home',
   PROJECTS_PAGE: '/projects-page',
   SERVICES_PAGE: '/services-page',
+  STRATEGY_PAGE: '/strategy-page',
   // جاهز لإضافة بقية الـ Endpoints المستقبلية بسهولة
   SERVICES: '/services',
   PROJECTS: '/projects',

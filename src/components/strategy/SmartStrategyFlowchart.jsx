@@ -126,6 +126,54 @@ const STRATEGY_DATA = {
   }
 };
 
+const ICON_MAP = {
+  Workflow,
+  Coins,
+  ShieldAlert,
+  Clock,
+  TrendingUp,
+  Cpu
+};
+
+const NODE_CONFIGS = {
+  'lean-management': {
+    x: 385,
+    y: 30,
+    handlePosition: Position.Bottom,
+    defaultLabel: 'LEAN\nMANAGEMENT'
+  },
+  'cash-flow': {
+    x: 690,
+    y: 60,
+    handlePosition: Position.Left,
+    defaultLabel: 'TWO-WAY CASH\nFLOW ANALYSIS'
+  },
+  'safety-risk': {
+    x: 690,
+    y: 350,
+    handlePosition: Position.Left,
+    defaultLabel: 'SAFETY RISK\nANALYSIS'
+  },
+  'lead-time': {
+    x: 340,
+    y: 430,
+    handlePosition: Position.Top,
+    defaultLabel: 'LEAD TIME\nANALYSIS & REDISTRIBUTION'
+  },
+  'value-engineering': {
+    x: 40,
+    y: 350,
+    handlePosition: Position.Right,
+    defaultLabel: 'VALUE\nENGINEERING'
+  },
+  'agile-resourcing': {
+    x: 60,
+    y: 60,
+    handlePosition: Position.Right,
+    defaultLabel: 'AGILE\nRESOURCING'
+  }
+};
+
 // 1. Custom Central Node Component
 const CentralCoreNode = ({ data, selected }) => {
   return (
@@ -148,9 +196,20 @@ const CentralCoreNode = ({ data, selected }) => {
         {data.badge || 'CORE APPROACH'}
       </span>
       <h3 className="text-base sm:text-lg font-black text-white leading-snug tracking-wide font-sans">
-        SMART PROJECT <br />
-        MANAGEMENT <br />
-        STRATEGIES
+        {data.title ? (
+          data.title.split('\n').map((line, idx, arr) => (
+            <React.Fragment key={idx}>
+              {line}
+              {idx < arr.length - 1 && <br />}
+            </React.Fragment>
+          ))
+        ) : (
+          <>
+            SMART PROJECT <br />
+            MANAGEMENT <br />
+            STRATEGIES
+          </>
+        )}
       </h3>
     </div>
   );
@@ -178,9 +237,32 @@ const StrategyPillNode = ({ data, selected }) => {
   );
 };
 
-const SmartStrategyFlowchart = () => {
+const SmartStrategyFlowchart = ({ data }) => {
   const [selectedModalNode, setSelectedModalNode] = useState(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
+
+  // Dynamic lookup map combining API nodes and fallback STRATEGY_DATA
+  const strategyDataMap = useMemo(() => {
+    if (!data?.nodes || data.nodes.length === 0) return STRATEGY_DATA;
+    const map = { ...STRATEGY_DATA };
+    data.nodes.forEach((node) => {
+      const fallback = STRATEGY_DATA[node.id] || {};
+      const IconComponent = (typeof node.icon === 'string' ? ICON_MAP[node.icon] : node.icon) || fallback.icon || Workflow;
+      map[node.id] = {
+        id: node.id,
+        number: node.number || fallback.number,
+        title: node.title || fallback.title,
+        titleAr: node.subtitle || fallback.titleAr,
+        bgColor: node.bg_color || node.bgColor || fallback.bgColor,
+        textColor: node.text_color || node.textColor || fallback.textColor,
+        icon: IconComponent,
+        summary: node.summary || fallback.summary,
+        details: node.details || fallback.details || [],
+        kpi: node.kpi || fallback.kpi
+      };
+    });
+    return map;
+  }, [data?.nodes]);
 
   // Lock body scroll when modal is open and handle ESC key
   useEffect(() => {
@@ -370,12 +452,45 @@ const SmartStrategyFlowchart = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
+  // Synchronize nodes if dynamic data is provided
+  useEffect(() => {
+    setNodes((currentNodes) =>
+      currentNodes.map((node) => {
+        if (node.id === 'center-core') {
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              badge: data?.badge || node.data.badge || 'CORE APPROACH',
+              title: data?.title || node.data.title
+            }
+          };
+        }
+        const mapped = strategyDataMap[node.id];
+        if (mapped) {
+          const config = NODE_CONFIGS[node.id];
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              label: mapped.title ? mapped.title.replace(' & ', ' &\n').replace(' AND ', ' AND\n') : (config?.defaultLabel || node.data.label),
+              bgColor: mapped.bgColor,
+              textColor: mapped.textColor,
+              onSelect: () => setSelectedModalNode(mapped)
+            }
+          };
+        }
+        return node;
+      })
+    );
+  }, [data, strategyDataMap, setNodes]);
+
   // Open popup modal on node click
   const onNodeClick = useCallback((event, node) => {
-    if (node.id !== 'center-core' && STRATEGY_DATA[node.id]) {
-      setSelectedModalNode(STRATEGY_DATA[node.id]);
+    if (node.id !== 'center-core' && strategyDataMap[node.id]) {
+      setSelectedModalNode(strategyDataMap[node.id]);
     }
-  }, []);
+  }, [strategyDataMap]);
 
   const handleResetView = () => {
     if (reactFlowInstance) {
@@ -429,7 +544,7 @@ const SmartStrategyFlowchart = () => {
               className="px-3.5 py-2 rounded-xl bg-black/60 backdrop-blur-md border border-white/15 text-xs text-white/90 hover:text-[#D4E128] hover:border-[#D4E128]/50 transition-all flex items-center gap-1.5 shadow-lg cursor-pointer"
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              <span>إعادة ضبط العرض</span>
+              <span>{data?.reset_view_label || 'إعادة ضبط العرض'}</span>
             </button>
           </div>
         </div>

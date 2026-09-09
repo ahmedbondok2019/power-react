@@ -81,6 +81,13 @@ const LEAN_PILLARS = {
   }
 };
 
+const LEAN_ICON_MAP = {
+  Users,
+  GitMerge,
+  Cpu,
+  RefreshCw
+};
+
 // 1. Central Circular Lean Core Node
 const LeanCentralNode = ({ data, selected }) => {
   return (
@@ -108,7 +115,7 @@ const LeanCentralNode = ({ data, selected }) => {
         </p>
         <div className="pt-2 border-t border-[#D4E128]/30 mt-2">
           <p className="text-[9px] sm:text-[10px] font-mono tracking-wider text-white/70">
-            PEOPLE · PROCESS · TECHNOLOGY
+            {data?.coreBadge || 'PEOPLE · PROCESS · TECHNOLOGY'}
           </p>
         </div>
       </div>
@@ -145,9 +152,30 @@ const LeanPillNode = ({ data }) => {
   );
 };
 
-const LeanManagementSection = () => {
+const LeanManagementSection = ({ data }) => {
   const [selectedModalNode, setSelectedModalNode] = useState(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
+
+  // Dynamic lookup map combining API pillars and fallback LEAN_PILLARS
+  const leanPillarsMap = useMemo(() => {
+    if (!data?.pillars || data.pillars.length === 0) return LEAN_PILLARS;
+    const map = { ...LEAN_PILLARS };
+    data.pillars.forEach((p) => {
+      const fallback = LEAN_PILLARS[p.id] || {};
+      const IconComp = (typeof p.icon === 'string' ? LEAN_ICON_MAP[p.icon] : p.icon) || fallback.icon || Users;
+      map[p.id] = {
+        id: p.id,
+        number: p.number || fallback.number,
+        title: p.title || fallback.title,
+        titleAr: p.subtitle || fallback.titleAr,
+        subtitle: p.role_label || fallback.subtitle,
+        icon: IconComp,
+        desc: p.description || fallback.desc,
+        points: p.points || fallback.points || []
+      };
+    });
+    return map;
+  }, [data?.pillars]);
 
   // Lock body scroll when modal is open and handle ESC key
   useEffect(() => {
@@ -306,11 +334,42 @@ const LeanManagementSection = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
+  // Synchronize nodes if dynamic data is provided
+  useEffect(() => {
+    setNodes((currentNodes) =>
+      currentNodes.map((node) => {
+        if (node.id === 'lean-core') {
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              coreBadge: data?.core_badge || data?.subtitle || 'PEOPLE · PROCESS · TECHNOLOGY'
+            }
+          };
+        }
+        const mapped = leanPillarsMap[node.id];
+        if (mapped) {
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              number: mapped.number,
+              title: mapped.title,
+              subtitle: mapped.titleAr,
+              onSelect: () => setSelectedModalNode(mapped)
+            }
+          };
+        }
+        return node;
+      })
+    );
+  }, [data, leanPillarsMap, setNodes]);
+
   const onNodeClick = useCallback((event, node) => {
-    if (node.id !== 'lean-core' && LEAN_PILLARS[node.id]) {
-      setSelectedModalNode(LEAN_PILLARS[node.id]);
+    if (node.id !== 'lean-core' && leanPillarsMap[node.id]) {
+      setSelectedModalNode(leanPillarsMap[node.id]);
     }
-  }, []);
+  }, [leanPillarsMap]);
 
   const handleResetView = () => {
     if (reactFlowInstance) {
@@ -328,18 +387,26 @@ const LeanManagementSection = () => {
 
         {/* Section Header & Description (Exact text from design) */}
         <div className="mb-14 sm:mb-20 text-right space-y-6 max-w-4xl">
-          <SectionTitle title="إدارة رشيدة" theme="dark" />
+          <SectionTitle title={data?.title || "إدارة رشيدة"} theme="dark" />
           
           <div className="space-y-4 text-white/85 text-sm sm:text-base lg:text-lg leading-relaxed font-medium">
-            <p>
-              تسمح الإدارة الرشيدة باتخاذ قرارات سريعة بناءً على الحقائق والقيود التي لا تتطلب عملية موافقة لكل تفصيل دقيق. توفر مساحة لمهندسي الموقع لاتخاذ قرارات بشأن الأمور البسيطة ضمن الحدود المحددة مسبقًا.
-            </p>
-            <p>
-              هذا يضمن أن المشروع لا يتوقف عن التقدم بسبب العناصر البسيطة.
-            </p>
-            <p>
-              كما تتيح الإدارة الرشيقة لنفس الشخص أن يكون له أدوار ومسؤوليات مختلفة في مشاريع مختلفة بناءً على الطلب.
-            </p>
+            {data?.paragraphs && data.paragraphs.length > 0 ? (
+              data.paragraphs.map((p, idx) => (
+                <p key={idx}>{p}</p>
+              ))
+            ) : (
+              <>
+                <p>
+                  تسمح الإدارة الرشيدة باتخاذ قرارات سريعة بناءً على الحقائق والقيود التي لا تتطلب عملية موافقة لكل تفصيل دقيق. توفر مساحة لمهندسي الموقع لاتخاذ قرارات بشأن الأمور البسيطة ضمن الحدود المحددة مسبقًا.
+                </p>
+                <p>
+                  هذا يضمن أن المشروع لا يتوقف عن التقدم بسبب العناصر البسيطة.
+                </p>
+                <p>
+                  كما تتيح الإدارة الرشيقة لنفس الشخص أن يكون له أدوار ومسؤوليات مختلفة في مشاريع مختلفة بناءً على الطلب.
+                </p>
+              </>
+            )}
           </div>
         </div>
 
@@ -389,7 +456,7 @@ const LeanManagementSection = () => {
         {/* Bottom Tagline from Design */}
         <div className="mt-8 max-w-4xl mx-auto" dir="rtl">
           <div className="p-4 rounded-2xl bg-white/5 border border-white/5 text-center text-xs sm:text-sm text-white/70 font-semibold tracking-wide">
-            تقليل الهدر • تحسين التدفق • رفع كفاءة الموارد • دعم التنفيذ
+            {data?.tagline || "تقليل الهدر • تحسين التدفق • رفع كفاءة الموارد • دعم التنفيذ"}
           </div>
         </div>
 

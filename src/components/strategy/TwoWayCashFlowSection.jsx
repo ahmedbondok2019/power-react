@@ -53,7 +53,7 @@ const CONTROL_POINTS = [
 ];
 
 // Custom Tooltip matching Dark Engineering Aesthetic
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload, label, plannedLegend, actualLegend }) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
@@ -63,11 +63,11 @@ const CustomTooltip = ({ active, payload, label }) => {
         </div>
         <div className="space-y-1 text-xs">
           <div className="flex items-center justify-between gap-4">
-            <span className="text-white/60">المخطط (Planned):</span>
+            <span className="text-white/60">{plannedLegend ? `${plannedLegend} (Planned)` : 'المخطط (Planned)'}:</span>
             <span className="font-mono font-bold text-[#D4E128]">{data.planned}M ر.س</span>
           </div>
           <div className="flex items-center justify-between gap-4">
-            <span className="text-white/60">الفعلي (Actual):</span>
+            <span className="text-white/60">{actualLegend ? `${actualLegend} (Actual)` : 'الفعلي (Actual)'}:</span>
             <span className="font-mono font-bold text-[#38BDF8]">{data.actual}M ر.س</span>
           </div>
         </div>
@@ -99,8 +99,11 @@ const CustomizedActualDot = (props) => {
   );
 };
 
-const TwoWayCashFlowSection = () => {
+const TwoWayCashFlowSection = ({ data }) => {
   const [activePoint, setActivePoint] = useState(0);
+
+  const chartData = data?.milestones && data.milestones.length > 0 ? data.milestones : CASH_FLOW_DATA;
+  const controlPoints = data?.control_points && data.control_points.length > 0 ? data.control_points : CONTROL_POINTS;
 
   return (
     <section 
@@ -116,18 +119,26 @@ const TwoWayCashFlowSection = () => {
 
         {/* Section Header & Strategic Context (Exact text from design) */}
         <div className="mb-14 sm:mb-20 text-right space-y-6 max-w-4xl">
-          <SectionTitle title="تحليل التدفق النقدي ذو الاتجاهين" theme="dark" />
+          <SectionTitle title={data?.title || "تحليل التدفق النقدي ذو الاتجاهين"} theme="dark" />
 
           <div className="space-y-4 text-white/85 text-sm sm:text-base lg:text-lg leading-relaxed font-medium">
-            <p>
-              يضمن تحليل التدفق النقدي ذو الاتجاهين أننا نتوافق مع عملائنا في جدول الدفع الخاص بهم مقارنة بتقدم المشروع.
-            </p>
-            <p>
-              يضمن هذا نجاح المشروع، حيث أن أحد الأسباب الرئيسية لنجاح المشاريع هو الاستقرار المالي.
-            </p>
-            <p>
-              نحن دائمًا نحرص على أن يعرف العميل المبلغ الإجمالي لكل دفعة ومتى يجب دفعها وفقًا لتقدم المشروع. يساعد ذلك كلا الجانبين على إدارة التدفق النقدي الداخلي وتحقيق الاستقرار المالي العام للمشروع.
-            </p>
+            {data?.paragraphs && data.paragraphs.length > 0 ? (
+              data.paragraphs.map((p, idx) => (
+                <p key={idx}>{p}</p>
+              ))
+            ) : (
+              <>
+                <p>
+                  يضمن تحليل التدفق النقدي ذو الاتجاهين أننا نتوافق مع عملائنا في جدول الدفع الخاص بهم مقارنة بتقدم المشروع.
+                </p>
+                <p>
+                  يضمن هذا نجاح المشروع، حيث أن أحد الأسباب الرئيسية لنجاح المشاريع هو الاستقرار المالي.
+                </p>
+                <p>
+                  نحن دائمًا نحرص على أن يعرف العميل المبلغ الإجمالي لكل دفعة ومتى يجب دفعها وفقًا لتقدم المشروع. يساعد ذلك كلا الجانبين على إدارة التدفق النقدي الداخلي وتحقيق الاستقرار المالي العام للمشروع.
+                </p>
+              </>
+            )}
           </div>
         </div>
 
@@ -142,21 +153,21 @@ const TwoWayCashFlowSection = () => {
               <div className="flex items-center justify-between mb-4 border-b border-white/10 pb-4" dir="ltr">
                 <div>
                   <h4 className="text-sm sm:text-base font-black font-mono tracking-widest text-[#D4E128] uppercase">
-                    PROJECT CASH FLOW
+                    {data?.chart_title || "PROJECT CASH FLOW"}
                   </h4>
                   <p className="text-[11px] font-mono text-white/60 tracking-wider mt-0.5">
-                    PLANNED / ACTUAL / COMMITTED
+                    {data?.chart_subtitle || "PLANNED / ACTUAL / COMMITTED"}
                   </p>
                 </div>
 
                 <div className="flex items-center gap-4 text-xs font-mono">
                   <div className="flex items-center gap-1.5">
                     <span className="w-2.5 h-2.5 rounded-full bg-[#D4E128]" />
-                    <span className="text-white/80">Planned</span>
+                    <span className="text-white/80">{data?.planned_legend || "Planned"}</span>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <span className="w-2.5 h-2.5 rounded-full bg-[#38BDF8]" />
-                    <span className="text-white/80">Actual</span>
+                    <span className="text-white/80">{data?.actual_legend || "Actual"}</span>
                   </div>
                 </div>
               </div>
@@ -165,7 +176,7 @@ const TwoWayCashFlowSection = () => {
               <div className="w-full h-[240px] sm:h-[270px]" dir="ltr">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart
-                    data={CASH_FLOW_DATA}
+                    data={chartData}
                     margin={{ top: 20, right: 20, left: -20, bottom: 5 }}
                   >
                     <CartesianGrid
@@ -186,7 +197,7 @@ const TwoWayCashFlowSection = () => {
                       axisLine={false}
                       tickLine={false}
                     />
-                    <Tooltip content={<CustomTooltip />} />
+                    <Tooltip content={<CustomTooltip plannedLegend={data?.planned_legend} actualLegend={data?.actual_legend} />} />
                     
                     {/* Line 1: Planned Cash Flow (Neon Lime Yellow with Dot Colors) */}
                     <Line
@@ -220,15 +231,15 @@ const TwoWayCashFlowSection = () => {
               
               <div className="border-b border-black/10 pb-3">
                 <h4 className="text-sm font-black font-sans tracking-widest text-[#1C1D1B] uppercase">
-                  CONTROL POINTS
+                  {data?.control_points_title || "CONTROL POINTS"}
                 </h4>
               </div>
 
               {/* 3 Control Points Items */}
               <div className="space-y-6">
-                {CONTROL_POINTS.map((pt, idx) => (
+                {controlPoints.map((pt, idx) => (
                   <div
-                    key={pt.number}
+                    key={pt.number || idx}
                     onClick={() => setActivePoint(idx)}
                     className={`flex items-start gap-4 p-3 rounded-2xl transition-all cursor-pointer ${
                       activePoint === idx ? 'bg-black/5 ring-1 ring-black/10' : 'hover:bg-black/[0.02]'
@@ -242,7 +253,7 @@ const TwoWayCashFlowSection = () => {
                         {pt.title}
                       </h5>
                       <p className="text-xs text-[#525252] leading-relaxed">
-                        {pt.subtitle}
+                        {pt.subtitle || pt.arabicDesc || pt.description}
                       </p>
                     </div>
                   </div>
