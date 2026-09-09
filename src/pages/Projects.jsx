@@ -31,15 +31,17 @@ const Projects = () => {
 
   // Main projects (type === 'main')
   const mainProjects = useMemo(() => {
-    const list = allApiProjects.filter(p => p.type === 'main');
-    return list.length > 0 ? list : (pageData?.projects_section?.items || []);
-  }, [allApiProjects, pageData]);
+    return allApiProjects.filter(p => p.type === 'main');
+  }, [allApiProjects]);
 
-  // Additional projects (type !== 'main' or from additional_projects_section)
+  // Additional projects (type !== 'main')
   const additionalProjects = useMemo(() => {
-    const list = allApiProjects.filter(p => p.type !== 'main');
-    return list.length > 0 ? list : (pageData?.additional_projects_section?.items || []);
-  }, [allApiProjects, pageData]);
+    return allApiProjects.filter(p => p.type !== 'main');
+  }, [allApiProjects]);
+
+  const heroData = pageData?.hero_section;
+  const projectsSection = pageData?.projects_section;
+  const ctaData = pageData?.cta_section;
 
   return (
     <div className="min-h-screen bg-[#111312] text-white selection:bg-[#EAB308] selection:text-black">
@@ -47,19 +49,19 @@ const Projects = () => {
       {/* Hero Section matching the exact design and stats cards from About */}
       <Hero
         id="projects-hero"
-        badge="مشاريعنا"
-        title="إرثٌ يُبنى على أرض الواقع"
+        badge={heroData?.badge || "مشاريعنا"}
+        title={heroData?.title || "إرثٌ يُبنى على أرض الواقع"}
         subtitle={
           <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl text-right font-medium">
-            نستعرض مجموعة من مشاريعنا المنفذة والجارية في مختلف مناطق المملكة، والتي تعكس خبرتنا في تنفيذ المشاريع وتقديم الحلول الهندسية والإنشائية وفق أعلى معايير الجودة والسلامة والكفاءة.
+            {heroData?.subtitle || "نستعرض مجموعة من مشاريعنا المنفذة والجارية في مختلف مناطق المملكة، والتي تعكس خبرتنا في تنفيذ المشاريع وتقديم الحلول الهندسية والإنشائية وفق أعلى معايير الجودة والسلامة والكفاءة."}
           </p>
         }
-        buttonText="اتصل بنا"
-        buttonLink="/contact"
-        bgImage="/projects-hero-bg.jpg"
+        buttonText={heroData?.button_text || "اتصل بنا"}
+        buttonLink={heroData?.button_link || "/contact"}
+        bgImage={heroData?.image || "/projects-hero-bg.jpg"}
         showVisionLogo={false}
         showStatsCards={true}
-        stats={[
+        stats={heroData?.stats || [
           { number: 16, label: "عاماً من الخبرة" },
           { number: 50, label: "مشروعاً مكتمل" },
           { number: 10, label: "مدن رئيسية" }
@@ -77,9 +79,9 @@ const Projects = () => {
 
           {/* Section Header */}
           <div className="text-right mb-12 sm:mb-16">
-            <SectionTitle title="مشاريعنا" theme="dark" />
+            <SectionTitle title={projectsSection?.header?.title || "مشاريعنا"} theme="dark" />
             <p className="text-white/70 text-sm sm:text-base lg:text-lg mt-4 max-w-2xl">
-              بصمة هندسية متميزة في أضخم المشروعات التنموية والصناعية والحضرية في المملكة العربية السعودية. (اضغط على أي مشروع للاطلاع على التفاصيل الكاملة)
+              {projectsSection?.header?.subtitle || "بصمة هندسية متميزة في أضخم المشروعات التنموية والصناعية والحضرية في المملكة العربية السعودية. (اضغط على أي مشروع للاطلاع على التفاصيل الكاملة)"}
             </p>
           </div>
 

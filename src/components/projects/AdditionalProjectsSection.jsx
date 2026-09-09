@@ -18,126 +18,6 @@ import {
   ArrowLeft
 } from 'lucide-react';
 
-const ADDITIONAL_PROJECTS_DATA = [
-  {
-    id: 'data-center-riyadh',
-    title: 'مركز البيانات السحابية (Tier IV)',
-    titleEn: 'Hyperscale Tier IV Cloud Data Center',
-    category: 'مراكز البيانات',
-    location: 'الرياض',
-    year: '2024',
-    status: 'مكتمل',
-    statusType: 'completed',
-    icon: Server,
-    scope: 'تنفيذ أعمال البنية التحتية الحرجة، أنظمة التبريد السائل الدقيق، ومولدات الطاقة غير المنقطعة UPS بقدرة 10MVA.',
-    highlight: 'Tier IV Certified'
-  },
-  {
-    id: 'water-treatment-rabigh',
-    title: 'محطة معالجة وضخ المياه المركزية',
-    titleEn: 'Central Water Pumping & Treatment Plant',
-    category: 'البنية التحتية والمياه',
-    location: 'رابغ',
-    year: '2024',
-    status: 'مكتمل',
-    statusType: 'completed',
-    icon: Droplets,
-    scope: 'توريد وتركيب خطوط الأنابيب الفولاذية عالية الضغط والمضخات الكبرى مع نظام تحكم ومراقبة SCADA متكامل.',
-    highlight: '80,000 م³/يوم'
-  },
-  {
-    id: 'logistics-hub-dammam',
-    title: 'مجمع المستودعات والتبريد الذكي',
-    titleEn: 'Smart Logistics & Cold Storage Hub',
-    category: 'الخدمات اللوجستية',
-    location: 'الدمام',
-    year: '2024',
-    status: 'مكتمل',
-    statusType: 'completed',
-    icon: Warehouse,
-    scope: 'تنفيذ الهياكل الفولاذية العريضة وشبكات التبريد الصناعي المتطورة وأرضيات المستودعات فائقة الاستواء.',
-    highlight: '55,000 م²'
-  },
-  {
-    id: 'dq-hvac-riyadh',
-    title: 'تكييف المجمع السكني الدبلوماسي',
-    titleEn: 'Diplomatic Quarter HVAC Modernization',
-    category: 'كهروميكانيكا MEP',
-    location: 'الرياض',
-    year: '2023',
-    status: 'مكتمل',
-    statusType: 'completed',
-    icon: Wind,
-    scope: 'إحلال وتحديث مبردات الشيلر المركزية وشبكات توزيع الهواء وتكامل أنظمة إدارة المباني الذكية BMS.',
-    highlight: '6,500 طن تبريد'
-  },
-  {
-    id: 'avenues-east-khobar',
-    title: 'المجمع التجاري "أفنيوز الشرق"',
-    titleEn: 'East Avenues Commercial Complex',
-    category: 'المباني التجارية',
-    location: 'الخبر',
-    year: '2024',
-    status: 'قيد التنفيذ',
-    statusType: 'ongoing',
-    icon: ShoppingBag,
-    scope: 'الأعمال الكهربائية للجهد المتوسط والمنخفض، شبكات التيار الخفيف والإنارة التفاعلية للمجمع.',
-    highlight: '90,000 م²'
-  },
-  {
-    id: 'solar-pv-sakaka',
-    title: 'محطة الطاقة الشمسية الكهروضوئية',
-    titleEn: 'Auxiliary Solar PV Power Station',
-    category: 'الطاقة المتجددة',
-    location: 'سكاكا',
-    year: '2024',
-    status: 'مكتمل',
-    statusType: 'completed',
-    icon: SunMedium,
-    scope: 'الأعمال الإنشائية والمدنية، هياكل التثبيت الميكانيكية، وتركيب 45,000 لوح شمسي عالي الكفاءة.',
-    highlight: '25 ميجاوات'
-  },
-  {
-    id: 'the-gate-tower-jeddah',
-    title: 'برج الأعمال "ذا جيت"',
-    titleEn: 'The Gate Specialized Business Tower',
-    category: 'الأبراج والمباني',
-    location: 'جدة',
-    year: '2024',
-    status: 'مكتمل',
-    statusType: 'completed',
-    icon: Building,
-    scope: 'أعمال مكافحة الحريق المعتمدة NFPA، والمصاعد البانورامية فائقة السرعة، والواجهات الزجاجية العازلة.',
-    highlight: '32 طابقاً'
-  },
-  {
-    id: 'forensic-labs-madina',
-    title: 'مجمع المختبرات التحليلية',
-    titleEn: 'Analytical Laboratories Complex',
-    category: 'المنشآت الطبية والبحثية',
-    location: 'المدينة المنورة',
-    year: '2023',
-    status: 'مكتمل',
-    statusType: 'completed',
-    icon: FlaskConical,
-    scope: 'غرف العزل البيولوجي المعقمة، أنظمة الضغط التفاضلي والسلبي، وشبكات الغازات المخبرية فائقة النقاء.',
-    highlight: '18 مختبراً معقماً'
-  },
-  {
-    id: 'marine-corniche-jizan',
-    title: 'تطوير المرافق والواجهة البحرية',
-    titleEn: 'Marine Facilities & Waterfront',
-    category: 'التطوير الحضري',
-    location: 'جازان',
-    year: '2024',
-    status: 'قيد التنفيذ',
-    statusType: 'ongoing',
-    icon: Anchor,
-    scope: 'الإنشاءات الخرسانية المقاومة للأملاح البحرية، شبكات الري الآلي، ومرافق رسو القوارب والإنارة الذكية.',
-    highlight: '3.5 كم ساحلي'
-  }
-];
-
 const AdditionalProjectsSection = ({
   data,
   projects,
@@ -146,8 +26,9 @@ const AdditionalProjectsSection = ({
   subtitle = "سجل ممتد من المشروعات النوعية والتخصصية المنفذة في مختلف مناطق المملكة",
   onSelectProject,
 }) => {
-  const rawList = data?.items || projects || items || [];
-  const displayList = rawList.length > 0 ? rawList : ADDITIONAL_PROJECTS_DATA;
+  const displayList = data?.items || projects || items || [];
+
+  if (!displayList || displayList.length === 0) return null;
 
   return (
     <section 
