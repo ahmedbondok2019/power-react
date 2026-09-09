@@ -55,7 +55,7 @@ const BlackBox = ({ title, name, className = "", delay = 0 }) => (
   <motion.div 
     initial={{ opacity: 0, y: -50 }}
     whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: '-40px' }}
+    viewport={{ once: false, margin: '-40px' }}
     transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
     className={`bg-black text-white rounded-[8px] px-2 py-4 shadow-md w-[200px] flex flex-col items-center justify-center text-center z-10 relative ${className}`}
   >
@@ -68,7 +68,7 @@ const WhiteBox = ({ title, name, desc, className = "", h = "min-h-[60px]", delay
   <motion.div 
     initial={{ opacity: 0, y: -50 }}
     whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: '-40px' }}
+    viewport={{ once: false, margin: '-40px' }}
     transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
     className={`bg-white text-black border border-gray-300 rounded-[8px] px-2 py-3 shadow-sm w-[200px] flex flex-col items-center justify-center text-center z-10 relative ${h} ${className}`}
   >
@@ -165,7 +165,7 @@ const OrganizationChart = () => {
               <motion.div 
                 initial={{ opacity: 0, y: -50 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
+                viewport={{ once: false, margin: '-40px' }}
                 transition={{ duration: 0.7, delay: 1.6, ease: [0.22, 1, 0.36, 1] }}
                 className="bg-white border border-gray-300 rounded-[12px] p-4 flex flex-col items-center w-[600px] shadow-sm ml-auto mr-auto"
               >
@@ -181,7 +181,7 @@ const OrganizationChart = () => {
               <motion.div 
                 initial={{ opacity: 0, y: -50 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
+                viewport={{ once: false, margin: '-40px' }}
                 transition={{ duration: 0.7, delay: 1.7, ease: [0.22, 1, 0.36, 1] }}
                 className="flex flex-col gap-2 w-[200px]"
               >

@@ -193,7 +193,7 @@ const Services = () => {
                 key={svc.id}
                 initial={{ opacity: 0, y: 50, scale: 0.95 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, amount: 0.15 }}
+                viewport={{ once: false, amount: 0.15 }}
                 transition={{
                   type: 'spring',
                   stiffness: 240,

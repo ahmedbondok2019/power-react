@@ -59,7 +59,7 @@ const WorkforceTable = () => {
                         key={index}
                         initial={{ opacity: 0, x: fromRight ? 80 : -80 }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, margin: '-20px' }}
+                        viewport={{ once: false, margin: '-20px' }}
                         transition={{
                           duration: 0.65,
                           delay: (index % 6) * 0.08,

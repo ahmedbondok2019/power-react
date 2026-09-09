@@ -53,7 +53,7 @@ const GroupStructureSection = () => {
           <motion.div
             initial={{ opacity: 0, x: 60 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 0.8, ease: EASE }}
             className="text-right"
           >
@@ -65,7 +65,7 @@ const GroupStructureSection = () => {
             ref={animatedLogoRef}
             initial={{ opacity: 0, scale: 0.85, y: -20 }}
             whileInView={{ opacity: 1, scale: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 0.9, ease: EASE }}
             className="flex items-center justify-center cursor-pointer hover:opacity-95 transition-opacity"
           >
@@ -85,7 +85,7 @@ const GroupStructureSection = () => {
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
+              viewport={{ once: false, amount: 0.15 }}
               transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
               className="text-right space-y-8"
             >
@@ -109,7 +109,7 @@ const GroupStructureSection = () => {
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
+              viewport={{ once: false, amount: 0.15 }}
               transition={{ duration: 0.8, delay: 0.35, ease: EASE }}
               className="text-right space-y-8"
             >

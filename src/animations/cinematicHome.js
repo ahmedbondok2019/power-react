@@ -103,7 +103,7 @@ export function initCinematicAnimations() {
             scrollTrigger: {
               trigger: aboutSection,
               start: 'top 82%',
-              once: true,
+              once: false,
             },
           }
         );
@@ -124,7 +124,7 @@ export function initCinematicAnimations() {
             scrollTrigger: {
               trigger: aboutSection,
               start: 'top 78%',
-              once: true,
+              once: false,
             },
           }
         );
@@ -147,7 +147,7 @@ export function initCinematicAnimations() {
               scrollTrigger: {
                 trigger: aboutSection,
                 start: 'top 78%',
-                once: true,
+                once: false,
               },
             });
           }
@@ -168,7 +168,7 @@ export function initCinematicAnimations() {
           { opacity: 0, y: 30 },
           {
             opacity: 1, y: 0, duration: 1.0, ease: 'power3.out',
-            scrollTrigger: { trigger: servicesSection, start: 'top 80%', once: true },
+            scrollTrigger: { trigger: servicesSection, start: 'top 80%', once: false },
           }
         );
       }
@@ -193,7 +193,7 @@ export function initCinematicAnimations() {
             scrollTrigger: {
               trigger: servicesSection,
               start: 'top 70%',
-              once: true,
+              once: false,
             },
           }
         );
@@ -212,7 +212,7 @@ export function initCinematicAnimations() {
               scrollTrigger: {
                 trigger: servicesSection,
                 start: 'top 70%',
-                once: true,
+                once: false,
               },
             }
           );
@@ -266,7 +266,7 @@ export function initCinematicAnimations() {
           { opacity: 0, y: 20 },
           {
             opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
-            scrollTrigger: { trigger: hallSection, start: 'top 85%', once: true },
+            scrollTrigger: { trigger: hallSection, start: 'top 85%', once: false },
           }
         );
       }
@@ -299,7 +299,7 @@ export function initCinematicAnimations() {
           scrollTrigger: {
             trigger: card,
             start: 'top 88%',
-            once: true,
+            once: false,
           },
         }
       );
@@ -315,7 +315,7 @@ export function initCinematicAnimations() {
             scrollTrigger: {
               trigger: card,
               start: 'top 88%',
-              once: true,
+              once: false,
             },
           }
         );

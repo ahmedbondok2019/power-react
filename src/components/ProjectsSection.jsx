@@ -52,7 +52,7 @@ const ProjectsSection = () => {
         <motion.img
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1.08 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 1.8, ease: 'easeOut' }}
           src="/saudi_arabia_3d_map_no_text2.png"
           alt=""
@@ -72,7 +72,7 @@ const ProjectsSection = () => {
             className="text-right"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
+            viewport={{ once: false, margin: '-50px' }}
             transition={{ duration: 0.8, ease: EASE }}
           >
             <div className="flex items-center gap-2 justify-end mb-2 text-[#FFB800] text-sm font-bold tracking-wider">
@@ -85,7 +85,7 @@ const ProjectsSection = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
+            viewport={{ once: false, margin: '-50px' }}
             transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
           >
             <Link 
@@ -105,7 +105,7 @@ const ProjectsSection = () => {
           variants={containerVariants}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={{ once: false, amount: 0.15 }}
           className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 justify-items-center max-w-[1140px] mx-auto"
         >
           {homeProjects.map((project, index) => {

@@ -48,7 +48,7 @@ const VisionMissionSection = () => {
         <motion.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 0.2 }}
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 1 }}
           className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center"
         >
@@ -154,7 +154,7 @@ const VisionMissionSection = () => {
                 <motion.div 
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
-                  viewport={{ once: true, amount: 0.5 }}
+                  viewport={{ once: false, amount: 0.5 }}
                   transition={{ duration: 0.8 }}
                   style={{ x: logoX, scale: logoScale }}
                   className="flex flex-col items-center text-center z-10 bg-[#141615] py-4 px-2 will-change-transform"

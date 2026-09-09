@@ -141,7 +141,7 @@ const REGIONS = [
 const dropPinVariant = (delay = 0.8) => ({
   initial: { opacity: 0, y: -45 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
+  viewport: { once: false },
   transition: {
     duration: 0.65,
     delay: delay,
@@ -251,7 +251,7 @@ const SaudiPresenceMapSection = () => {
                   </radialGradient>
                 </defs>
 
-                {/* 3D Map Base with Zoom-in from inside-out */}
+                {/* 3D Map Base with Deep Rise from Below + Zoom-in */}
                 <motion.image
                   href="/saudi_arabia_3d_map_no_text2.png"
                   x="0"
@@ -261,10 +261,10 @@ const SaudiPresenceMapSection = () => {
                   preserveAspectRatio="xMidYMid meet"
                   className="brightness-105 contrast-105"
                   style={{ transformOrigin: "960px 540px" }}
-                  initial={{ scale: 0.65, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+                  initial={{ y: 160, scale: 0.7, opacity: 0 }}
+                  whileInView={{ y: 0, scale: 1, opacity: 1 }}
+                  viewport={{ once: false, amount: 0.2 }}
+                  transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1] }}
                 />
 
                 {/* 1. DUMAT-ALJANDAL (Top: y=115) */}
@@ -792,7 +792,7 @@ const SaudiPresenceMapSection = () => {
                 <motion.line
                   initial={{ opacity: 0, scaleX: 0 }}
                   whileInView={{ opacity: 1, scaleX: 1 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: false }}
                   transition={{ duration: 0.5, delay: 1.15 }}
                   style={{ transformOrigin: "1065px 302px" }}
                   x1="1065"
@@ -808,7 +808,7 @@ const SaudiPresenceMapSection = () => {
                 <motion.line
                   initial={{ opacity: 0, scaleY: 0 }}
                   whileInView={{ opacity: 1, scaleY: 1 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: false }}
                   transition={{ duration: 0.6, delay: 1.25 }}
                   style={{ transformOrigin: "1220px 110px" }}
                   x1="1220"

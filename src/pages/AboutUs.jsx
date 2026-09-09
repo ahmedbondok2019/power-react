@@ -140,7 +140,7 @@ const AboutUs = () => {
         <motion.div
           initial={{ opacity: 0, x: -140 }}
           whileInView={{ opacity: 0.28, x: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           className="absolute top-1/2 -translate-y-1/2 left-0 z-0 pointer-events-none flex items-center justify-start overflow-hidden"
         >
@@ -157,7 +157,7 @@ const AboutUs = () => {
           <motion.div
             initial={{ opacity: 0, x: 100 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
             className="text-right space-y-6 max-w-4xl mr-0 ml-auto mb-20"
           >
@@ -181,7 +181,7 @@ const AboutUs = () => {
             <motion.h3
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               transition={{ duration: 0.6 }}
               className="text-2xl sm:text-3xl font-bold text-white tracking-wide"
             >
@@ -193,7 +193,7 @@ const AboutUs = () => {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.8 }}
             className="relative pt-7 pb-2"
           >

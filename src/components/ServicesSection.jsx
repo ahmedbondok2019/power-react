@@ -21,8 +21,8 @@ const containerVariants = {
 
 const cardVariants = {
   hidden: { opacity: 0, y: 100 },
-  show: { 
-    opacity: 1, 
+  show: {
+    opacity: 1,
     y: 0,
     transition: { duration: 0.85, ease: EASE }
   }
@@ -41,7 +41,7 @@ const ServicesSection = () => {
 
         {/* Header — title on right, link on left (in RTL, first element is on the right) */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
-          
+
           {/* Title — FIRST in DOM, so it appears on the RIGHT in RTL */}
           <motion.div
             className="text-right"
@@ -81,7 +81,6 @@ const ServicesSection = () => {
           </p>
         </motion.div>
 
-        {/* Cards — bottom → top stagger */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
