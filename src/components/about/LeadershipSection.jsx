@@ -30,8 +30,17 @@ const LEADERS = [
   }
 ];
 
-const LeadershipSection = () => {
+const LeadershipSection = ({ data }) => {
   const containerRef = useRef(null);
+
+  const headerTitle = data?.header?.title || "القادة";
+  const headerSubtitle = data?.header?.subtitle || "قيادة تجمع بين الرؤية والخبرة والتنفيذ";
+  const bgImage = data?.header?.image || 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop';
+
+  const leadersList = (data?.leaders && data.leaders.length > 0) ? data.leaders : LEADERS;
+  const leader1 = leadersList[0] || LEADERS[0];
+  const leader2 = leadersList[1] || LEADERS[1];
+  const leader3 = leadersList[2] || LEADERS[2];
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -67,7 +76,7 @@ const LeadershipSection = () => {
     <section 
       ref={containerRef}
       className="relative w-full h-[400vh] text-white bg-fixed bg-cover bg-center select-none border-b border-white/5"
-      style={{ backgroundImage: `url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop')` }}
+      style={{ backgroundImage: `url('${bgImage}')` }}
     >
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-[#141615]/85 backdrop-blur-[1px] z-0"></div>
@@ -80,9 +89,9 @@ const LeadershipSection = () => {
           style={{ opacity: headerOpacity, y: headerY }}
           className="flex flex-col items-start text-right mb-10 shrink-0 w-full max-w-7xl mx-auto"
         >
-          <SectionTitle title="القادة" theme="dark" />
+          <SectionTitle title={headerTitle} theme="dark" />
           <p className="text-white/90 text-base sm:text-lg lg:text-xl font-medium tracking-wide mt-4">
-            قيادة تجمع بين الرؤية والخبرة والتنفيذ
+            {headerSubtitle}
           </p>
         </motion.div>
 
@@ -95,10 +104,10 @@ const LeadershipSection = () => {
             className="absolute inset-0 flex flex-col items-center justify-center px-4"
           >
             <h3 className="text-3xl sm:text-4xl lg:text-[45px] font-black text-white mb-6 lg:mb-10 tracking-wide drop-shadow-lg">
-              {LEADERS[0].name}
+              {leader1.name || leader1.title}
             </h3>
             <div className="space-y-6 text-white/95 text-sm sm:text-base lg:text-[17px] font-normal leading-[2.2] max-w-4xl mx-auto text-right md:text-center">
-              {LEADERS[0].paragraphs.map((p, i) => (
+              {(leader1.paragraphs || []).map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
             </div>
@@ -110,10 +119,10 @@ const LeadershipSection = () => {
             className="absolute inset-0 flex flex-col items-center justify-center px-4"
           >
             <h3 className="text-3xl sm:text-4xl lg:text-[45px] font-black text-white mb-6 lg:mb-10 tracking-wide drop-shadow-lg">
-              {LEADERS[1].name}
+              {leader2.name || leader2.title}
             </h3>
             <div className="space-y-6 text-white/95 text-sm sm:text-base lg:text-[17px] font-normal leading-[2.2] max-w-4xl mx-auto text-right md:text-center">
-              {LEADERS[1].paragraphs.map((p, i) => (
+              {(leader2.paragraphs || []).map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
             </div>
@@ -125,10 +134,10 @@ const LeadershipSection = () => {
             className="absolute inset-0 flex flex-col items-center justify-center px-4"
           >
             <h3 className="text-3xl sm:text-4xl lg:text-[45px] font-black text-white mb-6 lg:mb-10 tracking-wide drop-shadow-lg">
-              {LEADERS[2].name}
+              {leader3.name || leader3.title}
             </h3>
             <div className="space-y-6 text-white/95 text-sm sm:text-base lg:text-[17px] font-normal leading-[2.2] max-w-4xl mx-auto text-right md:text-center">
-              {LEADERS[2].paragraphs.map((p, i) => (
+              {(leader3.paragraphs || []).map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
             </div>

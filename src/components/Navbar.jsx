@@ -28,14 +28,14 @@ const Navbar = () => {
   ];
 
   return (
-    <motion.nav 
+    <motion.nav
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, delay: 0.5, ease: [0.77, 0, 0.175, 1] }}
       className="fixed w-full z-50 top-0 left-0 border-b border-white/20 bg-white/10 backdrop-blur-xl shadow-sm"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-5 lg:py-6">
-        
+
         {/* Logo (First in DOM = Right side in RTL) */}
         <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
           <Logo />
@@ -50,17 +50,16 @@ const Navbar = () => {
               <motion.div key={item.label} whileHover={{ scale: 1.05 }}>
                 <Link
                   to={item.to}
-                  className={`font-medium text-sm xl:text-base transition-colors whitespace-nowrap cursor-pointer relative py-1 ${
-                    isActive 
-                      ? 'text-[#EAB308] font-bold' 
+                  className={`font-medium text-sm xl:text-base transition-colors whitespace-nowrap cursor-pointer relative py-1 ${isActive
+                      ? 'text-[#EAB308] font-bold'
                       : 'text-white/90 hover:text-[#EAB308]'
-                  }`}
+                    }`}
                 >
                   {item.label}
                   {isActive && (
-                    <motion.span 
+                    <motion.span
                       layoutId="navbar-indicator"
-                      className="absolute bottom-0 right-0 left-0 h-0.5 bg-[#EAB308] rounded-full" 
+                      className="absolute bottom-0 right-0 left-0 h-0.5 bg-[#EAB308] rounded-full"
                     />
                   )}
                 </Link>
@@ -71,22 +70,22 @@ const Navbar = () => {
 
         {/* Actions (Last in DOM = Left side in RTL) */}
         <div className="flex items-center gap-2 md:gap-3">
-          <button 
+          <button
             aria-label="Search"
             className="w-10 h-10 flex items-center justify-center bg-white/10 rounded-lg hover:bg-primary hover:text-background transition-colors duration-300 text-white"
           >
             <Search className="w-5 h-5" />
           </button>
-          
-          <button 
+
+          <button
             aria-label="Notifications"
             className="relative w-10 h-10 flex items-center justify-center bg-white/10 rounded-lg hover:bg-primary hover:text-background transition-colors duration-300 text-white"
           >
             <Bell className="w-5 h-5" />
             <span className="absolute top-2 right-2 w-2 h-2 bg-blue-500 rounded-full border border-surface"></span>
           </button>
-          
-          <Link 
+
+          <Link
             to="/auth/login"
             aria-label="Profile"
             className="w-10 h-10 flex items-center justify-center bg-white/10 rounded-lg hover:bg-primary hover:text-background transition-colors duration-300 text-white"
@@ -95,7 +94,7 @@ const Navbar = () => {
           </Link>
 
           {/* Mobile Menu Toggle */}
-          <button 
+          <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
             className="lg:hidden w-10 h-10 flex items-center justify-center bg-white/10 rounded-lg text-white hover:bg-white/20 transition-colors"
@@ -121,11 +120,10 @@ const Navbar = () => {
                   key={item.label}
                   to={item.to}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`text-right py-2 text-base font-medium transition-colors ${
-                    item.active
+                  className={`text-right py-2 text-base font-medium transition-colors ${item.active
                       ? 'text-[#EAB308] font-bold'
                       : 'text-white/80 hover:text-[#EAB308]'
-                  }`}
+                    }`}
                 >
                   {item.label}
                 </Link>

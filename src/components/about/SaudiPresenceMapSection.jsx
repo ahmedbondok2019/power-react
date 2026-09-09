@@ -149,14 +149,23 @@ const dropPinVariant = (delay = 0.8) => ({
   }
 });
 
-const SaudiPresenceMapSection = () => {
+const SaudiPresenceMapSection = ({ data }) => {
   const [activeItem, setActiveItem] = useState(null);
   const [hoveredId, setHoveredId] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState('الكل');
   const [viewMode, setViewMode] = useState('map'); // 'map' or 'grid'
 
+  const locations = (data?.locations && data.locations.length > 0) ? data.locations : LOCATIONS_DATA;
+  const regions = (data?.regions && data.regions.length > 0) ? data.regions : REGIONS;
+  const riyadhProjects = (data?.riyadh_projects && data.riyadh_projects.length > 0)
+    ? data.riyadh_projects.map((proj, idx) => ({
+        ...proj,
+        y: 110 + idx * 48
+      }))
+    : RIYADH_PROJECTS;
+
   // Filter locations based on category
-  const filteredLocations = LOCATIONS_DATA.filter(loc => {
+  const filteredLocations = locations.filter(loc => {
     if (selectedRegion === 'الكل') return true;
     if (selectedRegion === 'الوسطى ومشاريع العاصمة') return loc.region === 'الوسطى' || loc.id === 'riyadh';
     if (selectedRegion === 'نيوم والمشاريع الكبرى') return loc.region === 'نيوم والمشاريع الكبرى';
@@ -167,7 +176,7 @@ const SaudiPresenceMapSection = () => {
   });
 
   const handleSelectLocation = (id) => {
-    const found = LOCATIONS_DATA.find(d => d.id === id);
+    const found = locations.find(d => d.id === id);
     if (found) setActiveItem(found);
   };
 
@@ -821,7 +830,7 @@ const SaudiPresenceMapSection = () => {
                 />
 
                 {/* 9 Riyadh Sub-Projects with raindrop fall from top to bottom */}
-                {RIYADH_PROJECTS.map((proj, idx) => {
+                {riyadhProjects.map((proj, idx) => {
                   const isHovered = hoveredId === proj.id;
                   // Sequential raindrop delay starting after the vertical spine reveals
                   const rainDelay = 1.35 + (idx * 0.08);
@@ -908,7 +917,7 @@ const SaudiPresenceMapSection = () => {
           >
             {/* Filter Pills */}
             <div className="flex flex-wrap items-center gap-2">
-              {REGIONS.map((reg) => (
+              {regions.map((reg) => (
                 <button
                   key={reg}
                   onClick={() => setSelectedRegion(reg)}
@@ -977,7 +986,7 @@ const SaudiPresenceMapSection = () => {
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {RIYADH_PROJECTS.map((proj) => (
+                    {riyadhProjects.map((proj) => (
                       <div
                         key={proj.id}
                         onClick={() => handleSelectRiyadhProject(proj)}

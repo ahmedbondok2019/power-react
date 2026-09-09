@@ -22,14 +22,19 @@ const TABLE_DATA = [
   { function: "LOGISTICS", staff: "+10 (VARIABLE UP TO 100)", exp: "+45 (VARIABLE)", level: "STANDARD" },
 ];
 
-const WorkforceTable = () => {
+const WorkforceTable = ({ data }) => {
+  const rows = (data?.rows && data.rows.length > 0) ? data.rows : TABLE_DATA;
+  const title = data?.title || "القوى العاملة والخبرة";
+  const totalStaff = data?.total_staff || "+76 (UP TO 1500 UPON DEMAND)";
+  const totalExp = data?.total_experience || "+750 YEARS OF COMPILED PROFESSIONAL EXPERIENCE";
+
   return (
     <section className="relative w-full bg-[#141615] text-white py-24 select-none overflow-hidden" dir="ltr">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 flex flex-col h-full">
 
         {/* Header (Top Right - RTL applied just for the header) */}
         <div className="flex flex-col items-start text-right mb-16 w-full" dir="rtl">
-          <SectionTitle title="القوى العاملة والخبرة" theme="dark" />
+          <SectionTitle title={title} theme="dark" />
         </div>
 
         {/* Table Container */}
@@ -52,7 +57,7 @@ const WorkforceTable = () => {
 
                 {/* Table Body */}
                 <tbody className="text-white/80 text-xs sm:text-sm font-medium">
-                  {TABLE_DATA.map((row, index) => {
+                  {rows.map((row, index) => {
                     const fromRight = index % 2 === 0;
                     return (
                       <motion.tr
@@ -82,12 +87,11 @@ const WorkforceTable = () => {
             {/* Table Footer / Totals */}
             <div className="flex flex-row items-center text-white font-bold text-xs sm:text-sm uppercase mt-6 px-4">
               <div className="w-1/4 text-center tracking-wide">TOTAL</div>
-              <div className="w-1/4 text-center tracking-wide">
-                +76 <br />
-                <span className="text-[10px] opacity-70">(UP TO 1500 UPON DEMAND)</span>
+              <div className="w-1/4 text-center tracking-wide whitespace-pre-line">
+                {totalStaff}
               </div>
               <div className="w-1/2 text-center tracking-wide">
-                +750 YEARS OF COMPILED PROFESSIONAL EXPERIENCE
+                {totalExp}
               </div>
             </div>
 

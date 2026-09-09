@@ -114,7 +114,27 @@ const POLICIES_DATA = [
   }
 ];
 
-const OurPoliciesSection = () => {
+const ICON_MAP = {
+  'anti-corruption': ShieldCheck,
+  'child-labor': UserX,
+  'anti-slavery': HandMetal,
+  'workplace-harassment': HeartHandshake,
+  'diversity-inclusion': Users,
+  'customer-complaints': MessageSquareWarning
+};
+
+const OurPoliciesSection = ({ data }) => {
+  const title = data?.title || "سياستنا";
+  const description = data?.description || "نلتزم في مجموعة باور بأعلى معايير الحوكمة والنزاهة المؤسسية والمسؤولية الاجتماعية، لضمان بيئة عمل آمنة، عادلة وموثوقة لكافة شركائنا وعملائنا ومنسوبينا.";
+
+  const items = (data?.policies && data.policies.length > 0)
+    ? data.policies.map(p => ({
+        ...p,
+        icon: typeof p.icon === 'function' ? p.icon : (ICON_MAP[p.id] || ShieldCheck),
+        governanceCode: p.governanceCode || p.governance_code
+      }))
+    : POLICIES_DATA;
+
   return (
     <section
       id="سياستنا"
@@ -130,7 +150,7 @@ const OurPoliciesSection = () => {
 
         {/* Section Header with Standard SectionTitle */}
         <div className="flex flex-col items-start w-full mb-10 sm:mb-12">
-          <SectionTitle title="سياستنا" theme="dark" />
+          <SectionTitle title={title} theme="dark" />
         </div>
 
         {/* Content Description */}
@@ -142,14 +162,14 @@ const OurPoliciesSection = () => {
           className="w-full mb-12 sm:mb-14"
         >
           <p className="text-white/80 text-lg sm:text-xl lg:text-[22px] font-medium leading-[2.2]">
-            نلتزم في <span className="text-[#FFB800] font-bold">مجموعة باور</span> بأعلى معايير الحوكمة والنزاهة المؤسسية والمسؤولية الاجتماعية، لضمان بيئة عمل آمنة، عادلة وموثوقة لكافة شركائنا وعملائنا ومنسوبينا.
+            {description}
           </p>
         </motion.div>
 
         {/* Accordion Component List with Bubble Entry & Bubble Hover */}
         <div className="w-full">
           <Accordion type="single" collapsible className="w-full space-y-4">
-            {POLICIES_DATA.map((policy, idx) => {
+            {items.map((policy, idx) => {
               const IconComponent = policy.icon;
               return (
                 <motion.div

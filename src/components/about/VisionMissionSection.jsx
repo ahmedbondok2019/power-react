@@ -1,9 +1,21 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
-const VisionMissionSection = () => {
+const VisionMissionSection = ({ data }) => {
   const containerRef = useRef(null);
   const [isDesktop, setIsDesktop] = useState(true);
+
+  const visionTitle = data?.vision?.title || "رؤيتنا";
+  const visionParagraphs = data?.vision?.paragraphs || [
+    "أن نكون المقاول الرائد في المملكة العربية السعودية، والمعروف بالابتكار والتميز والجودة التي لا تضاهى في كل مشروع.",
+    "الرؤية الرسمية للشركة تركز على بناء مكانة قيادية في قطاع المقاولات السعودي، مع جعل الابتكار والتميز والجودة عناصر أساسية في كل مشروع."
+  ];
+
+  const missionTitle = data?.mission?.title || "رسالتنا";
+  const missionParagraphs = data?.mission?.paragraphs || [
+    "تقديم خدمات مقاولات استثنائية تركز على الجودة والسلامة ودقة التنفيذ، مع توفير حلول متكاملة في التطوير والاستشارات وتحليل التصميم وهندسة القيمة لتجاوز توقعات العملاء.",
+    "نعمل على تحقيق ذلك من خلال الجمع بين الخبرة التنفيذية والحلول المتخصصة، بما يساعد على تلبية احتياجات المشاريع وتحقيق مستويات عالية من رضا العملاء."
+  ];
 
   useEffect(() => {
     const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
@@ -88,19 +100,16 @@ const VisionMissionSection = () => {
                 {/* Title */}
                 <div className="shrink-0 self-start md:self-center">
                   <h2 className="text-4xl sm:text-5xl lg:text-[70px] font-black text-white tracking-tight leading-none drop-shadow-md">
-                    رؤيتنا
+                    {visionTitle}
                   </h2>
                 </div>
 
                 {/* Paragraphs */}
                 <div className="relative flex-1 flex items-center gap-5">
                   <div className="space-y-2.5 text-[#B0B0B0] text-sm sm:text-base md:text-[16px] leading-[1.8] font-normal">
-                    <p>
-                      أن نكون المقاول الرائد في المملكة العربية السعودية، والمعروف بالابتكار والتميز والجودة التي لا تضاهى في كل مشروع.
-                    </p>
-                    <p>
-                      الرؤية الرسمية للشركة تركز على بناء مكانة قيادية في قطاع المقاولات السعودي، مع جعل الابتكار والتميز والجودة عناصر أساسية في كل مشروع.
-                    </p>
+                    {visionParagraphs.map((p, i) => (
+                      <p key={i}>{p}</p>
+                    ))}
                   </div>
 
                 {/* Glowing Yellow Connected Dot */}
@@ -120,19 +129,16 @@ const VisionMissionSection = () => {
               {/* Title */}
               <div className="shrink-0 self-start md:self-center">
                 <h2 className="text-4xl sm:text-5xl lg:text-[70px] font-black text-white tracking-tight leading-none drop-shadow-md">
-                  رسالتنا
+                  {missionTitle}
                 </h2>
               </div>
 
               {/* Paragraphs */}
               <div className="relative flex-1 flex items-center gap-5">
                 <div className="space-y-2.5 text-[#B0B0B0] text-sm sm:text-base md:text-[16px] leading-[1.8] font-normal">
-                  <p>
-                    تقديم خدمات مقاولات استثنائية تركز على الجودة والسلامة ودقة التنفيذ، مع توفير حلول متكاملة في التطوير والاستشارات وتحليل التصميم وهندسة القيمة لتجاوز توقعات العملاء.
-                  </p>
-                  <p>
-                    نعمل على تحقيق ذلك من خلال الجمع بين الخبرة التنفيذية والحلول المتخصصة، بما يساعد على تلبية احتياجات المشاريع وتحقيق مستويات عالية من رضا العملاء.
-                  </p>
+                  {missionParagraphs.map((p, i) => (
+                    <p key={i}>{p}</p>
+                  ))}
                 </div>
 
                 {/* Glowing Yellow Connected Dot */}

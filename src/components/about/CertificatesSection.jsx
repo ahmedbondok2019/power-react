@@ -30,8 +30,9 @@ const CERTIFICATES = [
   }
 ];
 
-const CertificatesSection = () => {
+const CertificatesSection = ({ data }) => {
   const swiperRef = useRef(null);
+  const items = (data && data.length > 0) ? data : CERTIFICATES;
 
   return (
     <section className="relative w-full bg-[#F3F4F6] text-black py-24 select-none overflow-hidden" dir="rtl">
@@ -97,7 +98,7 @@ const CertificatesSection = () => {
             }}
             className="w-full"
           >
-            {CERTIFICATES.map((cert) => (
+            {items.map((cert) => (
               <SwiperSlide key={cert.id}>
                 <motion.div
                   variants={cardVariants}

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useMemo } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -95,21 +95,40 @@ const STAGES = [
   }
 ];
 
-const CapabilitiesWheel = () => {
+const CapabilitiesWheel = ({ data }) => {
   const containerRef = useRef(null);
   const wheelRef = useRef(null);
   const cardsRef = useRef([]);
   const [activeStageIndex, setActiveStageIndex] = useState(0);
 
+  const stages = useMemo(() => {
+    if (!data || data.length === 0) return STAGES;
+    return data.map((item, idx) => {
+      const fallback = STAGES[idx] || STAGES[0];
+      return {
+        ...fallback,
+        ...item,
+        id: idx,
+        number: item.number || fallback.number,
+        nodeTitle: item.nodeTitle || item.node_title || item.title || fallback.nodeTitle,
+        heading: item.heading || item.title || fallback.heading,
+        category: item.category || item.subtitle || fallback.category,
+        description: item.description || fallback.description,
+        details: item.details || fallback.details || [],
+        baseAngle: item.baseAngle ?? item.base_angle ?? fallback.baseAngle
+      };
+    });
+  }, [data]);
+
   useGSAP(() => {
-    const totalStages = STAGES.length; // 6
+    const totalStages = stages.length;
 
     // Master ScrollTrigger Scene
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
         start: "top top",
-        end: `+=${totalStages * 1100}`, // Ample scroll distance for 6 stages
+        end: `+=${totalStages * 1100}`, // Ample scroll distance
         pin: true,
         scrub: 1, // Smooth mechanical scrub
         anticipatePin: 1,
@@ -124,9 +143,8 @@ const CapabilitiesWheel = () => {
     });
 
     // Rotate the wheel counter-clockwise (positive in standard math orientation or 60 deg each step)
-    // so Stage 0 -> Stage 1 (from 120° to 180°) -> Stage 2 (from 60° to 180°) ... arrive perfectly to front focal position
     tl.to(wheelRef.current, {
-      rotation: (totalStages - 1) * 60, // Rotates forward through all 6 stages
+      rotation: (totalStages - 1) * 60, // Rotates forward through all stages
       ease: "none",
       duration: 1
     }, 0);
@@ -142,7 +160,7 @@ const CapabilitiesWheel = () => {
       }
     });
 
-  }, { scope: containerRef });
+  }, { scope: containerRef, dependencies: [stages] });
 
   return (
     <section
@@ -177,12 +195,12 @@ const CapabilitiesWheel = () => {
             <div className="text-right">
               <span className="text-[10px] text-white/50 block font-semibold">المرحلة الحالية</span>
               <span className="text-sm font-bold text-white tracking-wide">
-                {STAGES[activeStageIndex].category}
+                {stages[activeStageIndex]?.category}
               </span>
             </div>
             <div className="text-2xl sm:text-3xl font-black text-[#EBFB38] font-sans">
-              {STAGES[activeStageIndex].number}
-              <span className="text-xs text-white/40 font-normal ml-1">/ 06</span>
+              {stages[activeStageIndex]?.number}
+              <span className="text-xs text-white/40 font-normal ml-1">/ {String(stages.length).padStart(2, '0')}</span>
             </div>
           </div>
 
@@ -201,7 +219,7 @@ const CapabilitiesWheel = () => {
             <div className="absolute -left-4 sm:left-0 md:left-2 lg:left-[-24px] top-1/2 -translate-y-1/2 z-40 flex items-center pointer-events-none">
               <div className="relative flex items-center justify-center">
                 <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-[#FF5722] to-[#E64A19] border-2 border-white shadow-[0_0_25px_rgba(255,87,34,0.9)] flex items-center justify-center text-white font-black text-base sm:text-xl">
-                  {STAGES[activeStageIndex].number}
+                  {stages[activeStageIndex]?.number}
                 </div>
                 {/* Laser Line connecting the focal node to the content */}
                 <div className="hidden sm:block w-12 lg:w-20 h-[2px] bg-gradient-to-l from-transparent to-[#FF5722]" />
@@ -228,8 +246,8 @@ const CapabilitiesWheel = () => {
                   </div>
                 </div>
 
-                {/* 6 Circular Nodes Placed Equidistantly along the Ring (Every 60°) */}
-                {STAGES.map((stage, idx) => {
+                {/* Circular Nodes Placed Equidistantly along the Ring */}
+                {stages.map((stage, idx) => {
                   const isActive = activeStageIndex === idx;
 
                   // Trig calculation for exact circular placement
@@ -280,7 +298,7 @@ const CapabilitiesWheel = () => {
               Matches the Active Stage perfectly synchronized!
              ======================================================== */}
           <div className="lg:col-span-6 text-right relative min-h-[340px] flex flex-col justify-center pl-2 lg:pl-6 z-20 order-2 lg:order-2">
-            {STAGES.map((stage, idx) => {
+            {stages.map((stage, idx) => {
               const isActive = activeStageIndex === idx;
               return (
                 <div
@@ -332,7 +350,7 @@ const CapabilitiesWheel = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            {STAGES.map((s, i) => (
+            {stages.map((s, i) => (
               <div
                 key={s.id}
                 className={`h-1.5 rounded-full transition-all duration-500 ${activeStageIndex === i ? "w-8 bg-[#EBFB38]" : "w-2 bg-white/20"

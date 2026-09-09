@@ -78,14 +78,17 @@ const WhiteBox = ({ title, name, desc, className = "", h = "min-h-[60px]", delay
   </motion.div>
 );
 
-const OrganizationChart = () => {
+const OrganizationChart = ({ data }) => {
+  const chartData = data?.chart_data || ORG_DATA;
+  const title = data?.title || "منظمتنا";
+
   return (
     <section className="relative w-full bg-[#F8F9FA] text-black py-24 select-none overflow-hidden" dir="ltr">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col h-full">
 
         {/* Header (Top Right - RTL applied just for the header) */}
         <div className="flex flex-col items-start text-right w-full" dir="rtl">
-          <SectionTitle title="منظمتنا" theme="light" />
+          <SectionTitle title={title} theme="light" />
         </div>
 
         {/* Chart Container (Scrollable horizontally on small screens) */}
@@ -94,7 +97,7 @@ const OrganizationChart = () => {
 
             {/* Level 1: GM */}
             <div className="relative flex flex-col items-center">
-              <BlackBox title={ORG_DATA.gm.title} name={ORG_DATA.gm.name} className="w-[280px]" delay={0.1} />
+              <BlackBox title={chartData.gm.title} name={chartData.gm.name} className="w-[280px]" delay={0.1} />
               {/* Line down to CEO */}
               <div className="w-px h-8 bg-black"></div>
             </div>
@@ -102,12 +105,12 @@ const OrganizationChart = () => {
             {/* Level 2: CEO & Secretary */}
             <div className="relative flex flex-col items-center">
               <div className="relative">
-                <BlackBox title={ORG_DATA.ceo.title} name={ORG_DATA.ceo.name} className="w-[280px]" delay={0.3} />
+                <BlackBox title={chartData.ceo.title} name={chartData.ceo.name} className="w-[280px]" delay={0.3} />
 
                 {/* Secretary Box (Attached to left of CEO) */}
                 <div className="absolute top-1/2 right-[100%] -translate-y-1/2 flex items-center pr-8">
                   <div className="absolute right-0 top-1/2 w-8 border-t border-dashed border-gray-400 -z-10"></div>
-                  <WhiteBox title={ORG_DATA.secretary.title} name={ORG_DATA.secretary.name} className="w-[180px]" delay={0.5} />
+                  <WhiteBox title={chartData.secretary.title} name={chartData.secretary.name} className="w-[180px]" delay={0.5} />
                 </div>
               </div>
 
@@ -121,7 +124,7 @@ const OrganizationChart = () => {
               <div className="absolute top-0 left-[10%] right-[10%] h-[2px] bg-black"></div>
 
               <div className="flex flex-row justify-around w-full pt-6 relative">
-                {ORG_DATA.branches.map((branch, idx) => (
+                {chartData.branches.map((branch, idx) => (
                   <div key={idx} className="flex flex-col items-center relative w-[200px]">
                     {/* Vertical line up to horizontal bus */}
                     <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-px h-6 bg-black"></div>

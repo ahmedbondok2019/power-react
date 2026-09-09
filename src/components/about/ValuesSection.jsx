@@ -36,7 +36,9 @@ const VALUES = [
   }
 ];
 
-const ValuesSection = () => {
+const ValuesSection = ({ data }) => {
+  const items = (data && data.length > 0) ? data : VALUES;
+
   return (
     <section className="relative w-full bg-[#141615] text-white py-24 px-6 lg:px-12 select-none">
       <div className="max-w-7xl mx-auto">
@@ -65,9 +67,9 @@ const ValuesSection = () => {
             viewport={{ once: false, margin: "-100px" }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
           >
-            {VALUES.map((val) => (
+            {items.map((val, idx) => (
               <motion.div
-                key={val.id}
+                key={val.id || idx}
                 variants={cardVariants}
                 className="will-change-transform flex justify-center"
               >

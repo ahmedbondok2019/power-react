@@ -20,7 +20,9 @@ const ISO_CERTS = [
   }
 ];
 
-const IsoCertificatesSection = () => {
+const IsoCertificatesSection = ({ data }) => {
+  const items = (data && data.length > 0) ? data : ISO_CERTS;
+
   return (
     <section className="w-full bg-[#F3F4F6] text-black py-12 pb-24 select-none" dir="rtl">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
@@ -31,7 +33,7 @@ const IsoCertificatesSection = () => {
           viewport={{ once: false, amount: 0.1, margin: '0px 0px -100px 0px' }}
           className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12"
         >
-          {ISO_CERTS.map((cert, index) => (
+          {items.map((cert) => (
             <motion.div
               key={cert.id}
               variants={cardVariants}
