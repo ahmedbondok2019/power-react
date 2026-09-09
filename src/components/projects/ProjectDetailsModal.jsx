@@ -166,7 +166,7 @@ const ProjectDetailsModal = ({ project, isOpen, onClose }) => {
                     <span className="text-[11px] text-white/50 block font-medium">المعايير المطبقة</span>
                     <div className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#FFB800]">
                       <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
-                      <span>{project.highlight || 'ISO & Saudi Code'}</span>
+                      <span>{project.standards || project.highlight || 'ISO & Saudi Code'}</span>
                     </div>
                   </div>
                 </div>
@@ -211,15 +211,27 @@ const ProjectDetailsModal = ({ project, isOpen, onClose }) => {
                       <span>مؤشرات وأرقام الأداء</span>
                     </h4>
                     <div className="flex flex-wrap gap-2.5">
-                      {Object.entries(project.stats || project.specs).map(([key, val], idx) => (
-                        <div
-                          key={idx}
-                          className="px-3.5 py-2 rounded-xl bg-white/5 border border-[#FFB800]/20 text-xs font-mono text-white flex items-center gap-2"
-                        >
-                          <span className="text-[#FFB800] font-bold">•</span>
-                          <span>{val}</span>
-                        </div>
-                      ))}
+                      {Array.isArray(project.stats) ? (
+                        project.stats.map((stat, idx) => (
+                          <div
+                            key={idx}
+                            className="px-3.5 py-2 rounded-xl bg-white/5 border border-[#FFB800]/20 text-xs text-white flex items-center gap-2"
+                          >
+                            <span className="text-[#FFB800] font-bold font-mono">{stat.value}</span>
+                            <span className="text-white/70">{stat.label}</span>
+                          </div>
+                        ))
+                      ) : (
+                        Object.entries(project.stats || project.specs).map(([key, val], idx) => (
+                          <div
+                            key={idx}
+                            className="px-3.5 py-2 rounded-xl bg-white/5 border border-[#FFB800]/20 text-xs font-mono text-white flex items-center gap-2"
+                          >
+                            <span className="text-[#FFB800] font-bold">•</span>
+                            <span>{val}</span>
+                          </div>
+                        ))
+                      )}
                     </div>
                   </div>
                 )}

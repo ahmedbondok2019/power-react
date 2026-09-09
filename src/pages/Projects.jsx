@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/ui/SectionTitle';
 import AdditionalProjectsSection from '../components/projects/AdditionalProjectsSection';
 import ProjectDetailsModal from '../components/projects/ProjectDetailsModal';
+import { useProjectsPageData } from '../hooks/useProjectsPageData';
 import {
   MapPin,
   Calendar,
@@ -13,14 +14,32 @@ import {
   ArrowRight
 } from 'lucide-react';
 
-import { PROJECTS_LIST } from '../utils/projectsData';
-
 const Projects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
+  const { data: pageData, isLoading } = useProjectsPageData();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Collect all project items from API sections
+  const allApiProjects = useMemo(() => {
+    const mainList = pageData?.projects_section?.items || [];
+    const addList = pageData?.additional_projects_section?.items || [];
+    return [...mainList, ...addList];
+  }, [pageData]);
+
+  // Main projects (type === 'main')
+  const mainProjects = useMemo(() => {
+    const list = allApiProjects.filter(p => p.type === 'main');
+    return list.length > 0 ? list : (pageData?.projects_section?.items || []);
+  }, [allApiProjects, pageData]);
+
+  // Additional projects (type !== 'main' or from additional_projects_section)
+  const additionalProjects = useMemo(() => {
+    const list = allApiProjects.filter(p => p.type !== 'main');
+    return list.length > 0 ? list : (pageData?.additional_projects_section?.items || []);
+  }, [allApiProjects, pageData]);
 
   return (
     <div className="min-h-screen bg-[#111312] text-white selection:bg-[#EAB308] selection:text-black">
@@ -66,12 +85,12 @@ const Projects = () => {
 
           {/* Projects Cards Grid with Bottom-to-Top Staggered Animation */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {PROJECTS_LIST.map((project, idx) => (
+            {mainProjects.map((project, idx) => (
               <motion.div
-                key={project.id}
+                key={project.id || idx}
                 initial={{ opacity: 0, y: 70, scale: 0.95 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: false, amount: 0.15 }}
+                viewport={{ once: true, amount: 0.15 }}
                 transition={{
                   type: "spring",
                   stiffness: 220,
@@ -95,7 +114,7 @@ const Projects = () => {
                     {/* Top Category Badge */}
                     <div className="absolute top-4 right-4 flex items-center gap-2">
                       <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-xs font-semibold text-[#FFB800]">
-                        {project.category}
+                        {project.category || project.category_obj?.name}
                       </span>
                     </div>
 
@@ -111,9 +130,11 @@ const Projects = () => {
                     <h3 className="text-xl font-bold text-white group-hover:text-[#FFB800] transition-colors leading-snug">
                       {project.title}
                     </h3>
-                    <p className="text-xs text-[#FFB800] font-mono tracking-wide">
-                      {project.titleEn}
-                    </p>
+                    {project.titleEn && (
+                      <p className="text-xs text-[#FFB800] font-mono tracking-wide">
+                        {project.titleEn}
+                      </p>
+                    )}
                     <p className="text-sm text-white/70 leading-relaxed line-clamp-3">
                       {project.scope}
                     </p>
@@ -140,8 +161,11 @@ const Projects = () => {
         </div>
       </section>
 
-      {/* Additional Projects Section (المشاريع الإضافية - بدون صور بتصميم تقني احترافي) */}
-      <AdditionalProjectsSection onSelectProject={(proj) => setSelectedProject(proj)} />
+      {/* Additional Projects Section (المشاريع الإضافية - filtered by type !== 'main') */}
+      <AdditionalProjectsSection
+        items={additionalProjects}
+        onSelectProject={(proj) => setSelectedProject(proj)}
+      />
 
       {/* Interactive Project Details Modal */}
       <ProjectDetailsModal
