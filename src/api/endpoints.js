@@ -9,8 +9,8 @@ export const ENDPOINTS = {
   // جاهز لإضافة بقية الـ Endpoints المستقبلية بسهولة
   SERVICES: '/services',
   PROJECTS: '/projects',
-  BLOGS: '/blogs',
   CONTACT_PAGE: '/contact-page',
   CONTACT_SEND: '/contact/send',
   CONTACT: '/contact',
+  SETTINGS: '/settings',
 };

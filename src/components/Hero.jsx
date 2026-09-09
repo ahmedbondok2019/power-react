@@ -119,7 +119,7 @@ const Hero = ({
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
               src={heroVisionLogo}
               alt="Vision 2030"
-              className="h-32 sm:h-40 md:h-48 lg:h-[220px] w-auto object-contain brightness-0 invert drop-shadow-2xl origin-right"
+              className="h-16 sm:h-20 md:h-24 lg:h-32 w-auto object-contain brightness-0 invert drop-shadow-xl origin-right"
             />
           </motion.div>
         )}
@@ -130,16 +130,11 @@ const Hero = ({
             initial={{ opacity: 0, x: 80 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.9, delay: 0.5, ease: EASE }}
-            className="mb-2 max-w-4xl"
-            style={{
-              fontFamily: "'Tajawal', sans-serif",
-              fontWeight: 700,
-              fontSize: '32px',
-              lineHeight: '78px',
-              textAlign: 'right'
-            }}
+            className="mb-4 inline-block px-5 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-md shadow-lg"
           >
-            {heroBadge}
+            <span className="text-white text-sm md:text-base font-bold tracking-wide" style={{ fontFamily: "'Tajawal', sans-serif" }}>
+              {heroBadge}
+            </span>
           </motion.div>
         )}
 
@@ -148,12 +143,9 @@ const Hero = ({
           initial={{ opacity: 0, x: 120, skewX: -6 }}
           animate={{ opacity: 1, x: 0, skewX: 0 }}
           transition={{ duration: 1.1, delay: 0.55, ease: EASE }}
-          className="text-white drop-shadow-2xl mb-4 max-w-5xl"
+          className="text-white drop-shadow-2xl mb-6 max-w-5xl text-4xl sm:text-5xl md:text-6xl lg:text-[70px] font-extrabold leading-[1.2] lg:leading-[1.1]"
           style={{
             fontFamily: "'HSN Shahd Bold', 'HSN Shahd', sans-serif",
-            fontWeight: 700,
-            fontSize: '48px',
-            lineHeight: '1.4',
             textAlign: 'right'
           }}
         >
@@ -166,12 +158,9 @@ const Hero = ({
             initial={{ opacity: 0, x: -80 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.0, delay: 0.75, ease: EASE }}
-            className="text-white mb-6 max-w-3xl"
+            className="text-white/90 mb-10 max-w-3xl text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed font-medium"
             style={{
-              fontFamily: "'Inter', sans-serif",
-              fontWeight: 500,
-              fontSize: '15px',
-              lineHeight: '38px',
+              fontFamily: "'Inter', 'Tajawal', sans-serif",
               textAlign: 'right'
             }}
           >
@@ -180,45 +169,29 @@ const Hero = ({
         )}
         {buttonText && (
           <motion.div
-            initial={{ opacity: 0, y: 60, scale: 0.85 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.0, delay: 0.95, ease: EASE }}
-            className="pt-4 flex w-full justify-start"
+            className="flex w-full justify-start"
             dir="rtl"
           >
             {buttonLink.startsWith('/') ? (
               <Link
                 to={buttonLink}
-                className="inline-flex items-center justify-center gap-3 text-white hover:text-[#D4E128] transition-colors duration-300 group cursor-pointer"
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontWeight: 500,
-                  fontSize: '36px',
-                  lineHeight: '109px',
-                  letterSpacing: '0%',
-                  textAlign: 'center',
-                  verticalAlign: 'middle',
-                }}
+                className="inline-flex items-center justify-center gap-3 bg-[#EAB308] hover:bg-[#D4E128] text-black px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_10px_40px_rgba(234,179,8,0.3)] group"
+                style={{ fontFamily: "'Inter', 'Tajawal', sans-serif" }}
               >
                 <span>{buttonText}</span>
-                <ArrowLeftCircle className="w-8 h-8 group-hover:-translate-x-2 transition-transform duration-300 text-[#D4E128]" />
+                <ArrowLeftCircle className="w-6 h-6 group-hover:-translate-x-1.5 transition-transform duration-300 text-black/80" />
               </Link>
             ) : (
               <a
                 href={buttonLink}
-                className="inline-flex items-center justify-center gap-3 text-white hover:text-[#D4E128] transition-colors duration-300 group cursor-pointer"
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontWeight: 500,
-                  fontSize: '36px',
-                  lineHeight: '109px',
-                  letterSpacing: '0%',
-                  textAlign: 'center',
-                  verticalAlign: 'middle',
-                }}
+                className="inline-flex items-center justify-center gap-3 bg-[#EAB308] hover:bg-[#D4E128] text-black px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_10px_40px_rgba(234,179,8,0.3)] group"
+                style={{ fontFamily: "'Inter', 'Tajawal', sans-serif" }}
               >
                 <span>{buttonText}</span>
-                <ArrowLeftCircle className="w-8 h-8 group-hover:-translate-x-2 transition-transform duration-300 text-[#D4E128]" />
+                <ArrowLeftCircle className="w-6 h-6 group-hover:-translate-x-1.5 transition-transform duration-300 text-black/80" />
               </a>
             )}
           </motion.div>

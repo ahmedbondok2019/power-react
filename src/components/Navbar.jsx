@@ -2,11 +2,14 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Search, Bell, User } from 'lucide-react';
-import Logo from './ui/Logo';
+import Logo from '../../public/logo.png';
+import { useSettingsData } from '../hooks/useSettingsData';
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { data: settingsData } = useSettingsData();
+  const logoUrl = settingsData?.data?.logo || Logo;
 
   const isAboutPage = location.pathname.toLowerCase().includes('about');
   const isServicesPage = location.pathname.toLowerCase().includes('service') || location.pathname.includes('خدمات');
@@ -34,11 +37,11 @@ const Navbar = () => {
       transition={{ duration: 0.8, delay: 0.5, ease: [0.77, 0, 0.175, 1] }}
       className="fixed w-full z-50 top-0 left-0 border-b border-white/20 bg-white/10 backdrop-blur-xl shadow-sm"
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-5 lg:py-6">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-2 ">
 
         {/* Logo (First in DOM = Right side in RTL) */}
         <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <Logo />
+          <img src={logoUrl} alt={settingsData?.data?.site_name || "Egypt Vision"} className="h-10 md:h-12 w-auto object-contain" />
         </Link>
 
         {/* Links (Desktop) */}
@@ -51,8 +54,8 @@ const Navbar = () => {
                 <Link
                   to={item.to}
                   className={`font-medium text-sm xl:text-base transition-colors whitespace-nowrap cursor-pointer relative py-1 ${isActive
-                      ? 'text-[#EAB308] font-bold'
-                      : 'text-white/90 hover:text-[#EAB308]'
+                    ? 'text-[#EAB308] font-bold'
+                    : 'text-white/90 hover:text-[#EAB308]'
                     }`}
                 >
                   {item.label}
@@ -121,8 +124,8 @@ const Navbar = () => {
                   to={item.to}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`text-right py-2 text-base font-medium transition-colors ${item.active
-                      ? 'text-[#EAB308] font-bold'
-                      : 'text-white/80 hover:text-[#EAB308]'
+                    ? 'text-[#EAB308] font-bold'
+                    : 'text-white/80 hover:text-[#EAB308]'
                     }`}
                 >
                   {item.label}
