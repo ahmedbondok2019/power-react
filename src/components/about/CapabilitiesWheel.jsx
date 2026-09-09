@@ -128,15 +128,12 @@ const CapabilitiesWheel = ({ data }) => {
       scrollTrigger: {
         trigger: containerRef.current,
         start: "top top",
-        end: `+=${totalStages * 1100}`, // Ample scroll distance
-        pin: true,
+        end: "bottom bottom", // Scrubs over the entire height of the sticky section
         scrub: 1, // Smooth mechanical scrub
-        anticipatePin: 1,
         onUpdate: (self) => {
           const progress = self.progress;
           // Calculate active stage that is exactly at the front 180° focal point
-          const rawStage = progress * (totalStages - 1);
-          const currentStage = Math.min(Math.round(rawStage), totalStages - 1);
+          const currentStage = Math.min(Math.floor(progress * totalStages), totalStages - 1);
           setActiveStageIndex(currentStage);
         }
       }
@@ -165,14 +162,17 @@ const CapabilitiesWheel = ({ data }) => {
   return (
     <section
       ref={containerRef}
-      className="relative w-full h-screen bg-[#141615] text-white overflow-hidden select-none"
+      className="relative w-full bg-[#141615] text-white select-none"
+      style={{ height: `calc(100vh + ${stages.length * 600}px)` }}
     >
-      {/* Background Atmosphere */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_85%_50%,rgba(235,251,56,0.08),transparent_60%)] pointer-events-none" />
-      <div className="absolute top-1/2 right-[10%] w-[500px] h-[500px] bg-[#EBFB38]/5 rounded-full blur-[140px] pointer-events-none -translate-y-1/2" />
+      {/* Sticky Inner Container */}
+      <div className="sticky top-0 w-full h-screen overflow-hidden">
+        {/* Background Atmosphere */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_85%_50%,rgba(235,251,56,0.08),transparent_60%)] pointer-events-none" />
+        <div className="absolute top-1/2 right-[10%] w-[500px] h-[500px] bg-[#EBFB38]/5 rounded-full blur-[140px] pointer-events-none -translate-y-1/2" />
 
-      {/* Main Container */}
-      <div className="relative w-full h-full max-w-7xl mx-auto px-6 flex flex-col justify-between pt-16 sm:pt-20 pb-6 z-10">
+        {/* Main Container */}
+        <div className="relative w-full h-full max-w-7xl mx-auto px-6 flex flex-col justify-between pt-16 sm:pt-20 pb-6 z-10">
 
         {/* Top Header: Section Title (Far Right in RTL) & Step Counter (Left) */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-white/10 pb-3 shrink-0 w-full">
@@ -358,6 +358,8 @@ const CapabilitiesWheel = ({ data }) => {
               />
             ))}
           </div>
+        </div>
+
         </div>
 
       </div>

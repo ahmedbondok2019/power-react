@@ -1,7 +1,3 @@
-/**
- * Central API Endpoints Definition
- */
-
 export const BASE_URL = 'https://admin.globexhup.com/api/v1';
 
 export const ENDPOINTS = {
@@ -14,5 +10,7 @@ export const ENDPOINTS = {
   SERVICES: '/services',
   PROJECTS: '/projects',
   BLOGS: '/blogs',
+  CONTACT_PAGE: '/contact-page',
+  CONTACT_SEND: '/contact/send',
   CONTACT: '/contact',
 };

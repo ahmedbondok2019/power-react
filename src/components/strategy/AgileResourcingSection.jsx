@@ -116,9 +116,7 @@ const AgileResourcingSection = ({ data }) => {
     const st = ScrollTrigger.create({
       trigger: triggerContainerRef.current,
       start: "top top",
-      end: `+=${totalStages * 500}`, // Balanced, smooth pacing (2000px total)
-      pin: pinnedTimelineRef.current,
-      pinSpacing: true,
+      end: "bottom bottom", // Scrubs over the entire height of the sticky section
       scrub: 0.5,
       snap: {
         snapTo: totalStages > 1 ? 1 / (totalStages - 1) : 1,
@@ -126,11 +124,9 @@ const AgileResourcingSection = ({ data }) => {
         delay: 0.05,
         ease: "power1.inOut"
       },
-      anticipatePin: 1,
       onUpdate: (self) => {
         const progress = self.progress;
-        const rawStage = progress * (totalStages - 1);
-        const currentStage = Math.min(Math.round(rawStage), totalStages - 1);
+        const currentStage = Math.min(Math.floor(progress * totalStages), totalStages - 1);
         setActiveIdx((prev) => (prev !== currentStage ? currentStage : prev));
       }
     });
@@ -158,7 +154,7 @@ const AgileResourcingSection = ({ data }) => {
   return (
     <section 
       id="التوزيع-المرن-للموارد"
-      className="relative w-full bg-[#111312] text-white overflow-hidden select-none border-b border-white/5"
+      className="relative w-full bg-[#111312] text-white select-none border-b border-white/5"
       dir="rtl"
     >
       {/* Ambient Lighting Background */}
@@ -196,10 +192,11 @@ const AgileResourcingSection = ({ data }) => {
       <div 
         ref={triggerContainerRef}
         className="relative w-full z-10"
+        style={{ height: `calc(100vh + ${stages.length * 350}px)` }}
       >
         <div 
           ref={pinnedTimelineRef}
-          className="w-full h-screen min-h-[600px] flex flex-col justify-center px-4 sm:px-8 lg:px-12 py-8 max-w-7xl mx-auto"
+          className="sticky top-0 w-full h-screen min-h-[600px] flex flex-col justify-center px-4 sm:px-8 lg:px-12 py-8 max-w-7xl mx-auto"
         >
           {/* Timeline Header Label */}
           <div className="mb-6 text-left" dir="ltr">
