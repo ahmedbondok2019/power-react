@@ -4,7 +4,6 @@ import { ArrowLeftCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SectionTitle from './ui/SectionTitle';
 import ServiceDetailsModal from './services/ServiceDetailsModal';
-import { SERVICES_DATA } from '../pages/Services';
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -28,8 +27,25 @@ const cardVariants = {
   }
 };
 
-const ServicesSection = () => {
+const ServicesSection = ({
+  data,
+  title = '',
+  subtitle = '',
+  items = [],
+}) => {
   const [selectedService, setSelectedService] = useState(null);
+
+  const sectionTitle = data?.header?.title || title;
+  const sectionSubtitle = data?.header?.subtitle || subtitle;
+  const rawItems = data?.items || items || [];
+
+  // Normalize items to match component expectations
+  const displayServices = rawItems.map((item) => ({
+    ...item,
+    arabic: item.category || item.category_obj?.name || item.arabic || '',
+    title: item.title,
+    image: item.image,
+  }));
 
   return (
     <section id="خدماتنا" className="min-h-screen py-24 bg-[#111312] text-white relative overflow-hidden">
@@ -50,7 +66,7 @@ const ServicesSection = () => {
             viewport={{ once: false, margin: '-60px' }}
             transition={{ duration: 0.9, ease: EASE }}
           >
-            <SectionTitle title="خدماتنا" theme="dark" />
+            <SectionTitle title={sectionTitle} theme="dark" />
           </motion.div>
 
           {/* Link — SECOND in DOM, so it appears on the LEFT in RTL */}
@@ -69,17 +85,19 @@ const ServicesSection = () => {
         </div>
 
         {/* Description — from right */}
-        <motion.div
-          className="text-right mb-14"
-          initial={{ opacity: 0, x: 80 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: false, margin: '-60px' }}
-          transition={{ duration: 0.85, delay: 0.1, ease: EASE }}
-        >
-          <p className="typography-paragraph-main text-white/90 max-w-4xl ml-auto leading-relaxed">
-            نقدم مجموعة واسعة من خدمات المقاولات من المقاولات الجزئية إلى المقاولات العامة مع تغطية لعدة قطاعات. (اضغط على أي خدمة للاطلاع على التفاصيل الكاملة)
-          </p>
-        </motion.div>
+        {sectionSubtitle && (
+          <motion.div
+            className="text-right mb-14"
+            initial={{ opacity: 0, x: 80 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: false, margin: '-60px' }}
+            transition={{ duration: 0.85, delay: 0.1, ease: EASE }}
+          >
+            <p className="typography-paragraph-main text-white/90 max-w-4xl ml-auto leading-relaxed">
+              {sectionSubtitle}
+            </p>
+          </motion.div>
+        )}
 
         <motion.div
           variants={containerVariants}
@@ -88,7 +106,7 @@ const ServicesSection = () => {
           viewport={{ once: false, amount: 0.1, margin: '0px 0px -100px 0px' }}
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center max-w-7xl mx-auto"
         >
-          {SERVICES_DATA.map((svc, i) => (
+          {displayServices.map((svc, i) => (
             <motion.div
               key={svc.id || i}
               variants={cardVariants}

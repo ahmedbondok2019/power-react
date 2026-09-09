@@ -13,6 +13,7 @@ const Navbar = () => {
   const isProjectsPage = location.pathname.toLowerCase().includes('project');
   const isStrategyPage = location.pathname.toLowerCase().includes('strategy') || location.pathname.includes('استراتيجيتنا');
   const isContactPage = location.pathname.toLowerCase().includes('contact') || location.pathname.includes('اتصل');
+  const isBlogsPage = location.pathname.toLowerCase().includes('blog') || location.pathname.includes('مقالات');
 
   const navItems = [
     { label: 'الرئيسية', to: '/', isRoute: true, active: location.pathname === '/' },
@@ -20,6 +21,7 @@ const Navbar = () => {
     { label: 'خدماتنا', to: '/services', isRoute: true, active: isServicesPage },
     { label: 'مشاريعنا', to: '/projects', isRoute: true, active: isProjectsPage },
     { label: 'استراتيجياتنا', to: '/strategy', isRoute: true, active: isStrategyPage },
+    { label: 'المدونة', to: '/blogs', isRoute: true, active: isBlogsPage },
     { label: 'اتصل بنا', to: '/contact', isRoute: true, active: isContactPage },
   ];
 

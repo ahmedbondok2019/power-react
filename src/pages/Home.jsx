@@ -7,12 +7,13 @@ import ProjectsSection from '../components/ProjectsSection';
 import HallOfFameSection from '../components/HallOfFameSection';
 import FeaturedProjectsCards from '../components/FeaturedProjectsCards';
 import { initCinematicAnimations } from '../animations/cinematicHome';
+import { useHomeData } from '../hooks/useHomeData';
 
 const Home = () => {
+  const { data: homeData, isLoading, isError } = useHomeData();
+
   useEffect(() => {
     // Run cinematic animation system after the DOM is painted
-    // Small rAF delay ensures all Framer Motion entrance animations
-    // have already started before GSAP takes over scroll-driven effects
     const raf = requestAnimationFrame(() => {
       const cleanup = initCinematicAnimations();
       return cleanup;
@@ -21,21 +22,23 @@ const Home = () => {
     return () => cancelAnimationFrame(raf);
   }, []);
 
+  const heroData = homeData?.hero_section;
+  const aboutData = homeData?.about_section;
+  const servicesData = homeData?.services_section;
+  const groupData = homeData?.group_structure;
+  const projectsData = homeData?.featured_projects;
   return (
     <>
       <div className="bg-white">
-        <Hero
-          mediaType="image"
-          bgImage="/hero-bg.jpg"
-        />
-        <AboutSection />
+        <Hero data={homeData?.hero_section} />
+        <AboutSection data={homeData?.about_section} />
       </div>
 
-      <ServicesSection />
-      <GroupStructureSection />
-      <ProjectsSection />
-      <HallOfFameSection />
-      <FeaturedProjectsCards />
+      <ServicesSection data={homeData?.services_section} />
+      <GroupStructureSection data={homeData?.group_structure} />
+      <ProjectsSection data={homeData?.featured_projects} />
+      <HallOfFameSection data={homeData?.hall_of_fame} />
+      <FeaturedProjectsCards data={homeData?.featured_cards || homeData?.blogs || homeData?.blogs_section?.items} />
     </>
   );
 };

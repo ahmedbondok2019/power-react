@@ -26,23 +26,31 @@ const AnimatedCounter = ({ target, duration = 2 }) => {
 const EASE = [0.22, 1, 0.36, 1];
 
 const Hero = ({
+  data,
   id = 'الرئيسية',
-  badge = 'من نحن',
-  title = 'نبني الخبرة. ننفذ بثقة. نصنع أثرًا يدوم.',
-  subtitle = 'شركة متخصصة في خدمات المقاولات وتنفيذ المشاريع في ....',
+  badge = '',
+  title = '',
+  subtitle = '',
   buttonText = 'استكشف مشاريعنا',
   buttonLink = '/projects',
-  bgImage = '/hero-bg.jpg',
+  bgImage = '',
+  visionLogo = '',
   showVisionLogo = true,
   mediaType = 'image',
   scrollTarget = '#من-نحن',
+  scrollText = '',
   showStatsCards = false,
-  stats = [
-    { number: 16, label: 'عاماً من الخبرة' },
-    { number: 50, label: 'مشروعاً مكتمل' },
-    { number: 10, label: 'مدن رئيسية' },
-  ],
+  stats = [],
 }) => {
+  // Resolve values either from data prop (e.g. data={heroData}) or direct props
+  const heroBadge = data?.badge ?? badge;
+  const heroTitle = data?.title ?? title;
+  const heroSubtitle = data?.subtitle ?? subtitle;
+  const heroBgImage = data?.image ?? bgImage;
+  const heroVisionLogo = data?.vision_logo ?? visionLogo ?? '/Vision2030.png';
+  const heroMediaType = data?.media_type ?? mediaType ?? 'image';
+  const heroScrollText = data?.scroll_text ?? scrollText ?? 'اسحب للأسفل';
+
   return (
     <section
       id={id}
@@ -76,10 +84,10 @@ const Hero = ({
         >
           <div className="absolute inset-0 bg-gradient-to-l from-black/60 via-black/30 to-black/15 z-10 pointer-events-none" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/30 z-10 pointer-events-none" />
-          {mediaType === 'video' ? (
-            <video autoPlay loop muted playsInline className="w-full h-full object-cover" src={bgImage} />
+          {heroMediaType === 'video' ? (
+            <video autoPlay loop muted playsInline className="w-full h-full object-cover" src={heroBgImage} />
           ) : (
-            <img src={bgImage} alt="Hero Background" className="w-full h-full object-cover" />
+            <img src={heroBgImage} alt="Hero Background" className="w-full h-full object-cover" />
           )}
         </motion.div>
       </motion.div>
@@ -99,7 +107,7 @@ const Hero = ({
       >
 
         {/* Vision 2030 logo — falls from top */}
-        {showVisionLogo && (
+        {showVisionLogo && heroVisionLogo && (
           <motion.div
             initial={{ opacity: 0, y: -60, scale: 0.7 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -109,7 +117,7 @@ const Hero = ({
             <motion.img
               animate={{ y: [0, -6, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              src="/Vision2030.png"
+              src={heroVisionLogo}
               alt="Vision 2030"
               className="h-32 sm:h-40 md:h-48 lg:h-[220px] w-auto object-contain brightness-0 invert drop-shadow-2xl origin-right"
             />
@@ -117,7 +125,7 @@ const Hero = ({
         )}
 
         {/* Badge — from right */}
-        {badge && (
+        {heroBadge && (
           <motion.div
             initial={{ opacity: 0, x: 80 }}
             animate={{ opacity: 1, x: 0 }}
@@ -131,7 +139,7 @@ const Hero = ({
               textAlign: 'right'
             }}
           >
-            {badge}
+            {heroBadge}
           </motion.div>
         )}
 
@@ -149,11 +157,11 @@ const Hero = ({
             textAlign: 'right'
           }}
         >
-          {title}
+          {heroTitle}
         </motion.h1>
 
         {/* Subtitle — from left (opposite) */}
-        {subtitle && (
+        {heroSubtitle && (
           <motion.div
             initial={{ opacity: 0, x: -80 }}
             animate={{ opacity: 1, x: 0 }}
@@ -167,7 +175,7 @@ const Hero = ({
               textAlign: 'right'
             }}
           >
-            {subtitle}
+            {heroSubtitle}
           </motion.div>
         )}
         {buttonText && (
@@ -261,7 +269,7 @@ const Hero = ({
           className="relative z-20 mx-auto mb-6 flex flex-col items-center gap-1.5 text-white/80 hover:text-[#FFB800] transition-colors cursor-pointer group"
         >
           <span className="text-[11px] tracking-widest uppercase font-bold text-white/90 group-hover:text-[#FFB800] transition-colors">
-            اسحب للأسفل
+            {heroScrollText}
           </span>
           <ChevronDown className="w-5 h-5 group-hover:translate-y-1 transition-transform" />
         </motion.a>

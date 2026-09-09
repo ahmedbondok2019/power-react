@@ -4,20 +4,15 @@ import { ArrowLeft, ArrowUpRight, MapPin, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SectionTitle from './ui/SectionTitle';
 import ProjectDetailsModal from './projects/ProjectDetailsModal';
-import { PROJECTS_LIST } from '../utils/projectsData';
 
 // Luxurious cubic-bezier curve for high-end feel
 const EASE = [0.16, 1, 0.3, 1];
-
-// Pick the first 4 projects from shared projects list for the home featured grid
-const homeProjects = PROJECTS_LIST.slice(0, 4);
 
 const containerVariants = {
   hidden: {},
   show: {
     transition: {
-      staggerChildren: 0.18,
-      delayChildren: 0.1,
+      staggerChildren: 0.15,
     }
   }
 };
@@ -25,24 +20,43 @@ const containerVariants = {
 const cardVariants = {
   hidden: (index) => ({
     opacity: 0,
-    x: index % 2 === 0 ? 120 : -120, // Right column comes from right, left column from left
-    scale: 0.92,
-    filter: 'blur(8px)',
+    x: index % 2 === 0 ? 60 : -60,
+    filter: 'blur(4px)',
   }),
   show: {
     opacity: 1,
     x: 0,
-    scale: 1,
     filter: 'blur(0px)',
     transition: {
-      duration: 1.0,
-      ease: [0.22, 1, 0.36, 1],
+      duration: 0.8,
+      ease: 'linear', // سرعة واحدة ثابتة وسلسة من البداية للنهاية
     },
   },
 };
 
-const ProjectsSection = () => {
+const ProjectsSection = ({
+  data,
+  badge = '',
+  title = '',
+  mapImage = '',
+  projects = [],
+}) => {
   const [selectedProject, setSelectedProject] = useState(null);
+
+  const sectionBadge = data?.header?.badge || badge;
+  const sectionTitle = data?.header?.title || title;
+  const sectionMap = data?.header?.map_image || mapImage || '/saudi_arabia_3d_map_no_text2.png';
+  const rawProjects = data?.items || projects || [];
+
+  // Normalize project structure to ensure all properties work cleanly
+  const displayProjects = rawProjects.map((p) => ({
+    ...p,
+    title: p.title,
+    image: p.image,
+    location: p.location || '',
+    year: p.year || p.execution_year || '',
+    category: p.category || p.category_obj?.name || p.subtitle || '',
+  }));
 
   return (
     <section id="مشاريعنا" className="relative bg-[#FAFAFA] text-[#111312] overflow-hidden py-24 sm:py-32">
@@ -54,7 +68,7 @@ const ProjectsSection = () => {
           whileInView={{ opacity: 1, scale: 1.08 }}
           viewport={{ once: false }}
           transition={{ duration: 1.8, ease: 'easeOut' }}
-          src="/saudi_arabia_3d_map_no_text2.png"
+          src={sectionMap}
           alt=""
           className="w-full h-full object-contain select-none"
         />
@@ -75,11 +89,13 @@ const ProjectsSection = () => {
             viewport={{ once: false, margin: '-50px' }}
             transition={{ duration: 0.8, ease: EASE }}
           >
-            <div className="flex items-center gap-2 justify-end mb-2 text-[#FFB800] text-sm font-bold tracking-wider">
-              <span className="w-8 h-[2px] bg-[#FFB800] rounded-full inline-block" />
-              <span>سجل الإنجازات والأعمال</span>
-            </div>
-            <SectionTitle title="مشاريعنا" theme="light" />
+            {sectionBadge && (
+              <div className="flex items-center gap-2 justify-end mb-2 text-[#FFB800] text-sm font-bold tracking-wider">
+                <span className="w-8 h-[2px] bg-[#FFB800] rounded-full inline-block" />
+                <span>{sectionBadge}</span>
+              </div>
+            )}
+            <SectionTitle title={sectionTitle} theme="light" />
           </motion.div>
 
           <motion.div
@@ -108,7 +124,7 @@ const ProjectsSection = () => {
           viewport={{ once: false, amount: 0.15 }}
           className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 justify-items-center max-w-[1140px] mx-auto"
         >
-          {homeProjects.map((project, index) => {
+          {displayProjects.map((project, index) => {
             return (
               <motion.div
                 key={project.id || index}
@@ -126,7 +142,7 @@ const ProjectsSection = () => {
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-700 ease-linear group-hover:scale-110"
                   />
                 </div>
 
@@ -178,7 +194,7 @@ const ProjectsSection = () => {
                   </div>
 
                   {/* Animated Accent Bar */}
-                  <div className="h-[3px] bg-gradient-to-l from-[#FFB800] to-transparent w-12 group-hover:w-full transition-all duration-700 ease-out mt-3 rounded-full mr-auto ml-0" />
+                  <div className="h-[3px] bg-gradient-to-l from-[#FFB800] to-transparent w-12 group-hover:w-full transition-all duration-500 ease-linear mt-3 rounded-full mr-auto ml-0" />
                 </div>
               </motion.div>
             );
