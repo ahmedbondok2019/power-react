@@ -1,4 +1,4 @@
-import { apiClient } from './client';
+import apiClient from './client';
 import { ENDPOINTS } from './endpoints';
 
 /**
@@ -6,5 +6,7 @@ import { ENDPOINTS } from './endpoints';
  */
 export const getServicesPageData = async () => {
   const response = await apiClient.get(ENDPOINTS.SERVICES_PAGE);
-  return response.data?.data;
+  // apiClient interceptor returns response.data directly:
+  // if response has a nested .data property, return response.data, otherwise return response
+  return response?.data || response;
 };

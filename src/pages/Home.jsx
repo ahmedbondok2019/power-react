@@ -8,9 +8,11 @@ import HallOfFameSection from '../components/HallOfFameSection';
 import FeaturedProjectsCards from '../components/FeaturedProjectsCards';
 import { initCinematicAnimations } from '../animations/cinematicHome';
 import { useHomeData } from '../hooks/useHomeData';
+import { useBlogs } from '../hooks/useBlogs';
 
 const Home = () => {
   const { data: homeData, isLoading, isError } = useHomeData();
+  const { data: blogsData } = useBlogs();
 
   useEffect(() => {
     // Run cinematic animation system after the DOM is painted
@@ -22,11 +24,6 @@ const Home = () => {
     return () => cancelAnimationFrame(raf);
   }, []);
 
-  const heroData = homeData?.hero_section;
-  const aboutData = homeData?.about_section;
-  const servicesData = homeData?.services_section;
-  const groupData = homeData?.group_structure;
-  const projectsData = homeData?.featured_projects;
   return (
     <>
       <div className="bg-white">
@@ -38,7 +35,14 @@ const Home = () => {
       <GroupStructureSection data={homeData?.group_structure} />
       <ProjectsSection data={homeData?.featured_projects} />
       <HallOfFameSection data={homeData?.hall_of_fame} />
-      <FeaturedProjectsCards data={homeData?.featured_cards || homeData?.blogs || homeData?.blogs_section?.items} />
+      <FeaturedProjectsCards 
+        data={
+          homeData?.featured_cards || 
+          homeData?.blogs || 
+          homeData?.blogs_section?.items || 
+          blogsData?.slice(0, 3)
+        } 
+      />
     </>
   );
 };

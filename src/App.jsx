@@ -18,6 +18,7 @@ import Strategy from './pages/Strategy';
 import ContactUs from './pages/ContactUs';
 import Blogs from './pages/Blogs';
 import BlogDetails from './pages/BlogDetails';
+import Careers from './pages/Careers';
 import Login from './pages/auth/Login';
 import Signup from './pages/auth/Signup';
 import ForgotPassword from './pages/auth/ForgotPassword';
@@ -106,6 +107,8 @@ function App() {
                 <Route path="/blogs" element={<Blogs />} />
                 <Route path="/blogs/:slug" element={<BlogDetails />} />
                 <Route path="/articles" element={<Blogs />} />
+                <Route path="/careers" element={<Careers />} />
+                <Route path="/jobs" element={<Careers />} />
                 <Route path="/contact" element={<ContactUs />} />
                 <Route path="/contact-us" element={<ContactUs />} />
                 <Route path="*" element={<Home />} />

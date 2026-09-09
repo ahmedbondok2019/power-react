@@ -14,6 +14,7 @@ const Navbar = () => {
   const isStrategyPage = location.pathname.toLowerCase().includes('strategy') || location.pathname.includes('استراتيجيتنا');
   const isContactPage = location.pathname.toLowerCase().includes('contact') || location.pathname.includes('اتصل');
   const isBlogsPage = location.pathname.toLowerCase().includes('blog') || location.pathname.includes('مقالات');
+  const isCareersPage = location.pathname.toLowerCase().includes('career') || location.pathname.includes('job') || location.pathname.includes('وظائف');
 
   const navItems = [
     { label: 'الرئيسية', to: '/', isRoute: true, active: location.pathname === '/' },
@@ -22,6 +23,7 @@ const Navbar = () => {
     { label: 'مشاريعنا', to: '/projects', isRoute: true, active: isProjectsPage },
     { label: 'استراتيجياتنا', to: '/strategy', isRoute: true, active: isStrategyPage },
     { label: 'المدونة', to: '/blogs', isRoute: true, active: isBlogsPage },
+    { label: 'الوظائف', to: '/careers', isRoute: true, active: isCareersPage },
     { label: 'اتصل بنا', to: '/contact', isRoute: true, active: isContactPage },
   ];
 
