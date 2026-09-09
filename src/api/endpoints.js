@@ -14,5 +14,5 @@ export const ENDPOINTS = {
   SERVICES: '/services',
   PROJECTS: '/projects',
   BLOGS: '/blogs',
-  CONTACT: '/contact', x``
+  CONTACT: '/contact',
 };
