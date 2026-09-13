@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import { FcGoogle } from 'react-icons/fc';
 import AuthLayout from './AuthLayout';
+import { loginUser } from '../../api/authApi';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '', remember: false });
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -16,14 +21,45 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login attempt:', formData);
-    // Add authentication logic here
+    setIsLoading(true);
+    setError('');
+    
+    try {
+      const payload = {
+        email_or_phone: formData.email,
+        password: formData.password,
+        remember_me: formData.remember
+      };
+      
+      const response = await loginUser(payload);
+      
+      if (response && response.data && response.data.token) {
+        localStorage.setItem('auth_token', response.data.token);
+        navigate('/profile');
+        window.location.reload();
+      } else if (response && response.token) {
+        localStorage.setItem('auth_token', response.token);
+        navigate('/profile');
+        window.location.reload();
+      } else {
+        setError(response.message || 'حدث خطأ أثناء تسجيل الدخول');
+      }
+    } catch (err) {
+      setError(err.message || 'بيانات الدخول غير صحيحة');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <AuthLayout title="تسجيل الدخول" subtitle="مرحباً بعودتك! يرجى إدخال بياناتك للمتابعة.">
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/20 text-red-500 text-sm p-4 rounded-xl mb-6 text-right" dir="rtl">
+          {error}
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="space-y-5" dir="rtl">
         {/* Email Input */}
         <div className="space-y-2">
@@ -99,10 +135,17 @@ const Login = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-primary hover:bg-primary-hover text-background font-bold py-3.5 px-4 rounded-xl transition-all duration-300 transform active:scale-[0.98] mt-6 flex justify-center items-center gap-2"
+          disabled={isLoading}
+          className="w-full bg-primary hover:bg-primary-hover disabled:opacity-70 disabled:hover:bg-primary text-background font-bold py-3.5 px-4 rounded-xl transition-all duration-300 transform active:scale-[0.98] mt-6 flex justify-center items-center gap-2"
         >
-          تسجيل الدخول
-          <ArrowLeft size={18} />
+          {isLoading ? (
+            <div className="w-6 h-6 border-2 border-background border-t-transparent rounded-full animate-spin"></div>
+          ) : (
+            <>
+              تسجيل الدخول
+              <ArrowLeft size={18} />
+            </>
+          )}
         </button>
 
         <div className="relative my-8">

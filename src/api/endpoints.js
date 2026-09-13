@@ -13,4 +13,8 @@ export const ENDPOINTS = {
   CONTACT_SEND: '/contact/send',
   CONTACT: '/contact',
   SETTINGS: '/settings',
+  AUTH_ME: '/auth/me',
+  AUTH_LOGIN: '/auth/login',
+  AUTH_REGISTER: '/auth/register',
+  AUTH_LOGOUT: '/auth/logout',
 };

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, User, Phone, ArrowLeft } from 'lucide-react';
 import { FcGoogle } from 'react-icons/fc';
 import AuthLayout from './AuthLayout';
+import { registerUser } from '../../api/authApi';
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,6 +15,10 @@ const Signup = () => {
     terms: false 
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
@@ -22,14 +27,47 @@ const Signup = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Signup attempt:', formData);
-    // Add registration logic here
+    setIsLoading(true);
+    setError('');
+    
+    try {
+      const payload = {
+        name: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password,
+        terms: formData.terms ? 1 : 0
+      };
+      
+      const response = await registerUser(payload);
+      
+      if (response && response.data && response.data.token) {
+        localStorage.setItem('auth_token', response.data.token);
+        navigate('/profile');
+        window.location.reload();
+      } else if (response && response.token) {
+        localStorage.setItem('auth_token', response.token);
+        navigate('/profile');
+        window.location.reload();
+      } else {
+        setError(response.message || 'حدث خطأ أثناء التسجيل');
+      }
+    } catch (err) {
+      setError(err.message || 'حدث خطأ أثناء التسجيل. يرجى التأكد من البيانات والمحاولة مجدداً');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <AuthLayout title="إنشاء حساب جديد" subtitle="انضم إلينا الآن لتجربة خدمات هندسية لا مثيل لها.">
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/20 text-red-500 text-sm p-4 rounded-xl mb-6 text-right" dir="rtl">
+          {error}
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="space-y-4" dir="rtl">
         {/* Full Name Input */}
         <div className="space-y-2">
@@ -143,10 +181,17 @@ const Signup = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-primary hover:bg-primary-hover text-background font-bold py-3.5 px-4 rounded-xl transition-all duration-300 transform active:scale-[0.98] mt-4 flex justify-center items-center gap-2"
+          disabled={isLoading}
+          className="w-full bg-primary hover:bg-primary-hover disabled:opacity-70 disabled:hover:bg-primary text-background font-bold py-3.5 px-4 rounded-xl transition-all duration-300 transform active:scale-[0.98] mt-4 flex justify-center items-center gap-2"
         >
-          إنشاء حساب
-          <ArrowLeft size={18} />
+          {isLoading ? (
+            <div className="w-6 h-6 border-2 border-background border-t-transparent rounded-full animate-spin"></div>
+          ) : (
+            <>
+              إنشاء حساب
+              <ArrowLeft size={18} />
+            </>
+          )}
         </button>
 
         <div className="relative my-6">

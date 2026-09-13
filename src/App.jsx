@@ -22,6 +22,7 @@ import Careers from './pages/Careers';
 import Login from './pages/auth/Login';
 import Signup from './pages/auth/Signup';
 import ForgotPassword from './pages/auth/ForgotPassword';
+import Profile from './pages/Profile';
 
 function App() {
   const location = useLocation();
@@ -111,6 +112,8 @@ function App() {
                 <Route path="/jobs" element={<Careers />} />
                 <Route path="/contact" element={<ContactUs />} />
                 <Route path="/contact-us" element={<ContactUs />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/me" element={<Profile />} />
                 <Route path="*" element={<Home />} />
               </Routes>
             </AnimatePresence>

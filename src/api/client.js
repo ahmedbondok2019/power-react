@@ -22,6 +22,12 @@ apiClient.interceptors.request.use((config) => {
   config.headers['Accept-Language'] = currentLang;
   config.headers['lang'] = currentLang;
   config.headers['X-Localization'] = currentLang;
+
+  const token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null;
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`;
+  }
+
   return config;
 });
 

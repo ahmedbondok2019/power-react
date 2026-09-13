@@ -89,7 +89,7 @@ const Navbar = () => {
           </button>
 
           <Link
-            to="/auth/login"
+            to={typeof window !== 'undefined' && localStorage.getItem('auth_token') ? "/profile" : "/auth/login"}
             aria-label="Profile"
             className="w-10 h-10 flex items-center justify-center bg-white/10 rounded-lg hover:bg-primary hover:text-background transition-colors duration-300 text-white"
           >
