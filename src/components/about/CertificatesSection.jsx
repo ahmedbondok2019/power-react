@@ -36,7 +36,7 @@ const CertificatesSection = ({ data }) => {
 
   return (
     <section className="relative w-full bg-[#F3F4F6] text-black py-24 select-none overflow-hidden" dir="rtl">
-      <div className="max-w-9xl mx-auto px-6 lg:px-12 flex flex-col h-full">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col h-full">
 
         {/* Header Row */}
         <div className="flex flex-row justify-between items-end mb-16 w-full">

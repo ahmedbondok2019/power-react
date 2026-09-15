@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import SectionTitle from '../ui/SectionTitle';
+import { useSettingsData } from '../../hooks/useSettingsData';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -100,6 +101,9 @@ const CapabilitiesWheel = ({ data }) => {
   const wheelRef = useRef(null);
   const cardsRef = useRef([]);
   const [activeStageIndex, setActiveStageIndex] = useState(0);
+
+  const { data: settingsData } = useSettingsData();
+  const logoUrl = settingsData?.data?.logo || '/logo.png';
 
   const stages = useMemo(() => {
     if (!data || data.length === 0) return STAGES;
@@ -229,6 +233,22 @@ const CapabilitiesWheel = ({ data }) => {
             {/* Overflow Mask Container holding the half-wheel */}
             <div className="relative w-[320px] sm:w-[420px] md:w-[520px] lg:w-[600px] h-[320px] sm:h-[420px] md:h-[520px] lg:h-[600px] translate-x-[48%] sm:translate-x-[50%] flex items-center justify-center">
 
+              {/* Inner Fixed Center Hub with Large Company Logo (Permanently stationary and upright - does NOT rotate) */}
+              <div className="absolute z-10 w-[68%] h-[68%] rounded-full bg-gradient-to-br from-[#222524] to-[#121413] border-4 border-white/10 shadow-[inset_0_0_35px_rgba(0,0,0,0.85),0_0_50px_rgba(0,0,0,0.6)] flex items-center justify-center pointer-events-none select-none">
+                <div className="w-[88%] h-[88%] rounded-full bg-[#161817] border border-white/15 flex flex-col items-center justify-center p-3 sm:p-5 text-center shadow-inner relative overflow-hidden">
+                  {/* Subtle radial glow */}
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(235,251,56,0.12),transparent_70%)] pointer-events-none" />
+                  
+                  {/* Company Logo: Big, sharp, and upright */}
+                  <img
+                    src={logoUrl}
+                    alt="شركة قوة الاعداد - Power Preparation"
+                    className="w-full h-full max-w-[130px] sm:max-w-[180px] md:max-w-[220px] max-h-[130px] sm:max-h-[180px] md:max-h-[220px] object-contain drop-shadow-[0_6px_20px_rgba(0,0,0,0.8)] brightness-110 contrast-105 z-10"
+                    loading="eager"
+                  />
+                </div>
+              </div>
+
               {/* Perfectly Circular Rotating Wheel Container (width === height) */}
               <div
                 ref={wheelRef}
@@ -237,14 +257,6 @@ const CapabilitiesWheel = ({ data }) => {
               >
                 {/* Outer Circular Neon Yellow Glowing Ring */}
                 <div className="absolute inset-0 rounded-full border-[22px] sm:border-[30px] md:border-[38px] border-[#EBFB38] shadow-[0_0_70px_rgba(235,251,56,0.3)]" />
-
-                {/* Inner Dark Hub */}
-                <div className="absolute inset-[32px] sm:inset-[44px] md:inset-[56px] rounded-full bg-[#181A19] border-4 border-white/10 flex items-center justify-center">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#111312] border border-white/20 flex flex-col items-center justify-center text-center">
-                    <span className="text-[9px] text-[#EBFB38] font-black tracking-widest uppercase">POWER</span>
-                    <span className="text-[7px] text-white/50 font-bold">PROCESS</span>
-                  </div>
-                </div>
 
                 {/* Circular Nodes Placed Equidistantly along the Ring */}
                 {stages.map((stage, idx) => {

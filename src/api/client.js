@@ -38,6 +38,9 @@ apiClient.interceptors.response.use(
     return response.data;
   },
   (error) => {
+    if (error.response?.status === 401 && typeof window !== 'undefined') {
+      localStorage.removeItem('auth_token');
+    }
     const customError = {
       message: error.response?.data?.message || error.message || 'حدث خطأ غير متوقع',
       status: error.response?.status,

@@ -196,7 +196,7 @@ const SaudiPresenceMapSection = ({ data }) => {
       <div className="absolute top-1/4 right-0 w-[550px] h-[550px] bg-[#FFB800]/5 rounded-full blur-[150px] pointer-events-none -z-0" />
       <div className="absolute bottom-1/3 left-0 w-[650px] h-[650px] bg-[#2A352F]/30 rounded-full blur-[160px] pointer-events-none -z-0" />
 
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
 
         {/* Section Navigation / Toggle Controls */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8 pb-4 border-b border-white/10">

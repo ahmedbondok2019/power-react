@@ -146,7 +146,7 @@ const OurPoliciesSection = ({ data }) => {
       <div className="absolute bottom-1/4 left-0 w-[550px] h-[550px] bg-[#2A352F]/30 rounded-full blur-[160px] pointer-events-none -z-0" />
       <div className="absolute -top-10 left-1/3 w-[300px] h-[300px] bg-[#FFB800]/5 rounded-full blur-[120px] pointer-events-none -z-0" />
 
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
 
         {/* Section Header with Standard SectionTitle */}
         <div className="flex flex-col items-start w-full mb-10 sm:mb-12">

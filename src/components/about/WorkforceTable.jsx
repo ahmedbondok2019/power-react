@@ -30,7 +30,7 @@ const WorkforceTable = ({ data }) => {
 
   return (
     <section className="relative w-full bg-[#141615] text-white py-24 select-none overflow-hidden" dir="ltr">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 flex flex-col h-full">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col h-full">
 
         {/* Header (Top Right - RTL applied just for the header) */}
         <div className="flex flex-col items-start text-right mb-16 w-full" dir="rtl">

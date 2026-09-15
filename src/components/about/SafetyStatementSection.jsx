@@ -13,8 +13,8 @@ const SafetyStatementSection = ({ data }) => {
   const statement = data?.statement || data?.description || "أعظم أصول أي شركة هي الأشخاص، فحياتهم وسلامتهم وجودة حياتهم هي ما يجعل هذه الشركة كما هي اليوم. نحن نؤمن بالحفاظ على سلامة موظفينا وعملائنا وأي طرف ثالث ومعداتنا قدر الإمكان، ولا يمكننا تحقيق ذلك إلا من خلال التأكد من اتباع الإرشادات واللوائح الدولية للصحة والسلامة. لا يوجد أي تهاون عندما يتعلق الأمر بالسلامة.";
 
   return (
-    <section className="w-full bg-[#3C3C3CDE] text-white py-12 sm:py-16 select-none overflow-hidden" dir="rtl">
-      <div className="max-w-9xl mx-auto px-6 lg:px-12 flex flex-col h-full">
+    <section className="w-full bg-[#141615] text-white py-16 sm:py-20 select-none overflow-hidden" dir="rtl">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col h-full">
 
         {/* Header (Top Right) */}
         <div className="flex flex-col items-start text-right mb-12 w-full">

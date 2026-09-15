@@ -25,7 +25,7 @@ const IsoCertificatesSection = ({ data }) => {
 
   return (
     <section className="w-full bg-[#F3F4F6] text-black py-12 pb-24 select-none" dir="rtl">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto px-6">
         <motion.div 
           variants={containerVariants}
           initial="hidden"

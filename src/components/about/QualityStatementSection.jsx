@@ -14,7 +14,7 @@ const QualityStatementSection = ({ data }) => {
 
   return (
     <section className="w-full bg-[#141615] text-white py-20 select-none overflow-hidden" dir="rtl">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col">
         
         {/* Header */}
         <div className="flex flex-col items-start text-right mb-16 w-full">

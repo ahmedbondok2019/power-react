@@ -27,7 +27,7 @@ const Home = () => {
   return (
     <>
       <div className="bg-white">
-        <Hero data={homeData?.hero_section} />
+        <Hero data={homeData?.hero_section} bgImage="/hero-bg.jpg" />
         <AboutSection data={homeData?.about_section} />
       </div>
 

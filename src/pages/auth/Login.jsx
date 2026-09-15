@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
-import { FcGoogle } from 'react-icons/fc';
+import GoogleAuthButton from '../../components/auth/GoogleAuthButton';
 import AuthLayout from './AuthLayout';
 import { loginUser } from '../../api/authApi';
 
@@ -158,13 +158,7 @@ const Login = () => {
         </div>
 
         {/* Google Login */}
-        <button
-          type="button"
-          className="w-full bg-surface hover:bg-surface/80 border border-white/10 text-white font-medium py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-3"
-        >
-          <FcGoogle size={22} />
-          تسجيل الدخول باستخدام جوجل
-        </button>
+        <GoogleAuthButton type="signin" onError={(errMsg) => setError(errMsg)} />
 
         {/* Sign up link */}
         <p className="text-center text-white/60 text-sm mt-8">

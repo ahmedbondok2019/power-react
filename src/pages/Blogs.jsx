@@ -3,38 +3,65 @@ import { motion } from 'framer-motion';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/ui/SectionTitle';
 import BlogDetailsModal from '../components/blogs/BlogDetailsModal';
-import { useBlogs } from '../hooks/useBlogs';
+import { useBlogsPageData } from '../hooks/useBlogs';
 import {
   Search,
   Calendar,
   BookOpen,
   Tag,
   Sparkles,
-  ChevronLeft,
   ArrowLeft,
+  ChevronLeft,
 } from 'lucide-react';
 
 const EASE = [0.22, 1, 0.36, 1];
 
+const containerVariants = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.12 },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 50, scale: 0.95 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.8, ease: EASE },
+  },
+};
+
 const Blogs = () => {
-  const { data: blogs = [], isLoading, isError, refetch } = useBlogs();
+  const { data: pageData, isLoading, isError, refetch } = useBlogsPageData();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('الكل');
   const [selectedBlog, setSelectedBlog] = useState(null);
 
-  // Extract unique categories dynamically from blogs
+  // Hero section data from API with fallbacks
+  const heroData = pageData?.hero_section || pageData?.data?.hero_section || {};
+  const articlesSection = pageData?.articles_section || pageData?.data?.articles_section || {};
+  const headerData = articlesSection.header || {};
+  const rawItems = articlesSection.items || pageData?.data || [];
+  const modalSettings = pageData?.modal_settings || pageData?.data?.modal_settings || {};
+
+  // Extract categories (either from API categories array or extracted from items)
   const categories = useMemo(() => {
+    if (articlesSection.categories && articlesSection.categories.length > 0) {
+      return articlesSection.categories;
+    }
     const cats = new Set();
-    blogs.forEach((b) => {
+    rawItems.forEach((b) => {
       const cat = b.category || b.category_obj?.name;
       if (cat) cats.add(cat);
     });
     return ['الكل', ...Array.from(cats)];
-  }, [blogs]);
+  }, [articlesSection.categories, rawItems]);
 
   // Filtered blogs
   const filteredBlogs = useMemo(() => {
-    return blogs.filter((blog) => {
+    return (rawItems || []).filter((blog) => {
       const matchesCategory =
         selectedCategory === 'الكل' ||
         blog.category === selectedCategory ||
@@ -48,29 +75,33 @@ const Blogs = () => {
 
       return matchesCategory && matchesSearch;
     });
-  }, [blogs, selectedCategory, searchQuery]);
+  }, [rawItems, selectedCategory, searchQuery]);
 
-  // Separate featured blog (first featured item or first blog in list)
+  // Featured Article
   const featuredBlog = useMemo(() => {
-    return blogs.find((b) => b.is_featured) || blogs[0];
-  }, [blogs]);
+    return (
+      articlesSection.featured_article ||
+      rawItems.find((b) => b.is_featured) ||
+      rawItems[0]
+    );
+  }, [articlesSection.featured_article, rawItems]);
 
   return (
     <div className="min-h-screen bg-[#111312] text-white selection:bg-[#FFB800] selection:text-black">
       {/* ── Page Hero ── */}
       <Hero
         id="blogs-hero"
-        badge="المدونة الهندسية"
-        title="رؤى هندسية ومقالات متخصصة"
-        subtitle="استكشف أحدث المقالات والتحليلات الفنية في مجالات المقاولات العامة، الأعمال الكهروميكانيكية، وأنظمة التكييف وكود البناء السعودي."
-        buttonText="تصفح المقالات"
-        buttonLink="#articles-section"
-        bgImage="/projects-hero-bg.jpg"
+        badge={heroData.badge || "المدونة الهندسية"}
+        title={heroData.title || "رؤى هندسية ومقالات متخصصة"}
+        subtitle={heroData.subtitle || "استكشف أحدث المقالات والتحليلات الفنية في مجالات المقاولات العامة، الأعمال الكهروميكانيكية، وأنظمة التكييف وكود البناء السعودي."}
+        buttonText={heroData.button_text || "تصفح المقالات"}
+        buttonLink={heroData.button_link || "#articles-section"}
+        bgImage={heroData.image || "/projects-hero-bg.jpg"}
         showVisionLogo={false}
         showStatsCards={true}
-        stats={[
-          { number: blogs.length || 6, label: "مقالات منشورة" },
-          { number: categories.length > 1 ? categories.length - 1 : 3, label: "مجالات تخصصية" },
+        stats={heroData.stats && heroData.stats.length > 0 ? heroData.stats : [
+          { number: rawItems.length || 6, label: "مقالات منشورة" },
+          { number: categories.length > 1 ? categories.length - 1 : 5, label: "مجالات تخصصية" },
           { number: 100, label: "معايير هندسية معتمدة" },
         ]}
       />
@@ -89,18 +120,23 @@ const Blogs = () => {
           {/* Header & Section Title */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
             <div className="text-right">
-              <div className="flex items-center gap-2 justify-end mb-2 text-[#FFB800] text-sm font-bold tracking-wider">
+              <div className="flex items-center gap-2 justify-start mb-2 text-[#FFB800] text-sm font-bold tracking-wider">
                 <span className="w-8 h-[2px] bg-[#FFB800] rounded-full inline-block" />
-                <span>مركز المعرفة الهندسية</span>
+                <span>{headerData.badge || "مركز المعرفة الهندسية"}</span>
               </div>
-              <SectionTitle title="المقالات والدراسات" theme="dark" />
+              <SectionTitle title={headerData.title || "المقالات والدراسات"} theme="dark" />
+              {headerData.subtitle && (
+                <p className="text-white/70 text-sm md:text-base mt-2 max-w-2xl">
+                  {headerData.subtitle}
+                </p>
+              )}
             </div>
 
             {/* Search Input */}
             <div className="relative w-full md:w-80">
               <input
                 type="text"
-                placeholder="ابحث في المقالات..."
+                placeholder={headerData.search_placeholder || "ابحث في المقالات..."}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-[#1C1E1C] border border-white/10 rounded-full py-3.5 pr-12 pl-4 text-white text-sm placeholder-white/40 focus:outline-none focus:border-[#FFB800] transition-colors shadow-inner"
@@ -129,7 +165,7 @@ const Blogs = () => {
             })}
           </div>
 
-          {/* ── Featured Main Article (Only shown when not searching and viewing 'الكل') ── */}
+          {/* ── Featured Main Article (Full-image card banner) ── */}
           {!searchQuery && selectedCategory === 'الكل' && featuredBlog && (
             <motion.div
               initial={{ opacity: 0, y: 40 }}
@@ -140,53 +176,56 @@ const Blogs = () => {
             >
               <div
                 onClick={() => setSelectedBlog(featuredBlog)}
-                className="group relative block bg-[#181A18] border border-white/10 hover:border-[#FFB800]/50 rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 cursor-pointer"
+                className="group relative block w-full h-[460px] sm:h-[520px] rounded-[28px] overflow-hidden border border-white/15 hover:border-[#FFB800]/60 shadow-[0_20px_60px_rgba(0,0,0,0.8)] transition-all duration-500 cursor-pointer"
               >
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 items-stretch">
-                  {/* Featured Image */}
-                  <div className="lg:col-span-7 relative h-72 sm:h-96 lg:h-[480px] overflow-hidden">
-                    <img
-                      src={featuredBlog.image}
-                      alt={featuredBlog.title}
-                      className="w-full h-full object-cover transition-transform duration-1000 ease-linear group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-[#181A18] via-[#181A18]/30 to-transparent" />
-                    <div className="absolute top-6 right-6">
-                      <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#FFB800] text-black text-xs font-extrabold shadow-lg">
-                        <Sparkles className="w-3.5 h-3.5" />
-                        <span>مقال مميز</span>
-                      </span>
-                    </div>
+                {/* Full Background Image */}
+                <div className="absolute inset-0 z-0 overflow-hidden">
+                  <img
+                    src={featuredBlog.image}
+                    alt={featuredBlog.title}
+                    className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-108"
+                  />
+                </div>
+
+                {/* Rich Multi-stop Gradient Overlay */}
+                <div className="absolute inset-0 z-10 bg-gradient-to-t from-black via-black/60 to-black/35 group-hover:via-black/50 transition-colors duration-500" />
+
+                {/* Top Badge & Date */}
+                <div className="relative z-20 p-6 sm:p-8 flex items-center justify-between">
+                  <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#FFB800] text-black text-xs font-extrabold shadow-lg">
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>مقال مميز</span>
+                  </span>
+
+                  <div className="flex items-center gap-2 text-white/80 text-xs font-mono bg-black/60 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10">
+                    <Calendar className="w-3.5 h-3.5 text-[#FFB800]" />
+                    <span>{featuredBlog.created_at || '2026-09-10'}</span>
+                  </div>
+                </div>
+
+                {/* Bottom Details Overlaid on Image */}
+                <div className="absolute bottom-0 inset-x-0 z-20 p-6 sm:p-10 lg:p-12 text-right space-y-4">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[#FFB800] text-xs font-bold">
+                    <Tag className="w-3.5 h-3.5" />
+                    <span>{featuredBlog.category || featuredBlog.category_obj?.name}</span>
                   </div>
 
-                  {/* Featured Info */}
-                  <div className="lg:col-span-5 p-8 sm:p-10 lg:p-12 flex flex-col justify-between text-right">
-                    <div className="space-y-4">
-                      <div className="inline-flex items-center gap-2 text-xs text-[#FFB800] font-semibold tracking-wider">
-                        <Tag className="w-3.5 h-3.5" />
-                        <span>{featuredBlog.category || featuredBlog.category_obj?.name}</span>
-                      </div>
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white group-hover:text-[#FFB800] transition-colors leading-snug drop-shadow-md max-w-4xl">
+                    {featuredBlog.title}
+                  </h3>
 
-                      <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white group-hover:text-[#FFB800] transition-colors leading-snug">
-                        {featuredBlog.title}
-                      </h3>
+                  <p className="text-white/85 text-sm sm:text-base leading-relaxed line-clamp-2 sm:line-clamp-3 max-w-3xl drop-shadow-sm font-normal">
+                    {featuredBlog.short_description}
+                  </p>
 
-                      <p className="text-white/70 text-sm sm:text-base leading-relaxed line-clamp-4">
-                        {featuredBlog.short_description}
-                      </p>
-                    </div>
-
-                    <div className="pt-8 border-t border-white/10 flex items-center justify-between text-xs text-white/50">
-                      <div className="flex items-center gap-2 font-mono">
-                        <Calendar className="w-4 h-4 text-[#FFB800]" />
-                        <span>{featuredBlog.created_at || '2026-09-08'}</span>
-                      </div>
-
-                      <span className="inline-flex items-center gap-2 text-[#FFB800] font-bold group-hover:-translate-x-2 transition-transform">
-                        <span>عرض تفاصيل المقال</span>
-                        <ArrowLeft className="w-4 h-4" />
-                      </span>
-                    </div>
+                  <div className="pt-2 flex items-center justify-between">
+                    <button
+                      type="button"
+                      className="inline-flex items-center gap-2 bg-[#FFB800] hover:bg-[#ffe066] text-black font-extrabold text-sm px-6 py-3 rounded-full transition-all duration-300 shadow-xl group-hover:shadow-[0_0_25px_rgba(255,184,0,0.5)] cursor-pointer"
+                    >
+                      <span>عرض تفاصيل المقال</span>
+                      <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1.5 transition-transform" />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -199,12 +238,17 @@ const Blogs = () => {
               {[1, 2, 3, 4, 5, 6].map((i) => (
                 <div
                   key={i}
-                  className="bg-[#181A18] rounded-3xl p-4 border border-white/5 animate-pulse space-y-4"
+                  className="h-[480px] bg-[#181A18] rounded-[24px] border border-white/5 animate-pulse p-6 flex flex-col justify-between"
                 >
-                  <div className="h-56 bg-white/5 rounded-2xl w-full" />
-                  <div className="h-4 bg-white/10 rounded w-1/3" />
-                  <div className="h-6 bg-white/10 rounded w-3/4" />
-                  <div className="h-16 bg-white/5 rounded w-full" />
+                  <div className="flex justify-between">
+                    <div className="h-6 bg-white/10 rounded-full w-24" />
+                    <div className="h-6 bg-white/10 rounded-full w-24" />
+                  </div>
+                  <div className="space-y-3">
+                    <div className="h-7 bg-white/15 rounded w-3/4" />
+                    <div className="h-4 bg-white/10 rounded w-full" />
+                    <div className="h-4 bg-white/10 rounded w-2/3" />
+                  </div>
                 </div>
               ))}
             </div>
@@ -227,77 +271,81 @@ const Blogs = () => {
           {!isLoading && !isError && filteredBlogs.length === 0 && (
             <div className="text-center py-24 bg-[#181A18]/50 rounded-3xl border border-white/5 max-w-xl mx-auto p-8">
               <BookOpen className="w-12 h-12 text-white/30 mx-auto mb-4" />
-              <h4 className="text-xl font-bold text-white mb-2">لا توجد مقالات مطابقة</h4>
+              <h4 className="text-xl font-bold text-white mb-2">
+                {headerData.empty_state?.title || "لا توجد مقالات مطابقة"}
+              </h4>
               <p className="text-white/60 text-sm">
-                لم يتم العثور على أي مقالات تطابق بحثك. جرّب كلمات دلالية أخرى أو اختر تصنيفاً آخر.
+                {headerData.empty_state?.subtitle || "لم يتم العثور على أي مقالات تطابق بحثك. جرّب كلمات دلالية أخرى أو اختر تصنيفاً آخر."}
               </p>
             </div>
           )}
 
-          {/* ── Articles Grid ── */}
+          {/* ── Articles Grid: Full Image Overlay Cards ── */}
           {!isLoading && !isError && filteredBlogs.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.05 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center"
+            >
               {filteredBlogs.map((blog, idx) => (
                 <motion.article
                   key={blog.id || idx}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.1 }}
-                  transition={{ duration: 0.7, delay: (idx % 3) * 0.12, ease: EASE }}
+                  variants={cardVariants}
+                  whileHover={{ y: -10, scale: 1.02, transition: { duration: 0.35, ease: 'easeOut' } }}
                   onClick={() => setSelectedBlog(blog)}
-                  className="group relative bg-[#181A18] border border-white/10 hover:border-[#FFB800]/50 rounded-[24px] overflow-hidden flex flex-col justify-between shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer"
+                  className="w-full max-w-[420px] h-[480px] sm:h-[520px] rounded-[24px] overflow-hidden relative shadow-2xl border border-white/10 hover:border-[#FFB800]/60 group cursor-pointer flex flex-col justify-between"
                 >
-                  <div className="flex flex-col h-full">
-                    {/* Card Image */}
-                    <div className="relative h-60 w-full overflow-hidden bg-black/40">
-                      <img
-                        src={blog.image}
-                        alt={blog.title}
-                        className="w-full h-full object-cover transition-transform duration-700 ease-linear group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#181A18] via-transparent to-transparent opacity-90" />
+                  {/* Background Full Image */}
+                  <div className="absolute inset-0 z-0 overflow-hidden bg-black">
+                    <img
+                      src={blog.image}
+                      alt={blog.title}
+                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                      loading="lazy"
+                    />
+                  </div>
 
-                      {/* Category Tag */}
-                      <div className="absolute top-4 right-4 z-10">
-                        <span className="px-3.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white text-xs font-semibold">
-                          {blog.category || blog.category_obj?.name}
-                        </span>
-                      </div>
+                  {/* Multi-stop Overlay Gradient for Perfect Contrast */}
+                  <div className="absolute inset-0 z-10 bg-gradient-to-t from-black via-black/60 to-black/35 group-hover:from-black group-hover:via-black/50 group-hover:to-black/25 transition-all duration-500" />
+
+                  {/* Top Bar: Category Badge & Date */}
+                  <div className="relative z-20 p-5 sm:p-6 flex items-center justify-between w-full">
+                    <span className="px-3.5 py-1 rounded-full bg-black/65 backdrop-blur-md border border-white/20 text-[#FFB800] text-xs font-bold flex items-center gap-1.5 shadow-md">
+                      <Tag className="w-3 h-3" />
+                      <span>{blog.category || blog.category_obj?.name}</span>
+                    </span>
+
+                    <div className="flex items-center gap-1.5 text-white/80 text-[11px] font-mono bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/15 shadow-sm">
+                      <Calendar className="w-3.5 h-3.5 text-[#FFB800]" />
+                      <span>{blog.created_at || '2026-09-10'}</span>
                     </div>
+                  </div>
 
-                    {/* Card Body */}
-                    <div className="p-6 sm:p-7 flex flex-col flex-grow justify-between text-right">
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-end gap-3 text-white/50 text-xs font-mono">
-                          <span className="flex items-center gap-1.5">
-                            <Calendar className="w-3.5 h-3.5 text-[#FFB800]" />
-                            <span>{blog.created_at || '2026-09-08'}</span>
-                          </span>
-                        </div>
+                  {/* Bottom Details Overlaid on the Image */}
+                  <div className="relative z-20 p-6 sm:p-7 text-right space-y-3">
+                    <h3 className="text-white font-extrabold text-lg sm:text-xl leading-snug group-hover:text-[#FFB800] transition-colors line-clamp-2 drop-shadow-md">
+                      {blog.title}
+                    </h3>
 
-                        <h3 className="text-white font-bold text-lg sm:text-xl leading-snug group-hover:text-[#FFB800] transition-colors line-clamp-2">
-                          {blog.title}
-                        </h3>
+                    <p className="text-white/80 text-xs sm:text-sm leading-relaxed line-clamp-3 font-normal drop-shadow-sm">
+                      {blog.short_description}
+                    </p>
 
-                        <p className="text-white/70 text-xs sm:text-sm leading-relaxed line-clamp-3">
-                          {blog.short_description}
-                        </p>
-                      </div>
-
-                      {/* Footer Read Action */}
-                      <div className="pt-5 mt-6 border-t border-white/10 flex items-center justify-between">
-                        <span className="text-xs text-[#FFB800] font-bold group-hover:underline">
-                          عرض التفاصيل
-                        </span>
-                        <div className="w-8 h-8 rounded-full bg-white/5 group-hover:bg-[#FFB800] group-hover:text-black text-white flex items-center justify-center transition-all duration-300">
-                          <ChevronLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-                        </div>
+                    {/* Bottom Action Button */}
+                    <div className="pt-3 flex items-center justify-between border-t border-white/15">
+                      <span className="text-xs text-[#FFB800] font-bold group-hover:underline">
+                        عرض تفاصيل المقال
+                      </span>
+                      <div className="w-9 h-9 rounded-full bg-white/10 group-hover:bg-[#FFB800] group-hover:text-black text-white flex items-center justify-center transition-all duration-300 shadow-md">
+                        <ChevronLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
                       </div>
                     </div>
                   </div>
                 </motion.article>
               ))}
-            </div>
+            </motion.div>
           )}
         </div>
       </section>
@@ -307,6 +355,7 @@ const Blogs = () => {
         blog={selectedBlog}
         isOpen={!!selectedBlog}
         onClose={() => setSelectedBlog(null)}
+        settings={modalSettings}
       />
     </div>
   );

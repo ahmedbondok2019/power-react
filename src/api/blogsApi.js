@@ -2,6 +2,15 @@ import apiClient from './client';
 import { ENDPOINTS } from './endpoints';
 
 /**
+ * Fetch Blogs Page full content from API (Hero, articles, categories, settings)
+ * @returns {Promise<Object>} Blogs page data
+ */
+export const getBlogsPageData = async () => {
+  const response = await apiClient.get(ENDPOINTS.BLOGS_PAGE);
+  return response?.data || response;
+};
+
+/**
  * Fetch all blogs
  * @returns {Promise<Array>} List of blogs
  */

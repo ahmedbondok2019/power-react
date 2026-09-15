@@ -9,7 +9,7 @@ const OurPresenceSection = ({ data }) => {
 
   return (
     <section className="w-full bg-[#141615] text-white pt-10 pb-6 select-none overflow-hidden" dir="rtl">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col items-end text-right">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col items-end text-right">
 
         {/* Header */}
         <div className="flex flex-col items-start w-full mb-12">

@@ -215,8 +215,8 @@ const AboutUs = () => {
       {/* ISO Certificates Grid */}
       <IsoCertificatesSection data={resolvedData.iso_certificates} />
 
-      {/* Equipment Partners Section (Reusing Hall of Fame) */}
-      <HallOfFameSection title="شركاء المعدات المعتمدين" clients={resolvedData.equipment_partners} />
+      {/* Equipment Partners Section (Reusing Hall of Fame in Dark Theme) */}
+      <HallOfFameSection title="شركاء المعدات المعتمدين" clients={resolvedData.equipment_partners} theme="dark" />
 
       {/* Safety Statement Section */}
       <SafetyStatementSection data={resolvedData.safety_statement} />

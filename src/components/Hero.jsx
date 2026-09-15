@@ -46,59 +46,54 @@ const Hero = ({
   const heroBadge = data?.badge ?? badge;
   const heroTitle = data?.title ?? title;
   const heroSubtitle = data?.subtitle ?? subtitle;
-  const heroBgImage = data?.image ?? bgImage;
-  const heroVisionLogo = data?.vision_logo ?? visionLogo ?? '/Vision2030.png';
-  const heroMediaType = data?.media_type ?? mediaType ?? 'image';
-  const heroScrollText = data?.scroll_text ?? scrollText ?? 'اسحب للأسفل';
+  const heroBgImage = data?.image || bgImage || '/hero-bg.jpg';
+  const heroVisionLogo = data?.vision_logo || visionLogo || '/Vision2030.png';
+  const heroMediaType = data?.media_type || mediaType || 'image';
+  const heroScrollText = data?.scroll_text || scrollText || 'اسحب للأسفل';
 
   return (
     <section
       id={id}
       className={`relative min-h-[760px] md:min-h-[820px] lg:h-[108vh] max-h-[1200px] w-full flex flex-col justify-between rounded-b-[2.5rem] md:rounded-b-[4rem] shadow-2xl ${showStatsCards ? 'overflow-visible' : 'overflow-hidden'}`}
     >
-      {/* ── Background image: cinematic reveal on load ── */}
+      {/* ── Background image: visible immediately on load ── */}
       <motion.div
         className="absolute inset-0 z-0 origin-center"
         initial={{
-          scale: 1.4,
-          opacity: 0,
-          filter: "blur(20px) brightness(1.5)",
-          clipPath: "inset(20% 20% 20% 20% round 150px)"
+          scale: 1.05,
+          opacity: 1,
         }}
         animate={{
-          scale: 1.03,
+          scale: 1,
           opacity: 1,
-          filter: "blur(0px) brightness(1)",
-          clipPath: "inset(0% 0% 0% 0% round 0px)"
         }}
         transition={{
-          duration: 2.8,
-          ease: [0.19, 1, 0.22, 1] // Ultra smooth easing
+          duration: 1.2,
+          ease: [0.22, 1, 0.36, 1]
         }}
       >
-        {/* slow breathe after initial entrance */}
+        {/* slow breathe */}
         <motion.div
           className="w-full h-full"
-          animate={{ scale: [1.03, 1.08, 1.03] }}
-          transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 2.8 }}
+          animate={{ scale: [1, 1.04, 1] }}
+          transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
         >
           <div className="absolute inset-0 bg-gradient-to-l from-black/60 via-black/30 to-black/15 z-10 pointer-events-none" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/30 z-10 pointer-events-none" />
           {heroMediaType === 'video' ? (
             <video autoPlay loop muted playsInline className="w-full h-full object-cover" src={heroBgImage} />
           ) : (
-            <img src={heroBgImage} alt="Hero Background" className="w-full h-full object-cover" />
+            <img
+              src={heroBgImage}
+              alt="Hero Background"
+              className="w-full h-full object-cover"
+              loading="eager"
+              fetchPriority="high"
+              decoding="sync"
+            />
           )}
         </motion.div>
       </motion.div>
-
-      {/* ── Overlay flash on load (cinematic) ── */}
-      <motion.div
-        className="absolute inset-0 z-10 bg-white pointer-events-none"
-        initial={{ opacity: 0.18 }}
-        animate={{ opacity: 0 }}
-        transition={{ duration: 1.1, ease: 'easeOut' }}
-      />
 
       {/* ── Content ── */}
       <div

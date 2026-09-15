@@ -10,9 +10,13 @@ import {
   Sparkles,
 } from 'lucide-react';
 
-const BlogDetailsModal = ({ blog, isOpen, onClose }) => {
+const BlogDetailsModal = ({ blog, isOpen, onClose, settings = {} }) => {
   const scrollContainerRef = useRef(null);
   const [copied, setCopied] = useState(false);
+
+  const shareText = settings?.share_text || 'مشاركة المقال';
+  const copiedText = settings?.copied_text || 'تم نسخ الرابط!';
+  const closeText = settings?.close_text || 'إغلاق';
 
   // Lock body scroll and handle Escape key
   useEffect(() => {
@@ -117,12 +121,12 @@ const BlogDetailsModal = ({ blog, isOpen, onClose }) => {
                     {copied ? (
                       <>
                         <Check className="w-3.5 h-3.5 text-green-400" />
-                        <span className="text-green-400">تم نسخ الرابط!</span>
+                        <span className="text-green-400">{copiedText}</span>
                       </>
                     ) : (
                       <>
                         <Share2 className="w-3.5 h-3.5 text-[#FFB800]" />
-                        <span>مشاركة المقال</span>
+                        <span>{shareText}</span>
                       </>
                     )}
                   </button>
@@ -162,7 +166,7 @@ const BlogDetailsModal = ({ blog, isOpen, onClose }) => {
                   onClick={onClose}
                   className="px-8 py-2.5 rounded-full bg-white/10 hover:bg-[#FFB800] text-white hover:text-black font-bold text-sm transition-all duration-300 cursor-pointer"
                 >
-                  إغلاق
+                  {closeText}
                 </button>
               </div>
             </div>
