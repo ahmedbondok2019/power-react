@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Search, Bell, User } from 'lucide-react';
@@ -10,6 +10,8 @@ import SearchModal from './ui/SearchModal';
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const notificationsRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
   const { data: settingsData } = useSettingsData();
@@ -25,6 +27,27 @@ const Navbar = () => {
       localStorage.removeItem('auth_token');
     }
   }, [token, isError]);
+
+  // Close notifications and mobile menu on route change
+  useEffect(() => {
+    setNotificationsOpen(false);
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  // Handle click outside notifications dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (notificationsRef.current && !notificationsRef.current.contains(event.target)) {
+        setNotificationsOpen(false);
+      }
+    };
+    if (notificationsOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [notificationsOpen]);
 
   const handleProfileClick = (e) => {
     if (e) e.preventDefault();
@@ -123,13 +146,69 @@ const Navbar = () => {
               <Search className="w-5 h-5" />
             </button>
 
-            <button
-              aria-label="Notifications"
-              className="relative w-10 h-10 flex items-center justify-center bg-white/10 rounded-lg hover:bg-primary hover:text-background transition-colors duration-300 text-white"
-            >
-              <Bell className="w-5 h-5" />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-blue-500 rounded-full border border-surface"></span>
-            </button>
+            {/* Notification Dropdown Container */}
+            <div className="relative" ref={notificationsRef}>
+              <button
+                type="button"
+                onClick={() => setNotificationsOpen(prev => !prev)}
+                aria-label="Notifications"
+                className={`relative w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-300 cursor-pointer ${
+                  notificationsOpen 
+                    ? 'bg-primary text-background' 
+                    : 'bg-white/10 hover:bg-primary hover:text-background text-white'
+                }`}
+              >
+                <Bell className="w-5 h-5" />
+                <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full ring-2 ring-background"></span>
+              </button>
+
+              {/* Notifications Dropdown Menu */}
+              <AnimatePresence>
+                {notificationsOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute left-0 mt-3 w-80 sm:w-96 bg-[#161817]/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50 text-right"
+                    dir="rtl"
+                  >
+                    {/* Header */}
+                    <div className="p-4 border-b border-white/10 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Bell className="w-4 h-4 text-primary" />
+                        <h4 className="text-sm font-bold text-white">الإشعارات</h4>
+                      </div>
+                      <span className="text-[11px] font-medium bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded-full">
+                        0 جديدة
+                      </span>
+                    </div>
+
+                    {/* Notification Body / Empty State */}
+                    <div className="p-8 text-center flex flex-col items-center justify-center">
+                      <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white/30 mb-3 shadow-inner">
+                        <Bell className="w-6 h-6 stroke-[1.5]" />
+                      </div>
+                      <p className="text-sm font-semibold text-white/80 mb-1">لا توجد إشعارات جديدة</p>
+                      <p className="text-xs text-white/40 leading-relaxed max-w-[220px]">
+                        سنخبرك فور وجود أي تحديثات أو تنبيهات خاصة بحسابك ومشاريعك.
+                      </p>
+                    </div>
+
+                    {/* Footer */}
+                    <div className="p-3 bg-white/[0.02] border-t border-white/5 text-center">
+                      <button 
+                        type="button" 
+                        onClick={() => setNotificationsOpen(false)}
+                        className="text-xs text-white/50 hover:text-primary transition-colors font-medium cursor-pointer"
+                      >
+                        إغلاق القائمة
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
             <button
               type="button"
