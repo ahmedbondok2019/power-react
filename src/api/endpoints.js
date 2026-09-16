@@ -14,6 +14,8 @@ export const ENDPOINTS = {
   CONTACT_PAGE: '/contact-page',
   CONTACT_SEND: '/contact/send',
   CONTACT: '/contact',
+  VENDOR_REGISTER: '/vendors/register',
+  SUPPLIER_REGISTER: '/suppliers/register',
   SETTINGS: '/settings',
   AUTH_ME: '/auth/me',
   AUTH_LOGIN: '/auth/login',

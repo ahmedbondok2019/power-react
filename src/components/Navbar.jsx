@@ -81,6 +81,7 @@ const Navbar = () => {
   const isContactPage = location.pathname.toLowerCase().includes('contact') || location.pathname.includes('اتصل');
   const isBlogsPage = location.pathname.toLowerCase().includes('blog') || location.pathname.includes('مقالات');
   const isCareersPage = location.pathname.toLowerCase().includes('career') || location.pathname.includes('job') || location.pathname.includes('وظائف');
+  const isVendorPage = location.pathname.toLowerCase().includes('vendor') || location.pathname.toLowerCase().includes('supplier') || location.pathname.includes('مورد');
 
   const navItems = [
     { label: 'الرئيسية', to: '/', isRoute: true, active: location.pathname === '/' },
@@ -90,6 +91,7 @@ const Navbar = () => {
     { label: 'استراتيجياتنا', to: '/strategy', isRoute: true, active: isStrategyPage },
     { label: 'المدونة', to: '/blogs', isRoute: true, active: isBlogsPage },
     { label: 'الوظائف', to: '/careers', isRoute: true, active: isCareersPage },
+    { label: 'انضم كمورد', to: '/join-as-vendor', isRoute: true, active: isVendorPage },
     { label: 'اتصل بنا', to: '/contact', isRoute: true, active: isContactPage },
   ];
 
@@ -109,7 +111,7 @@ const Navbar = () => {
           </Link>
 
           {/* Links (Desktop) */}
-          <div className="hidden lg:flex items-center gap-4 xl:gap-7">
+          <div className="hidden lg:flex items-center gap-3 xl:gap-5">
             {navItems.map((item) => {
               const isActive = !!item.active;
 

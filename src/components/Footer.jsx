@@ -63,6 +63,7 @@ const Footer = () => {
               <li><Link to="/projects" className="text-text-muted hover:text-primary transition-colors text-sm">المشاريع المنجزة</Link></li>
               <li><Link to="/projects" className="text-text-muted hover:text-primary transition-colors text-sm">مشاريع قيد التنفيذ</Link></li>
               <li><Link to="/careers" className="text-text-muted hover:text-primary transition-colors text-sm">الوظائف والفرص الوظيفية</Link></li>
+              <li><Link to="/join-as-vendor" className="text-text-muted hover:text-primary transition-colors text-sm">انضم كمورد</Link></li>
               <li><Link to="/contact" className="text-text-muted hover:text-primary transition-colors text-sm">تواصل معنا</Link></li>
             </ul>
           </div>

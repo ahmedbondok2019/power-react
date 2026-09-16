@@ -19,6 +19,7 @@ import ContactUs from './pages/ContactUs';
 import Blogs from './pages/Blogs';
 import BlogDetails from './pages/BlogDetails';
 import Careers from './pages/Careers';
+import VendorRegistration from './pages/VendorRegistration';
 import Login from './pages/auth/Login';
 import Signup from './pages/auth/Signup';
 import ForgotPassword from './pages/auth/ForgotPassword';
@@ -112,6 +113,10 @@ function App() {
                 <Route path="/jobs" element={<Careers />} />
                 <Route path="/contact" element={<ContactUs />} />
                 <Route path="/contact-us" element={<ContactUs />} />
+                <Route path="/join-as-vendor" element={<VendorRegistration />} />
+                <Route path="/vendor" element={<VendorRegistration />} />
+                <Route path="/suppliers" element={<VendorRegistration />} />
+                <Route path="/supplier" element={<VendorRegistration />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/me" element={<Profile />} />
                 <Route path="*" element={<Home />} />
