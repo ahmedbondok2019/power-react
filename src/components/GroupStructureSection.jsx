@@ -1,12 +1,54 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import SectionTitle from './ui/SectionTitle';
 import { useSettingsData } from '../hooks/useSettingsData';
+import { Building2, Handshake, ShieldCheck } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+// Resilient Logo Badge with fallback for broken or missing images
+const CompanyLogoItem = ({ item, isSister = false }) => {
+  const [imageError, setImageError] = useState(false);
+  const name = item?.name || 'شريك معتمد';
+
+  return (
+    <motion.div
+      whileHover={{ scale: 1.05, y: -4, transition: { duration: 0.25 } }}
+      className={`relative group flex items-center justify-center rounded-2xl p-4 transition-all duration-300 ${
+        isSister
+          ? 'bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-[#FFB800]/40 min-h-[90px] sm:min-h-[110px] w-full'
+          : 'bg-white/[0.03] hover:bg-white/[0.07] border border-white/5 hover:border-white/20 min-h-[68px] sm:min-h-[76px] w-full'
+      }`}
+    >
+      {!imageError && item?.src ? (
+        <img
+          src={item.src}
+          alt={name}
+          onError={() => setImageError(true)}
+          className={`w-auto object-contain transition-all duration-300 filter group-hover:brightness-110 drop-shadow-md ${
+            isSister
+              ? 'max-h-16 sm:max-h-20 max-w-[160px]'
+              : 'max-h-10 sm:max-h-12 max-w-[130px]'
+          }`}
+        />
+      ) : (
+        <div className="flex items-center gap-2 text-center px-2">
+          {isSister ? (
+            <Building2 className="w-5 h-5 text-[#FFB800] flex-shrink-0" />
+          ) : (
+            <ShieldCheck className="w-4 h-4 text-white/50 flex-shrink-0 group-hover:text-[#FFB800] transition-colors" />
+          )}
+          <span className="text-xs sm:text-sm font-semibold text-white/90 group-hover:text-white transition-colors tracking-wide line-clamp-2">
+            {name}
+          </span>
+        </div>
+      )}
+    </motion.div>
+  );
+};
 
 const GroupStructureSection = ({
   data,
@@ -79,12 +121,12 @@ const GroupStructureSection = ({
       gsap.set(animatedLogoRef.current, {
         x: 0,
         y: 0,
-        scale: 1.55,
+        scale: 1.35,
         opacity: 1,
       });
 
-      if (titleRef.current) gsap.set(titleRef.current, { opacity: 0, x: 70 });
-      if (contentRef.current) gsap.set(contentRef.current, { opacity: 0, y: 60 });
+      if (titleRef.current) gsap.set(titleRef.current, { opacity: 0, x: 50 });
+      if (contentRef.current) gsap.set(contentRef.current, { opacity: 0, y: 40 });
       if (raysRef.current) gsap.set(raysRef.current, { opacity: 0.12 });
 
       const tl = gsap.timeline({
@@ -97,10 +139,10 @@ const GroupStructureSection = ({
         },
       });
 
-      // 0. Hold centered logo briefly on entry (0.00 -> 0.10)
-      tl.to({}, { duration: 0.10 });
+      // 0. Hold centered logo briefly on entry (0.00 -> 0.08)
+      tl.to({}, { duration: 0.08 });
 
-      // 1. Logo travels smoothly from screen center to header slot (0.10 -> 0.48)
+      // 1. Logo travels smoothly from screen center to header slot (0.08 -> 0.44)
       tl.to(
         animatedLogoRef.current,
         {
@@ -108,25 +150,25 @@ const GroupStructureSection = ({
           y: () => getTargetOffset().y,
           scale: 1,
           ease: 'power2.inOut',
-          duration: 0.38,
+          duration: 0.36,
         },
-        0.10
+        0.08
       );
 
-      // Rays gently fade as logo moves (0.10 -> 0.35)
+      // Rays gently fade as logo moves (0.08 -> 0.32)
       if (raysRef.current) {
         tl.to(
           raysRef.current,
           {
             opacity: 0.03,
             ease: 'power1.out',
-            duration: 0.25,
+            duration: 0.24,
           },
-          0.10
+          0.08
         );
       }
 
-      // 2. Title reveals from right as logo arrives (0.46 -> 0.68)
+      // 2. Title reveals from right as logo arrives (0.42 -> 0.65)
       if (titleRef.current) {
         tl.to(
           titleRef.current,
@@ -134,13 +176,13 @@ const GroupStructureSection = ({
             opacity: 1,
             x: 0,
             ease: 'power2.out',
-            duration: 0.22,
+            duration: 0.23,
           },
-          0.46
+          0.42
         );
       }
 
-      // 3. Details (sister companies & partners) reveal (0.64 -> 0.92)
+      // 3. Details (sister companies & partners) reveal (0.60 -> 0.90)
       if (contentRef.current) {
         tl.to(
           contentRef.current,
@@ -148,14 +190,14 @@ const GroupStructureSection = ({
             opacity: 1,
             y: 0,
             ease: 'power2.out',
-            duration: 0.28,
+            duration: 0.30,
           },
-          0.64
+          0.60
         );
       }
 
-      // 4. Resting buffer at the bottom before unpinning (0.92 -> 1.00)
-      tl.to({}, { duration: 0.08 });
+      // 4. Resting buffer at the bottom before unpinning (0.90 -> 1.00)
+      tl.to({}, { duration: 0.10 });
     });
 
     // MOBILE / TABLET: Natural flow without sticky lock
@@ -230,7 +272,7 @@ const GroupStructureSection = ({
           </svg>
         </div>
 
-        {/* ── DESKTOP ANIMATED LOGO: Starts at absolute screen center, flies to slotRef ── */}
+        {/* ── DESKTOP ANIMATED LOGO: Starts at screen center, flies cleanly to slotRef ── */}
         <div
           ref={animatedLogoRef}
           className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none items-center justify-center will-change-transform"
@@ -239,19 +281,21 @@ const GroupStructureSection = ({
             <img
               src={sectionMainLogo}
               alt="Power Preparation"
-              className="w-[280px] sm:w-[360px] md:w-[420px] lg:w-[480px] h-auto max-h-[140px] md:max-h-[170px] object-contain drop-shadow-[0_0_35px_rgba(255,184,0,0.22)]"
+              className="w-[240px] sm:w-[290px] md:w-[330px] lg:w-[360px] h-auto max-h-[85px] sm:max-h-[95px] object-contain drop-shadow-[0_0_30px_rgba(255,184,0,0.22)]"
             />
           )}
         </div>
 
         <div className="max-w-7xl mx-auto px-6 w-full relative z-10">
-          {/* ── Top bar: title RIGHT, logo slot LEFT ── */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 sm:mb-14 gap-8 relative">
-            {/* Title — from right (hidden initially on desktop) */}
-            <div ref={titleRef} className="text-right will-change-transform">
+          
+          {/* ── Top bar: Title (Right in RTL), Logo Slot (Left in RTL) with clear separation ── */}
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 sm:mb-16 lg:mb-20 gap-8 relative">
+            
+            {/* Title — from right */}
+            <div ref={titleRef} className="text-right will-change-transform max-w-2xl">
               <SectionTitle title={sectionTitle} theme="dark" />
               {sectionSubtitle && (
-                <p className="text-white/80 text-sm md:text-base mt-2 max-w-xl">
+                <p className="text-white/70 text-sm md:text-base mt-2.5 leading-relaxed">
                   {sectionSubtitle}
                 </p>
               )}
@@ -260,59 +304,81 @@ const GroupStructureSection = ({
             {/* Main logo target slot (Left side in RTL) */}
             <div
               ref={slotRef}
-              className="flex items-center justify-center w-[280px] sm:w-[360px] md:w-[420px] lg:w-[480px] h-[90px] sm:h-[110px] md:h-[130px]"
+              className="flex items-center justify-center w-[240px] sm:w-[290px] md:w-[330px] lg:w-[360px] h-[85px] sm:h-[95px] flex-shrink-0"
             >
               {/* Visible ONLY on mobile where floating logo is hidden */}
               {sectionMainLogo && (
                 <img
                   src={sectionMainLogo}
                   alt="Power Preparation"
-                  className="lg:hidden w-full h-auto max-h-[110px] object-contain drop-shadow-[0_0_25px_rgba(255,184,0,0.18)]"
+                  className="lg:hidden w-full h-auto max-h-[85px] object-contain drop-shadow-[0_0_20px_rgba(255,184,0,0.18)]"
                 />
               )}
             </div>
+
           </div>
 
-          {/* ── Remaining content (2-column grid - hidden initially on desktop) ── */}
+          {/* ── Lower Grid Content: Sister Companies & Partners in Distinct Cards ── */}
           <div ref={contentRef} className="w-full will-change-transform">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-start">
-              {/* Sister companies */}
-              <div className="text-right space-y-6 sm:space-y-8">
-                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-6 pb-3 border-b border-white/10 inline-block">
-                  {sCompaniesTitle}
-                </h3>
-                <div className="flex flex-wrap items-center justify-start gap-8 sm:gap-12">
-                  {finalSisterCompanies.map((item, idx) => (
-                    <motion.div
-                      key={idx}
-                      whileHover={{ scale: 1.1, filter: 'brightness(1.2)', y: -5, transition: { duration: 0.3 } }}
-                      className="cursor-pointer"
-                    >
-                      <img src={item.src} alt={item.name} className="h-20 sm:h-28 md:h-32 w-auto object-contain drop-shadow-md" />
-                    </motion.div>
-                  ))}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
+              
+              {/* Sister Companies Card (Right 5 Cols in RTL) */}
+              <div className="lg:col-span-5 bg-white/[0.02] border border-white/10 rounded-3xl p-6 sm:p-8 backdrop-blur-md flex flex-col justify-between shadow-[0_15px_35px_rgba(0,0,0,0.25)]">
+                <div className="text-right space-y-5">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-3.5">
+                    <span className="text-xs font-semibold text-[#FFB800] bg-[#FFB800]/10 px-3 py-1 rounded-full border border-[#FFB800]/20">
+                      الشركات التابعة
+                    </span>
+                    <h3 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2.5">
+                      <Building2 className="w-5 h-5 text-[#FFB800]" />
+                      <span>{sCompaniesTitle}</span>
+                    </h3>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    {finalSisterCompanies.length > 0 ? (
+                      finalSisterCompanies.map((item, idx) => (
+                        <CompanyLogoItem key={idx} item={item} isSister={true} />
+                      ))
+                    ) : (
+                      <div className="col-span-full py-8 text-center text-xs text-white/40">
+                        لا توجد بيانات متاحة حالياً
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              {/* Distributors */}
-              <div className="text-right space-y-6 sm:space-y-8">
-                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-6 pb-3 border-b border-white/10 inline-block">
-                  {pPartnersTitle}
-                </h3>
-                <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8">
-                  {finalPartners.map((item, idx) => (
-                    <motion.div
-                      key={idx}
-                      whileHover={{ scale: 1.12, filter: 'brightness(1.2)', y: -5, transition: { duration: 0.3 } }}
-                      className="cursor-pointer"
-                    >
-                      <img src={item.src} alt={item.name} className="h-16 sm:h-22 md:h-26 w-auto object-contain drop-shadow-md" />
-                    </motion.div>
-                  ))}
+              {/* Partners / Distributors Card (Left 7 Cols in RTL) */}
+              <div className="lg:col-span-7 bg-white/[0.02] border border-white/10 rounded-3xl p-6 sm:p-8 backdrop-blur-md flex flex-col justify-between shadow-[0_15px_35px_rgba(0,0,0,0.25)]">
+                <div className="text-right space-y-5">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-3.5">
+                    <span className="text-xs font-semibold text-white/60 bg-white/5 px-3 py-1 rounded-full border border-white/10">
+                      وكالات وتوزيع معتمد
+                    </span>
+                    <h3 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2.5">
+                      <Handshake className="w-5 h-5 text-[#FFB800]" />
+                      <span>{pPartnersTitle}</span>
+                    </h3>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5 pt-2">
+                    {finalPartners.length > 0 ? (
+                      finalPartners.map((item, idx) => (
+                        <CompanyLogoItem key={idx} item={item} isSister={false} />
+                      ))
+                    ) : (
+                      <div className="col-span-full py-8 text-center text-xs text-white/40">
+                        لا توجد بيانات متاحة حالياً
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
+
             </div>
           </div>
+
         </div>
       </div>
     </section>
