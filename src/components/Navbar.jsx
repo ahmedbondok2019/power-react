@@ -107,7 +107,7 @@ const Navbar = () => {
 
           {/* Logo (First in DOM = Right side in RTL) */}
           <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <img src={logoUrl} alt={settingsData?.data?.site_name || "Egypt Vision"} className="h-10 md:h-12 w-auto object-contain" />
+            <img src={logoUrl} alt={settingsData?.data?.site_name || "Egypt Vision"} className="h-20 md:h-24 w-auto object-contain transition-all duration-300" />
           </Link>
 
           {/* Links (Desktop) */}
@@ -154,11 +154,10 @@ const Navbar = () => {
                 type="button"
                 onClick={() => setNotificationsOpen(prev => !prev)}
                 aria-label="Notifications"
-                className={`relative w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-300 cursor-pointer ${
-                  notificationsOpen 
-                    ? 'bg-primary text-background' 
-                    : 'bg-white/10 hover:bg-primary hover:text-background text-white'
-                }`}
+                className={`relative w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-300 cursor-pointer ${notificationsOpen
+                  ? 'bg-primary text-background'
+                  : 'bg-white/10 hover:bg-primary hover:text-background text-white'
+                  }`}
               >
                 <Bell className="w-5 h-5" />
                 <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full ring-2 ring-background"></span>
@@ -199,8 +198,8 @@ const Navbar = () => {
 
                     {/* Footer */}
                     <div className="p-3 bg-white/[0.02] border-t border-white/5 text-center">
-                      <button 
-                        type="button" 
+                      <button
+                        type="button"
                         onClick={() => setNotificationsOpen(false)}
                         className="text-xs text-white/50 hover:text-primary transition-colors font-medium cursor-pointer"
                       >

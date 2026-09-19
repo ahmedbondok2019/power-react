@@ -17,7 +17,7 @@ const Footer = () => {
         {/* Top: Logo Centered */}
         <div className="flex justify-center mb-10">
           <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <img src={logoUrl} alt={settings.site_name || "Egypt Vision"} className="h-16 md:h-20 w-auto object-contain" />
+            <img src={logoUrl} alt={settings.site_name || "Egypt Vision"} className="h-20 md:h-28 w-auto object-contain" />
           </Link>
         </div>
         

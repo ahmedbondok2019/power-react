@@ -21,58 +21,42 @@ import {
   Clock, 
   Sparkles,
   ChevronDown,
-  Info
+  Info,
+  Loader2
 } from 'lucide-react';
 import { FaLinkedinIn, FaHandshake, FaFilePdf } from 'react-icons/fa';
-import { registerVendor } from '../api/vendorApi';
-
-const COUNTRIES_LIST = [
-  { code: 'SA', nameAr: 'المملكة العربية السعودية', nameEn: 'Saudi Arabia', dial: '+966' },
-  { code: 'EG', nameAr: 'جمهورية مصر العربية', nameEn: 'Egypt', dial: '+20' },
-  { code: 'AE', nameAr: 'الإمارات العربية المتحدة', nameEn: 'United Arab Emirates', dial: '+971' },
-  { code: 'KW', nameAr: 'الكويت', nameEn: 'Kuwait', dial: '+965' },
-  { code: 'QA', nameAr: 'قطر', nameEn: 'Qatar', dial: '+974' },
-  { code: 'BH', nameAr: 'البحرين', nameEn: 'Bahrain', dial: '+973' },
-  { code: 'OM', nameAr: 'سلطنة عمان', nameEn: 'Oman', dial: '+968' },
-  { code: 'JO', nameAr: 'الأردن', nameEn: 'Jordan', dial: '+962' },
-  { code: 'TR', nameAr: 'تركيا', nameEn: 'Turkey', dial: '+90' },
-  { code: 'DE', nameAr: 'ألمانيا', nameEn: 'Germany', dial: '+49' },
-  { code: 'CN', nameAr: 'الصين', nameEn: 'China', dial: '+86' },
-  { code: 'US', nameAr: 'الولايات المتحدة', nameEn: 'United States', dial: '+1' },
-  { code: 'UK', nameAr: 'المملكة المتحدة', nameEn: 'United Kingdom', dial: '+44' },
-  { code: 'OTHER', nameAr: 'دولة أخرى', nameEn: 'Other Country', dial: '+00' },
-];
-
-const POSITION_TITLES = [
-  { id: 'ceo', labelAr: 'الرئيس التنفيذي / المدير العام', labelEn: 'CEO / General Manager' },
-  { id: 'procurement', labelAr: 'مدير المشتريات والتوريد', labelEn: 'Procurement / Supply Manager' },
-  { id: 'sales_dir', labelAr: 'مدير المبيعات والتسويق', labelEn: 'Sales & Marketing Director' },
-  { id: 'business_dev', labelAr: 'مدير تطوير الأعمال', labelEn: 'Business Development Manager' },
-  { id: 'tech_dir', labelAr: 'المدير الفني / الهندسي', labelEn: 'Technical / Engineering Director' },
-  { id: 'operations', labelAr: 'مدير العمليات', labelEn: 'Operations Manager' },
-  { id: 'account_mgr', labelAr: 'مسؤول الحسابات / العملاء', labelEn: 'Key Account Manager' },
-  { id: 'other', labelAr: 'أخرى (منصب آخر)', labelEn: 'Other Position' },
-];
-
-const AVAILABLE_SERVICES = [
-  'الأعمال الكهروميكانيكية المتكاملة (MEP Contracting)',
-  'أنظمة التكييف المركزي والتهوية (HVAC Systems)',
-  'شبكات وأنظمة مكافحة الحريق والسلامة (Fire Fighting & Safety)',
-  'شبكات الصرف الصحي والسباكة (Plumbing & Drainage)',
-  'المحطات واللوحات الكهربائية وأنظمة الطاقة (Electrical & Power Systems)',
-  'تصنيع وتوريد مجاري الهواء (Ductwork & Sheet Metal)',
-  'أنظمة التيار الخفيف وإدارة المباني (Low Current & BMS)',
-  'المقاولات الإنشائية وأعمال التشطيبات (Civil & Finishing Works)',
-  'توريد مواد ومعدات البناء والمقاولات (Building Materials & Tools)',
-  'عوازل مائية وحرارية ودهانات صناعية (Insulation & Industrial Coating)',
-  'خدمات الشحن والنقل اللوجستي (Logistics & Transportation)',
-  'فحص ومعايرة المعدات والجودة (Testing & Commissioning)',
-];
+import { registerVendor, getVendorPage } from '../api/vendorApi';
 
 const VendorRegistration = () => {
+  // Page data from API
+  const [pageData, setPageData] = useState(null);
+  const [pageLoading, setPageLoading] = useState(true);
+  const [pageError, setPageError] = useState(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
+    const fetchPage = async () => {
+      try {
+        const res = await getVendorPage();
+        setPageData(res.data);
+      } catch (err) {
+        console.error('Failed to load vendor page data:', err);
+        setPageError('تعذّر تحميل بيانات الصفحة. يرجى المحاولة مرة أخرى.');
+      } finally {
+        setPageLoading(false);
+      }
+    };
+    fetchPage();
   }, []);
+
+  // Derived options from API (fallback to empty arrays while loading)
+  const countriesList     = pageData?.options?.countries        ?? [];
+  const positionTitles   = pageData?.options?.position_titles  ?? [];
+  const availableServices= pageData?.options?.available_services ?? [];
+  const heroSection      = pageData?.hero_section;
+  const benefitsSection  = pageData?.benefits_section;
+  const criteriaSection  = pageData?.criteria_section;
+  const helpdeskSection  = pageData?.helpdesk_section;
 
   // Form State
   const [formData, setFormData] = useState({
@@ -112,6 +96,7 @@ const VendorRegistration = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
   const [errorMessage, setErrorMessage] = useState('');
+  const [referenceNo, setReferenceNo] = useState('');
 
   // Refs for hidden file inputs
   const profileInputRef = useRef(null);
@@ -228,7 +213,10 @@ const VendorRegistration = () => {
         payload.append('commercial_registration_doc', crFile);
       }
 
-      await registerVendor(payload);
+      const result = await registerVendor(payload);
+      // Capture reference number if returned by the API
+      const ref = result?.data?.reference_no || result?.reference_no || '';
+      setReferenceNo(ref);
       setSubmitStatus('success');
       // Reset form
       setFormData({
@@ -253,38 +241,66 @@ const VendorRegistration = () => {
       setCrFile(null);
     } catch (error) {
       console.error('Vendor submission error:', error);
-      // Fallback display as successful submission acknowledgment if mock/preview
-      setSubmitStatus('success');
+      setErrorMessage(error?.message || 'حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  // --- Loading / Error screen ---
+  if (pageLoading) {
+    return (
+      <div className="min-h-screen bg-[#111312] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4 text-white/60">
+          <Loader2 className="w-10 h-10 animate-spin text-[#EAB308]" />
+          <p className="text-sm">جاري تحميل الصفحة...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (pageError) {
+    return (
+      <div className="min-h-screen bg-[#111312] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4 text-center px-6">
+          <AlertCircle className="w-12 h-12 text-red-400" />
+          <p className="text-white/80 text-sm">{pageError}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="mt-2 px-6 py-2 bg-[#EAB308] text-[#111312] font-bold rounded-full text-sm"
+          >
+            إعادة المحاولة
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#111312] text-white selection:bg-[#EAB308] selection:text-black">
-      {/* Hero Section */}
+      {/* Hero Section — data from API */}
       <Hero
         id="vendor-hero"
-        badge="بوابة الموردين والشركاء"
+        badge={heroSection?.badge || 'بوابة الموردين والشركاء'}
         title={
           <span>
-            انضم كمورد معتمد <br />
-            وشريك في مسيرة إنجازاتنا
+            {heroSection?.title
+              ? heroSection.title.split('\n').map((line, i, arr) => (
+                  <React.Fragment key={i}>{line}{i < arr.length - 1 && <br />}</React.Fragment>
+                ))
+              : <><span>انضم كمورد معتمد</span><br /><span>وشريك في مسيرة إنجازاتنا</span></>}
           </span>
         }
         subtitle={
           <div className="space-y-2 text-right">
-            <p>
-              نفتح آفاق التعاون المثمر مع كبرى الشركات والموردين المعتمدين لتوريد المواد، المعدات، والخدمات الهندسية المتخصصة في أضخم مشاريع المقاولات والبنية التحتية.
-            </p>
-            <p className="text-white/70 text-sm">
-              سجل بيانات منشأتك لتأهيلها ضمن قاعدة موردينا والحصول على فرص المشاركة في المناقصات وأوامر الشراء المباشرة.
-            </p>
+            {(heroSection?.paragraphs ?? []).map((para, i) => (
+              <p key={i} className={i > 0 ? 'text-white/70 text-sm' : ''}>{para}</p>
+            ))}
           </div>
         }
-        buttonText="تعبئة نموذج التأهيل"
-        buttonLink="#vendor-form"
-        bgImage="/saudi_engineers_construction.jpg"
+        buttonText={heroSection?.button_text || 'تعبئة نموذج التأهيل'}
+        buttonLink={heroSection?.button_link || '#vendor-form'}
+        bgImage={heroSection?.image || '/saudi_engineers_construction.jpg'}
         showVisionLogo={false}
         showStatsCards={false}
       />
@@ -347,10 +363,12 @@ const VendorRegistration = () => {
                   </div>
 
                   <div className="p-4 bg-gray-50 border border-gray-200/80 rounded-2xl max-w-md mx-auto text-xs text-gray-500 space-y-1 text-right">
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">رقم الطلب المرجعي:</span>
-                      <span className="font-mono font-bold text-[#142642]">VEN-{Math.floor(100000 + Math.random() * 900000)}</span>
-                    </div>
+                    {referenceNo && (
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">رقم الطلب المرجعي:</span>
+                        <span className="font-mono font-bold text-[#142642]">{referenceNo}</span>
+                      </div>
+                    )}
                     <div className="flex justify-between">
                       <span className="text-gray-400">حالة الطلب:</span>
                       <span className="text-amber-600 font-semibold">قيد المراجعة الفنية (Under Review)</span>
@@ -423,7 +441,7 @@ const VendorRegistration = () => {
                             className="w-full bg-[#f8f9fa] border border-gray-200/80 rounded-[1rem] px-4 py-3.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#1a365d] focus:bg-white transition-all appearance-none cursor-pointer"
                           >
                             <option value="">Select Country / اختر الدولة</option>
-                            {COUNTRIES_LIST.map((c) => (
+                            {countriesList.map((c) => (
                               <option key={c.code} value={c.nameEn}>
                                 {c.nameEn} - {c.nameAr}
                               </option>
@@ -543,7 +561,7 @@ const VendorRegistration = () => {
                             className="w-full bg-[#f8f9fa] border border-gray-200/80 rounded-[1rem] px-4 py-3.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#1a365d] focus:bg-white transition-all appearance-none cursor-pointer"
                           >
                             <option value="">Select Position / اختر المنصب</option>
-                            {POSITION_TITLES.map((pos) => (
+                            {positionTitles.map((pos) => (
                               <option key={pos.id} value={pos.labelEn}>
                                 {pos.labelEn} - {pos.labelAr}
                               </option>
@@ -586,7 +604,7 @@ const VendorRegistration = () => {
                             className="w-full bg-[#f8f9fa] border border-gray-200/80 rounded-[1rem] px-3 py-3.5 text-xs sm:text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#1a365d] focus:bg-white transition-all appearance-none cursor-pointer"
                             dir="ltr"
                           >
-                            {COUNTRIES_LIST.map((c) => (
+                            {countriesList.map((c) => (
                               <option key={c.code} value={c.dial}>
                                 {c.dial} - {c.nameEn}
                               </option>
@@ -645,7 +663,7 @@ const VendorRegistration = () => {
                             className="w-full bg-[#f8f9fa] border border-gray-200/80 rounded-[1rem] px-3 py-3.5 text-xs sm:text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#1a365d] focus:bg-white transition-all appearance-none cursor-pointer"
                             dir="ltr"
                           >
-                            {COUNTRIES_LIST.map((c) => (
+                            {countriesList.map((c) => (
                               <option key={c.code} value={c.dial}>
                                 {c.dial} - {c.nameEn}
                               </option>
@@ -854,7 +872,7 @@ const VendorRegistration = () => {
                           className="w-full bg-[#f8f9fa] border border-gray-200/80 rounded-[1rem] px-4 py-3.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#1a365d] focus:bg-white transition-all appearance-none cursor-pointer"
                         >
                           <option value="">Select Service(s) / اختر مجال التوريد أو الخدمة</option>
-                          {AVAILABLE_SERVICES.map((srv, idx) => (
+                          {availableServices.map((srv, idx) => (
                             <option key={idx} value={srv} disabled={selectedServices.includes(srv)}>
                               {srv} {selectedServices.includes(srv) ? '✓ (محدد)' : ''}
                             </option>
@@ -960,65 +978,48 @@ const VendorRegistration = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="lg:col-span-4 space-y-6"
             >
-              {/* Card 1: Benefits */}
+              {/* Card 1: Benefits — from API */}
               <div className="bg-[#142642] text-white rounded-[2rem] p-8 shadow-xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[#EAB308]/10 rounded-full blur-2xl"></div>
                 
                 <h4 className="text-lg font-bold mb-5 flex items-center gap-2.5 text-[#EAB308]">
                   <Award className="w-5 h-5" />
-                  <span>مزايا الانضمام لشبكة موردينا</span>
+                  <span>{benefitsSection?.title || 'مزايا الانضمام لشبكة موردينا'}</span>
                 </h4>
 
                 <ul className="space-y-4 text-xs sm:text-sm text-gray-300">
-                  <li className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-[#EAB308]/20 text-[#EAB308] flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Check className="w-3 h-3" />
-                    </div>
-                    <span>أولوية المشاركة في مناقصات المشاريع الكبرى والمشروعات القومية.</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-[#EAB308]/20 text-[#EAB308] flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Check className="w-3 h-3" />
-                    </div>
-                    <span>شفافية تامة وسرعة في إجراءات الفحص والاعتماد الفني.</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-[#EAB308]/20 text-[#EAB308] flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Check className="w-3 h-3" />
-                    </div>
-                    <span>التزام مالي منتظم وجداول سداد واضحة وفق العقود المعتمدة.</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-[#EAB308]/20 text-[#EAB308] flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Check className="w-3 h-3" />
-                    </div>
-                    <span>شراكات طويلة الأمد وتوسيع رقعة الأعمال في مصر والسعودية.</span>
-                  </li>
+                  {(benefitsSection?.benefits ?? []).map((benefit, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <div className="w-5 h-5 rounded-full bg-[#EAB308]/20 text-[#EAB308] flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check className="w-3 h-3" />
+                      </div>
+                      <span>{benefit}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
 
-              {/* Card 2: Qualification Criteria */}
+              {/* Card 2: Qualification Criteria — from API */}
               <div className="bg-white rounded-[2rem] p-8 shadow-[0_10px_30px_rgba(0,0,0,0.03)] border border-gray-100">
                 <h4 className="text-base font-bold text-[#142642] mb-4 flex items-center gap-2">
                   <ShieldCheck className="w-5 h-5 text-[#1a365d]" />
-                  <span>معايير وشروط التأهيل</span>
+                  <span>{criteriaSection?.title || 'معايير وشروط التأهيل'}</span>
                 </h4>
                 <div className="space-y-3 text-xs text-gray-600 leading-relaxed">
-                  <p>• سريان السجل التجاري والشهادات الضريبية والتراخيص النظامية.</p>
-                  <p>• مطابقة المنتجات والمواد للمواصفات القياسية السعودية (SASO) والمصرية (EOS).</p>
-                  <p>• تقديم سابقة أعمال موثقة مع مقاولين واستشاريين معتمدين.</p>
-                  <p>• الالتزام بمعايير الجودة والسلامة والبيئة المهنية (HSE).</p>
+                  {(criteriaSection?.criteria ?? []).map((criterion, i) => (
+                    <p key={i}>• {criterion}</p>
+                  ))}
                 </div>
               </div>
 
-              {/* Card 3: Procurement Helpdesk */}
+              {/* Card 3: Procurement Helpdesk — from API */}
               <div className="bg-gradient-to-br from-[#f8f9fa] to-gray-100 rounded-[2rem] p-7 border border-gray-200 text-right space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-[#1a365d] text-[#EAB308] flex items-center justify-center">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <h5 className="text-xs font-bold text-[#142642]">إدارة المشتريات والعقود</h5>
+                    <h5 className="text-xs font-bold text-[#142642]">{helpdeskSection?.team_title || 'إدارة المشتريات والعقود'}</h5>
                     <p className="text-[11px] text-gray-500">Procurement & Supply Team</p>
                   </div>
                 </div>
@@ -1028,14 +1029,18 @@ const VendorRegistration = () => {
                 </p>
 
                 <div className="space-y-2 text-xs font-medium text-gray-700">
-                  <div className="flex items-center gap-2">
-                    <Mail className="w-3.5 h-3.5 text-[#1a365d]" />
-                    <span className="font-mono text-[11px]">vendors@globexhup.com</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Phone className="w-3.5 h-3.5 text-[#1a365d]" />
-                    <span className="font-mono text-[11px]">+966 11 000 0000 / +20 2 0000 0000</span>
-                  </div>
+                  {helpdeskSection?.email && (
+                    <div className="flex items-center gap-2">
+                      <Mail className="w-3.5 h-3.5 text-[#1a365d]" />
+                      <span className="font-mono text-[11px]">{helpdeskSection.email}</span>
+                    </div>
+                  )}
+                  {(helpdeskSection?.phones ?? []).map((phone, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <Phone className="w-3.5 h-3.5 text-[#1a365d]" />
+                      <span className="font-mono text-[11px]">{phone}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
 
