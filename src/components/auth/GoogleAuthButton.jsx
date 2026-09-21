@@ -102,8 +102,8 @@ const GoogleAuthButton = ({ type = 'signin', onError, className = '' }) => {
 
       {/* Modal helping user configure Google Client ID if missing */}
       {showConfigModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" dir="rtl">
-          <div className="bg-[#181b1a] border border-white/10 rounded-2xl max-w-md w-full p-6 text-right shadow-2xl relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+          <div className="bg-[#181b1a] border border-white/10 rounded-2xl max-w-md w-full p-6 text-start shadow-2xl relative">
             <div className="flex items-center gap-3 text-primary mb-4">
               <Key className="w-6 h-6" />
               <h3 className="text-lg font-bold text-white">تفعيل تسجيل الدخول بواسطة جوجل</h3>

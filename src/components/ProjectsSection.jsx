@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowUpRight, MapPin, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SectionTitle from './ui/SectionTitle';
 import ProjectDetailsModal from './projects/ProjectDetailsModal';
+import { useLanguage } from '../contexts/LanguageContext';
 
 // Luxurious cubic-bezier curve for high-end feel
 const EASE = [0.16, 1, 0.3, 1];
@@ -42,6 +43,7 @@ const ProjectsSection = ({
   projects = [],
 }) => {
   const [selectedProject, setSelectedProject] = useState(null);
+  const { t } = useLanguage();
 
   const sectionBadge = data?.header?.badge || badge;
   const sectionTitle = data?.header?.title || title;
@@ -83,14 +85,14 @@ const ProjectsSection = ({
         {/* Header: title + link */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-14 sm:mb-20 gap-6">
           <motion.div
-            className="text-right"
+            className="text-start"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, margin: '-50px' }}
             transition={{ duration: 0.8, ease: EASE }}
           >
             {sectionBadge && (
-              <div className="flex items-center gap-2 justify-end mb-2 text-[#FFB800] text-sm font-bold tracking-wider">
+              <div className="flex items-center gap-2 justify-start rtl:justify-end mb-2 text-[#FFB800] text-sm font-bold tracking-wider">
                 <span className="w-8 h-[2px] bg-[#FFB800] rounded-full inline-block" />
                 <span>{sectionBadge}</span>
               </div>
@@ -108,9 +110,11 @@ const ProjectsSection = ({
               to="/projects" 
               className="group flex items-center gap-3 px-6 py-3 rounded-full bg-white/80 hover:bg-[#FFB800] text-[#1E201E] border border-black/5 hover:border-[#FFB800] shadow-sm hover:shadow-md transition-all duration-300 font-semibold text-sm sm:text-base"
             >
-              <span className="transition-transform duration-300 group-hover:-translate-x-1">مزيد من المشاريع</span>
+              <span className="transition-transform duration-300 rtl:group-hover:-translate-x-1 ltr:group-hover:translate-x-1">
+                {t.projectsSection?.viewMore || 'مزيد من المشاريع'}
+              </span>
               <span className="w-8 h-8 rounded-full bg-black/5 group-hover:bg-black/10 flex items-center justify-center transition-all duration-300">
-                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-300" />
+                <ArrowLeft className="w-4 h-4 rtl:group-hover:-translate-x-0.5 ltr:group-hover:translate-x-0.5 rtl:rotate-0 ltr:rotate-180 transition-transform duration-300" />
               </span>
             </Link>
           </motion.div>

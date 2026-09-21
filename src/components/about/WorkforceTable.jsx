@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import SectionTitle from '../ui/SectionTitle';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const TABLE_DATA = [
   { function: "GM", staff: "1", exp: "15", level: "EXCEPTIONAL" },
@@ -23,17 +24,18 @@ const TABLE_DATA = [
 ];
 
 const WorkforceTable = ({ data }) => {
+  const { t, lang } = useLanguage();
   const rows = (data?.rows && data.rows.length > 0) ? data.rows : TABLE_DATA;
-  const title = data?.title || "القوى العاملة والخبرة";
+  const title = data?.title || (lang === 'en' ? 'Workforce & Experience' : 'القوى العاملة والخبرة');
   const totalStaff = data?.total_staff || "+76 (UP TO 1500 UPON DEMAND)";
   const totalExp = data?.total_experience || "+750 YEARS OF COMPILED PROFESSIONAL EXPERIENCE";
 
   return (
-    <section className="relative w-full bg-[#141615] text-white py-24 select-none overflow-hidden" dir="ltr">
+    <section className="relative w-full bg-[#141615] text-white py-24 select-none overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 flex flex-col h-full">
 
-        {/* Header (Top Right - RTL applied just for the header) */}
-        <div className="flex flex-col items-start text-right mb-16 w-full" dir="rtl">
+        {/* Header */}
+        <div className="flex flex-col items-start text-start mb-16 w-full">
           <SectionTitle title={title} theme="dark" />
         </div>
 

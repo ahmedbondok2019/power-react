@@ -5,9 +5,11 @@ import { MapPin, Phone, Mail, ArrowLeft, Settings, Play } from 'lucide-react';
 import { useContactPageData } from '../hooks/useContactPageData';
 import { sendContactMessage } from '../api/contactApi';
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaSnapchatGhost, FaTiktok, FaTwitter, FaYoutube } from 'react-icons/fa';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const ContactUs = () => {
   const { data: contactPageData, isLoading } = useContactPageData();
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -54,15 +56,12 @@ const ContactUs = () => {
       {/* Hero Section */}
       <Hero
         id="contact-hero"
-        badge={heroData.badge || "اتصل بنا"}
+        badge={heroData.badge || t.contact.heroBadge}
         title={
           heroData.title ? (
             <span className="whitespace-pre-line">{heroData.title}</span>
           ) : (
-            <>
-              نحن هنا لنستمع إليك. <br />
-              تواصل معنا اليوم.
-            </>
+            <span className="whitespace-pre-line">{t.contact.heroTitle}</span>
           )
         }
         subtitle={
@@ -71,11 +70,11 @@ const ContactUs = () => {
               <p key={idx}>{p}</p>
             ))}
             {!heroData.paragraphs && (
-              <p>{heroData.subtitle || "فريقنا مستعد للإجابة على استفساراتك ومناقشة تفاصيل مشروعك القادم."}</p>
+              <p>{heroData.subtitle || t.contact.heroSubtitle}</p>
             )}
           </div>
         }
-        buttonText={heroData.button_text || "ابدأ المحادثة"}
+        buttonText={heroData.button_text || t.contact.startConversation}
         buttonLink={heroData.button_link || "#contact-form"}
         bgImage={heroData.image || "/saudi_engineers_construction.jpg"}
         showVisionLogo={false}
@@ -83,7 +82,7 @@ const ContactUs = () => {
       />
 
       {/* Main Contact Section */}
-      <section id="contact-form" className="py-24 bg-[#f4f5f6] text-[#111312] relative overflow-hidden" dir="rtl">
+      <section id="contact-form" className="py-24 bg-[#f4f5f6] text-[#111312] relative overflow-hidden">
         {/* Decorative elements for creativity */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#EAB308] opacity-5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#1a365d] opacity-5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
@@ -102,41 +101,41 @@ const ContactUs = () => {
               {/* Subtle gradient overlay in form */}
               <div className="absolute top-0 right-0 w-full h-2 bg-gradient-to-l from-[#1a365d] to-[#EAB308]"></div>
               
-              <h2 className="text-3xl font-bold text-[#142642] mb-3">{formSectionData.title || "ابدأ محادثة حول مشروعك"}</h2>
-              <p className="text-gray-500 mb-10 text-sm">{formSectionData.subtitle || "أرسل لنا تفاصيل مشروعك وسيتواصل معك فريقنا."}</p>
+              <h2 className="text-3xl font-bold text-[#142642] mb-3">{formSectionData.title || t.contact.formTitle}</h2>
+              <p className="text-gray-500 mb-10 text-sm">{formSectionData.subtitle || t.contact.formSubtitle}</p>
               
               <form className="space-y-5" onSubmit={handleSubmit}>
                 <div className="relative group">
-                  <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder="الاسم الكامل" className="w-full bg-[#f8f9fa] border-none rounded-[1.25rem] px-6 py-4 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a365d] transition-all duration-300" />
+                  <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder={t.contact.fullName} className="w-full bg-[#f8f9fa] border-none rounded-[1.25rem] px-6 py-4 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a365d] transition-all duration-300" />
                 </div>
                 <div className="relative group">
-                  <input type="email" name="email" value={formData.email} onChange={handleChange} required placeholder="عنوان البريد الإلكتروني" className="w-full bg-[#f8f9fa] border-none rounded-[1.25rem] px-6 py-4 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a365d] transition-all duration-300" />
+                  <input type="email" name="email" value={formData.email} onChange={handleChange} required placeholder={t.contact.email} className="w-full bg-[#f8f9fa] border-none rounded-[1.25rem] px-6 py-4 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a365d] transition-all duration-300" />
                 </div>
                 <div className="relative group">
-                  <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required placeholder="رقم الهاتف" className="w-full bg-[#f8f9fa] border-none rounded-[1.25rem] px-6 py-4 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a365d] transition-all duration-300" />
+                  <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required placeholder={t.contact.phone} className="w-full bg-[#f8f9fa] border-none rounded-[1.25rem] px-6 py-4 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a365d] transition-all duration-300" />
                 </div>
                 <div className="relative group">
-                  <input type="text" name="subject" value={formData.subject} onChange={handleChange} required placeholder="سبب الاستفسار" className="w-full bg-[#f8f9fa] border-none rounded-[1.25rem] px-6 py-4 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a365d] transition-all duration-300" />
+                  <input type="text" name="subject" value={formData.subject} onChange={handleChange} required placeholder={t.contact.subject} className="w-full bg-[#f8f9fa] border-none rounded-[1.25rem] px-6 py-4 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a365d] transition-all duration-300" />
                 </div>
                 <div className="relative group">
-                  <textarea name="message" value={formData.message} onChange={handleChange} required placeholder="رسالتك" rows={4} className="w-full bg-[#f8f9fa] border-none rounded-[1.25rem] px-6 py-4 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a365d] transition-all duration-300 resize-none"></textarea>
+                  <textarea name="message" value={formData.message} onChange={handleChange} required placeholder={t.contact.message} rows={4} className="w-full bg-[#f8f9fa] border-none rounded-[1.25rem] px-6 py-4 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a365d] transition-all duration-300 resize-none"></textarea>
                 </div>
                 
                 {submitStatus === 'success' && (
                   <div className="p-4 bg-green-50 text-green-700 rounded-[1.25rem] text-sm font-semibold">
-                    تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.
+                    {t.contact.successMsg}
                   </div>
                 )}
                 {submitStatus === 'error' && (
                   <div className="p-4 bg-red-50 text-red-700 rounded-[1.25rem] text-sm font-semibold">
-                    حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى.
+                    {t.contact.errorMsg}
                   </div>
                 )}
 
                 <div className="pt-2">
-                  <button type="submit" disabled={isSubmitting} className="bg-[#1a365d] hover:bg-[#12284c] disabled:opacity-70 text-white rounded-full px-8 py-4 w-fit flex items-center gap-3 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg shadow-[#1a365d]/20 mr-auto ml-0">
-                    <span className="font-semibold">{isSubmitting ? 'جاري الإرسال...' : (formSectionData.submit_button_text || 'إرسال')}</span>
-                    <ArrowLeft className="w-5 h-5" />
+                  <button type="submit" disabled={isSubmitting} className="bg-[#1a365d] hover:bg-[#12284c] disabled:opacity-70 text-white rounded-full px-8 py-4 w-fit flex items-center gap-3 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg shadow-[#1a365d]/20 rtl:mr-auto rtl:ml-0 ltr:ml-auto ltr:mr-0">
+                    <span className="font-semibold">{isSubmitting ? t.contact.sending : (formSectionData.submit_button_text || t.contact.send)}</span>
+                    <ArrowLeft className="w-5 h-5 rtl:rotate-0 ltr:rotate-180" />
                   </button>
                 </div>
               </form>
@@ -152,7 +151,7 @@ const ContactUs = () => {
             >
               <div>
                 <h2 className="text-3xl font-bold text-[#142642] mb-14 relative inline-block">
-                  {infoData.title || "معلومات التواصل"}
+                  {infoData.title || t.contact.contactInfo}
                 </h2>
                 
                 <div className="space-y-10">
@@ -160,14 +159,14 @@ const ContactUs = () => {
                   {(infoData.address || infoData.address_title) && (
                     <div className="flex items-start gap-6 group">
                       <div>
-                        <h4 className="text-lg font-bold text-[#142642] mb-3">{infoData.address_title || "العنوان"}</h4>
+                        <h4 className="text-lg font-bold text-[#142642] mb-3">{infoData.address_title || t.contact.address}</h4>
                         <p className="text-gray-500 leading-relaxed mb-4 text-sm max-w-sm">
-                          {infoData.address || "مبنى رقم 6718، شارع الأمير ماجد بن عبد العزيز، الخبر الشمالية، المملكة العربية السعودية"}
+                          {infoData.address || t.contact.addressDefault}
                         </p>
                         {infoData.directions_link && (
                           <a href={infoData.directions_link} target="_blank" rel="noopener noreferrer" className="text-[#1a365d] font-semibold flex items-center gap-2 hover:text-[#EAB308] transition-colors text-xs">
-                            <span>{infoData.directions_text || "احصل على اتجاهات"}</span>
-                            <ArrowLeft className="w-3 h-3" />
+                            <span>{infoData.directions_text || t.contact.directions}</span>
+                            <ArrowLeft className="w-3 h-3 rtl:rotate-0 ltr:rotate-180" />
                           </a>
                         )}
                       </div>
@@ -178,7 +177,7 @@ const ContactUs = () => {
                   {(infoData.phone || infoData.phone_title) && (
                     <div className="flex items-start gap-6 group">
                       <div>
-                        <h4 className="text-lg font-bold text-[#142642] mb-3">{infoData.phone_title || "الهاتف"}</h4>
+                        <h4 className="text-lg font-bold text-[#142642] mb-3">{infoData.phone_title || t.contact.phoneLabel}</h4>
                         <div className="flex flex-col gap-2">
                           {infoData.phone && (
                             <a href={`tel:${infoData.phone}`} className="text-gray-500 hover:text-[#EAB308] transition-colors inline-block text-sm" dir="ltr">
@@ -199,7 +198,7 @@ const ContactUs = () => {
                   {(infoData.email || infoData.email_title) && (
                     <div className="flex items-start gap-6 group">
                       <div>
-                        <h4 className="text-lg font-bold text-[#142642] mb-3">{infoData.email_title || "البريد الإلكتروني"}</h4>
+                        <h4 className="text-lg font-bold text-[#142642] mb-3">{infoData.email_title || t.contact.emailLabel}</h4>
                         <div className="flex flex-col gap-2">
                           {infoData.email && (
                             <a href={`mailto:${infoData.email}`} className="text-gray-500 hover:text-[#EAB308] transition-colors text-sm">

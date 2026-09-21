@@ -13,11 +13,11 @@ const QualityStatementSection = ({ data }) => {
   ];
 
   return (
-    <section className="w-full bg-[#141615] text-white py-20 select-none overflow-hidden" dir="rtl">
+    <section className="w-full bg-[#141615] text-white py-20 select-none overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 flex flex-col">
         
         {/* Header */}
-        <div className="flex flex-col items-start text-right mb-16 w-full">
+        <div className="flex flex-col items-start text-start mb-16 w-full">
           <SectionTitle title={title} theme="dark" />
         </div>
 

@@ -139,7 +139,6 @@ const OurPoliciesSection = ({ data }) => {
     <section
       id="سياستنا"
       className="relative w-full bg-[#141615] text-white py-20 lg:py-28 overflow-hidden select-none"
-      dir="rtl"
     >
       {/* Background Decorative Lighting */}
       <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-[#FFB800]/5 rounded-full blur-[160px] pointer-events-none -z-0" />
@@ -203,7 +202,7 @@ const OurPoliciesSection = ({ data }) => {
                     className="rounded-2xl sm:rounded-3xl bg-white text-[#141615] border border-white/20 shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:border-[#FFB800]/40 mb-0"
                   >
                     <AccordionTrigger className="hover:no-underline py-5 sm:py-6 px-6 sm:px-8">
-                      <div className="flex items-center gap-3 sm:gap-4 text-right">
+                      <div className="flex items-center gap-3 sm:gap-4 text-start">
                         <motion.div
                           whileHover={{ rotate: [0, -10, 10, -5, 0], scale: 1.15 }}
                           transition={{ duration: 0.4 }}
@@ -211,7 +210,7 @@ const OurPoliciesSection = ({ data }) => {
                         >
                           <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-[#141615]" />
                         </motion.div>
-                        <div className="flex flex-col text-right">
+                        <div className="flex flex-col text-start">
                           <span className="text-lg sm:text-xl lg:text-2xl font-black text-[#141615]">
                             {policy.title}
                           </span>

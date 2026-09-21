@@ -4,6 +4,7 @@ import Hero from '../components/Hero';
 import SectionTitle from '../components/ui/SectionTitle';
 import BlogDetailsModal from '../components/blogs/BlogDetailsModal';
 import { useBlogsPageData } from '../hooks/useBlogs';
+import { useLanguage } from '../contexts/LanguageContext';
 import {
   Search,
   Calendar,
@@ -36,8 +37,10 @@ const cardVariants = {
 const Blogs = () => {
   const { data: pageData, isLoading, isError, refetch } = useBlogsPageData();
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('الكل');
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedBlog, setSelectedBlog] = useState(null);
+  const { t, lang } = useLanguage();
+  const allCategoryLabel = lang === 'ar' ? 'الكل' : 'All';
 
   // Hero section data from API with fallbacks
   const heroData = pageData?.hero_section || pageData?.data?.hero_section || {};
@@ -91,18 +94,18 @@ const Blogs = () => {
       {/* ── Page Hero ── */}
       <Hero
         id="blogs-hero"
-        badge={heroData.badge || "المدونة الهندسية"}
-        title={heroData.title || "رؤى هندسية ومقالات متخصصة"}
-        subtitle={heroData.subtitle || "استكشف أحدث المقالات والتحليلات الفنية في مجالات المقاولات العامة، الأعمال الكهروميكانيكية، وأنظمة التكييف وكود البناء السعودي."}
-        buttonText={heroData.button_text || "تصفح المقالات"}
+        badge={heroData.badge || t.blogs.heroBadge}
+        title={heroData.title || t.blogs.heroTitle}
+        subtitle={heroData.subtitle || t.blogs.heroSubtitle}
+        buttonText={heroData.button_text || t.blogs.allPosts}
         buttonLink={heroData.button_link || "#articles-section"}
         bgImage={heroData.image || "/projects-hero-bg.jpg"}
         showVisionLogo={false}
         showStatsCards={true}
         stats={heroData.stats && heroData.stats.length > 0 ? heroData.stats : [
-          { number: rawItems.length || 6, label: "مقالات منشورة" },
-          { number: categories.length > 1 ? categories.length - 1 : 5, label: "مجالات تخصصية" },
-          { number: 100, label: "معايير هندسية معتمدة" },
+          { number: rawItems.length || 6, label: lang === 'ar' ? 'مقالات منشورة' : 'Published Articles' },
+          { number: categories.length > 1 ? categories.length - 1 : 5, label: lang === 'ar' ? 'مجالات تخصصية' : 'Specialized Fields' },
+          { number: 100, label: lang === 'ar' ? 'معايير هندسية معتمدة' : 'Certified Engineering Standards' },
         ]}
       />
 
@@ -110,7 +113,6 @@ const Blogs = () => {
       <section
         id="articles-section"
         className="relative pt-56 sm:pt-64 pb-28 overflow-hidden"
-        dir="rtl"
       >
         {/* Ambient Glows */}
         <div className="absolute top-1/4 right-0 w-[550px] h-[550px] bg-[#FFB800]/5 rounded-full blur-[170px] pointer-events-none" />
@@ -119,12 +121,12 @@ const Blogs = () => {
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           {/* Header & Section Title */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
-            <div className="text-right">
+            <div className="text-start">
               <div className="flex items-center gap-2 justify-start mb-2 text-[#FFB800] text-sm font-bold tracking-wider">
                 <span className="w-8 h-[2px] bg-[#FFB800] rounded-full inline-block" />
-                <span>{headerData.badge || "مركز المعرفة الهندسية"}</span>
+                <span>{headerData.badge || (lang === 'ar' ? "مركز المعرفة الهندسية" : "Engineering Knowledge Hub")}</span>
               </div>
-              <SectionTitle title={headerData.title || "المقالات والدراسات"} theme="dark" />
+              <SectionTitle title={headerData.title || (lang === 'ar' ? "المقالات والدراسات" : "Articles & Studies")} theme="dark" />
               {headerData.subtitle && (
                 <p className="text-white/70 text-sm md:text-base mt-2 max-w-2xl">
                   {headerData.subtitle}
@@ -204,7 +206,7 @@ const Blogs = () => {
                 </div>
 
                 {/* Bottom Details Overlaid on Image */}
-                <div className="absolute bottom-0 inset-x-0 z-20 p-6 sm:p-10 lg:p-12 text-right space-y-4">
+                <div className="absolute bottom-0 inset-x-0 z-20 p-6 sm:p-10 lg:p-12 text-start space-y-4">
                   <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[#FFB800] text-xs font-bold">
                     <Tag className="w-3.5 h-3.5" />
                     <span>{featuredBlog.category || featuredBlog.category_obj?.name}</span>
@@ -223,8 +225,8 @@ const Blogs = () => {
                       type="button"
                       className="inline-flex items-center gap-2 bg-[#FFB800] hover:bg-[#ffe066] text-black font-extrabold text-sm px-6 py-3 rounded-full transition-all duration-300 shadow-xl group-hover:shadow-[0_0_25px_rgba(255,184,0,0.5)] cursor-pointer"
                     >
-                      <span>عرض تفاصيل المقال</span>
-                      <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1.5 transition-transform" />
+                      <span>{lang === 'ar' ? 'عرض تفاصيل المقال' : 'View Article Details'}</span>
+                      <ArrowLeft className="w-4 h-4 rtl:group-hover:-translate-x-1.5 ltr:group-hover:translate-x-1.5 rtl:rotate-0 ltr:rotate-180 transition-transform" />
                     </button>
                   </div>
                 </div>
@@ -257,12 +259,12 @@ const Blogs = () => {
           {/* ── Error State ── */}
           {isError && (
             <div className="text-center py-20 bg-[#181A18] rounded-3xl border border-red-500/20 max-w-xl mx-auto p-8">
-              <p className="text-white/80 text-lg mb-4">تعذر تحميل المقالات حالياً</p>
+              <p className="text-white/80 text-lg mb-4">{lang === 'ar' ? 'تعذر تحميل المقالات حالياً' : 'Failed to load articles at this moment'}</p>
               <button
                 onClick={() => refetch()}
                 className="px-6 py-2.5 rounded-full bg-[#FFB800] text-black font-bold text-sm hover:scale-105 transition-transform cursor-pointer"
               >
-                إعادة المحاولة
+                {lang === 'ar' ? 'إعادة المحاولة' : 'Try Again'}
               </button>
             </div>
           )}
@@ -272,10 +274,10 @@ const Blogs = () => {
             <div className="text-center py-24 bg-[#181A18]/50 rounded-3xl border border-white/5 max-w-xl mx-auto p-8">
               <BookOpen className="w-12 h-12 text-white/30 mx-auto mb-4" />
               <h4 className="text-xl font-bold text-white mb-2">
-                {headerData.empty_state?.title || "لا توجد مقالات مطابقة"}
+                {headerData.empty_state?.title || (lang === 'ar' ? "لا توجد مقالات مطابقة" : "No Matching Articles")}
               </h4>
               <p className="text-white/60 text-sm">
-                {headerData.empty_state?.subtitle || "لم يتم العثور على أي مقالات تطابق بحثك. جرّب كلمات دلالية أخرى أو اختر تصنيفاً آخر."}
+                {headerData.empty_state?.subtitle || (lang === 'ar' ? "لم يتم العثور على أي مقالات تطابق بحثك. جرّب كلمات دلالية أخرى أو اختر تصنيفاً آخر." : "No articles match your search. Try different keywords or select another category.")}
               </p>
             </div>
           )}
@@ -324,7 +326,7 @@ const Blogs = () => {
                   </div>
 
                   {/* Bottom Details Overlaid on the Image */}
-                  <div className="relative z-20 p-6 sm:p-7 text-right space-y-3">
+                  <div className="relative z-20 p-6 sm:p-7 text-start space-y-3">
                     <h3 className="text-white font-extrabold text-lg sm:text-xl leading-snug group-hover:text-[#FFB800] transition-colors line-clamp-2 drop-shadow-md">
                       {blog.title}
                     </h3>
@@ -336,10 +338,10 @@ const Blogs = () => {
                     {/* Bottom Action Button */}
                     <div className="pt-3 flex items-center justify-between border-t border-white/15">
                       <span className="text-xs text-[#FFB800] font-bold group-hover:underline">
-                        عرض تفاصيل المقال
+                        {lang === 'ar' ? 'عرض تفاصيل المقال' : 'View Article Details'}
                       </span>
                       <div className="w-9 h-9 rounded-full bg-white/10 group-hover:bg-[#FFB800] group-hover:text-black text-white flex items-center justify-center transition-all duration-300 shadow-md">
-                        <ChevronLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
+                        <ChevronLeft className="w-5 h-5 rtl:group-hover:-translate-x-0.5 ltr:group-hover:translate-x-0.5 rtl:rotate-0 ltr:rotate-180 transition-transform" />
                       </div>
                     </div>
                   </div>

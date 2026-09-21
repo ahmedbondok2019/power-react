@@ -57,7 +57,7 @@ const CustomTooltip = ({ active, payload, label, plannedLegend, actualLegend }) 
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
-      <div className="bg-[#121613]/95 border border-[#D4E128]/40 rounded-2xl p-4 shadow-2xl backdrop-blur-md text-right text-white space-y-2 min-w-[200px]" dir="rtl">
+      <div className="bg-[#121613]/95 border border-[#D4E128]/40 rounded-2xl p-4 shadow-2xl backdrop-blur-md text-start text-white space-y-2 min-w-[200px]">
         <div className="font-bold text-xs text-[#D4E128] border-b border-white/10 pb-1.5 font-mono">
           {data.milestone}
         </div>
@@ -109,7 +109,6 @@ const TwoWayCashFlowSection = ({ data }) => {
     <section 
       id="تحليل-التدفق-النقدي"
       className="relative w-full bg-[#111312] text-white py-24 sm:py-32 overflow-hidden select-none border-b border-white/5"
-      dir="rtl"
     >
       {/* Ambient Lighting Background */}
       <div className="absolute top-1/4 right-0 w-[550px] h-[550px] bg-[#D4E128]/5 rounded-full blur-[180px] pointer-events-none -z-0" />
@@ -118,7 +117,7 @@ const TwoWayCashFlowSection = ({ data }) => {
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
         {/* Section Header & Strategic Context (Exact text from design) */}
-        <div className="mb-14 sm:mb-20 text-right space-y-6 max-w-4xl">
+        <div className="mb-14 sm:mb-20 text-start space-y-6 max-w-4xl">
           <SectionTitle title={data?.title || "تحليل التدفق النقدي ذو الاتجاهين"} theme="dark" />
 
           <div className="space-y-4 text-white/85 text-sm sm:text-base lg:text-lg leading-relaxed font-medium">

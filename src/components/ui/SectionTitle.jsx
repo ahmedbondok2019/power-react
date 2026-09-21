@@ -28,7 +28,7 @@ const SectionTitle = ({
             whileInView={{ scaleX: 1 }}
             viewport={{ once: false }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-            className="absolute bottom-0 right-0 left-0 h-3.5 sm:h-4 md:h-5 bg-[#FFB800] -z-10 rounded-sm origin-right"
+            className="absolute bottom-0 right-0 left-0 h-3.5 sm:h-4 md:h-5 bg-[#FFB800] -z-10 rounded-sm origin-right rtl:origin-right ltr:origin-left"
           />
         </span>
       </motion.h2>

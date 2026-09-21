@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 import { FaYoutube, FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaTiktok, FaSnapchatGhost } from 'react-icons/fa';
 import { useSettingsData } from '../hooks/useSettingsData';
 import LogoFallback from '../../public/logo.png';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const Footer = () => {
   const { data: settingsData } = useSettingsData();
   const settings = settingsData?.data || {};
   const logoUrl = settings.logo || LogoFallback;
   const socialLinks = settings.social_links || [];
+  const { t } = useLanguage();
 
   return (
     <footer className="bg-secondary text-text-main pt-16 pb-8 border-t border-white/5">
@@ -25,54 +27,51 @@ const Footer = () => {
         <hr className="border-t border-white/20 mb-10" />
 
         {/* Middle: 4 Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10 text-right">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10 text-start">
           
-          {/* Column 1: عن الشركة */}
+          {/* Column 1: About */}
           <div>
-            <h4 className="font-bold text-lg mb-6 text-[#EAB308]">عن {settings.site_name ? settings.site_name.split(' ')[0] : 'باور'}</h4>
+            <h4 className="font-bold text-lg mb-6 text-[#EAB308]">{t.footer.aboutCompany} {settings.site_name ? settings.site_name.split(' ')[0] : ''}</h4>
             <ul className="space-y-4">
               <li>
-                <Link 
-                  to="/about"
-                  className="text-text-muted hover:text-primary transition-colors text-sm"
-                >
-                  من نحن ورؤيتنا
+                <Link to="/about" className="text-text-muted hover:text-primary transition-colors text-sm">
+                  {t.footer.aboutLink1}
                 </Link>
               </li>
-              <li><Link to="/about" className="text-text-muted hover:text-primary transition-colors text-sm">هيكل المجموعة والقدرات</Link></li>
-              <li><Link to="/strategy" className="text-text-muted hover:text-primary transition-colors text-sm">استراتيجيات النمو والإدارة</Link></li>
-              <li><Link to="/strategy" className="text-text-muted hover:text-primary transition-colors text-sm">التقارير المالية والتدفقات</Link></li>
+              <li><Link to="/about" className="text-text-muted hover:text-primary transition-colors text-sm">{t.footer.aboutLink2}</Link></li>
+              <li><Link to="/strategy" className="text-text-muted hover:text-primary transition-colors text-sm">{t.footer.aboutLink3}</Link></li>
+              <li><Link to="/strategy" className="text-text-muted hover:text-primary transition-colors text-sm">{t.footer.aboutLink4}</Link></li>
             </ul>
           </div>
 
-          {/* Column 2: الخدمات */}
+          {/* Column 2: Services */}
           <div>
-            <h4 className="font-bold text-lg mb-6 text-[#EAB308]">قطاعات الأعمال والخدمات</h4>
+            <h4 className="font-bold text-lg mb-6 text-[#EAB308]">{t.footer.servicesTitle}</h4>
             <ul className="space-y-4">
-              <li><Link to="/services" className="text-text-muted hover:text-primary transition-colors text-sm">الأعمال الكهروميكانيكية (MEP)</Link></li>
-              <li><Link to="/services" className="text-text-muted hover:text-primary transition-colors text-sm">المقاولات الإنشائية والتطوير السكني</Link></li>
-              <li><Link to="/services" className="text-text-muted hover:text-primary transition-colors text-sm">تصنيع مجاري الهواء (Ducts)</Link></li>
-              <li><Link to="/services" className="text-text-muted hover:text-primary transition-colors text-sm">حلول البنية التحتية ومعالجة المياه</Link></li>
+              <li><Link to="/services" className="text-text-muted hover:text-primary transition-colors text-sm">{t.footer.servicesLink1}</Link></li>
+              <li><Link to="/services" className="text-text-muted hover:text-primary transition-colors text-sm">{t.footer.servicesLink2}</Link></li>
+              <li><Link to="/services" className="text-text-muted hover:text-primary transition-colors text-sm">{t.footer.servicesLink3}</Link></li>
+              <li><Link to="/services" className="text-text-muted hover:text-primary transition-colors text-sm">{t.footer.servicesLink4}</Link></li>
             </ul>
           </div>
 
-          {/* Column 3: المشاريع والفرص */}
+          {/* Column 3: Projects */}
           <div>
-            <h4 className="font-bold text-lg mb-6 text-[#EAB308]">المشاريع والتواصل</h4>
+            <h4 className="font-bold text-lg mb-6 text-[#EAB308]">{t.footer.projectsTitle}</h4>
             <ul className="space-y-4">
-              <li><Link to="/projects" className="text-text-muted hover:text-primary transition-colors text-sm">المشاريع المنجزة</Link></li>
-              <li><Link to="/projects" className="text-text-muted hover:text-primary transition-colors text-sm">مشاريع قيد التنفيذ</Link></li>
-              <li><Link to="/careers" className="text-text-muted hover:text-primary transition-colors text-sm">الوظائف والفرص الوظيفية</Link></li>
-              <li><Link to="/join-as-vendor" className="text-text-muted hover:text-primary transition-colors text-sm">انضم كمورد</Link></li>
-              <li><Link to="/contact" className="text-text-muted hover:text-primary transition-colors text-sm">تواصل معنا</Link></li>
+              <li><Link to="/projects" className="text-text-muted hover:text-primary transition-colors text-sm">{t.footer.projectsLink1}</Link></li>
+              <li><Link to="/projects" className="text-text-muted hover:text-primary transition-colors text-sm">{t.footer.projectsLink2}</Link></li>
+              <li><Link to="/careers" className="text-text-muted hover:text-primary transition-colors text-sm">{t.footer.projectsLink3}</Link></li>
+              <li><Link to="/join-as-vendor" className="text-text-muted hover:text-primary transition-colors text-sm">{t.footer.projectsLink4}</Link></li>
+              <li><Link to="/contact" className="text-text-muted hover:text-primary transition-colors text-sm">{t.footer.projectsLink5}</Link></li>
             </ul>
           </div>
 
-          {/* Join Us Column */}
+          {/* Column 4: Follow Us */}
           <div>
-            <h4 className="font-bold text-lg mb-6 text-[#EAB308]">تواصل معنا</h4>
+            <h4 className="font-bold text-lg mb-6 text-[#EAB308]">{t.footer.followUs}</h4>
             <p className="text-xs text-text-muted mb-4 leading-relaxed">
-              تابع حساباتنا الرسمية للاطلاع على أحدث إنجازاتنا والمشاريع الحالية.
+              {t.footer.followUsDesc}
             </p>
             <div className="flex flex-wrap items-center gap-4 justify-start">
               {socialLinks.map((social, index) => {
@@ -94,7 +93,6 @@ const Footer = () => {
                 );
               })}
               
-              {/* Fallback if no social links in settings */}
               {socialLinks.length === 0 && (
                 <>
                   <a href="#" aria-label="Youtube" className="text-text-muted hover:text-primary transition-colors"><FaYoutube className="w-5 h-5" /></a>
@@ -114,11 +112,11 @@ const Footer = () => {
 
         {/* Bottom: Copyright & Links */}
         <div className="flex flex-col md:flex-row justify-between items-center text-sm text-text-muted gap-4">
-          <p>© {new Date().getFullYear()} {settings.site_name || "Power Preparation"}. جميع الحقوق محفوظة.</p>
+          <p>© {new Date().getFullYear()} {settings.site_name || "Power Preparation"}. {t.footer.rights}</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-primary transition-colors">سياسة الخصوصية</a>
-            <a href="#" className="hover:text-primary transition-colors">الشروط والأحكام</a>
-            <a href="#" className="hover:text-primary transition-colors">خريطة الموقع</a>
+            <a href="#" className="hover:text-primary transition-colors">{t.footer.privacy}</a>
+            <a href="#" className="hover:text-primary transition-colors">{t.footer.terms}</a>
+            <a href="#" className="hover:text-primary transition-colors">{t.footer.sitemap}</a>
           </div>
         </div>
 

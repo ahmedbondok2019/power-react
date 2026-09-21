@@ -47,7 +47,7 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background pb-24 selection:bg-primary selection:text-black" dir="rtl">
+    <div className="min-h-screen bg-background pb-24 selection:bg-primary selection:text-black">
       
       {/* ── Cover Photo (Banner) ── */}
       <div className="relative h-[30vh] md:h-[40vh] w-full overflow-hidden">
@@ -71,7 +71,7 @@ const Profile = () => {
           <div className="flex flex-col md:flex-row items-center md:items-end justify-between gap-8">
             
             {/* Avatar & Name */}
-            <div className="flex flex-col md:flex-row items-center gap-6 text-center md:text-right">
+            <div className="flex flex-col md:flex-row items-center gap-6 text-center md:text-start">
               <div className="relative">
                 <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-primary to-[#1a365d] flex items-center justify-center shadow-xl shadow-primary/20 border-4 border-background overflow-hidden relative z-10">
                   {profileData.avatar ? (

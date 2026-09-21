@@ -48,19 +48,19 @@ const BlogDetails = () => {
 
   if (isError || !blog) {
     return (
-      <div className="min-h-screen bg-[#111312] text-white pt-40 pb-24 text-center px-6" dir="rtl">
+      <div className="min-h-screen bg-[#111312] text-white pt-40 pb-24 text-center px-6">
         <div className="max-w-md mx-auto bg-[#181A18] p-8 rounded-3xl border border-white/10">
           <BookOpen className="w-12 h-12 text-[#FFB800] mx-auto mb-4" />
-          <h2 className="text-2xl font-bold mb-2">المقال غير متوفر</h2>
+          <h2 className="text-2xl font-bold mb-2">{lang === 'ar' ? 'المقال غير متوفر' : 'Article Not Found'}</h2>
           <p className="text-white/60 text-sm mb-6">
-            عذراً، لم نتمكن من العثور على المقال المطلوب أو ربما تم نقله.
+            {lang === 'ar' ? 'عذراً، لم نتمكن من العثور على المقال المطلوب أو ربما تم نقله.' : 'Sorry, the requested article could not be found or has been moved.'}
           </p>
           <Link
             to="/blogs"
             className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#FFB800] text-black font-bold text-sm hover:scale-105 transition-transform"
           >
-            <span>العودة لجميع المقالات</span>
-            <ArrowRight className="w-4 h-4" />
+            <span>{lang === 'ar' ? 'العودة لجميع المقالات' : 'Back to All Articles'}</span>
+            <ArrowRight className="w-4 h-4 rtl:rotate-0 ltr:rotate-180" />
           </Link>
         </div>
       </div>
@@ -68,35 +68,31 @@ const BlogDetails = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#111312] text-white selection:bg-[#FFB800] selection:text-black" dir="rtl">
+    <div className="min-h-screen bg-[#111312] text-white selection:bg-[#FFB800] selection:text-black">
       {/* ── Article Hero / Banner ── */}
       <section className="relative pt-36 pb-20 overflow-hidden bg-gradient-to-b from-black/80 via-[#111312] to-[#111312]">
-        <div className="max-w-4xl mx-auto px-6 relative z-10 text-right">
+        <div className="max-w-4xl mx-auto px-6 relative z-10 text-start">
           {/* Breadcrumb / Back Link */}
           <Link
             to="/blogs"
             className="inline-flex items-center gap-2 text-white/60 hover:text-[#FFB800] text-sm mb-8 transition-colors group font-medium"
           >
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            <span>العودة إلى المدونة</span>
+            <ArrowRight className="w-4 h-4 rtl:group-hover:translate-x-1 ltr:group-hover:-translate-x-1 rtl:rotate-0 ltr:rotate-180 transition-transform" />
+            <span>{lang === 'ar' ? 'العودة لجميع المقالات' : 'Back to Articles'}</span>
           </Link>
 
-          {/* Category Pill */}
-          <div className="flex items-center gap-3 mb-6">
-            <span className="px-4 py-1.5 rounded-full bg-[#FFB800]/15 border border-[#FFB800]/30 text-[#FFB800] text-xs font-bold">
-              {blog.category || blog.category_obj?.name}
+          {/* Category Badge */}
+          <div className="mb-4">
+            <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#FFB800]/10 border border-[#FFB800]/30 text-[#FFB800] text-xs font-bold uppercase tracking-wider">
+              <Tag className="w-3.5 h-3.5" />
+              <span>{blog.category || blog.category_obj?.name}</span>
             </span>
           </div>
 
           {/* Article Title */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: EASE }}
-            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-6"
-          >
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight mb-6 font-sans">
             {blog.title}
-          </motion.h1>
+          </h1>
 
           {/* Metadata Row */}
           <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-white/10 text-xs sm:text-sm text-white/60">
@@ -115,12 +111,12 @@ const BlogDetails = () => {
               {copied ? (
                 <>
                   <Check className="w-3.5 h-3.5 text-green-400" />
-                  <span className="text-green-400">تم نسخ الرابط!</span>
+                  <span className="text-green-400">{lang === 'ar' ? 'تم نسخ الرابط!' : 'Link Copied!'}</span>
                 </>
               ) : (
                 <>
                   <Share2 className="w-3.5 h-3.5 text-[#FFB800]" />
-                  <span>مشاركة المقال</span>
+                  <span>{lang === 'ar' ? 'مشاركة المقال' : 'Share Article'}</span>
                 </>
               )}
             </button>
@@ -140,10 +136,10 @@ const BlogDetails = () => {
       </div>
 
       {/* ── Article Body Content ── */}
-      <article className="max-w-4xl mx-auto px-6 pb-24 text-right">
+      <article className="max-w-4xl mx-auto px-6 pb-24 text-start">
         {/* Short description lead */}
         {blog.short_description && (
-          <div className="p-6 sm:p-8 rounded-2xl bg-[#181A18] border-r-4 border-[#FFB800] mb-12 shadow-md">
+          <div className="p-6 sm:p-8 rounded-2xl bg-[#181A18] rtl:border-r-4 ltr:border-l-4 border-[#FFB800] mb-12 shadow-md">
             <p className="text-base sm:text-lg text-white/90 leading-relaxed font-medium">
               {blog.short_description}
             </p>
@@ -160,10 +156,10 @@ const BlogDetails = () => {
       {/* ── Related Articles ── */}
       {relatedBlogs.length > 0 && (
         <section className="bg-[#0B0C0B] py-20 border-t border-white/10">
-          <div className="max-w-7xl mx-auto px-6 text-right">
+          <div className="max-w-7xl mx-auto px-6 text-start">
             <div className="mb-10">
-              <span className="text-[#FFB800] text-xs font-bold tracking-wider">مقالات ذات صلة</span>
-              <h3 className="text-2xl sm:text-3xl font-bold text-white mt-1">تابع القراءة</h3>
+              <span className="text-[#FFB800] text-xs font-bold tracking-wider">{lang === 'ar' ? 'مقالات ذات صلة' : 'Related Articles'}</span>
+              <h3 className="text-2xl sm:text-3xl font-bold text-white mt-1">{lang === 'ar' ? 'تابع القراءة' : 'Keep Reading'}</h3>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -180,7 +176,7 @@ const BlogDetails = () => {
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>
-                  <div className="p-5 text-right space-y-2">
+                  <div className="p-5 text-start space-y-2">
                     <span className="text-[11px] text-[#FFB800] font-semibold">
                       {item.category || item.category_obj?.name}
                     </span>

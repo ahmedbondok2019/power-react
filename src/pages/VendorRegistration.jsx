@@ -306,7 +306,7 @@ const VendorRegistration = () => {
       />
 
       {/* Main Form Section */}
-      <section id="vendor-form" className="py-24 bg-[#f4f5f6] text-[#111312] relative overflow-hidden" dir="rtl">
+      <section id="vendor-form" className="py-24 bg-[#f4f5f6] text-[#111312] relative overflow-hidden">
         {/* Decorative ambient background glows */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#EAB308] opacity-5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#1a365d] opacity-5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>

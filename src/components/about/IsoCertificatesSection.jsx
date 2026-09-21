@@ -24,7 +24,7 @@ const IsoCertificatesSection = ({ data }) => {
   const items = (data && data.length > 0) ? data : ISO_CERTS;
 
   return (
-    <section className="w-full bg-[#F3F4F6] text-black py-12 pb-24 select-none" dir="rtl">
+    <section className="w-full bg-[#F3F4F6] text-black py-12 pb-24 select-none">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div 
           variants={containerVariants}

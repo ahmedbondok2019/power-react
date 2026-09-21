@@ -66,7 +66,6 @@ const ServiceDetailsModal = ({ service, modalSettings, isOpen, onClose }) => {
       {isOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 md:p-8 select-none"
-          dir="rtl"
           data-lenis-prevent="true"
         >
           {/* Backdrop Blur Overlay */}
@@ -94,7 +93,7 @@ const ServiceDetailsModal = ({ service, modalSettings, isOpen, onClose }) => {
             <button
               onClick={onClose}
               aria-label="Close modal"
-              className="absolute top-4 left-4 z-30 w-10 h-10 rounded-full bg-black/70 hover:bg-[#FFB800] text-white hover:text-black border border-white/20 transition-all duration-300 flex items-center justify-center shadow-lg cursor-pointer hover:scale-105"
+              className="absolute top-4 rtl:left-4 ltr:right-4 z-30 w-10 h-10 rounded-full bg-black/70 hover:bg-[#FFB800] text-white hover:text-black border border-white/20 transition-all duration-300 flex items-center justify-center shadow-lg cursor-pointer hover:scale-105"
             >
               <X className="w-5 h-5 stroke-[2.5]" />
             </button>
@@ -115,7 +114,7 @@ const ServiceDetailsModal = ({ service, modalSettings, isOpen, onClose }) => {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#171918] via-[#171918]/55 to-black/30" />
 
                 {/* Badges Over Image */}
-                <div className="absolute bottom-5 right-6 left-6 flex flex-wrap items-center justify-between gap-3 text-right">
+                <div className="absolute bottom-5 right-6 left-6 flex flex-wrap items-center justify-between gap-3 text-start">
                   <div className="space-y-1">
                     <span className="inline-block px-3 py-1 rounded-full bg-[#FFB800] text-black font-extrabold text-xs shadow-md">
                       {service.category || service.category_obj?.name || 'قطاع هندسي متخصص'}
@@ -133,11 +132,11 @@ const ServiceDetailsModal = ({ service, modalSettings, isOpen, onClose }) => {
               </div>
 
               {/* Main Modal Body */}
-              <div className="p-6 sm:p-8 space-y-7 text-right">
+              <div className="p-6 sm:p-8 space-y-7 text-start">
 
                 {/* Executive Overview */}
                 <div className="p-5 sm:p-6 rounded-2xl bg-white/[0.04] border border-white/10 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-1.5 h-full bg-[#FFB800]" />
+                  <div className="absolute top-0 rtl:right-0 ltr:left-0 w-1.5 h-full bg-[#FFB800]" />
                   <h3 className="text-base sm:text-lg font-bold text-[#FFB800] mb-2 flex items-center gap-2">
                     <Sparkles className="w-4 h-4 text-[#FFB800]" />
                     <span>{modalSettings?.overview_title || 'نطاق الخدمة والحلول المتكاملة'}</span>
@@ -188,7 +187,7 @@ const ServiceDetailsModal = ({ service, modalSettings, isOpen, onClose }) => {
 
                 {/* Bottom Action Footer */}
                 <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <div className="text-xs text-white/60 text-right">
+                  <div className="text-xs text-white/60 text-start">
                     <span>{cta.text || `هل لديك مشروع يتطلب تنفيذ أعمال ${title}؟`}</span>
                   </div>
 

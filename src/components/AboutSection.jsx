@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { motion, useInView, animate } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import SectionTitle from './ui/SectionTitle';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -38,6 +39,7 @@ const AboutSection = ({
   description = '',
   statistics = [],
 }) => {
+  const { t } = useLanguage();
   // Support either data prop (data={aboutData}) or individual props
   const sectionTitle = data?.title || title;
   const sectionSubtitle = data?.subtitle || subtitle;
@@ -61,7 +63,7 @@ const AboutSection = ({
       <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
         <motion.div
-          className="text-right space-y-6"
+          className="text-start space-y-6"
           initial={{ opacity: 0, x: 100 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: false, margin: '-80px' }}
@@ -95,8 +97,8 @@ const AboutSection = ({
               to="/about"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#111312] text-white hover:bg-[#FFB800] hover:text-black font-bold text-sm transition-all duration-300 shadow-md group"
             >
-              <span>المزيد عن شركتنا ورؤيتنا</span>
-              <span className="group-hover:-translate-x-1 transition-transform">←</span>
+              <span>{t.aboutSection.learnMore}</span>
+              <span className="rtl:group-hover:-translate-x-1 ltr:group-hover:translate-x-1 rtl:rotate-0 ltr:rotate-180 inline-block transition-transform">←</span>
             </Link>
           </motion.div>
         </motion.div>

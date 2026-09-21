@@ -56,16 +56,16 @@ const Login = () => {
   return (
     <AuthLayout title="تسجيل الدخول" subtitle="مرحباً بعودتك! يرجى إدخال بياناتك للمتابعة.">
       {error && (
-        <div className="bg-red-500/10 border border-red-500/20 text-red-500 text-sm p-4 rounded-xl mb-6 text-right" dir="rtl">
+        <div className="bg-red-500/10 border border-red-500/20 text-red-500 text-sm p-4 rounded-xl mb-6 text-start">
           {error}
         </div>
       )}
-      <form onSubmit={handleSubmit} className="space-y-5" dir="rtl">
+      <form onSubmit={handleSubmit} className="space-y-5">
         {/* Email Input */}
         <div className="space-y-2">
           <label className="block text-sm font-medium text-white/90">البريد الإلكتروني</label>
           <div className="relative">
-            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-white/50">
+            <div className="absolute inset-y-0 rtl:right-0 rtl:pr-3 ltr:left-0 ltr:pl-3 flex items-center pointer-events-none text-white/50">
               <Mail size={18} />
             </div>
             <input
@@ -74,7 +74,7 @@ const Login = () => {
               value={formData.email}
               onChange={handleChange}
               placeholder="البريد الإلكتروني أو الهاتف"
-              className="block w-full bg-surface/50 border border-white/10 rounded-xl py-3 pr-10 pl-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
+              className="block w-full bg-surface/50 border border-white/10 rounded-xl py-3 rtl:pr-10 rtl:pl-3 ltr:pl-10 ltr:pr-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
               required
             />
           </div>
@@ -84,7 +84,7 @@ const Login = () => {
         <div className="space-y-2">
           <label className="block text-sm font-medium text-white/90">كلمة المرور</label>
           <div className="relative">
-            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-white/50">
+            <div className="absolute inset-y-0 rtl:right-0 rtl:pr-3 ltr:left-0 ltr:pl-3 flex items-center pointer-events-none text-white/50">
               <Lock size={18} />
             </div>
             <input
@@ -99,7 +99,7 @@ const Login = () => {
             />
             <button
               type="button"
-              className="absolute inset-y-0 left-0 pl-3 flex items-center text-white/50 hover:text-white transition-colors"
+              className="absolute inset-y-0 rtl:left-0 rtl:pl-3 ltr:right-0 ltr:pr-3 flex items-center text-white/50 hover:text-white transition-colors"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -143,7 +143,7 @@ const Login = () => {
           ) : (
             <>
               تسجيل الدخول
-              <ArrowLeft size={18} />
+              <ArrowLeft size={18} className="rtl:rotate-0 ltr:rotate-180" />
             </>
           )}
         </button>

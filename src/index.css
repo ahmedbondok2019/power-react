@@ -23,10 +23,18 @@
   --color-text-main: #FFFFFF;
   --color-text-muted: #A1A1AA;
   
-  --font-sans: 'HSN Shahd Bold', 'Inter', sans-serif;
+  --font-sans: 'HSN Shahd Bold', 'Tajawal', 'Inter', sans-serif;
   
   --animate-fade-in-up: fadeInUp 0.8s ease-out forwards;
   --animate-reveal: reveal 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
+:root[dir="rtl"], html[dir="rtl"], html[lang="ar"] {
+  --font-sans: 'HSN Shahd Bold', 'Tajawal', 'Inter', sans-serif;
+}
+
+:root[dir="ltr"], html[dir="ltr"], html[lang="en"] {
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 @layer base {
@@ -36,7 +44,6 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    direction: rtl; /* For Arabic */
   }
   
   ::selection {
@@ -79,7 +86,7 @@
     font-size: clamp(18px, 2.2vw, 32px);
     line-height: clamp(32px, 4.2vw, 63px);
     letter-spacing: 0;
-    text-align: right;
+    text-align: start;
   }
 
   .stat-number {

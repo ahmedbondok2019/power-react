@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { motion, useInView, animate } from 'framer-motion';
 import { ArrowLeftCircle, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../contexts/LanguageContext';
 
 // ── Animated Counter ─────────────────────────────────────────────────────────
 const AnimatedCounter = ({ target, duration = 2 }) => {
@@ -27,21 +28,22 @@ const EASE = [0.22, 1, 0.36, 1];
 
 const Hero = ({
   data,
-  id = 'الرئيسية',
+  id = 'hero',
   badge = '',
   title = '',
   subtitle = '',
-  buttonText = 'استكشف مشاريعنا',
+  buttonText = '',
   buttonLink = '/projects',
   bgImage = '',
   visionLogo = '',
   showVisionLogo = true,
   mediaType = 'image',
-  scrollTarget = '#من-نحن',
+  scrollTarget = '#section-main',
   scrollText = '',
   showStatsCards = false,
   stats = [],
 }) => {
+  const { t } = useLanguage();
   // Resolve values either from data prop (e.g. data={heroData}) or direct props
   const heroBadge = data?.badge ?? badge;
   const heroTitle = data?.title ?? title;
@@ -49,7 +51,8 @@ const Hero = ({
   const heroBgImage = data?.image || bgImage || '/hero-bg.jpg';
   const heroVisionLogo = data?.vision_logo || visionLogo || '/Vision2030.png';
   const heroMediaType = data?.media_type || mediaType || 'image';
-  const heroScrollText = data?.scroll_text || scrollText || 'اسحب للأسفل';
+  const heroScrollText = data?.scroll_text || scrollText || t.hero.scrollDown;
+  const heroButtonText = buttonText || t.hero.exploreProjects;
 
   return (
     <section
@@ -97,8 +100,7 @@ const Hero = ({
 
       {/* ── Content ── */}
       <div
-        className="relative z-20 max-w-7xl mx-auto px-6 w-full flex flex-col items-start text-right pt-28 sm:pt-32 my-auto"
-        dir="rtl"
+        className="relative z-20 max-w-7xl mx-auto px-6 w-full flex flex-col items-start text-start pt-28 sm:pt-32 my-auto"
       >
 
         {/* Vision 2030 logo — falls from top */}
@@ -114,12 +116,12 @@ const Hero = ({
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
               src={heroVisionLogo}
               alt="Vision 2030"
-              className="h-16 sm:h-20 md:h-24 lg:h-32 w-auto object-contain brightness-0 invert drop-shadow-xl origin-right"
+              className="h-16 sm:h-20 md:h-24 lg:h-32 w-auto object-contain brightness-0 invert drop-shadow-xl origin-right rtl:origin-right ltr:origin-left"
             />
           </motion.div>
         )}
 
-        {/* Badge — from right */}
+        {/* Badge — from start */}
         {heroBadge && (
           <motion.div
             initial={{ opacity: 0, x: 80 }}
@@ -127,66 +129,55 @@ const Hero = ({
             transition={{ duration: 0.9, delay: 0.5, ease: EASE }}
             className="mb-4 inline-block px-5 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-md shadow-lg"
           >
-            <span className="text-white text-sm md:text-base font-bold tracking-wide" style={{ fontFamily: "'Tajawal', sans-serif" }}>
+            <span className="text-white text-sm md:text-base font-bold tracking-wide">
               {heroBadge}
             </span>
           </motion.div>
         )}
 
-        {/* Main headline — from right, big movement */}
+        {/* Main headline */}
         <motion.h1
           initial={{ opacity: 0, x: 120, skewX: -6 }}
           animate={{ opacity: 1, x: 0, skewX: 0 }}
           transition={{ duration: 1.1, delay: 0.55, ease: EASE }}
           className="text-white drop-shadow-2xl mb-6 max-w-5xl text-4xl sm:text-5xl md:text-6xl lg:text-[70px] font-extrabold leading-[1.2] lg:leading-[1.1]"
-          style={{
-            fontFamily: "'HSN Shahd Bold', 'HSN Shahd', sans-serif",
-            textAlign: 'right'
-          }}
         >
           {heroTitle}
         </motion.h1>
 
-        {/* Subtitle — from left (opposite) */}
+        {/* Subtitle */}
         {heroSubtitle && (
           <motion.div
             initial={{ opacity: 0, x: -80 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.0, delay: 0.75, ease: EASE }}
             className="text-white/90 mb-10 max-w-3xl text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed font-medium"
-            style={{
-              fontFamily: "'Inter', 'Tajawal', sans-serif",
-              textAlign: 'right'
-            }}
           >
             {heroSubtitle}
           </motion.div>
         )}
-        {buttonText && (
+        {heroButtonText && (
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.0, delay: 0.95, ease: EASE }}
             className="flex w-full justify-start"
-            dir="rtl"
           >
             {buttonLink.startsWith('/') ? (
               <Link
                 to={buttonLink}
                 className="inline-flex items-center justify-center gap-3 bg-[#EAB308] hover:bg-[#D4E128] text-black px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_10px_40px_rgba(234,179,8,0.3)] group"
-                style={{ fontFamily: "'Inter', 'Tajawal', sans-serif" }}
               >
-                <span>{buttonText}</span>
-                <ArrowLeftCircle className="w-6 h-6 group-hover:-translate-x-1.5 transition-transform duration-300 text-black/80" />
+                <span>{heroButtonText}</span>
+                <ArrowLeftCircle className="w-6 h-6 rtl:group-hover:-translate-x-1.5 ltr:group-hover:translate-x-1.5 rtl:rotate-0 ltr:rotate-180 transition-transform duration-300 text-black/80" />
               </Link>
             ) : (
               <a
                 href={buttonLink}
                 className="inline-flex items-center justify-center gap-3 bg-[#EAB308] hover:bg-[#D4E128] text-black px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_10px_40px_rgba(234,179,8,0.3)] group"
-                style={{ fontFamily: "'Inter', 'Tajawal', sans-serif" }}
               >
-                <span>{buttonText}</span>
-                <ArrowLeftCircle className="w-6 h-6 group-hover:-translate-x-1.5 transition-transform duration-300 text-black/80" />
+                <span>{heroButtonText}</span>
+                <ArrowLeftCircle className="w-6 h-6 rtl:group-hover:-translate-x-1.5 ltr:group-hover:translate-x-1.5 rtl:rotate-0 ltr:rotate-180 transition-transform duration-300 text-black/80" />
               </a>
             )}
           </motion.div>

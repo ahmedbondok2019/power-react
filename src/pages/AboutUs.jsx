@@ -18,9 +18,11 @@ import OurPresenceSection from '../components/about/OurPresenceSection';
 import SaudiPresenceMapSection from '../components/about/SaudiPresenceMapSection';
 import OurPoliciesSection from '../components/about/OurPoliciesSection';
 import { useAboutPageData } from '../hooks/useAboutPageData';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const AboutUs = () => {
   const { data: aboutData } = useAboutPageData();
+  const { t, lang } = useLanguage();
   const resolvedData = aboutData?.data || aboutData || {};
 
   const hero = resolvedData.hero_section || {};
@@ -31,11 +33,11 @@ const AboutUs = () => {
   }, []);
 
   const defaultMethodologyPoints = [
-    { title: "خبرة عملية" },
-    { title: "حلول\nمتكاملة" },
-    { title: "جودة\nالتنفيذ" },
-    { title: "السلامة" },
-    { title: "الالتزام\nبالوقت" },
+    { title: t.about.whoWeAre },
+    { title: lang === 'en' ? 'Integrated\nSolutions' : 'حلول\nمتكاملة' },
+    { title: lang === 'en' ? 'Quality\nExecution' : 'جودة\nالتنفيذ' },
+    { title: lang === 'en' ? 'Safety' : 'السلامة' },
+    { title: lang === 'en' ? 'Time\nCommitment' : 'الالتزام\nبالوقت' },
   ];
 
   const methodologyPoints = (methodology.points && methodology.points.length > 0)
@@ -48,20 +50,17 @@ const AboutUs = () => {
       {/* Hero Section */}
       <Hero
         id="about-hero"
-        badge={hero.badge || "من نحن"}
+        badge={hero.badge || t.about.heroBadge}
         title={
           hero.title ? (
             <span className="whitespace-pre-line">{hero.title}</span>
           ) : (
-            <>
-              نبني الخبرة. ننفّذ بثقة. <br />
-              نصنع أثراً يدوم.
-            </>
+            <span className="whitespace-pre-line">{t.about.heroTitle}</span>
           )
         }
         subtitle={
           hero.paragraphs && hero.paragraphs.length > 0 ? (
-            <div className="space-y-2 text-right">
+            <div className="space-y-2 text-start">
               {hero.paragraphs.map((p, idx) => (
                 <p key={idx} className={idx > 0 ? "text-white/70 text-xs sm:text-sm" : ""}>
                   {p}
@@ -69,27 +68,23 @@ const AboutUs = () => {
               ))}
             </div>
           ) : hero.subtitle ? (
-            <p className="whitespace-pre-line text-right">{hero.subtitle}</p>
+            <p className="whitespace-pre-line text-start">{hero.subtitle}</p>
           ) : (
-            <div className="space-y-2 text-right">
-              <p>
-                شركة متخصصة في خدمات المقاولات وتنفيذ المشاريع في المملكة العربية السعودية، تجمع بين الخبرة العملية لـ Power Preparation، الكفاءة الفنية، وجودة التنفيذ لتقديم حلول تتوافق مع متطلبات المشاريع وتطلعات العملاء.
-              </p>
-              <p className="text-white/70 text-xs sm:text-sm">
-                منذ 2008، نواصل تطوير قدراتنا وتوسيع نطاق خدماتنا لنكون شريكاً موثوقاً في المشاريع التي تتطلب الدقة، الجودة، والسلامة.
-              </p>
+            <div className="space-y-2 text-start">
+              <p>{t.about.heroSubtitle}</p>
+              <p className="text-white/70 text-xs sm:text-sm">{t.about.heroSubtitle2}</p>
             </div>
           )
         }
-        buttonText="استكشف مشاريعنا"
+        buttonText={t.about.exploreProjects}
         buttonLink="/projects"
         bgImage={hero.image || "/saudi_engineers_construction.jpg"}
         showVisionLogo={false}
         showStatsCards={true}
         stats={hero.stats && hero.stats.length > 0 ? hero.stats : [
-          { number: 16, label: "عاماً من الخبرة" },
-          { number: 50, label: "مشروعاً مكتمل" },
-          { number: 10, label: "مدن رئيسية" }
+          { number: 16, label: t.about.yearsExp },
+          { number: 50, label: t.about.completedProjects },
+          { number: 10, label: t.about.majorCities }
         ]}
       />
 
@@ -119,9 +114,9 @@ const AboutUs = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-right space-y-6 max-w-4xl mr-0 ml-auto mb-20"
+            className="text-start space-y-6 max-w-4xl rtl:mr-0 rtl:ml-auto ltr:ml-0 ltr:mr-auto mb-20"
           >
-            <SectionTitle title={methodology.title || "من نحن"} theme="dark" />
+            <SectionTitle title={methodology.title || t.about.whoWeAre} theme="dark" />
 
             <div className="text-[#E0E0E0] text-sm sm:text-base md:text-lg leading-relaxed space-y-3 font-normal">
               {(methodology.paragraphs && methodology.paragraphs.length > 0) ? (
@@ -130,22 +125,16 @@ const AboutUs = () => {
                 ))
               ) : (
                 <>
-                  <p>
-                    نحن فريق متخصص يعمل على تحويل متطلبات المشاريع إلى حلول تنفيذية مدروسة وفعالة.
-                  </p>
-                  <p>
-                    نعمل في مجموعة متنوعة من القطاعات، تشمل المشاريع التجارية والتجزئة، التطوير السكني، التعليم، الرعاية الصحية، الضيافة والمنتجعات، الترفيه والمنشآت المسرحية، والبنية التحتية.
-                  </p>
-                  <p>
-                    وتشمل خدماتنا نطاقات مختلفة من المقاولات الجزئية إلى المقاولات العامة، إلى جانب القدرات المرتبطة بالتطوير والاستشارات وتحليل التصميم وهندسة القيمة.
-                  </p>
+                  <p>{t.about.p1 || 'نحن فريق متخصص يعمل على تحويل متطلبات المشاريع إلى حلول تنفيذية مدروسة وفعالة.'}</p>
+                  <p>{t.about.p2 || 'نعمل في مجموعة متنوعة من القطاعات.'}</p>
+                  <p>{t.about.p3 || 'وتشمل خدماتنا نطاقات مختلفة من المقاولات.'}</p>
                 </>
               )}
             </div>
           </motion.div>
 
           {/* Section Subheading: "ما يميز منهجنا" */}
-          <div className="text-right mb-12">
+          <div className="text-start mb-12">
             <motion.h3
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -153,7 +142,7 @@ const AboutUs = () => {
               transition={{ duration: 0.6 }}
               className="text-2xl sm:text-3xl font-bold text-white tracking-wide"
             >
-              {methodology.subtitle || "ما يميز منهجنا"}
+              {methodology.subtitle || t.about.methodologySubtitle}
             </motion.h3>
           </div>
 
@@ -216,7 +205,11 @@ const AboutUs = () => {
       <IsoCertificatesSection data={resolvedData.iso_certificates} />
 
       {/* Equipment Partners Section (Reusing Hall of Fame in Dark Theme) */}
-      <HallOfFameSection title="شركاء المعدات المعتمدين" clients={resolvedData.equipment_partners} theme="dark" />
+      <HallOfFameSection
+        title={lang === 'en' ? 'Certified Equipment Partners' : 'شركاء المعدات المعتمدين'}
+        clients={resolvedData.equipment_partners}
+        theme="dark"
+      />
 
       {/* Safety Statement Section */}
       <SafetyStatementSection data={resolvedData.safety_statement} />

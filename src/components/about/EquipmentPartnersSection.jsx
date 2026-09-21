@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation } from 'swiper/modules';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 import SectionTitle from '../ui/SectionTitle';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -51,34 +52,38 @@ const PARTNERS = [
 
 const EquipmentPartnersSection = () => {
   const swiperRef = useRef(null);
+  const { lang, isRTL } = useLanguage();
 
   return (
-    <section className="w-full bg-white text-black py-24 select-none overflow-hidden" dir="rtl">
+    <section className="w-full bg-white text-black py-24 select-none overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col h-full">
         
         {/* Header Row */}
         <div className="flex flex-row justify-between items-end mb-12 w-full">
           
-          {/* Title on the right */}
+          {/* Title on the start */}
           <div className="flex-1">
-            <SectionTitle title="شركاء المعدات المعتمدين" theme="light" />
+            <SectionTitle
+              title={lang === 'en' ? 'Certified Equipment Partners' : 'شركاء المعدات المعتمدين'}
+              theme="light"
+            />
           </div>
 
-          {/* Navigation Buttons on the left */}
+          {/* Navigation Buttons */}
           <div className="flex flex-row gap-4 hidden sm:flex">
             <button 
               onClick={() => swiperRef.current?.slideNext()}
               className="w-12 h-12 rounded-full border border-gray-400 flex items-center justify-center text-gray-700 hover:bg-black hover:text-white hover:border-black transition-colors duration-300"
               aria-label="Next Slide"
             >
-              <ChevronRight size={24} />
+              {isRTL ? <ChevronRight size={24} /> : <ChevronLeft size={24} />}
             </button>
             <button 
               onClick={() => swiperRef.current?.slidePrev()}
               className="w-12 h-12 rounded-full border border-gray-400 flex items-center justify-center text-gray-700 hover:bg-black hover:text-white hover:border-black transition-colors duration-300"
               aria-label="Previous Slide"
             >
-              <ChevronLeft size={24} />
+              {isRTL ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
             </button>
           </div>
         </div>
@@ -88,10 +93,11 @@ const EquipmentPartnersSection = () => {
       <div className="w-full bg-[#0a0a0a] py-10 sm:py-14 shadow-lg border-y border-[#222]">
         <div className="w-full px-4">
           <Swiper
+            key={lang}
             onSwiper={(swiper) => { swiperRef.current = swiper; }}
             modules={[Autoplay, Navigation]}
             loop={true}
-            dir="rtl"
+            dir={isRTL ? "rtl" : "ltr"}
             autoplay={{
               delay: 3000,
               disableOnInteraction: false,

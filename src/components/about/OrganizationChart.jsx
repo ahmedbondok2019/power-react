@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import SectionTitle from '../ui/SectionTitle';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const ORG_DATA = {
   gm: { title: "GENERAL MANAGER", name: "Mohammed Al Mulla" },
@@ -79,15 +80,16 @@ const WhiteBox = ({ title, name, desc, className = "", h = "min-h-[60px]", delay
 );
 
 const OrganizationChart = ({ data }) => {
+  const { t, lang } = useLanguage();
   const chartData = data?.chart_data || ORG_DATA;
-  const title = data?.title || "منظمتنا";
+  const title = data?.title || (lang === 'en' ? 'Our Organization' : 'منظمتنا');
 
   return (
-    <section className="relative w-full bg-[#F8F9FA] text-black py-24 select-none overflow-hidden" dir="ltr">
+    <section className="relative w-full bg-[#F8F9FA] text-black py-24 select-none overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 flex flex-col h-full">
 
-        {/* Header (Top Right - RTL applied just for the header) */}
-        <div className="flex flex-col items-start text-right w-full" dir="rtl">
+        {/* Header */}
+        <div className="flex flex-col items-start text-start w-full">
           <SectionTitle title={title} theme="light" />
         </div>
 

@@ -155,7 +155,6 @@ const AgileResourcingSection = ({ data }) => {
     <section 
       id="التوزيع-المرن-للموارد"
       className="relative w-full bg-[#111312] text-white select-none border-b border-white/5"
-      dir="rtl"
     >
       {/* Ambient Lighting Background */}
       <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-[#D4E128]/5 rounded-full blur-[180px] pointer-events-none -z-0" />
@@ -163,7 +162,7 @@ const AgileResourcingSection = ({ data }) => {
 
       {/* Part 1: Section Header & Context (Normal page scroll) */}
       <div className="max-w-7xl mx-auto px-6 pt-24 sm:pt-32 pb-12 relative z-10">
-        <div className="text-right space-y-4 max-w-4xl">
+        <div className="text-start space-y-4 max-w-4xl">
           <SectionTitle title={data?.title || "التوزيع المرن للموارد"} theme="dark" />
 
           <div className="space-y-3 text-white/85 text-xs sm:text-sm lg:text-base leading-relaxed font-medium">
@@ -199,7 +198,7 @@ const AgileResourcingSection = ({ data }) => {
           className="sticky top-0 w-full h-screen min-h-[600px] flex flex-col justify-center px-4 sm:px-8 lg:px-12 py-8 max-w-7xl mx-auto"
         >
           {/* Timeline Header Label */}
-          <div className="mb-6 text-left" dir="ltr">
+          <div className="mb-6 text-start">
             <span className="text-xs font-mono font-black tracking-widest text-[#D4E128] uppercase">
               {data?.timeline_title || "PROJECT DELIVERY TIMELINE"}
             </span>
@@ -262,14 +261,14 @@ const AgileResourcingSection = ({ data }) => {
           </div>
 
           {/* Mobile Step Selector Pills */}
-          <div className="md:hidden grid grid-cols-2 gap-2.5 mb-6" dir="rtl">
+          <div className="md:hidden grid grid-cols-2 gap-2.5 mb-6">
             {stages.map((stage, idx) => {
               const isActive = idx === activeIdx;
               return (
                 <button
                   key={stage.id}
                   onClick={() => goToStage(idx)}
-                  className={`p-3 rounded-2xl text-right transition-all flex items-center justify-between border ${
+                  className={`p-3 rounded-2xl text-start transition-all flex items-center justify-between border ${
                     isActive
                       ? 'bg-[#D4E128]/15 border-[#D4E128] text-white shadow-lg'
                       : 'bg-black/40 border-white/10 text-white/60'
@@ -286,7 +285,7 @@ const AgileResourcingSection = ({ data }) => {
           </div>
 
           {/* High-Contrast Clear Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6" dir="ltr">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
             {stages.map((stage, idx) => {
               const isActive = idx === activeIdx;
               const IconComp = stage.icon;
@@ -301,7 +300,7 @@ const AgileResourcingSection = ({ data }) => {
                     y: isActive ? -6 : 0
                   }}
                   transition={{ duration: 0.3, ease: 'easeOut' }}
-                  className={`relative rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 cursor-pointer text-left select-none ${
+                  className={`relative rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 cursor-pointer text-start select-none ${
                     isActive
                       ? 'bg-[#191D1A] border-2 border-[#D4E128] shadow-[0_15px_40px_rgba(212,225,40,0.25)] ring-1 ring-[#D4E128]/40'
                       : 'bg-[#141615] border border-white/10 hover:border-white/30 hover:opacity-75'
@@ -333,7 +332,7 @@ const AgileResourcingSection = ({ data }) => {
                     </div>
 
                     {/* Arabic Title & Concise Context */}
-                    <div className="space-y-1.5 pt-2 border-t border-white/10" dir="rtl">
+                    <div className="space-y-1.5 pt-2 border-t border-white/10">
                       <h5 className={`text-sm sm:text-base font-bold transition-colors ${
                         isActive ? 'text-[#D4E128]' : 'text-white/90'
                       }`}>
@@ -346,7 +345,7 @@ const AgileResourcingSection = ({ data }) => {
                   </div>
 
                   {/* Bottom Metric & Progress Pill */}
-                  <div className="pt-4 mt-4 border-t border-white/10 flex items-center justify-between text-xs" dir="rtl">
+                  <div className="pt-4 mt-4 border-t border-white/10 flex items-center justify-between text-xs">
                     <div className={`flex items-center gap-1.5 font-bold ${
                       isActive ? 'text-[#D4E128]' : 'text-white/50'
                     }`}>

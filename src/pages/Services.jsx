@@ -17,6 +17,7 @@ import Hero from '../components/Hero';
 import SectionTitle from '../components/ui/SectionTitle';
 import ServiceDetailsModal from '../components/services/ServiceDetailsModal';
 import { useServicesPageData } from '../hooks/useServicesPageData';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const getPillarIcon = (iconName) => {
   switch (iconName) {
@@ -30,6 +31,7 @@ const getPillarIcon = (iconName) => {
 const Services = () => {
   const [selectedService, setSelectedService] = useState(null);
   const { data: pageData, isLoading } = useServicesPageData();
+  const { t } = useLanguage();
 
   // Robust unwrap: handle response whether data is directly inside or nested
   const resolvedData = pageData?.data || pageData;
@@ -41,24 +43,21 @@ const Services = () => {
   const modalSettings = resolvedData?.modal_settings;
 
   return (
-    <div className="min-h-screen bg-[#111312] text-white selection:bg-[#EAB308] selection:text-black" dir="rtl">
+    <div className="min-h-screen bg-[#111312] text-white selection:bg-[#EAB308] selection:text-black">
       {/* Services Hero */}
       <Hero
         id="services-hero"
-        badge={heroData?.badge || "خدماتنا وحلولنا"}
+        badge={heroData?.badge || t.services.heroBadge}
         title={
           heroData?.title ? (
             <span className="whitespace-pre-line">{heroData.title}</span>
           ) : (
-            <>
-              حلول هندسية شاملة. <br />
-              إمكانات مقاولات متكاملة.
-            </>
+            <span className="whitespace-pre-line">{t.services.heroTitle}</span>
           )
         }
         subtitle={
           heroData?.paragraphs && heroData.paragraphs.length > 0 ? (
-            <div className="space-y-2 text-right">
+            <div className="space-y-2 text-start">
               {heroData.paragraphs.map((p, idx) => (
                 <p key={idx} className={idx > 0 ? "text-white/70 text-xs sm:text-sm" : ""}>
                   {p}
@@ -66,22 +65,22 @@ const Services = () => {
               ))}
             </div>
           ) : (
-            <div className="space-y-2 text-right">
+            <div className="space-y-2 text-start">
               <p>
-                {heroData?.subtitle || "نقدم في مجموعة باور منظومة متكاملة من خدمات المقاولات العامة والتنفيذ الكهروميكانيكي المتخصص، مغطين مختلف القطاعات الاستراتيجية في المملكة العربية السعودية."}
+                {heroData?.subtitle || t.services.heroSubtitle}
               </p>
             </div>
           )
         }
-        buttonText={heroData?.button_text || "استكشف مشاريعنا"}
+        buttonText={heroData?.button_text || t.services.exploreProjects}
         buttonLink={heroData?.button_link || "/projects"}
         bgImage={heroData?.image || "https://images.unsplash.com/photo-1541888946425-d0fbb186156a?q=80&w=1600&auto=format&fit=crop"}
         showVisionLogo={false}
         showStatsCards={true}
         stats={heroData?.stats || [
-          { number: 8, label: "قطاعات تخصصية" },
-          { number: 50, label: "مشروعاً منجزاً" },
-          { number: 100, label: "نسبة الامتثال الفني" }
+          { number: 8, label: t.services.stat1Label },
+          { number: 50, label: t.services.stat2Label },
+          { number: 100, label: t.services.stat3Label }
         ]}
       />
 
@@ -94,10 +93,10 @@ const Services = () => {
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           
           {/* Section Heading */}
-          <div className="text-right mb-16 sm:mb-20">
-            <SectionTitle title={servicesSection?.header?.title || "مجالات أعمالنا وخدماتنا"} theme="dark" />
+          <div className="text-start mb-16 sm:mb-20">
+            <SectionTitle title={servicesSection?.header?.title || t.services.gridTitle} theme="dark" />
             <p className="text-white/70 text-sm sm:text-base lg:text-lg mt-4 max-w-3xl leading-relaxed">
-              {servicesSection?.header?.subtitle || "تغطي خدماتنا دورة حياة المشروع من الدراسات الأولية والهندسة القيمية وحتى التسليم والتشغيل المتكامل. اضغط على أي بطاقة لعرض التفاصيل الهندسية الكاملة للخدمة."}
+              {servicesSection?.header?.subtitle || t.services.gridSubtitle}
             </p>
           </div>
 
@@ -146,7 +145,7 @@ const Services = () => {
                   </div>
 
                   {/* Card Content */}
-                  <div className="p-6 text-right flex flex-col flex-1 justify-between space-y-4">
+                  <div className="p-6 text-start flex flex-col flex-1 justify-between space-y-4">
                     <div className="space-y-2.5">
                       <h3 className="text-white font-sans text-xl font-bold leading-snug group-hover:text-[#FFB800] transition-colors">
                         {displayTitle}
@@ -164,7 +163,7 @@ const Services = () => {
                       <div className="pt-3 border-t border-white/5 space-y-2">
                         <div className="flex items-center gap-1.5 text-[11px] text-[#FFB800] font-semibold">
                           <Sparkles className="w-3.5 h-3.5" />
-                          <span>أبرز المزايا الهندسية:</span>
+                          <span>{t.servicesSection?.engineeringFeatures || 'أبرز المزايا الهندسية:'}</span>
                         </div>
                         <p className="text-[11px] text-white/60 line-clamp-1">
                           • {svc.capabilities[0]}
@@ -174,9 +173,9 @@ const Services = () => {
 
                     {/* Bottom Action */}
                     <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs text-white/70">
-                      <span className="group-hover:text-[#FFB800] transition-colors font-medium">عرض التفاصيل الكاملة</span>
+                      <span className="group-hover:text-[#FFB800] transition-colors font-medium">{t.services.viewDetails}</span>
                       <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-[#FFB800] group-hover:bg-[#FFB800] group-hover:text-black transition-colors">
-                        <ArrowLeft className="w-3.5 h-3.5 stroke-[2.5]" />
+                        <ArrowLeft className="w-3.5 h-3.5 stroke-[2.5] rtl:rotate-0 ltr:rotate-180" />
                       </div>
                     </div>
                   </div>
@@ -192,7 +191,7 @@ const Services = () => {
       {valuePillars && valuePillars.length > 0 ? (
         <section className="py-20 bg-[#0F1110] border-t border-white/5">
           <div className="max-w-7xl mx-auto px-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-right">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-start">
               {valuePillars.map((pillar) => {
                 const IconComp = getPillarIcon(pillar.icon);
                 return (
@@ -213,14 +212,14 @@ const Services = () => {
       ) : (
         <section className="py-20 bg-[#0F1110] border-t border-white/5">
           <div className="max-w-7xl mx-auto px-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-right">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-start">
               <div className="p-7 rounded-3xl bg-[#171918] border border-white/10 hover:border-[#FFB800]/40 transition-colors space-y-4">
                 <div className="w-12 h-12 rounded-2xl bg-[#FFB800]/10 border border-[#FFB800]/20 flex items-center justify-center text-[#FFB800]">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
-                <h4 className="text-xl font-bold text-white">الالتزام الصارم بالجودة والسلامة</h4>
+                <h4 className="text-xl font-bold text-white">{t.services.pillar1Title}</h4>
                 <p className="text-sm text-white/70 leading-relaxed">
-                  تطبيق منظومة ISO للجودة والسلامة المهنية وإدارة البيئة في كافة مواقع العمل والمنشآت.
+                  {t.services.pillar1Desc}
                 </p>
               </div>
 
@@ -228,9 +227,9 @@ const Services = () => {
                 <div className="w-12 h-12 rounded-2xl bg-[#FFB800]/10 border border-[#FFB800]/20 flex items-center justify-center text-[#FFB800]">
                   <Cpu className="w-6 h-6" />
                 </div>
-                <h4 className="text-xl font-bold text-white">التصنيع والتوريد المباشر</h4>
+                <h4 className="text-xl font-bold text-white">{t.services.pillar2Title}</h4>
                 <p className="text-sm text-white/70 leading-relaxed">
-                  امتلاك مصانع متقدمة وشراكات توزيع حصرية تضمن سرعة التوريد وتوفر أعلى درجات التحكم في الجودة.
+                  {t.services.pillar2Desc}
                 </p>
               </div>
 
@@ -238,9 +237,9 @@ const Services = () => {
                 <div className="w-12 h-12 rounded-2xl bg-[#FFB800]/10 border border-[#FFB800]/20 flex items-center justify-center text-[#FFB800]">
                   <Compass className="w-6 h-6" />
                 </div>
-                <h4 className="text-xl font-bold text-white">الهندسة القيمية والتحسين</h4>
+                <h4 className="text-xl font-bold text-white">{t.services.pillar3Title}</h4>
                 <p className="text-sm text-white/70 leading-relaxed">
-                  تقديم دراسات هندسية تضمن ترشيد التكاليف واختصار الجداول الزمنية دون المساس بالمواصفات الفنية.
+                  {t.services.pillar3Desc}
                 </p>
               </div>
             </div>

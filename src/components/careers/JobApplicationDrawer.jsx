@@ -112,7 +112,6 @@ const JobApplicationDrawer = ({ job, isOpen, onClose }) => {
       {isOpen && (
         <div 
           className="fixed inset-0 z-50 overflow-hidden select-none" 
-          dir="rtl"
           data-lenis-prevent="true"
         >
           {/* Backdrop Blur Overlay */}
@@ -125,15 +124,15 @@ const JobApplicationDrawer = ({ job, isOpen, onClose }) => {
             className="fixed inset-0 bg-black/80 backdrop-blur-sm cursor-pointer"
           />
 
-          {/* Drawer Sliding from Right / Side */}
-          <div className="fixed inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10 z-50">
+          {/* Drawer Sliding from Side */}
+          <div className="fixed inset-y-0 rtl:right-0 ltr:left-0 max-w-full flex rtl:pl-0 rtl:sm:pl-10 ltr:pr-0 ltr:sm:pr-10 z-50">
             <motion.div
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
               transition={{ type: 'spring', damping: 28, stiffness: 280 }}
               data-lenis-prevent="true"
-              className="w-screen max-w-2xl bg-[#141615] border-l border-white/15 text-white shadow-[-20px_0_60px_rgba(0,0,0,0.85)] flex flex-col h-full overflow-hidden"
+              className="w-screen max-w-2xl bg-[#141615] rtl:border-l ltr:border-r border-white/15 text-white shadow-2xl flex flex-col h-full overflow-hidden text-start"
             >
               {/* Drawer Top Sticky Header */}
               <div className="p-6 sm:p-7 border-b border-white/10 bg-[#191C1A] flex items-center justify-between shrink-0">

@@ -8,8 +8,8 @@ const OurPresenceSection = ({ data }) => {
   const description = data?.description || "تظهر مشاريع الشركة وانتشارها في عدد من المدن والمواقع الرئيسية في المملكة العربية السعودية، بما في ذلك الرياض، جدة، مكة، المدينة، الدمام، القصيم، جازان، نجران، نيوم وغيرها. كما يتضمن سجل المشاريع مواقع ومشاريع بارزة مثل Al Murabaa و KAFD و Qiddiya و Trojena و Oxagon و Sindalah و Riyadh Front.";
 
   return (
-    <section className="w-full bg-[#141615] text-white pt-10 pb-6 select-none overflow-hidden" dir="rtl">
-      <div className="max-w-7xl mx-auto px-6 flex flex-col items-end text-right">
+    <section className="w-full bg-[#141615] text-white pt-10 pb-6 select-none overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col items-start text-start">
 
         {/* Header */}
         <div className="flex flex-col items-start w-full mb-12">

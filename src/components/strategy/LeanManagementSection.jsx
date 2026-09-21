@@ -381,12 +381,11 @@ const LeanManagementSection = ({ data }) => {
     <section 
       id="إدارة-رشيدة"
       className="relative w-full bg-[#111312] text-white py-24 sm:py-32 overflow-hidden select-none border-b border-white/5"
-      dir="rtl"
     >
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
         {/* Section Header & Description (Exact text from design) */}
-        <div className="mb-14 sm:mb-20 text-right space-y-6 max-w-4xl">
+        <div className="mb-14 sm:mb-20 text-start space-y-6 max-w-4xl">
           <SectionTitle title={data?.title || "إدارة رشيدة"} theme="dark" />
           
           <div className="space-y-4 text-white/85 text-sm sm:text-base lg:text-lg leading-relaxed font-medium">
@@ -442,7 +441,7 @@ const LeanManagementSection = ({ data }) => {
           </ReactFlow>
 
           {/* Top Canvas Controls Bar */}
-          <div className="absolute top-4 right-4 z-20 flex items-center gap-2" dir="rtl">
+          <div className="absolute top-4 rtl:right-4 ltr:left-4 z-20 flex items-center gap-2">
             <button
               onClick={handleResetView}
               className="px-3.5 py-2 rounded-xl bg-black/60 backdrop-blur-md border border-white/15 text-xs text-white/90 hover:text-[#D4E128] hover:border-[#D4E128]/50 transition-all flex items-center gap-1.5 shadow-lg cursor-pointer"
@@ -454,7 +453,7 @@ const LeanManagementSection = ({ data }) => {
         </div>
 
         {/* Bottom Tagline from Design */}
-        <div className="mt-8 max-w-4xl mx-auto" dir="rtl">
+        <div className="mt-8 max-w-4xl mx-auto">
           <div className="p-4 rounded-2xl bg-white/5 border border-white/5 text-center text-xs sm:text-sm text-white/70 font-semibold tracking-wide">
             {data?.tagline || "تقليل الهدر • تحسين التدفق • رفع كفاءة الموارد • دعم التنفيذ"}
           </div>
@@ -467,7 +466,6 @@ const LeanManagementSection = ({ data }) => {
         {selectedModalNode && (
           <div 
             className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 select-none" 
-            dir="rtl"
             data-lenis-prevent="true"
           >
             {/* Backdrop Blur Overlay */}

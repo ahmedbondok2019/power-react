@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/ui/SectionTitle';
 import JobApplicationDrawer from '../components/careers/JobApplicationDrawer';
+import { useLanguage } from '../contexts/LanguageContext';
 import {
   Briefcase,
   MapPin,
@@ -169,7 +170,9 @@ const Careers = () => {
   const [selectedJob, setSelectedJob] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('الكل');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const { t, lang } = useLanguage();
+  const allCategoryLabel = lang === 'ar' ? 'الكل' : 'All';
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -206,38 +209,36 @@ const Careers = () => {
       {/* ── Careers Hero Section ── */}
       <Hero
         id="careers-hero"
-        badge="التوظيف والمواهب"
+        badge={t.careers.heroBadge}
         title={
-          <>
-            انضم إلى فريق باور. <br />
-            ابنِ مسيرتك المهنية معنا.
-          </>
+          <span className="whitespace-pre-line">{t.careers.heroTitle}</span>
         }
         subtitle={
           <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl text-right font-medium">
-            نبحث دائماً عن الكفاءات الهندسية والإدارية الطموحة للمشاركة في بناء أضخم المشروعات التنموية والصناعية في المملكة العربية السعودية. نوفر بيئة عمل محفزة ومسارات نمو مهني متقدمة.
+            {t.careers.heroSubtitle}
           </p>
         }
-        buttonText="تصفح الوظائف المتاحة"
+        buttonText={t.careers.openPositions}
         buttonLink="#openings-section"
         bgImage="/projects-hero-bg.jpg"
         showVisionLogo={false}
         showStatsCards={true}
         stats={[
-          { number: CAREERS_OPENINGS.length, label: "وظائف شاغرة حالياً" },
-          { number: 100, label: "بيئة عمل هندسية محفزة" },
-          { number: 16, label: "عاماً من التميز والريادة" }
+          { number: CAREERS_OPENINGS.length, label: lang === 'ar' ? 'وظائف شاغرة حالياً' : 'Open Positions' },
+          { number: 100, label: lang === 'ar' ? 'بيئة عمل هندسية محفزة' : 'Engineering Work Environment' },
+          { number: 16, label: t.projects.years }
         ]}
       />
 
+
       {/* ── Why Work With Us (Value Pillars) ── */}
-      <section className="relative pt-60 sm:pt-64 pb-20 bg-[#141615] overflow-hidden" dir="rtl">
+      <section className="relative pt-60 sm:pt-64 pb-20 bg-[#141615] overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           
-          <div className="text-right mb-14 sm:mb-16">
-            <SectionTitle title="لماذا تختار العمل معنا في باور؟" theme="dark" />
+          <div className="text-start mb-14 sm:mb-16">
+            <SectionTitle title={lang === 'ar' ? "لماذا تختار العمل معنا في باور؟" : "Why Choose a Career at Power?"} theme="dark" />
             <p className="text-white/70 text-sm sm:text-base mt-3 max-w-2xl">
-              نؤمن بأن رأسمالنا البشري هو محرك نجاحنا الأساسي، ونلتزم بتمكين فرقنا وتزويدهم بأفضل التقنيات والممارسات العالمية.
+              {lang === 'ar' ? "نؤمن بأن رأسمالنا البشري هو محرك نجاحنا الأساسي، ونلتزم بتمكين فرقنا وتزويدهم بأفضل التقنيات والممارسات العالمية." : "We believe our human capital is the primary engine of our success, and we are committed to empowering our teams with modern tools and global standards."}
             </p>
           </div>
 
@@ -246,9 +247,9 @@ const Careers = () => {
               <div className="w-12 h-12 rounded-2xl bg-[#FFB800]/10 border border-[#FFB800]/20 flex items-center justify-center text-[#FFB800]">
                 <TrendingUp className="w-6 h-6" />
               </div>
-              <h4 className="text-xl font-bold text-white">مشاريع استراتيجية كبرى</h4>
+              <h4 className="text-xl font-bold text-white">{lang === 'ar' ? "مشاريع استراتيجية كبرى" : "Major Strategic Projects"}</h4>
               <p className="text-sm text-white/70 leading-relaxed">
-                فرصة العمل المباشر في أضخم المشاريع التنموية والصناعية الداعمة لمستهدفات رؤية المملكة 2030.
+                {lang === 'ar' ? "فرصة العمل المباشر في أضخم المشاريع التنموية والصناعية الداعمة لمستهدفات رؤية المملكة 2030." : "Direct exposure to monumental development and industrial projects aligned with Saudi Vision 2030."}
               </p>
             </div>
 
@@ -256,9 +257,9 @@ const Careers = () => {
               <div className="w-12 h-12 rounded-2xl bg-[#FFB800]/10 border border-[#FFB800]/20 flex items-center justify-center text-[#FFB800]">
                 <GraduationCap className="w-6 h-6" />
               </div>
-              <h4 className="text-xl font-bold text-white">تطوير مهني ومستمر</h4>
+              <h4 className="text-xl font-bold text-white">{lang === 'ar' ? "تطوير مهني ومستمر" : "Continuous Professional Growth"}</h4>
               <p className="text-sm text-white/70 leading-relaxed">
-                برامج تدريبية وتأهيلية مستمرة لمواكبة أحدث تقنيات الـ BIM وكود البناء السعودي وأنظمة التكييف المتقدمة.
+                {lang === 'ar' ? "برامج تدريبية وتأهيلية مستمرة لمواكبة أحدث تقنيات الـ BIM وكود البناء السعودي وأنظمة التكييف المتقدمة." : "Ongoing training and development to master modern BIM workflows, SBC building codes, and advanced MEP engineering."}
               </p>
             </div>
 
@@ -266,9 +267,9 @@ const Careers = () => {
               <div className="w-12 h-12 rounded-2xl bg-[#FFB800]/10 border border-[#FFB800]/20 flex items-center justify-center text-[#FFB800]">
                 <ShieldCheck className="w-6 h-6" />
               </div>
-              <h4 className="text-xl font-bold text-white">بيئة احترافية متكاملة</h4>
+              <h4 className="text-xl font-bold text-white">{lang === 'ar' ? "بيئة احترافية متكاملة" : "Professional Work Culture"}</h4>
               <p className="text-sm text-white/70 leading-relaxed">
-                ثقافة عمل مبنية على الشفافية والتقدير، وتوفير بيئة عمل آمنة وعادلة تراعي أعلى معايير السلامة المهنية.
+                {lang === 'ar' ? "ثقافة عمل مبنية على الشفافية والتقدير، وتوفير بيئة عمل آمنة وعادلة تراعي أعلى معايير السلامة المهنية." : "A culture rooted in transparency, meritocracy, and rigorous occupational health and safety standards."}
               </p>
             </div>
           </div>
@@ -277,29 +278,29 @@ const Careers = () => {
       </section>
 
       {/* ── Open Positions Section ── */}
-      <section id="openings-section" className="py-20 bg-[#111312] border-t border-white/5" dir="rtl">
+      <section id="openings-section" className="py-20 bg-[#111312] border-t border-white/5">
         <div className="max-w-7xl mx-auto px-6">
           
           {/* Section Header & Live Search Bar */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
-            <div className="text-right">
-              <div className="flex items-center gap-2 justify-end mb-2 text-[#FFB800] text-sm font-bold tracking-wider">
+            <div className="text-start">
+              <div className="flex items-center gap-2 justify-start mb-2 text-[#FFB800] text-sm font-bold tracking-wider">
                 <span className="w-8 h-[2px] bg-[#FFB800] rounded-full inline-block" />
-                <span>فرص العمل المتاحة</span>
+                <span>{lang === 'ar' ? "فرص العمل المتاحة" : "Available Opportunities"}</span>
               </div>
-              <SectionTitle title="الوظائف الشاغرة حالياً" theme="dark" />
+              <SectionTitle title={lang === 'ar' ? "الوظائف الشاغرة حالياً" : "Current Open Positions"} theme="dark" />
             </div>
 
             {/* Search Input */}
             <div className="relative w-full md:w-80">
               <input
                 type="text"
-                placeholder="ابحث بالمسمى أو المجال..."
+                placeholder={lang === 'ar' ? "ابحث بالمسمى أو المجال..." : "Search by title or department..."}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-[#1A1D1B] border border-white/10 rounded-full py-3.5 pr-12 pl-4 text-white text-sm placeholder-white/40 focus:outline-none focus:border-[#FFB800] transition-colors"
+                className="w-full bg-[#1A1D1B] border border-white/10 rounded-full py-3.5 rtl:pr-12 rtl:pl-4 ltr:pl-12 ltr:pr-4 text-white text-sm placeholder-white/40 focus:outline-none focus:border-[#FFB800] transition-colors"
               />
-              <Search className="w-5 h-5 text-white/40 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <Search className="w-5 h-5 text-white/40 absolute rtl:right-4 ltr:left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
           </div>
 
@@ -425,19 +426,19 @@ const Careers = () => {
       </section>
 
       {/* ── Spontaneous / General Application CTA ── */}
-      <section className="bg-[#111312] py-20 px-6 border-t border-white/5" dir="rtl">
+      <section className="bg-[#111312] py-20 px-6 border-t border-white/5">
         <div className="max-w-7xl mx-auto">
-          <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-[#1E2420] via-[#1A1D1B] to-[#151716] border border-white/15 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl text-right">
+          <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-[#1E2420] via-[#1A1D1B] to-[#151716] border border-white/15 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl text-start">
             <div className="space-y-3 max-w-2xl">
               <div className="flex items-center gap-2 text-[#FFB800] text-xs sm:text-sm font-bold">
                 <Sparkles className="w-4 h-4" />
-                <span>التقديم التلقائي والمفتوح</span>
+                <span>{lang === 'ar' ? "التقديم التلقائي والمفتوح" : "General / Open Application"}</span>
               </div>
               <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
-                لم تجد الوظيفة المناسبة لتخصصك وخبراتك؟
+                {lang === 'ar' ? "لم تجد الوظيفة المناسبة لتخصصك وخبراتك؟" : "Didn't Find the Specific Role for You?"}
               </h3>
               <p className="text-sm text-white/75 leading-relaxed">
-                يسعدنا دائماً استلام سيرتك الذاتية. أرسل ملفك الشخصي وسنقوم بحفظه في قاعدة بياناتنا والاتصال بك فور توفر شاغر يلائم خبراتك ومؤهلاتك.
+                {lang === 'ar' ? "يسعدنا دائماً استلام سيرتك الذاتية. أرسل ملفك الشخصي وسنقوم بحفظه في قاعدة بياناتنا والاتصال بك فور توفر شاغر يلائم خبراتك ومؤهلاتك." : "We are always eager to discover great talent. Submit your resume to our talent database, and our team will contact you when a matching opportunity arises."}
               </p>
             </div>
 

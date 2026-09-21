@@ -51,7 +51,6 @@ const BlogDetailsModal = ({ blog, isOpen, onClose, settings = {} }) => {
       {isOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 md:p-8 select-text"
-          dir="rtl"
           data-lenis-prevent="true"
         >
           {/* Backdrop Blur Overlay */}
@@ -75,7 +74,7 @@ const BlogDetailsModal = ({ blog, isOpen, onClose, settings = {} }) => {
             {/* Top Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-5 left-5 z-30 w-10 h-10 rounded-full bg-black/60 hover:bg-[#FFB800] text-white hover:text-black border border-white/20 hover:border-[#FFB800] flex items-center justify-center transition-all duration-300 shadow-lg cursor-pointer"
+              className="absolute top-5 rtl:left-5 ltr:right-5 z-30 w-10 h-10 rounded-full bg-black/60 hover:bg-[#FFB800] text-white hover:text-black border border-white/20 hover:border-[#FFB800] flex items-center justify-center transition-all duration-300 shadow-lg cursor-pointer"
               aria-label="إغلاق النافذة"
             >
               <X className="w-5 h-5" />
@@ -97,7 +96,7 @@ const BlogDetailsModal = ({ blog, isOpen, onClose, settings = {} }) => {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#141614] via-black/30 to-transparent" />
 
                 {/* Top Category Tag */}
-                <div className="absolute bottom-6 right-6 z-10">
+                <div className="absolute bottom-6 rtl:right-6 ltr:left-6 z-10">
                   <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#FFB800] text-black text-xs font-bold shadow-lg">
                     <Tag className="w-3.5 h-3.5" />
                     <span>{blog.category || blog.category_obj?.name}</span>
@@ -106,7 +105,7 @@ const BlogDetailsModal = ({ blog, isOpen, onClose, settings = {} }) => {
               </div>
 
               {/* Title & Metadata */}
-              <div className="text-right space-y-4">
+              <div className="text-start space-y-4">
                 <div className="flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm text-white/50 border-b border-white/10 pb-4">
                   <div className="flex items-center gap-2 font-mono">
                     <Calendar className="w-4 h-4 text-[#FFB800]" />
@@ -139,7 +138,7 @@ const BlogDetailsModal = ({ blog, isOpen, onClose, settings = {} }) => {
 
               {/* Short description callout */}
               {blog.short_description && (
-                <div className="p-5 sm:p-6 rounded-2xl bg-[#1D201D] border-r-4 border-[#FFB800] text-right">
+                <div className="p-5 sm:p-6 rounded-2xl bg-[#1D201D] rtl:border-r-4 ltr:border-l-4 border-[#FFB800] text-start">
                   <p className="text-white/90 text-sm sm:text-base leading-relaxed font-medium">
                     {blog.short_description}
                   </p>
@@ -147,13 +146,13 @@ const BlogDetailsModal = ({ blog, isOpen, onClose, settings = {} }) => {
               )}
 
               {/* Rich Body Content (Rendered from HTML) */}
-              <div className="text-right pt-2">
+              <div className="text-start pt-2">
                 <div
                   className="blog-modal-content text-white/80 text-sm sm:text-base leading-loose space-y-4
-                    [&>h3]:text-xl sm:[&>h3]:text-2xl [&>h3]:font-bold [&>h3]:text-white [&>h3]:mt-6 [&>h3]:mb-3 [&>h3]:border-r-2 [&>h3]:border-[#FFB800] [&>h3]:pr-3
+                    [&>h3]:text-xl sm:[&>h3]:text-2xl [&>h3]:font-bold [&>h3]:text-white [&>h3]:mt-6 [&>h3]:mb-3 rtl:[&>h3]:border-r-2 rtl:[&>h3]:pr-3 ltr:[&>h3]:border-l-2 ltr:[&>h3]:pl-3 [&>h3]:border-[#FFB800]
                     [&>h4]:text-lg sm:[&>h4]:text-xl [&>h4]:font-bold [&>h4]:text-[#FFB800] [&>h4]:mt-5 [&>h4]:mb-2
                     [&>p]:text-white/80 [&>p]:leading-relaxed [&>p]:mb-4
-                    [&>ul]:list-disc [&>ul]:pr-6 [&>ul]:space-y-2.5 [&>ul]:mb-6
+                    [&>ul]:list-disc rtl:[&>ul]:pr-6 ltr:[&>ul]:pl-6 [&>ul]:space-y-2.5 [&>ul]:mb-6
                     [&>ul>li]:text-white/80 [&>ul>li]:leading-relaxed
                     [&_strong]:text-white [&_strong]:font-bold"
                   dangerouslySetInnerHTML={{ __html: blog.description }}

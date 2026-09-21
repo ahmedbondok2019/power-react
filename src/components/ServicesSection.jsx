@@ -4,6 +4,7 @@ import { ArrowLeftCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SectionTitle from './ui/SectionTitle';
 import ServiceDetailsModal from './services/ServiceDetailsModal';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -34,6 +35,7 @@ const ServicesSection = ({
   items = [],
 }) => {
   const [selectedService, setSelectedService] = useState(null);
+  const { t } = useLanguage();
 
   const sectionTitle = data?.header?.title || title;
   const sectionSubtitle = data?.header?.subtitle || subtitle;
@@ -55,12 +57,12 @@ const ServicesSection = ({
 
       <div className="max-w-7xl mx-auto px-6">
 
-        {/* Header — title on right, link on left (in RTL, first element is on the right) */}
+        {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
 
-          {/* Title — FIRST in DOM, so it appears on the RIGHT in RTL */}
+          {/* Title */}
           <motion.div
-            className="text-right"
+            className="text-start"
             initial={{ opacity: 0, x: 70 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: false, margin: '-60px' }}
@@ -69,7 +71,7 @@ const ServicesSection = ({
             <SectionTitle title={sectionTitle} theme="dark" />
           </motion.div>
 
-          {/* Link — SECOND in DOM, so it appears on the LEFT in RTL */}
+          {/* Link */}
           <motion.div
             initial={{ opacity: 0, x: -70 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -77,23 +79,23 @@ const ServicesSection = ({
             transition={{ duration: 0.9, ease: EASE }}
           >
             <Link to="/services" className="group flex items-center gap-2.5 text-white/80 hover:text-[#FFB800] transition-colors duration-300 text-sm font-medium">
-              <span>مزيد من الخدمات</span>
-              <ArrowLeftCircle className="w-5 h-5 group-hover:-translate-x-1 transition-all duration-300 stroke-[1.8]" />
+              <span>{t.servicesSection.viewMore}</span>
+              <ArrowLeftCircle className="w-5 h-5 rtl:group-hover:-translate-x-1 ltr:group-hover:translate-x-1 rtl:rotate-0 ltr:rotate-180 transition-all duration-300 stroke-[1.8]" />
             </Link>
           </motion.div>
 
         </div>
 
-        {/* Description — from right */}
+        {/* Description */}
         {sectionSubtitle && (
           <motion.div
-            className="text-right mb-14"
+            className="text-start mb-14"
             initial={{ opacity: 0, x: 80 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: false, margin: '-60px' }}
             transition={{ duration: 0.85, delay: 0.1, ease: EASE }}
           >
-            <p className="typography-paragraph-main text-white/90 max-w-4xl ml-auto leading-relaxed">
+            <p className="typography-paragraph-main text-white/90 max-w-4xl rtl:ml-auto ltr:mr-auto leading-relaxed">
               {sectionSubtitle}
             </p>
           </motion.div>

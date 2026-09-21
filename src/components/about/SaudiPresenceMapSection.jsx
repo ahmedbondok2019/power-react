@@ -190,7 +190,7 @@ const SaudiPresenceMapSection = ({ data }) => {
   };
 
   return (
-    <section className="relative w-full bg-[#141615] text-white pt-6 pb-28 select-none overflow-hidden" dir="rtl">
+    <section className="relative w-full bg-[#141615] text-white pt-6 pb-28 select-none overflow-hidden">
 
       {/* Background Ambience & Lighting */}
       <div className="absolute top-1/4 right-0 w-[550px] h-[550px] bg-[#FFB800]/5 rounded-full blur-[150px] pointer-events-none -z-0" />

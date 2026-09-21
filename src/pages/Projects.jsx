@@ -6,6 +6,7 @@ import SectionTitle from '../components/ui/SectionTitle';
 import AdditionalProjectsSection from '../components/projects/AdditionalProjectsSection';
 import ProjectDetailsModal from '../components/projects/ProjectDetailsModal';
 import { useProjectsPageData } from '../hooks/useProjectsPageData';
+import { useLanguage } from '../contexts/LanguageContext';
 import {
   MapPin,
   Calendar,
@@ -17,6 +18,7 @@ import {
 const Projects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const { data: pageData, isLoading } = useProjectsPageData();
+  const { t } = useLanguage();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -49,27 +51,27 @@ const Projects = () => {
       {/* Hero Section matching the exact design and stats cards from About */}
       <Hero
         id="projects-hero"
-        badge={heroData?.badge || "مشاريعنا"}
-        title={heroData?.title || "إرثٌ يُبنى على أرض الواقع"}
+        badge={heroData?.badge || t.projects.heroBadge}
+        title={heroData?.title || t.projects.heroTitle}
         subtitle={
           <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl text-right font-medium">
-            {heroData?.subtitle || "نستعرض مجموعة من مشاريعنا المنفذة والجارية في مختلف مناطق المملكة، والتي تعكس خبرتنا في تنفيذ المشاريع وتقديم الحلول الهندسية والإنشائية وفق أعلى معايير الجودة والسلامة والكفاءة."}
+            {heroData?.subtitle || t.projects.heroSubtitle}
           </p>
         }
-        buttonText={heroData?.button_text || "اتصل بنا"}
+        buttonText={heroData?.button_text || t.nav.contact}
         buttonLink={heroData?.button_link || "/contact"}
         bgImage={heroData?.image || "/projects-hero-bg.jpg"}
         showVisionLogo={false}
         showStatsCards={true}
         stats={heroData?.stats || [
-          { number: 16, label: "عاماً من الخبرة" },
-          { number: 50, label: "مشروعاً مكتمل" },
-          { number: 10, label: "مدن رئيسية" }
+          { number: 16, label: t.projects.years },
+          { number: 50, label: t.projects.completedProjects },
+          { number: 10, label: t.about.majorCities }
         ]}
       />
 
       {/* Main Content Area (Spaced below the overlapping floating stats cards) */}
-      <section className="relative pt-60 sm:pt-64 pb-24 overflow-hidden" dir="rtl">
+      <section className="relative pt-60 sm:pt-64 pb-24 overflow-hidden">
 
         {/* Ambient Lighting & Background Elements */}
         <div className="absolute top-1/4 right-0 w-[550px] h-[550px] bg-[#FFB800]/5 rounded-full blur-[160px] pointer-events-none -z-0" />
@@ -78,10 +80,10 @@ const Projects = () => {
         <div className="max-w-7xl mx-auto px-6 relative z-10">
 
           {/* Section Header */}
-          <div className="text-right mb-12 sm:mb-16">
-            <SectionTitle title={projectsSection?.header?.title || "مشاريعنا"} theme="dark" />
+          <div className="text-start mb-12 sm:mb-16">
+            <SectionTitle title={projectsSection?.header?.title || t.nav.projects} theme="dark" />
             <p className="text-white/70 text-sm sm:text-base lg:text-lg mt-4 max-w-2xl">
-              {projectsSection?.header?.subtitle || "بصمة هندسية متميزة في أضخم المشروعات التنموية والصناعية والحضرية في المملكة العربية السعودية. (اضغط على أي مشروع للاطلاع على التفاصيل الكاملة)"}
+              {projectsSection?.header?.subtitle || (lang === 'ar' ? "بصمة هندسية متميزة في أضخم المشروعات التنموية والصناعية والحضرية في المملكة العربية السعودية. (اضغط على أي مشروع للاطلاع على التفاصيل الكاملة)" : "A distinguished engineering footprint across major developmental, industrial, and urban projects in Saudi Arabia.")}
             </p>
           </div>
 
@@ -114,21 +116,21 @@ const Projects = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-[#1A1D1B] via-transparent to-black/30" />
 
                     {/* Top Category Badge */}
-                    <div className="absolute top-4 right-4 flex items-center gap-2">
+                    <div className="absolute top-4 rtl:right-4 ltr:left-4 flex items-center gap-2">
                       <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-xs font-semibold text-[#FFB800]">
                         {project.category || project.category_obj?.name}
                       </span>
                     </div>
 
                     {/* Location Tag */}
-                    <div className="absolute bottom-3 right-4 flex items-center gap-1.5 text-xs text-white/90 bg-black/50 backdrop-blur-md px-3 py-1 rounded-lg">
+                    <div className="absolute bottom-3 rtl:right-4 ltr:left-4 flex items-center gap-1.5 text-xs text-white/90 bg-black/50 backdrop-blur-md px-3 py-1 rounded-lg">
                       <MapPin className="w-3.5 h-3.5 text-[#FFB800]" />
                       <span>{project.location}</span>
                     </div>
                   </div>
 
                   {/* Project Info Body */}
-                  <div className="p-6 text-right space-y-3">
+                  <div className="p-6 text-start space-y-3">
                     <h3 className="text-xl font-bold text-white group-hover:text-[#FFB800] transition-colors leading-snug">
                       {project.title}
                     </h3>
@@ -150,9 +152,9 @@ const Projects = () => {
                       <Calendar className="w-4 h-4 text-[#FFB800]" />
                       <span>{project.year}</span>
                     </div>
-                    <div className="flex items-center gap-1 text-[#FFB800] font-semibold group-hover:translate-x-1 transition-transform">
-                      <span>عرض تفاصيل المشروع</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
+                    <div className="flex items-center gap-1 text-[#FFB800] font-semibold rtl:group-hover:-translate-x-1 ltr:group-hover:translate-x-1 transition-transform">
+                      <span>{t.services.viewDetails || 'عرض تفاصيل المشروع'}</span>
+                      <ArrowLeft className="w-3.5 h-3.5 rtl:rotate-0 ltr:rotate-180" />
                     </div>
                   </div>
                 </div>
@@ -177,19 +179,19 @@ const Projects = () => {
       />
 
       {/* Bottom Call To Action */}
-      <section className="bg-[#111312] py-16 px-6 relative z-10" dir="rtl">
+      <section className="bg-[#111312] py-16 px-6 relative z-10">
         <div className="max-w-7xl mx-auto">
-          <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-[#1C2420] via-[#1E201E] to-[#181D1A] border border-white/15 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl text-right">
+          <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-[#1C2420] via-[#1E201E] to-[#181D1A] border border-white/15 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl text-start">
             <div className="space-y-3 max-w-xl">
               <div className="flex items-center gap-2 text-[#FFB800] text-xs sm:text-sm font-bold">
                 <Sparkles className="w-4 h-4" />
-                <span>شريكك الموثوق في البناء والإنشاء</span>
+                <span>{lang === 'ar' ? 'شريكك الموثوق في البناء والإنشاء' : 'Your Trusted Partner in Construction'}</span>
               </div>
               <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
-                هل تخطط لمشروعك الإنشائي أو الكهروميكانيكي القادم؟
+                {lang === 'ar' ? 'هل تخطط لمشروعك الإنشائي أو الكهروميكانيكي القادم؟' : 'Planning Your Next Construction or MEP Project?'}
               </h3>
               <p className="text-sm text-white/75 leading-relaxed">
-                تواصل مع خبرائنا الهندسيين اليوم لمناقشة المتطلبات الفنية والجدول الزمني وتقديم الحلول المتكاملة.
+                {lang === 'ar' ? 'تواصل مع خبرائنا الهندسيين اليوم لمناقشة المتطلبات الفنية والجدول الزمني وتقديم الحلول المتكاملة.' : 'Connect with our engineering experts today to discuss technical specifications, schedule, and integrated solutions.'}
               </p>
             </div>
 

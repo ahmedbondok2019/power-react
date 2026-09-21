@@ -44,7 +44,6 @@ const ProjectDetailsModal = ({ project, isOpen, onClose }) => {
       {isOpen && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 md:p-8 select-none" 
-          dir="rtl"
           data-lenis-prevent="true"
         >
           {/* Backdrop Blur Overlay */}
@@ -72,7 +71,7 @@ const ProjectDetailsModal = ({ project, isOpen, onClose }) => {
             <button
               onClick={onClose}
               aria-label="Close modal"
-              className="absolute top-4 left-4 z-30 w-10 h-10 rounded-full bg-black/70 hover:bg-[#FFB800] text-white hover:text-black border border-white/20 transition-all duration-300 flex items-center justify-center shadow-lg cursor-pointer hover:scale-105"
+              className="absolute top-4 rtl:left-4 ltr:right-4 z-30 w-10 h-10 rounded-full bg-black/70 hover:bg-[#FFB800] text-white hover:text-black border border-white/20 transition-all duration-300 flex items-center justify-center shadow-lg cursor-pointer hover:scale-105"
             >
               <X className="w-5 h-5 stroke-[2.5]" />
             </button>
@@ -94,7 +93,7 @@ const ProjectDetailsModal = ({ project, isOpen, onClose }) => {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#171918] via-[#171918]/60 to-black/30" />
 
                   {/* Badges Over Image */}
-                  <div className="absolute bottom-5 right-6 left-6 flex flex-wrap items-center justify-between gap-3 text-right">
+                  <div className="absolute bottom-5 right-6 left-6 flex flex-wrap items-center justify-between gap-3 text-start">
                     <div className="space-y-1.5">
                       <span className="inline-block px-3 py-1 rounded-full bg-[#FFB800] text-black font-extrabold text-xs shadow-md">
                         {project.category || 'مشروع هندسي'}
@@ -134,7 +133,7 @@ const ProjectDetailsModal = ({ project, isOpen, onClose }) => {
               )}
 
               {/* Body Details */}
-              <div className="p-6 sm:p-8 space-y-6 text-right">
+              <div className="p-6 sm:p-8 space-y-6 text-start">
                 
                 {/* Metadata Grid */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 rounded-2xl bg-white/5 border border-white/5">
@@ -241,7 +240,7 @@ const ProjectDetailsModal = ({ project, isOpen, onClose }) => {
 
             {/* Pinned Modal Footer Bar */}
             <div className="p-4 sm:p-5 bg-[#121413] border-t border-white/10 rounded-b-3xl sm:rounded-b-[2rem] flex flex-col sm:flex-row items-center justify-between gap-4 shrink-0">
-              <p className="text-xs text-white/60 text-right">
+              <p className="text-xs text-white/60 text-start">
                 هل ترغب في دراسة فنية أو تنفيذ مماثل لمشروعك؟
               </p>
               <div className="flex items-center gap-3 w-full sm:w-auto">

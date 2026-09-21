@@ -3,8 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, Loader2, ArrowLeft, Building2, Briefcase, FileText, Globe, Sparkles } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { searchGlobal } from '../../api/searchApi';
+import { useLanguage } from '../../contexts/LanguageContext';
 
-const SUGGESTIONS = [
+const SUGGESTIONS_AR = [
   'مشاريعنا',
   'التكييف والتهوية',
   'المقاولات العامة',
@@ -14,7 +15,19 @@ const SUGGESTIONS = [
   'الاستدامة',
 ];
 
+const SUGGESTIONS_EN = [
+  'Our Projects',
+  'HVAC & Ventilation',
+  'General Contracting',
+  'Value Engineering',
+  'Green Buildings',
+  'Careers',
+  'Sustainability',
+];
+
 const SearchModal = ({ isOpen, onClose }) => {
+  const { lang, isRTL } = useLanguage();
+  const suggestions = lang === 'en' ? SUGGESTIONS_EN : SUGGESTIONS_AR;
   const [query, setQuery] = useState('');
   const [results, setResults] = useState({ projects: [], services: [], blogs: [], pages: [] });
   const [isLoading, setIsLoading] = useState(false);
@@ -88,7 +101,7 @@ const SearchModal = ({ isOpen, onClose }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-start justify-center pt-16 sm:pt-24 px-4 sm:px-6" dir="rtl">
+        <div className="fixed inset-0 z-[100] flex items-start justify-center pt-16 sm:pt-24 px-4 sm:px-6">
           {/* Backdrop Blur Overlay */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -116,8 +129,8 @@ const SearchModal = ({ isOpen, onClose }) => {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="ابحث عن مشاريع، خدمات، مقالات، أو أقسام الموقع..."
-                className="w-full bg-transparent text-white text-base sm:text-lg outline-none placeholder-white/40 font-medium text-right"
+                placeholder={lang === 'en' ? 'Search projects, services, blogs, or pages...' : 'ابحث عن مشاريع، خدمات، مقالات، أو أقسام الموقع...'}
+                className="w-full bg-transparent text-white text-base sm:text-lg outline-none placeholder-white/40 font-medium text-start"
               />
 
               {isLoading && (
@@ -152,7 +165,7 @@ const SearchModal = ({ isOpen, onClose }) => {
                       : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
                   }`}
                 >
-                  الكل ({totalResults})
+                  {lang === 'en' ? 'All' : 'الكل'} ({totalResults})
                 </button>
                 {results.projects.length > 0 && (
                   <button
@@ -163,7 +176,7 @@ const SearchModal = ({ isOpen, onClose }) => {
                         : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
                     }`}
                   >
-                    المشاريع ({results.projects.length})
+                    {lang === 'en' ? 'Projects' : 'المشاريع'} ({results.projects.length})
                   </button>
                 )}
                 {results.services.length > 0 && (
@@ -175,7 +188,7 @@ const SearchModal = ({ isOpen, onClose }) => {
                         : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
                     }`}
                   >
-                    الخدمات ({results.services.length})
+                    {lang === 'en' ? 'Services' : 'الخدمات'} ({results.services.length})
                   </button>
                 )}
                 {results.blogs.length > 0 && (
@@ -187,7 +200,7 @@ const SearchModal = ({ isOpen, onClose }) => {
                         : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
                     }`}
                   >
-                    المدونة ({results.blogs.length})
+                    {lang === 'en' ? 'Blog' : 'المدونة'} ({results.blogs.length})
                   </button>
                 )}
                 {results.pages.length > 0 && (
@@ -199,7 +212,7 @@ const SearchModal = ({ isOpen, onClose }) => {
                         : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
                     }`}
                   >
-                    الصفحات ({results.pages.length})
+                    {lang === 'en' ? 'Pages' : 'الصفحات'} ({results.pages.length})
                   </button>
                 )}
               </div>
@@ -212,10 +225,10 @@ const SearchModal = ({ isOpen, onClose }) => {
                 <div className="space-y-5">
                   <div className="flex items-center gap-2 text-white/50 text-xs font-semibold uppercase tracking-wider">
                     <Sparkles className="w-4 h-4 text-[#EAB308]" />
-                    <span>عمليات البحث المقترحة</span>
+                    <span>{lang === 'en' ? 'Suggested Searches' : 'عمليات البحث المقترحة'}</span>
                   </div>
                   <div className="flex flex-wrap gap-2.5">
-                    {SUGGESTIONS.map((s, idx) => (
+                    {suggestions.map((s, idx) => (
                       <button
                         key={idx}
                         onClick={() => setQuery(s)}
@@ -227,18 +240,18 @@ const SearchModal = ({ isOpen, onClose }) => {
                   </div>
 
                   <div className="pt-4 border-t border-white/10">
-                    <span className="text-xs text-white/40 block mb-3 font-semibold">وصول سريع للصفحات</span>
+                    <span className="text-xs text-white/40 block mb-3 font-semibold">{lang === 'en' ? 'Quick Links' : 'وصول سريع للصفحات'}</span>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                       {[
-                        { title: 'من نحن', link: '/about' },
-                        { title: 'خدماتنا', link: '/services' },
-                        { title: 'مشاريعنا', link: '/projects' },
-                        { title: 'اتصل بنا', link: '/contact' },
+                        { title: lang === 'en' ? 'About Us' : 'من نحن', link: '/about' },
+                        { title: lang === 'en' ? 'Services' : 'خدماتنا', link: '/services' },
+                        { title: lang === 'en' ? 'Projects' : 'مشاريعنا', link: '/projects' },
+                        { title: lang === 'en' ? 'Contact Us' : 'اتصل بنا', link: '/contact' },
                       ].map((item, idx) => (
                         <button
                           key={idx}
                           onClick={() => handleSelectResult(item.link)}
-                          className="p-3 text-right rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs sm:text-sm font-medium transition-colors"
+                          className="p-3 text-start rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs sm:text-sm font-medium transition-colors"
                         >
                           {item.title}
                         </button>
@@ -254,9 +267,9 @@ const SearchModal = ({ isOpen, onClose }) => {
                   <div className="w-16 h-16 mx-auto rounded-full bg-white/5 flex items-center justify-center text-white/40">
                     <Search className="w-8 h-8" />
                   </div>
-                  <h4 className="text-white font-bold text-lg">لم يتم العثور على نتائج</h4>
+                  <h4 className="text-white font-bold text-lg">{lang === 'en' ? 'No results found' : 'لم يتم العثور على نتائج'}</h4>
                   <p className="text-white/50 text-sm max-w-md mx-auto">
-                    لم نتمكن من إيجاد نتائج مطابقة لكلمة "{query}". جرب البحث بكلمات أخرى أو تصفح الأقسام الرئيسية.
+                    {lang === 'en' ? `We couldn't find any results matching "${query}". Try searching with different keywords.` : `لم نتمكن من إيجاد نتائج مطابقة لكلمة "${query}". جرب البحث بكلمات أخرى أو تصفح الأقسام الرئيسية.`}
                   </p>
                 </div>
               )}
@@ -269,7 +282,7 @@ const SearchModal = ({ isOpen, onClose }) => {
                     <div className="space-y-3">
                       <div className="flex items-center gap-2 text-[#EAB308] text-xs font-bold uppercase tracking-wider">
                         <Building2 className="w-4 h-4" />
-                        <span>المشاريع ({results.projects.length})</span>
+                        <span>{lang === 'en' ? 'Projects' : 'المشاريع'} ({results.projects.length})</span>
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {results.projects.map((proj, idx) => (
@@ -283,7 +296,7 @@ const SearchModal = ({ isOpen, onClose }) => {
                               alt={proj.title}
                               className="w-14 h-14 rounded-xl object-cover shrink-0 border border-white/10"
                             />
-                            <div className="flex-1 min-w-0 text-right">
+                            <div className="flex-1 min-w-0 text-start">
                               <h5 className="text-white text-sm font-bold truncate group-hover:text-[#EAB308] transition-colors">
                                 {proj.title}
                               </h5>
@@ -291,7 +304,7 @@ const SearchModal = ({ isOpen, onClose }) => {
                                 {proj.category}
                               </span>
                             </div>
-                            <ArrowLeft className="w-4 h-4 text-white/30 group-hover:text-[#EAB308] group-hover:-translate-x-1 transition-all shrink-0" />
+                            <ArrowLeft className="w-4 h-4 text-white/30 group-hover:text-[#EAB308] rtl:group-hover:-translate-x-1 ltr:group-hover:translate-x-1 rtl:rotate-0 ltr:rotate-180 transition-all shrink-0" />
                           </div>
                         ))}
                       </div>
@@ -303,14 +316,14 @@ const SearchModal = ({ isOpen, onClose }) => {
                     <div className="space-y-3">
                       <div className="flex items-center gap-2 text-[#EAB308] text-xs font-bold uppercase tracking-wider">
                         <Briefcase className="w-4 h-4" />
-                        <span>الخدمات ({results.services.length})</span>
+                        <span>{lang === 'en' ? 'Services' : 'الخدمات'} ({results.services.length})</span>
                       </div>
                       <div className="grid grid-cols-1 gap-2.5">
                         {results.services.map((serv, idx) => (
                           <div
                             key={idx}
                             onClick={() => handleSelectResult(serv.link)}
-                            className="flex items-center justify-between p-3.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#EAB308]/40 cursor-pointer transition-all duration-200 group text-right"
+                            className="flex items-center justify-between p-3.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#EAB308]/40 cursor-pointer transition-all duration-200 group text-start"
                           >
                             <div className="flex-1 min-w-0 pr-1">
                               <h5 className="text-white text-sm font-bold group-hover:text-[#EAB308] transition-colors">
@@ -322,7 +335,7 @@ const SearchModal = ({ isOpen, onClose }) => {
                                 </p>
                               )}
                             </div>
-                            <ArrowLeft className="w-4 h-4 text-white/30 group-hover:text-[#EAB308] group-hover:-translate-x-1 transition-all shrink-0 ml-2" />
+                            <ArrowLeft className="w-4 h-4 text-white/30 group-hover:text-[#EAB308] rtl:group-hover:-translate-x-1 ltr:group-hover:translate-x-1 rtl:rotate-0 ltr:rotate-180 transition-all shrink-0 rtl:ml-2 ltr:mr-2" />
                           </div>
                         ))}
                       </div>
@@ -334,7 +347,7 @@ const SearchModal = ({ isOpen, onClose }) => {
                     <div className="space-y-3">
                       <div className="flex items-center gap-2 text-[#EAB308] text-xs font-bold uppercase tracking-wider">
                         <FileText className="w-4 h-4" />
-                        <span>المدونة والمقالات ({results.blogs.length})</span>
+                        <span>{lang === 'en' ? 'Blog & Articles' : 'المدونة والمقالات'} ({results.blogs.length})</span>
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {results.blogs.map((blog, idx) => (
@@ -348,7 +361,7 @@ const SearchModal = ({ isOpen, onClose }) => {
                               alt={blog.title}
                               className="w-14 h-14 rounded-xl object-cover shrink-0 border border-white/10"
                             />
-                            <div className="flex-1 min-w-0 text-right">
+                            <div className="flex-1 min-w-0 text-start">
                               <h5 className="text-white text-sm font-bold truncate group-hover:text-[#EAB308] transition-colors">
                                 {blog.title}
                               </h5>
@@ -356,7 +369,7 @@ const SearchModal = ({ isOpen, onClose }) => {
                                 {blog.category}
                               </span>
                             </div>
-                            <ArrowLeft className="w-4 h-4 text-white/30 group-hover:text-[#EAB308] group-hover:-translate-x-1 transition-all shrink-0" />
+                            <ArrowLeft className="w-4 h-4 text-white/30 group-hover:text-[#EAB308] rtl:group-hover:-translate-x-1 ltr:group-hover:translate-x-1 rtl:rotate-0 ltr:rotate-180 transition-all shrink-0" />
                           </div>
                         ))}
                       </div>
@@ -368,14 +381,14 @@ const SearchModal = ({ isOpen, onClose }) => {
                     <div className="space-y-3">
                       <div className="flex items-center gap-2 text-[#EAB308] text-xs font-bold uppercase tracking-wider">
                         <Globe className="w-4 h-4" />
-                        <span>صفحات الموقع ({results.pages.length})</span>
+                        <span>{lang === 'en' ? 'Pages' : 'صفحات الموقع'} ({results.pages.length})</span>
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                         {results.pages.map((pg, idx) => (
                           <div
                             key={idx}
                             onClick={() => handleSelectResult(pg.link)}
-                            className="p-3.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#EAB308]/40 cursor-pointer transition-all duration-200 group text-right flex items-center justify-between"
+                            className="p-3.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#EAB308]/40 cursor-pointer transition-all duration-200 group text-start flex items-center justify-between"
                           >
                             <div>
                               <h5 className="text-white text-sm font-bold group-hover:text-[#EAB308] transition-colors">
@@ -385,7 +398,7 @@ const SearchModal = ({ isOpen, onClose }) => {
                                 {pg.description}
                               </p>
                             </div>
-                            <ArrowLeft className="w-4 h-4 text-white/30 group-hover:text-[#EAB308] group-hover:-translate-x-1 transition-all shrink-0 mr-2" />
+                            <ArrowLeft className="w-4 h-4 text-white/30 group-hover:text-[#EAB308] rtl:group-hover:-translate-x-1 ltr:group-hover:translate-x-1 rtl:rotate-0 ltr:rotate-180 transition-all shrink-0 rtl:mr-2 ltr:ml-2" />
                           </div>
                         ))}
                       </div>
@@ -397,11 +410,11 @@ const SearchModal = ({ isOpen, onClose }) => {
 
             {/* Footer helper */}
             <div className="px-6 py-3 bg-black/40 border-t border-white/5 flex items-center justify-between text-[11px] text-white/40">
-              <span>انقر فوق أي نتيجة للانتقال إليها مباشرة</span>
+              <span>{lang === 'en' ? 'Click on any result to navigate directly' : 'انقر فوق أي نتيجة للانتقال إليها مباشرة'}</span>
               <div className="flex items-center gap-3">
-                <span>تصفح باستخدام الفلاتر</span>
+                <span>{lang === 'en' ? 'Filter by categories' : 'تصفح باستخدام الفلاتر'}</span>
                 <span className="w-1 h-1 rounded-full bg-white/20"></span>
-                <span>ESC للإغلاق</span>
+                <span>{lang === 'en' ? 'ESC to close' : 'ESC للإغلاق'}</span>
               </div>
             </div>
           </motion.div>

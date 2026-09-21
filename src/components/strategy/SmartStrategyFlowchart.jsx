@@ -502,7 +502,6 @@ const SmartStrategyFlowchart = ({ data }) => {
     <section 
       id="النهج-الاستراتيجي"
       className="relative w-full bg-[#111312] text-white pt-56 sm:pt-64 pb-20 overflow-hidden select-none border-b border-white/5"
-      dir="rtl"
     >
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
@@ -538,7 +537,7 @@ const SmartStrategyFlowchart = ({ data }) => {
           </ReactFlow>
 
           {/* Top Canvas Controls Bar */}
-          <div className="absolute top-4 right-4 z-20 flex items-center gap-2" dir="rtl">
+          <div className="absolute top-4 rtl:right-4 ltr:left-4 z-20 flex items-center gap-2">
             <button
               onClick={handleResetView}
               className="px-3.5 py-2 rounded-xl bg-black/60 backdrop-blur-md border border-white/15 text-xs text-white/90 hover:text-[#D4E128] hover:border-[#D4E128]/50 transition-all flex items-center gap-1.5 shadow-lg cursor-pointer"
@@ -556,7 +555,6 @@ const SmartStrategyFlowchart = ({ data }) => {
         {selectedModalNode && (
           <div 
             className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 select-none" 
-            dir="rtl"
             data-lenis-prevent="true"
           >
             {/* Backdrop Blur Overlay */}

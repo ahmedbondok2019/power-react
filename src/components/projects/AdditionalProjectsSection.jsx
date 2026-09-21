@@ -34,7 +34,6 @@ const AdditionalProjectsSection = ({
     <section 
       id="مشاريع-إضافية"
       className="relative w-full bg-[#141615] text-white py-20 lg:py-28 overflow-hidden select-none border-t border-white/5"
-      dir="rtl"
     >
       {/* Background glow effects */}
       <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-[#FFB800]/5 rounded-full blur-[140px] pointer-events-none" />
@@ -43,7 +42,7 @@ const AdditionalProjectsSection = ({
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
         {/* Section Header */}
-        <div className="text-right mb-14 sm:mb-16">
+        <div className="text-start mb-14 sm:mb-16">
           <SectionTitle title={data?.header?.title || title} theme="dark" />
           <p className="text-white/70 text-sm sm:text-base mt-3 max-w-2xl font-sans">
             {data?.header?.subtitle || subtitle}
@@ -89,17 +88,19 @@ const AdditionalProjectsSection = ({
                   </div>
 
                   {/* Titles */}
-                  <div className="text-right space-y-1 mb-3">
+                  <div className="text-start space-y-1 mb-3">
                     <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-[#FFB800] transition-colors leading-tight">
                       {project.title}
                     </h3>
-                    <p className="text-xs text-white/50 font-mono">
-                      {project.titleEn}
-                    </p>
+                    {project.titleEn && (
+                      <p className="text-xs text-white/50 font-mono">
+                        {project.titleEn}
+                      </p>
+                    )}
                   </div>
 
                   {/* Compact Metadata Row */}
-                  <div className="flex items-center gap-2 text-xs text-white/60 mb-3 text-right">
+                  <div className="flex items-center gap-2 text-xs text-white/60 mb-3">
                     <span className="flex items-center gap-1">
                       <MapPin className="w-3 h-3 text-[#FFB800]" />
                       <span>{project.location}</span>
@@ -116,7 +117,7 @@ const AdditionalProjectsSection = ({
                   </div>
 
                   {/* Short Scope Text */}
-                  <p className="text-xs sm:text-sm text-white/70 leading-relaxed text-right line-clamp-2">
+                  <p className="text-xs sm:text-sm text-white/70 leading-relaxed text-start line-clamp-2">
                     {project.scope}
                   </p>
                 </div>
@@ -127,9 +128,9 @@ const AdditionalProjectsSection = ({
                     {project.highlight}
                   </span>
 
-                  <div className="flex items-center gap-1 text-white/70 group-hover:text-[#FFB800] text-xs font-semibold group-hover:-translate-x-1 transition-all">
+                  <div className="flex items-center gap-1 text-white/70 group-hover:text-[#FFB800] text-xs font-semibold rtl:group-hover:-translate-x-1 ltr:group-hover:translate-x-1 transition-all">
                     <span>تفاصيل المشروع</span>
-                    <ArrowLeft className="w-3.5 h-3.5" />
+                    <ArrowLeft className="w-3.5 h-3.5 rtl:rotate-0 ltr:rotate-180" />
                   </div>
                 </div>
 

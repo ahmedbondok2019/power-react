@@ -7,9 +7,11 @@ import TwoWayCashFlowSection from '../components/strategy/TwoWayCashFlowSection'
 import AgileResourcingSection from '../components/strategy/AgileResourcingSection';
 import { Sparkles, PhoneCall } from 'lucide-react';
 import { useStrategyPageData } from '../hooks/useStrategyPageData';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const Strategy = () => {
   const { data: pageData } = useStrategyPageData();
+  const { t } = useLanguage();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -29,7 +31,7 @@ const Strategy = () => {
       {/* Hero Section matching the exact design and stats cards */}
       <Hero
         id="strategy-hero"
-        badge={heroData?.badge || "استراتيجيتنا"}
+        badge={heroData?.badge || t.strategy.heroBadge}
         title={
           heroData?.title ? (
             heroData.title.split('\n').map((line, idx, arr) => (
@@ -39,18 +41,15 @@ const Strategy = () => {
               </React.Fragment>
             ))
           ) : (
-            <>
-              منهجية ذكية لإدارة المشاريع <br />
-              وتحقيق نتائج تتجاوز التوقعات
-            </>
+            <span className="whitespace-pre-line">{t.strategy.heroTitle}</span>
           )
         }
         subtitle={
           <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl text-right font-medium">
-            {heroData?.subtitle || "نعتمد في إدارة مشاريعنا على منهجية متكاملة تجمع بين التخطيط الذكي، كفاءة الموارد، الهندسة القيمة، إدارة المخاطر، والتحكم في الوقت والتكاليف، لضمان تنفيذ أكثر كفاءة وجودة واستدامة."}
+            {heroData?.subtitle || t.strategy.heroSubtitle}
           </p>
         }
-        buttonText={heroData?.button_text || "تعرف علينا"}
+        buttonText={heroData?.button_text || t.about.whoWeAre}
         buttonLink={heroData?.button_link || "/about"}
         bgImage={heroData?.image || "/strategy-hero-bg.jpg"}
         showVisionLogo={false}
@@ -75,9 +74,9 @@ const Strategy = () => {
       <AgileResourcingSection data={resourcingData} />
 
       {/* Bottom Call To Action */}
-      <section className="relative py-20 sm:py-28 overflow-hidden border-t border-white/5" dir="rtl">
+      <section className="relative py-20 sm:py-28 overflow-hidden border-t border-white/5">
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-[#1C2420] via-[#1E201E] to-[#181D1A] border border-white/15 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl text-right">
+          <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-[#1C2420] via-[#1E201E] to-[#181D1A] border border-white/15 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl text-start">
             <div className="space-y-3 max-w-xl">
               <div className="flex items-center gap-2 text-[#FFB800] text-xs sm:text-sm font-bold">
                 <Sparkles className="w-4 h-4" />
