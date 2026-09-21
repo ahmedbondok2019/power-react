@@ -107,22 +107,32 @@ const Navbar = () => {
         transition={{ duration: 0.8, delay: 0.5, ease: [0.77, 0, 0.175, 1] }}
         className="fixed w-full z-50 top-0 left-0 border-b border-white/20 bg-white/10 backdrop-blur-xl shadow-sm"
       >
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-2">
+        <div className="max-w-[1440px] mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 py-2.5 gap-4 lg:gap-6 xl:gap-8">
 
           {/* Logo */}
-          <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <img src={logoUrl} alt={settingsData?.data?.site_name || "Egypt Vision"} className="h-20 md:h-24 w-auto object-contain transition-all duration-300" />
+          <Link
+            to="/"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="shrink-0 flex items-center ltr:mr-4 lg:ltr:mr-8 rtl:ml-4 lg:rtl:ml-8"
+          >
+            <img
+              src={logoUrl}
+              alt={settingsData?.data?.site_name || "Egypt Vision"}
+              className="h-16 md:h-20 w-auto object-contain transition-all duration-300"
+            />
           </Link>
 
           {/* Desktop Nav Links */}
-          <div className="hidden lg:flex items-center gap-3 xl:gap-5">
+          <div className="hidden lg:flex items-center justify-center gap-2 xl:gap-4 2xl:gap-5 flex-1 min-w-0">
             {navItems.map((item) => {
               const isActive = !!item.active;
               return (
-                <motion.div key={item.to} whileHover={{ scale: 1.05 }}>
+                <motion.div key={item.to} whileHover={{ scale: 1.05 }} className="shrink-0">
                   <Link
                     to={item.to}
-                    className={`font-medium text-sm xl:text-base transition-colors whitespace-nowrap cursor-pointer relative py-1 ${isActive ? 'text-[#EAB308] font-bold' : 'text-white/90 hover:text-[#EAB308]'}`}
+                    className={`font-medium text-xs xl:text-sm 2xl:text-[15px] transition-colors whitespace-nowrap cursor-pointer relative py-1 px-1 lg:px-1.5 ${
+                      isActive ? 'text-[#EAB308] font-bold' : 'text-white/90 hover:text-[#EAB308]'
+                    }`}
                   >
                     {item.label}
                     {isActive && (
@@ -138,7 +148,7 @@ const Navbar = () => {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-2 md:gap-3">
+          <div className="flex items-center gap-2 md:gap-2.5 shrink-0 ltr:ml-2 lg:ltr:ml-6 rtl:mr-2 lg:rtl:mr-6">
 
             {/* Language Dropdown Menu */}
             <div className="relative" ref={langMenuRef}>

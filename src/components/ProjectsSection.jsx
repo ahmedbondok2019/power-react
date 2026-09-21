@@ -7,7 +7,7 @@ import ProjectDetailsModal from './projects/ProjectDetailsModal';
 import { useLanguage } from '../contexts/LanguageContext';
 
 // Luxurious cubic-bezier curve for high-end feel
-const EASE = [0.16, 1, 0.3, 1];
+const EASE = [0.22, 1, 0.36, 1];
 
 const containerVariants = {
   hidden: {},
@@ -19,18 +19,24 @@ const containerVariants = {
 };
 
 const cardVariants = {
-  hidden: (index) => ({
-    opacity: 0,
-    x: index % 2 === 0 ? 60 : -60,
-    filter: 'blur(4px)',
-  }),
+  hidden: ({ index, isRTL }) => {
+    const isEven = index % 2 === 0;
+    // In RTL: index 0 (right column) comes from right (+80), index 1 (left column) comes from left (-80)
+    // In LTR: index 0 (left column) comes from left (-80), index 1 (right column) comes from right (+80)
+    const offset = isRTL ? (isEven ? 80 : -80) : (isEven ? -80 : 80);
+    return {
+      opacity: 0,
+      x: offset,
+      filter: 'blur(6px)',
+    };
+  },
   show: {
     opacity: 1,
     x: 0,
     filter: 'blur(0px)',
     transition: {
-      duration: 0.8,
-      ease: 'linear', // سرعة واحدة ثابتة وسلسة من البداية للنهاية
+      duration: 0.85,
+      ease: EASE,
     },
   },
 };
@@ -43,7 +49,8 @@ const ProjectsSection = ({
   projects = [],
 }) => {
   const [selectedProject, setSelectedProject] = useState(null);
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const isRTL = lang !== 'en';
 
   const sectionBadge = data?.header?.badge || badge;
   const sectionTitle = data?.header?.title || title;
@@ -86,9 +93,9 @@ const ProjectsSection = ({
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-14 sm:mb-20 gap-6">
           <motion.div
             className="text-start"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, margin: '-50px' }}
+            initial={{ opacity: 0, x: isRTL ? 60 : -60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 0.8, ease: EASE }}
           >
             {sectionBadge && (
@@ -101,10 +108,10 @@ const ProjectsSection = ({
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, margin: '-50px' }}
-            transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
+            initial={{ opacity: 0, x: isRTL ? -60 : 60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.15, ease: EASE }}
           >
             <Link 
               to="/projects" 
@@ -132,7 +139,7 @@ const ProjectsSection = ({
             return (
               <motion.div
                 key={project.id || index}
-                custom={index}
+                custom={{ index, isRTL }}
                 variants={cardVariants}
                 whileHover={{ 
                   y: -10, 
