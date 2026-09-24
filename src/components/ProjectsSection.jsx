@@ -21,19 +21,17 @@ const containerVariants = {
 const cardVariants = {
   hidden: ({ index, isRTL }) => {
     const isEven = index % 2 === 0;
-    // In RTL: index 0 (right column) comes from right (+80), index 1 (left column) comes from left (-80)
-    // In LTR: index 0 (left column) comes from left (-80), index 1 (right column) comes from right (+80)
-    const offset = isRTL ? (isEven ? 80 : -80) : (isEven ? -80 : 80);
+    // In RTL: even index (0, 2) is on the right -> comes from right (+70), odd (1, 3) is on the left -> comes from left (-70)
+    // In LTR: even index (0, 2) is on the left -> comes from left (-70), odd (1, 3) is on the right -> comes from right (+70)
+    const offset = isRTL ? (isEven ? 70 : -70) : (isEven ? -70 : 70);
     return {
       opacity: 0,
       x: offset,
-      filter: 'blur(6px)',
     };
   },
   show: {
     opacity: 1,
     x: 0,
-    filter: 'blur(0px)',
     transition: {
       duration: 0.85,
       ease: EASE,
@@ -132,7 +130,7 @@ const ProjectsSection = ({
           variants={containerVariants}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: false, amount: 0.15 }}
+          viewport={{ once: false, amount: 0.1, margin: '0px 0px -80px 0px' }}
           className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 justify-items-center max-w-[1140px] mx-auto"
         >
           {displayProjects.map((project, index) => {
@@ -142,11 +140,11 @@ const ProjectsSection = ({
                 custom={{ index, isRTL }}
                 variants={cardVariants}
                 whileHover={{ 
-                  y: -10, 
-                  transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } 
+                  y: -8, 
+                  transition: { duration: 0.3, ease: 'easeOut' } 
                 }}
                 onClick={() => setSelectedProject(project)}
-                className="group relative w-full max-w-[529px] h-[430px] sm:h-[490px] lg:h-[540px] rounded-[24px] overflow-hidden cursor-pointer bg-[#141514] shadow-[0_10px_35px_rgba(0,0,0,0.08)] hover:shadow-[0_24px_50px_rgba(0,0,0,0.25)] border border-black/5 transition-all duration-500"
+                className="group relative w-full max-w-[529px] h-[430px] sm:h-[490px] lg:h-[540px] rounded-[24px] overflow-hidden cursor-pointer bg-[#141514] shadow-[0_10px_35px_rgba(0,0,0,0.08)] hover:shadow-[0_24px_50px_rgba(0,0,0,0.25)] border border-black/5"
               >
                 {/* Card Image */}
                 <div className="absolute inset-0 overflow-hidden">

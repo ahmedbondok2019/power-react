@@ -225,31 +225,12 @@ export function initCinematicAnimations() {
     // ────────────────────────────────────────────────────────────────
 
     // ────────────────────────────────────────────────────────────────
-    // 05. PROJECTS — background subtle depth & parallax
+    // 05. PROJECTS — Handled cleanly via Framer Motion in ProjectsSection
     // ────────────────────────────────────────────────────────────────
     const projectsSection = document.querySelector('#مشاريعنا');
 
     if (projectsSection) {
-      const projectCards = projectsSection.querySelectorAll(
-        '.rounded-\\[22px\\], .rounded-\\[18px\\], [class*="max-w-\\[529px\\"]'
-      );
-
-      projectCards.forEach((card) => {
-        const img = card.querySelector('img');
-        if (img) {
-          // Subtle vertical parallax on scroll (image moves slower than card)
-          gsap.to(img, {
-            y: -25,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: card,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: 1.2,
-            },
-          });
-        }
-      });
+      // Entrance animations are managed smoothly by Framer Motion in ProjectsSection
     }
 
     // ────────────────────────────────────────────────────────────────
