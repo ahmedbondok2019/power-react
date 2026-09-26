@@ -25,28 +25,18 @@ import {
   Loader2
 } from 'lucide-react';
 import { FaLinkedinIn, FaHandshake, FaFilePdf } from 'react-icons/fa';
-import { registerVendor, getVendorPage } from '../api/vendorApi';
+import { registerVendor } from '../api/vendorApi';
+import { useVendorPageData } from '../hooks/useVendorPageData';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const VendorRegistration = () => {
-  // Page data from API
-  const [pageData, setPageData] = useState(null);
-  const [pageLoading, setPageLoading] = useState(true);
-  const [pageError, setPageError] = useState(null);
+  const { lang, t } = useLanguage();
+  const { data: rawVendorData, isLoading: pageLoading, isError: pageIsError, refetch } = useVendorPageData();
+  const pageData = rawVendorData?.data || rawVendorData || null;
+  const pageError = pageIsError ? (lang === 'en' ? 'Failed to load vendor page. Please try again.' : 'تعذّر تحميل بيانات الصفحة. يرجى المحاولة مرة أخرى.') : null;
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    const fetchPage = async () => {
-      try {
-        const res = await getVendorPage();
-        setPageData(res.data);
-      } catch (err) {
-        console.error('Failed to load vendor page data:', err);
-        setPageError('تعذّر تحميل بيانات الصفحة. يرجى المحاولة مرة أخرى.');
-      } finally {
-        setPageLoading(false);
-      }
-    };
-    fetchPage();
   }, []);
 
   // Derived options from API (fallback to empty arrays while loading)
@@ -253,7 +243,7 @@ const VendorRegistration = () => {
       <div className="min-h-screen bg-[#111312] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4 text-white/60">
           <Loader2 className="w-10 h-10 animate-spin text-[#EAB308]" />
-          <p className="text-sm">جاري تحميل الصفحة...</p>
+          <p className="text-sm">{lang === 'en' ? 'Loading page...' : 'جاري تحميل الصفحة...'}</p>
         </div>
       </div>
     );
@@ -266,10 +256,10 @@ const VendorRegistration = () => {
           <AlertCircle className="w-12 h-12 text-red-400" />
           <p className="text-white/80 text-sm">{pageError}</p>
           <button
-            onClick={() => window.location.reload()}
-            className="mt-2 px-6 py-2 bg-[#EAB308] text-[#111312] font-bold rounded-full text-sm"
+            onClick={() => refetch()}
+            className="mt-2 px-6 py-2 bg-[#EAB308] text-[#111312] font-bold rounded-full text-sm cursor-pointer"
           >
-            إعادة المحاولة
+            {lang === 'en' ? 'Try Again' : 'إعادة المحاولة'}
           </button>
         </div>
       </div>
@@ -281,24 +271,24 @@ const VendorRegistration = () => {
       {/* Hero Section — data from API */}
       <Hero
         id="vendor-hero"
-        badge={heroSection?.badge || 'بوابة الموردين والشركاء'}
+        badge={heroSection?.badge || (lang === 'en' ? 'Vendor & Partner Portal' : 'بوابة الموردين والشركاء')}
         title={
           <span>
             {heroSection?.title
               ? heroSection.title.split('\n').map((line, i, arr) => (
                   <React.Fragment key={i}>{line}{i < arr.length - 1 && <br />}</React.Fragment>
                 ))
-              : <><span>انضم كمورد معتمد</span><br /><span>وشريك في مسيرة إنجازاتنا</span></>}
+              : lang === 'en' ? <><span>Join as an Approved Vendor</span><br /><span>and Strategic Partner</span></> : <><span>انضم كمورد معتمد</span><br /><span>وشريك في مسيرة إنجازاتنا</span></>}
           </span>
         }
         subtitle={
-          <div className="space-y-2 text-right">
+          <div className="space-y-2 text-start">
             {(heroSection?.paragraphs ?? []).map((para, i) => (
               <p key={i} className={i > 0 ? 'text-white/70 text-sm' : ''}>{para}</p>
             ))}
           </div>
         }
-        buttonText={heroSection?.button_text || 'تعبئة نموذج التأهيل'}
+        buttonText={heroSection?.button_text || (lang === 'en' ? 'Fill Registration Form' : 'تعبئة نموذج التأهيل')}
         buttonLink={heroSection?.button_link || '#vendor-form'}
         bgImage={heroSection?.image || '/saudi_engineers_construction.jpg'}
         showVisionLogo={false}

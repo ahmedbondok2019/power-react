@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import BlogDetailsModal from './blogs/BlogDetailsModal';
 
+import { useLanguage } from '../contexts/LanguageContext';
+
 const EASE = [0.22, 1, 0.36, 1];
 
 /*
@@ -28,13 +30,14 @@ const cardVariants = {
 
 const FeaturedProjectsCards = ({ data, cards = [] }) => {
   const [selectedBlog, setSelectedBlog] = useState(null);
+  const { lang } = useLanguage();
   const rawCards = data?.items || data || cards || [];
   const displayCards = (Array.isArray(rawCards) ? rawCards : []).map((c) => ({
     ...c,
     title: c.title,
     description: c.short_description || c.description,
     image: c.image,
-    buttonText: c.buttonText || 'عرض التفاصيل',
+    buttonText: c.buttonText || (lang === 'en' ? 'View Details' : 'عرض التفاصيل'),
     link: c.link || '/blogs',
   }));
 

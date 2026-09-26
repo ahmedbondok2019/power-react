@@ -14,9 +14,11 @@ import {
   Briefcase
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const ProjectDetailsModal = ({ project, isOpen, onClose }) => {
   const scrollContainerRef = useRef(null);
+  const { lang, t } = useLanguage();
 
   // Lock body scroll and prevent background scroll while modal is open
   useEffect(() => {
@@ -138,15 +140,19 @@ const ProjectDetailsModal = ({ project, isOpen, onClose }) => {
                 {/* Metadata Grid */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 rounded-2xl bg-white/5 border border-white/5">
                   <div className="space-y-1">
-                    <span className="text-[11px] text-white/50 block font-medium">المدينة والموقع</span>
+                    <span className="text-[11px] text-white/50 block font-medium">
+                      {lang === 'en' ? 'City & Location' : 'المدينة والموقع'}
+                    </span>
                     <div className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-white">
                       <MapPin className="w-3.5 h-3.5 text-[#FFB800] shrink-0" />
-                      <span>{project.location || 'المملكة العربية السعودية'}</span>
+                      <span>{project.location || (lang === 'en' ? 'Saudi Arabia' : 'المملكة العربية السعودية')}</span>
                     </div>
                   </div>
 
                   <div className="space-y-1">
-                    <span className="text-[11px] text-white/50 block font-medium">سنة التنفيذ</span>
+                    <span className="text-[11px] text-white/50 block font-medium">
+                      {lang === 'en' ? 'Execution Year' : 'سنة التنفيذ'}
+                    </span>
                     <div className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-white">
                       <Calendar className="w-3.5 h-3.5 text-[#FFB800] shrink-0" />
                       <span>{project.year || '2023 - 2024'}</span>
@@ -154,15 +160,19 @@ const ProjectDetailsModal = ({ project, isOpen, onClose }) => {
                   </div>
 
                   <div className="space-y-1">
-                    <span className="text-[11px] text-white/50 block font-medium">حالة المشروع</span>
+                    <span className="text-[11px] text-white/50 block font-medium">
+                      {lang === 'en' ? 'Project Status' : 'حالة المشروع'}
+                    </span>
                     <div className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-400">
                       <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                      <span>{project.status || 'مكتمل ومسلّم'}</span>
+                      <span>{project.status || (lang === 'en' ? 'Completed & Handed Over' : 'مكتمل ومسلّم')}</span>
                     </div>
                   </div>
 
                   <div className="space-y-1">
-                    <span className="text-[11px] text-white/50 block font-medium">المعايير المطبقة</span>
+                    <span className="text-[11px] text-white/50 block font-medium">
+                      {lang === 'en' ? 'Applied Standards' : 'المعايير المطبقة'}
+                    </span>
                     <div className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#FFB800]">
                       <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
                       <span>{project.standards || project.highlight || 'ISO & Saudi Code'}</span>
@@ -174,10 +184,10 @@ const ProjectDetailsModal = ({ project, isOpen, onClose }) => {
                 <div className="space-y-2.5">
                   <h4 className="text-sm font-bold text-[#FFB800] flex items-center gap-2">
                     <Briefcase className="w-4 h-4" />
-                    <span>نطاق الأعمال والحلول الهندسية</span>
+                    <span>{lang === 'en' ? 'Scope of Work & Engineering Solutions' : 'نطاق الأعمال والحلول الهندسية'}</span>
                   </h4>
                   <div className="p-4 rounded-2xl bg-black/30 border border-white/5 text-xs sm:text-sm text-white/80 leading-relaxed">
-                    {project.scope || 'تنفيذ وتوريد الأعمال المتكاملة وفق أعلى المعايير الفنية والهندسية المعتمدة في كود البناء السعودي.'}
+                    {project.scope || (lang === 'en' ? 'Turnkey execution and supply adhering to Saudi Building Code and international technical standards.' : 'تنفيذ وتوريد الأعمال المتكاملة وفق أعلى المعايير الفنية والهندسية المعتمدة في كود البناء السعودي.')}
                   </div>
                 </div>
 
@@ -186,7 +196,7 @@ const ProjectDetailsModal = ({ project, isOpen, onClose }) => {
                   <div className="space-y-2.5">
                     <h4 className="text-sm font-bold text-[#FFB800] flex items-center gap-2">
                       <Sparkles className="w-4 h-4" />
-                      <span>أبرز المخرجات والمواصفات الفنية</span>
+                      <span>{lang === 'en' ? 'Key Deliverables & Technical Specs' : 'أبرز المخرجات والمواصفات الفنية'}</span>
                     </h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                       {project.deliverables.map((item, idx) => (
@@ -207,7 +217,7 @@ const ProjectDetailsModal = ({ project, isOpen, onClose }) => {
                   <div className="space-y-2.5">
                     <h4 className="text-sm font-bold text-white flex items-center gap-2">
                       <Cpu className="w-4 h-4 text-[#FFB800]" />
-                      <span>مؤشرات وأرقام الأداء</span>
+                      <span>{lang === 'en' ? 'Performance Metrics & Indicators' : 'مؤشرات وأرقام الأداء'}</span>
                     </h4>
                     <div className="flex flex-wrap gap-2.5">
                       {Array.isArray(project.stats) ? (
@@ -241,7 +251,7 @@ const ProjectDetailsModal = ({ project, isOpen, onClose }) => {
             {/* Pinned Modal Footer Bar */}
             <div className="p-4 sm:p-5 bg-[#121413] border-t border-white/10 rounded-b-3xl sm:rounded-b-[2rem] flex flex-col sm:flex-row items-center justify-between gap-4 shrink-0">
               <p className="text-xs text-white/60 text-start">
-                هل ترغب في دراسة فنية أو تنفيذ مماثل لمشروعك؟
+                {lang === 'en' ? 'Looking for a technical consultation or similar execution for your project?' : 'هل ترغب في دراسة فنية أو تنفيذ مماثل لمشروعك؟'}
               </p>
               <div className="flex items-center gap-3 w-full sm:w-auto">
                 <Link
@@ -250,13 +260,13 @@ const ProjectDetailsModal = ({ project, isOpen, onClose }) => {
                   className="flex-1 sm:flex-none px-6 py-2.5 rounded-full bg-[#FFB800] hover:bg-[#EAB308] text-black font-extrabold text-xs sm:text-sm transition-all duration-300 shadow-lg shadow-[#FFB800]/20 flex items-center justify-center gap-2 hover:scale-105"
                 >
                   <PhoneCall className="w-4 h-4" />
-                  <span>تواصل معنا للمشروع</span>
+                  <span>{lang === 'en' ? 'Contact Us for Project' : 'تواصل معنا للمشروع'}</span>
                 </Link>
                 <button
                   onClick={onClose}
                   className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-medium text-xs transition-colors cursor-pointer"
                 >
-                  إغلاق
+                  {lang === 'en' ? 'Close' : 'إغلاق'}
                 </button>
               </div>
             </div>

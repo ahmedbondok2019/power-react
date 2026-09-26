@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '../../contexts/LanguageContext';
 import {
   X,
   Calendar,
@@ -13,10 +14,11 @@ import {
 const BlogDetailsModal = ({ blog, isOpen, onClose, settings = {} }) => {
   const scrollContainerRef = useRef(null);
   const [copied, setCopied] = useState(false);
+  const { lang } = useLanguage();
 
-  const shareText = settings?.share_text || 'مشاركة المقال';
-  const copiedText = settings?.copied_text || 'تم نسخ الرابط!';
-  const closeText = settings?.close_text || 'إغلاق';
+  const shareText = settings?.share_text || (lang === 'en' ? 'Share Article' : 'مشاركة المقال');
+  const copiedText = settings?.copied_text || (lang === 'en' ? 'Link Copied!' : 'تم نسخ الرابط!');
+  const closeText = settings?.close_text || (lang === 'en' ? 'Close' : 'إغلاق');
 
   // Lock body scroll and handle Escape key
   useEffect(() => {

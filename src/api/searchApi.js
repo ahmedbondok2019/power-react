@@ -4,7 +4,7 @@ import { getProjectsPageData } from './projectsApi';
 import { getServicesPageData } from './servicesApi';
 import { getBlogs } from './blogsApi';
 
-const STATIC_PAGES = [
+const STATIC_PAGES_AR = [
   { title: 'الرئيسية', description: 'الصفحة الرئيسية لمجموعة باور للأعمال والمقاولات والتجهيزات', link: '/', type: 'page' },
   { title: 'من نحن', description: 'نبذة عن تاريخ الشركة، رؤيتنا، رسالتنا، وهيكل الإدارة وفريق العمل', link: '/about', type: 'page' },
   { title: 'خدماتنا', description: 'استكشف كافة الحلول الهندسية، الكهروميكانيكية والإنشائية المتكاملة', link: '/services', type: 'page' },
@@ -14,6 +14,19 @@ const STATIC_PAGES = [
   { title: 'الوظائف والتوظيف', description: 'انضم إلى فريق عملنا المتميز وقدم على الوظائف الشاغرة', link: '/careers', type: 'page' },
   { title: 'اتصل بنا', description: 'تواصل مع فريق الدعم والاستشارات الفنية لطلب عروض الأسعار', link: '/contact', type: 'page' },
 ];
+
+const STATIC_PAGES_EN = [
+  { title: 'Home', description: 'Home page of Power Preparation for General Contracting & Electromechanical Works', link: '/', type: 'page' },
+  { title: 'About Us', description: 'History, vision, mission, executive leadership, and organizational structure', link: '/about', type: 'page' },
+  { title: 'Our Services', description: 'Comprehensive engineering, electromechanical (MEP), and contracting solutions', link: '/services', type: 'page' },
+  { title: 'Our Projects', description: 'Portfolio of landmark executed and ongoing projects across Saudi Arabia', link: '/projects', type: 'page' },
+  { title: 'Our Strategy', description: 'Saudi Vision 2030, sustainable execution, lean management, and smart growth', link: '/strategy', type: 'page' },
+  { title: 'Blog & Articles', description: 'Latest engineering insights, industry news, and specialized technical studies', link: '/blogs', type: 'page' },
+  { title: 'Careers', description: 'Join our distinguished engineering team and apply for open positions', link: '/careers', type: 'page' },
+  { title: 'Contact Us', description: 'Reach out to our engineering support and technical consulting team', link: '/contact', type: 'page' },
+];
+
+const getStaticPages = (lang) => (lang === 'en' ? STATIC_PAGES_EN : STATIC_PAGES_AR);
 
 /**
  * Global Search API Function
@@ -133,7 +146,13 @@ export const searchGlobal = async (query) => {
   }
 
   // 4. Filter Static Pages
-  results.pages = STATIC_PAGES.filter((pg) => {
+  const currentLang =
+    (typeof window !== 'undefined' &&
+      (localStorage.getItem('site_lang') || localStorage.getItem('app_lang'))) ||
+    'ar';
+  const staticPagesList = getStaticPages(currentLang);
+
+  results.pages = staticPagesList.filter((pg) => {
     return pg.title.toLowerCase().includes(cleanQuery) || pg.description.toLowerCase().includes(cleanQuery);
   });
 
@@ -144,12 +163,18 @@ export const searchGlobal = async (query) => {
  * Normalizer for raw backend API results format
  */
 function normalizeApiSearchResults(data, query) {
+  const currentLang =
+    (typeof window !== 'undefined' &&
+      (localStorage.getItem('site_lang') || localStorage.getItem('app_lang'))) ||
+    'ar';
+  const staticPagesList = getStaticPages(currentLang);
+
   if (Array.isArray(data)) {
     return {
       projects: data.filter(item => item.type === 'project' || item.type === 'projects'),
       services: data.filter(item => item.type === 'service' || item.type === 'services'),
       blogs: data.filter(item => item.type === 'blog' || item.type === 'blogs'),
-      pages: STATIC_PAGES.filter(pg => pg.title.toLowerCase().includes(query) || pg.description.toLowerCase().includes(query)),
+      pages: staticPagesList.filter(pg => pg.title.toLowerCase().includes(query) || pg.description.toLowerCase().includes(query)),
     };
   }
 
@@ -157,7 +182,7 @@ function normalizeApiSearchResults(data, query) {
     projects: data.projects || [],
     services: data.services || [],
     blogs: data.blogs || [],
-    pages: data.pages || STATIC_PAGES.filter(pg => pg.title.toLowerCase().includes(query)),
+    pages: data.pages || staticPagesList.filter(pg => pg.title.toLowerCase().includes(query)),
   };
 }
 

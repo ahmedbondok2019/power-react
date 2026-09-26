@@ -22,7 +22,7 @@ import {
   GraduationCap
 } from 'lucide-react';
 
-const CAREERS_OPENINGS = [
+const CAREERS_OPENINGS_AR = [
   {
     id: 'mep-project-manager',
     title: 'مدير مشروع كهروميكانيكي (MEP Project Manager)',
@@ -166,6 +166,150 @@ const CAREERS_OPENINGS = [
   }
 ];
 
+const CAREERS_OPENINGS_EN = [
+  {
+    id: 'mep-project-manager',
+    title: 'MEP Project Manager',
+    department: 'MEP Project Management',
+    category: 'Project Management',
+    location: 'Riyadh, Saudi Arabia',
+    type: 'Full-time (On-site)',
+    experience: '8 - 12 Years',
+    education: 'B.Sc. Mechanical or Electrical Engineering',
+    postedAt: '2 days ago',
+    shortDescription: 'Leading and overseeing execution of turnkey MEP works across major projects and managing relationships with approved consultants and contractors.',
+    responsibilities: [
+      'Full on-site supervision of central HVAC, fire fighting, and electrical network installations.',
+      'Project scheduling, cost control, and quality compliance with certified standards.',
+      'Technical coordination with BIM engineers to resolve clashes prior to site execution.',
+      'Periodic progress reporting and chairing technical coordination meetings with client representatives.'
+    ],
+    requirements: [
+      'Minimum 8 years of experience in mega contracting, towers, and healthcare projects.',
+      'Full proficiency in Saudi Building Code (SBC) and international standards (NFPA, ASHRAE, SMACNA).',
+      'PMP credential is a strong advantage.',
+      'Fluency in spoken and written English.'
+    ]
+  },
+  {
+    id: 'hvac-senior-engineer',
+    title: 'Senior HVAC Engineer',
+    department: 'Mechanical & HVAC Engineering',
+    category: 'Engineering & Design',
+    location: 'Jeddah, Saudi Arabia',
+    type: 'Full-time',
+    experience: '5 - 8 Years',
+    education: 'B.Sc. Mechanical Engineering',
+    postedAt: '3 days ago',
+    shortDescription: 'Central HVAC load calculations, equipment selection (chillers, AHUs), and supervision of duct networks and air pressure balancing.',
+    responsibilities: [
+      'Thermal load calculations and selection of chilled water and VRF cooling systems.',
+      'Shop drawing review for ductwork fabrication adhering to SMACNA standards.',
+      'Site inspections, technical testing, and TAB commissioning for project handovers.',
+      'Ensuring maximum energy efficiency and SASO compliance.'
+    ],
+    requirements: [
+      'Minimum 5 years of proven experience in central HVAC and plant rooms.',
+      'Proficiency in HAP, AutoCAD, and Revit MEP.',
+      'Advanced knowledge of pressure loss calculations and fire dampers.',
+      'Saudi Council of Engineers (SCE) accreditation.'
+    ]
+  },
+  {
+    id: 'civil-site-engineer',
+    title: 'Civil Site Engineer',
+    department: 'General Contracting & Construction',
+    category: 'Engineering & Design',
+    location: 'Dammam, Saudi Arabia',
+    type: 'Full-time (On-site)',
+    experience: '4 - 7 Years',
+    education: 'B.Sc. Civil Engineering',
+    postedAt: '4 days ago',
+    shortDescription: 'Supervising structural and concrete execution, steel framing, and verifying compliance against approved engineering drawings.',
+    responsibilities: [
+      'Monitoring reinforced concrete pouring, quality testing, and flooring level checks.',
+      'Inspecting rebar placement, waterproofing, and thermal insulation as per industry best practices.',
+      'Daily coordination with MEP teams for builder’s work and service penetrations (sleeves).',
+      'Strict enforcement of occupational health and safety (HSE) on-site.'
+    ],
+    requirements: [
+      'Minimum 4 years of field experience in industrial and residential structures.',
+      'Exceptional blueprint reading and discrepancy resolution skills.',
+      'Strong leadership, team coordination, and on-site communication skills.',
+      'SCE accreditation.'
+    ]
+  },
+  {
+    id: 'bim-mep-coordinator',
+    title: 'BIM MEP Coordinator',
+    department: 'Technical Office & Digital Design',
+    category: 'Technical Office & BIM',
+    location: 'Riyadh, Saudi Arabia',
+    type: 'Full-time (Office / Hybrid)',
+    experience: '3 - 6 Years',
+    education: 'B.Sc. Mechanical / Electrical / Architectural Engineering',
+    postedAt: '1 week ago',
+    shortDescription: 'Developing LOD 400 3D models, extracting shop drawings, and performing Navisworks clash detection and resolution.',
+    responsibilities: [
+      'Creating and coordinating Revit models for all MEP disciplines and general contracting.',
+      'Hosting clash detection sessions using Navisworks and issuing BCF resolution reports.',
+      'Extracting shop drawings and As-Built drawings with exact spatial accuracy.',
+      'Generating precise Bill of Quantities (BOQ) to assist procurement.'
+    ],
+    requirements: [
+      'Mastery of Autodesk suite (Revit, Navisworks, BIM 360).',
+      'Deep understanding of service routing, ceiling voids, and vertical risers.',
+      'Ability to deliver high-quality outputs under tight technical deadlines.'
+    ]
+  },
+  {
+    id: 'qa-qc-inspector-mep',
+    title: 'QA/QC MEP Inspector',
+    department: 'Quality Management & Compliance',
+    category: 'Quality & Safety',
+    location: 'NEOM, Saudi Arabia',
+    type: 'Full-time (On-site)',
+    experience: '5 - 8 Years',
+    education: 'Engineering Diploma or B.Sc.',
+    postedAt: '1 week ago',
+    shortDescription: 'Inspecting and auditing mechanical and electrical installations to guarantee total compliance with project specs and the Saudi Building Code.',
+    responsibilities: [
+      'Conducting Work Inspection Requests (WIR) alongside project consultants.',
+      'Inspecting material deliveries and verifying Material Inspection Requests (MIR).',
+      'Issuing and closing Non-Conformance Reports (NCR) promptly.',
+      'Documenting QA/QC records, hydrostatic test logs, and electrical insulation tests.'
+    ],
+    requirements: [
+      'Proven quality management experience with ISO 9001 contracting standards.',
+      'High attention to detail and thorough understanding of SBC codes.',
+      'Professional QA/QC certifications are preferred.'
+    ]
+  },
+  {
+    id: 'safety-officer-hse',
+    title: 'HSE Safety Officer',
+    department: 'Occupational Health & Safety',
+    category: 'Quality & Safety',
+    location: 'Riyadh, Saudi Arabia',
+    type: 'Full-time (On-site)',
+    experience: '3 - 6 Years',
+    education: 'Diploma / B.Sc. with NEBOSH Certification',
+    postedAt: '2 weeks ago',
+    shortDescription: 'Fostering a zero-incident work environment and monitoring safety standards across active construction and MEP job sites.',
+    responsibilities: [
+      'Daily site hazard assessments and Job Safety Analysis (JSA) before commencing work.',
+      'Leading morning Toolbox Talks and training site workforce on safety procedures.',
+      'Ensuring 100% PPE compliance and enforcing Permit to Work (PTW) protocols.',
+      'Inspecting scaffolding safety, fall prevention systems, and fire protection equipment.'
+    ],
+    requirements: [
+      'Valid NEBOSH IGC or IOSH certification.',
+      'Documented field experience in major construction projects.',
+      'Quick response and crisis management agility.'
+    ]
+  }
+];
+
 const Careers = () => {
   const [selectedJob, setSelectedJob] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -174,6 +318,8 @@ const Careers = () => {
   const { t, lang } = useLanguage();
   const allCategoryLabel = lang === 'ar' ? 'الكل' : 'All';
 
+  const openings = lang === 'en' ? CAREERS_OPENINGS_EN : CAREERS_OPENINGS_AR;
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -181,14 +327,19 @@ const Careers = () => {
   // Filter Categories
   const categories = useMemo(() => {
     const set = new Set();
-    CAREERS_OPENINGS.forEach((job) => set.add(job.category));
-    return ['الكل', ...Array.from(set)];
-  }, []);
+    openings.forEach((job) => set.add(job.category));
+    return [allCategoryLabel, ...Array.from(set)];
+  }, [openings, allCategoryLabel]);
 
   // Filtered Jobs
   const filteredJobs = useMemo(() => {
-    return CAREERS_OPENINGS.filter((job) => {
-      const matchCategory = selectedCategory === 'الكل' || job.category === selectedCategory;
+    return openings.filter((job) => {
+      const matchCategory =
+        !selectedCategory ||
+        selectedCategory === allCategoryLabel ||
+        selectedCategory === 'الكل' ||
+        selectedCategory === 'All' ||
+        job.category === selectedCategory;
       const matchSearch =
         !searchQuery.trim() ||
         job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -197,7 +348,7 @@ const Careers = () => {
         job.shortDescription.toLowerCase().includes(searchQuery.toLowerCase());
       return matchCategory && matchSearch;
     });
-  }, [selectedCategory, searchQuery]);
+  }, [openings, selectedCategory, searchQuery, allCategoryLabel]);
 
   const handleOpenApply = (job) => {
     setSelectedJob(job);
@@ -399,14 +550,14 @@ const Careers = () => {
                       className="px-8 py-3.5 rounded-2xl bg-[#FFB800] hover:bg-[#EAB308] text-black font-extrabold text-sm transition-all duration-300 shadow-lg shadow-[#FFB800]/20 flex items-center justify-center gap-2 hover:scale-105 active:scale-95 cursor-pointer"
                     >
                       <Send className="w-4 h-4" />
-                      <span>تقديم طلب التوظيف</span>
+                      <span>{lang === 'ar' ? 'تقديم طلب التوظيف' : 'Apply for this Position'}</span>
                     </button>
 
                     <button
                       onClick={() => handleOpenApply(job)}
-                      className="px-6 py-2.5 rounded-xl text-xs text-white/60 hover:text-white transition-colors text-center"
+                      className="px-6 py-2.5 rounded-xl text-xs text-white/60 hover:text-white transition-colors text-center cursor-pointer"
                     >
-                      عرض التفاصيل والشروط الكاملة
+                      {lang === 'ar' ? 'عرض التفاصيل والشروط الكاملة' : 'View Full Details & Requirements'}
                     </button>
                   </div>
                 </motion.div>
@@ -414,9 +565,9 @@ const Careers = () => {
             ) : (
               <div className="text-center py-20 bg-[#171918] rounded-3xl border border-white/5 max-w-xl mx-auto p-8">
                 <Briefcase className="w-12 h-12 text-white/30 mx-auto mb-4" />
-                <h4 className="text-xl font-bold text-white mb-2">لا توجد وظائف مطابقة للبحث</h4>
+                <h4 className="text-xl font-bold text-white mb-2">{lang === 'ar' ? 'لا توجد وظائف مطابقة للبحث' : 'No Matching Openings Found'}</h4>
                 <p className="text-white/60 text-sm">
-                  يرجى تجربة كلمات بحث أخرى أو اختيار قسم وظيفي مختلف.
+                  {lang === 'ar' ? 'يرجى تجربة كلمات بحث أخرى أو اختيار قسم وظيفي مختلف.' : 'Please try different keywords or select another department.'}
                 </p>
               </div>
             )}
@@ -447,17 +598,17 @@ const Careers = () => {
                 onClick={() =>
                   handleOpenApply({
                     id: 'spontaneous-application',
-                    title: 'طلب توظيف عام (General Application)',
-                    department: 'الموارد البشرية والمواهب',
-                    location: 'كافة مناطق المملكة',
-                    type: 'تقديم عام',
-                    experience: 'كافة المستويات'
+                    title: lang === 'ar' ? 'طلب توظيف عام (General Application)' : 'General / Open Application',
+                    department: lang === 'ar' ? 'الموارد البشرية والمواهب' : 'Human Resources & Talent Acquisition',
+                    location: lang === 'ar' ? 'كافة مناطق المملكة' : 'Across All KSA Regions',
+                    type: lang === 'ar' ? 'تقديم عام' : 'General Application',
+                    experience: lang === 'ar' ? 'كافة المستويات' : 'All Levels'
                   })
                 }
                 className="px-8 py-4 rounded-2xl bg-[#FFB800] text-black font-extrabold text-sm sm:text-base hover:bg-[#EAB308] shadow-lg shadow-[#FFB800]/25 transition-all hover:scale-105 flex items-center gap-2 cursor-pointer"
               >
                 <Send className="w-4 h-4" />
-                <span>أرسل سيرتك الذاتية الآن</span>
+                <span>{lang === 'ar' ? 'أرسل سيرتك الذاتية الآن' : 'Submit Your Resume Now'}</span>
               </button>
             </div>
           </div>

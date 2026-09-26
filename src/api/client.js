@@ -18,7 +18,10 @@ export const apiClient = axios.create({
 
 // Request interceptor to ensure language is always passed (supporting localStorage if changed)
 apiClient.interceptors.request.use((config) => {
-  const currentLang = (typeof window !== 'undefined' && localStorage.getItem('app_lang')) || 'ar';
+  const currentLang =
+    (typeof window !== 'undefined' &&
+      (localStorage.getItem('site_lang') || localStorage.getItem('app_lang'))) ||
+    'ar';
   config.headers['Accept-Language'] = currentLang;
   config.headers['lang'] = currentLang;
   config.headers['X-Localization'] = currentLang;

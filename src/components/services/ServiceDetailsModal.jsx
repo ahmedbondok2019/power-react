@@ -13,8 +13,10 @@ import {
   Sparkles
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const ServiceDetailsModal = ({ service, modalSettings, isOpen, onClose }) => {
+  const { lang, isRTL } = useLanguage();
   const scrollContainerRef = useRef(null);
 
   useEffect(() => {
@@ -35,20 +37,28 @@ const ServiceDetailsModal = ({ service, modalSettings, isOpen, onClose }) => {
 
   if (!service) return null;
 
-  const title = service.title || service.arabic || '';
+  const title = service.title || (lang === 'en' ? (service.titleEn || service.english) : service.arabic) || '';
   const subtitle = service.titleEn || service.category || '';
   const description = service.description || service.short_description || '';
   const capabilities = service.capabilities || [];
 
-  const standards = modalSettings?.standards || [
-    { icon: 'ShieldCheck', title: 'معايير الجودة', description: 'مطابقة لأكواد البناء الدولية' },
-    { icon: 'Clock', title: 'الالتزام الزمني', description: 'إدارة مشاريع دقيقة وسلسة' },
-    { icon: 'Zap', title: 'حلول كهروميكانيكية', description: 'كفاءة تشغيلية واستهلاك طاقة مثالي' }
-  ];
+  const defaultStandards = lang === 'en'
+    ? [
+        { icon: 'ShieldCheck', title: 'Quality Standards', description: 'Compliant with international codes' },
+        { icon: 'Clock', title: 'Timely Execution', description: 'Precise and seamless project management' },
+        { icon: 'Zap', title: 'Electromechanical', description: 'Operational efficiency & optimized power' }
+      ]
+    : [
+        { icon: 'ShieldCheck', title: 'معايير الجودة', description: 'مطابقة لأكواد البناء الدولية' },
+        { icon: 'Clock', title: 'الالتزام الزمني', description: 'إدارة مشاريع دقيقة وسلسة' },
+        { icon: 'Zap', title: 'حلول كهروميكانيكية', description: 'كفاءة تشغيلية واستهلاك طاقة مثالي' }
+      ];
+
+  const standards = modalSettings?.standards || defaultStandards;
 
   const cta = modalSettings?.cta || {
-    text: `هل لديك مشروع يتطلب تنفيذ أعمال ${title}؟`,
-    button_text: 'طلب استشارة أو عرض سعر',
+    text: lang === 'en' ? `Do you have a project requiring ${title}?` : `هل لديك مشروع يتطلب تنفيذ أعمال ${title}؟`,
+    button_text: lang === 'en' ? 'Request Consultation / Quote' : 'طلب استشارة أو عرض سعر',
     button_link: '/contact'
   };
 
@@ -117,7 +127,7 @@ const ServiceDetailsModal = ({ service, modalSettings, isOpen, onClose }) => {
                 <div className="absolute bottom-5 right-6 left-6 flex flex-wrap items-center justify-between gap-3 text-start">
                   <div className="space-y-1">
                     <span className="inline-block px-3 py-1 rounded-full bg-[#FFB800] text-black font-extrabold text-xs shadow-md">
-                      {service.category || service.category_obj?.name || 'قطاع هندسي متخصص'}
+                      {service.category || service.category_obj?.name || (lang === 'en' ? 'Specialized Engineering Sector' : 'قطاع هندسي متخصص')}
                     </span>
                     <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white drop-shadow-md leading-snug">
                       {title}
@@ -139,7 +149,7 @@ const ServiceDetailsModal = ({ service, modalSettings, isOpen, onClose }) => {
                   <div className="absolute top-0 rtl:right-0 ltr:left-0 w-1.5 h-full bg-[#FFB800]" />
                   <h3 className="text-base sm:text-lg font-bold text-[#FFB800] mb-2 flex items-center gap-2">
                     <Sparkles className="w-4 h-4 text-[#FFB800]" />
-                    <span>{modalSettings?.overview_title || 'نطاق الخدمة والحلول المتكاملة'}</span>
+                    <span>{modalSettings?.overview_title || (lang === 'en' ? 'Scope of Service & Integrated Solutions' : 'نطاق الخدمة والحلول المتكاملة')}</span>
                   </h3>
                   <p className="text-white/85 text-sm sm:text-base leading-relaxed">
                     {description}
@@ -151,7 +161,7 @@ const ServiceDetailsModal = ({ service, modalSettings, isOpen, onClose }) => {
                   <div>
                     <h4 className="text-xs sm:text-sm font-extrabold text-white/90 uppercase tracking-wider mb-3.5 flex items-center gap-2">
                       <Layers className="w-4 h-4 text-[#FFB800]" />
-                      <span>{modalSettings?.capabilities_title || 'أبرز القدرات والمزايا الهندسية:'}</span>
+                      <span>{modalSettings?.capabilities_title || (lang === 'en' ? 'Key Capabilities & Engineering Advantages:' : 'أبرز القدرات والمزايا الهندسية:')}</span>
                     </h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {capabilities.map((cap, idx) => (

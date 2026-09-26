@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useBlogDetails, useBlogs } from '../hooks/useBlogs';
+import { useLanguage } from '../contexts/LanguageContext';
 import {
   Calendar,
   Clock,
@@ -17,6 +18,7 @@ const EASE = [0.22, 1, 0.36, 1];
 
 const BlogDetails = () => {
   const { slug } = useParams();
+  const { lang, t } = useLanguage();
   const { data: blog, isLoading, isError } = useBlogDetails(slug);
   const { data: allBlogs = [] } = useBlogs();
   const [copied, setCopied] = useState(false);

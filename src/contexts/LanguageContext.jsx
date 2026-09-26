@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import ar from "../locales/ar";
 import en from "../locales/en";
 
@@ -7,12 +8,15 @@ const translations = { ar, en };
 const LanguageContext = createContext(null);
 
 export const LanguageProvider = ({ children }) => {
+  const queryClient = useQueryClient();
+
   // Read from URL param first, then localStorage, then default "ar"
   const getInitialLang = () => {
     const params = new URLSearchParams(window.location.search);
     const urlLang = params.get("lang");
     if (urlLang === "en" || urlLang === "ar") return urlLang;
-    const stored = localStorage.getItem("site_lang");
+    const stored =
+      localStorage.getItem("site_lang") || localStorage.getItem("app_lang");
     if (stored === "en" || stored === "ar") return stored;
     return "ar";
   };
@@ -26,15 +30,24 @@ export const LanguageProvider = ({ children }) => {
     document.documentElement.setAttribute("dir", isRTL ? "rtl" : "ltr");
     document.body.setAttribute("dir", isRTL ? "rtl" : "ltr");
     localStorage.setItem("site_lang", lang);
+    localStorage.setItem("app_lang", lang);
   }, [lang]);
 
-  // Also sync URL param when language changes
-  const switchLang = useCallback((newLang) => {
-    const url = new URL(window.location.href);
-    url.searchParams.set("lang", newLang);
-    window.history.replaceState({}, "", url.toString());
-    setLang(newLang);
-  }, []);
+  // Also sync URL param and invalidate API query cache when language changes
+  const switchLang = useCallback(
+    (newLang) => {
+      const url = new URL(window.location.href);
+      url.searchParams.set("lang", newLang);
+      window.history.replaceState({}, "", url.toString());
+      localStorage.setItem("site_lang", newLang);
+      localStorage.setItem("app_lang", newLang);
+      setLang(newLang);
+      if (queryClient) {
+        queryClient.invalidateQueries();
+      }
+    },
+    [queryClient]
+  );
 
   // Listen to URL changes (back/forward navigation)
   useEffect(() => {
@@ -43,13 +56,16 @@ export const LanguageProvider = ({ children }) => {
       const urlLang = params.get("lang");
       if (urlLang === "en" || urlLang === "ar") {
         setLang(urlLang);
+        if (queryClient) {
+          queryClient.invalidateQueries();
+        }
       }
     };
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
-  }, []);
+  }, [queryClient]);
 
-  const t = translations[lang];
+  const t = translations[lang] || translations.ar;
 
   return (
     <LanguageContext.Provider value={{ lang, setLang: switchLang, t, isRTL: lang === "ar" }}>
