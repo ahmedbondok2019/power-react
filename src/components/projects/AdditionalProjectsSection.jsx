@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import SectionTitle from '../ui/SectionTitle';
 import { containerVariants, cardVariants } from '../../utils/animations';
+import { useLanguage } from '../../contexts/LanguageContext';
 import {
   Server,
   Droplets,
@@ -22,17 +23,18 @@ const AdditionalProjectsSection = ({
   data,
   projects,
   items,
-  title = "المشاريع الإضافية",
-  subtitle = "سجل ممتد من المشروعات النوعية والتخصصية المنفذة في مختلف مناطق المملكة",
+  title = '',
+  subtitle = '',
   onSelectProject,
 }) => {
+  const { lang } = useLanguage();
   const displayList = data?.items || projects || items || [];
 
   if (!displayList || displayList.length === 0) return null;
 
   return (
     <section 
-      id="مشاريع-إضافية"
+      id="additional-projects"
       className="relative w-full bg-[#141615] text-white py-20 lg:py-28 overflow-hidden select-none border-t border-white/5"
     >
       {/* Background glow effects */}
@@ -59,7 +61,7 @@ const AdditionalProjectsSection = ({
         >
           {displayList.map((project, idx) => {
             const IconComponent = project.icon || (idx % 3 === 0 ? Server : idx % 3 === 1 ? Droplets : Warehouse);
-            const isCompleted = (project.status || '').includes('مكتمل');
+            const isCompleted = (project.status || '').toLowerCase().includes('complet') || (project.status || '').includes('مكتمل');
             
             return (
               <motion.div
@@ -129,7 +131,7 @@ const AdditionalProjectsSection = ({
                   </span>
 
                   <div className="flex items-center gap-1 text-white/70 group-hover:text-[#FFB800] text-xs font-semibold rtl:group-hover:-translate-x-1 ltr:group-hover:translate-x-1 transition-all">
-                    <span>تفاصيل المشروع</span>
+                    <span>{lang === 'en' ? 'Project Details' : 'تفاصيل المشروع'}</span>
                     <ArrowLeft className="w-3.5 h-3.5 rtl:rotate-0 ltr:rotate-180" />
                   </div>
                 </div>

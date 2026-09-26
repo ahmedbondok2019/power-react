@@ -8,33 +8,12 @@ import { cardVariants } from '../../utils/animations';
 import { useLanguage } from '../../contexts/LanguageContext';
 import 'swiper/css';
 
-const CERTIFICATES = [
-  {
-    id: 1,
-    title: "رخصة الاستثمار",
-    image: "https://placehold.co/800x1000/f8fafc/94a3b8?text=Investment+License"
-  },
-  {
-    id: 2,
-    title: "ترخيص نظام الحريق",
-    image: "https://placehold.co/800x1000/f8fafc/94a3b8?text=Fire+System+License"
-  },
-  {
-    id: 3,
-    title: "شهادة تصنيف المقاولين",
-    image: "https://placehold.co/800x1000/f8fafc/94a3b8?text=Contractor+Classification"
-  },
-  {
-    id: 4,
-    title: "شهادة الآيزو 9001",
-    image: "https://placehold.co/800x1000/f8fafc/94a3b8?text=ISO+9001"
-  }
-];
-
 const CertificatesSection = ({ data }) => {
   const swiperRef = useRef(null);
   const { lang, isRTL } = useLanguage();
-  const items = (data && data.length > 0) ? data : CERTIFICATES;
+  const items = (data && data.length > 0) ? data : [];
+
+  if (items.length === 0) return null;
 
   return (
     <section className="relative w-full bg-[#F3F4F6] text-black py-24 select-none overflow-hidden">
@@ -82,27 +61,15 @@ const CertificatesSection = ({ data }) => {
               disableOnInteraction: false,
             }}
             breakpoints={{
-              640: {
-                slidesPerView: 1,
-                spaceBetween: 30,
-              },
-              768: {
-                slidesPerView: 2,
-                spaceBetween: 30,
-              },
-              1024: {
-                slidesPerView: 2,
-                spaceBetween: 40,
-              },
-              1440: {
-                slidesPerView: 2,
-                spaceBetween: 50,
-              }
+              640: { slidesPerView: 1, spaceBetween: 30 },
+              768: { slidesPerView: 2, spaceBetween: 30 },
+              1024: { slidesPerView: 2, spaceBetween: 40 },
+              1440: { slidesPerView: 2, spaceBetween: 50 },
             }}
             className="w-full"
           >
-            {items.map((cert) => (
-              <SwiperSlide key={cert.id}>
+            {items.map((cert, idx) => (
+              <SwiperSlide key={cert.id || idx}>
                 <motion.div
                   variants={cardVariants}
                   initial="hidden"
@@ -126,7 +93,7 @@ const CertificatesSection = ({ data }) => {
           </Swiper>
         </div>
 
-        {/* Mobile Navigation Buttons (shown only on very small screens if needed) */}
+        {/* Mobile Navigation Buttons */}
         <div className="flex flex-row justify-center gap-6 mt-8 sm:hidden">
           <button
             onClick={() => swiperRef.current?.slideNext()}

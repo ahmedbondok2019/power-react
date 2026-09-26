@@ -1,22 +1,23 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import SectionTitle from '../ui/SectionTitle';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const SafetyStatementSection = ({ data }) => {
-  const title = data?.title || "بيان السلامة";
+  const { lang } = useLanguage();
+
+  const title = data?.title || (lang === 'en' ? 'Safety Statement' : 'بيان السلامة');
   const bgImage = data?.image || "/pix-off-labor-7576514_1920.jpg";
-  const logos = (data?.logos && data.logos.length > 0) ? data.logos : [
-    "/OPITO.png",
-    "/OSHA.png",
-    "/Iso-45001.png"
-  ];
-  const statement = data?.statement || data?.description || "أعظم أصول أي شركة هي الأشخاص، فحياتهم وسلامتهم وجودة حياتهم هي ما يجعل هذه الشركة كما هي اليوم. نحن نؤمن بالحفاظ على سلامة موظفينا وعملائنا وأي طرف ثالث ومعداتنا قدر الإمكان، ولا يمكننا تحقيق ذلك إلا من خلال التأكد من اتباع الإرشادات واللوائح الدولية للصحة والسلامة. لا يوجد أي تهاون عندما يتعلق الأمر بالسلامة.";
+  const logos = (data?.logos && data.logos.length > 0) ? data.logos : ["/OPITO.png", "/OSHA.png", "/Iso-45001.png"];
+  const statement = data?.statement || data?.description || '';
+
+  if (!statement) return null;
 
   return (
     <section className="w-full bg-[#141615] text-white py-16 sm:py-20 select-none overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 flex flex-col h-full">
 
-        {/* Header (Top Right) */}
+        {/* Header */}
         <div className="flex flex-col items-start text-start mb-12 w-full">
           <SectionTitle title={title} theme="dark" />
         </div>
@@ -36,7 +37,6 @@ const SafetyStatementSection = ({ data }) => {
               alt="Safety at work background"
               className="w-full h-full object-cover object-center"
             />
-            {/* Overlay to ensure text readability matching the Figma spec */}
             <div className="absolute inset-0 bg-[#3C3C3CDE]"></div>
           </div>
 
@@ -53,12 +53,12 @@ const SafetyStatementSection = ({ data }) => {
                   transition={{ duration: 0.5, delay: 0.2 + idx * 0.2 }}
                   className="flex items-center justify-center max-h-16"
                 >
-                  <img src={logo} alt="Safety Logo" className="w-auto h-12 sm:h-16 object-contain" />
+                  <img src={typeof logo === 'string' ? logo : logo.image || logo.src} alt="Safety Logo" className="w-auto h-12 sm:h-16 object-contain" />
                 </motion.div>
               ))}
             </div>
 
-            {/* Paragraph Text */}
+            {/* Statement Text */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

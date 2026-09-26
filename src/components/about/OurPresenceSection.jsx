@@ -1,11 +1,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import SectionTitle from '../ui/SectionTitle';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const OurPresenceSection = ({ data }) => {
-  const title = data?.title || "وجودنا";
-  const subtitle = data?.subtitle || "خبرة تمتد عبر المملكة";
-  const description = data?.description || "تظهر مشاريع الشركة وانتشارها في عدد من المدن والمواقع الرئيسية في المملكة العربية السعودية، بما في ذلك الرياض، جدة، مكة، المدينة، الدمام، القصيم، جازان، نجران، نيوم وغيرها. كما يتضمن سجل المشاريع مواقع ومشاريع بارزة مثل Al Murabaa و KAFD و Qiddiya و Trojena و Oxagon و Sindalah و Riyadh Front.";
+  const { lang } = useLanguage();
+
+  const title = data?.title || '';
+  const subtitle = data?.subtitle || '';
+  const description = data?.description || '';
+
+  if (!title && !description) return null;
 
   return (
     <section className="w-full bg-[#141615] text-white pt-10 pb-6 select-none overflow-hidden">
@@ -24,12 +29,16 @@ const OurPresenceSection = ({ data }) => {
           transition={{ duration: 0.8 }}
           className="w-full"
         >
-          <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-white tracking-wide">
-            {subtitle}
-          </h3>
-          <p className="text-white/80 text-lg sm:text-xl lg:text-[22px] font-medium leading-[2.2]">
-            {description}
-          </p>
+          {subtitle && (
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-white tracking-wide">
+              {subtitle}
+            </h3>
+          )}
+          {description && (
+            <p className="text-white/80 text-lg sm:text-xl lg:text-[22px] font-medium leading-[2.2]">
+              {description}
+            </p>
+          )}
         </motion.div>
 
       </div>

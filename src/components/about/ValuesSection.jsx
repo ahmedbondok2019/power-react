@@ -2,42 +2,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import SectionTitle from '../ui/SectionTitle';
 import { containerVariants, cardVariants } from '../../utils/animations';
-
-const VALUES = [
-  {
-    id: 1,
-    title: "العميل أولاً",
-    description: "نركز على فهم احتياجات العميل وتقديم حلول مصممة بما يتناسب مع متطلبات المشروع."
-  },
-  {
-    id: 2,
-    title: "التميز",
-    description: "نسعى إلى تحقيق أعلى المعايير في مختلف جوانب العمل، من التخطيط والتنفيذ إلى جودة النتائج."
-  },
-  {
-    id: 3,
-    title: "النزاهة",
-    description: "نلتزم بالصدق والشفافية والمسؤولية في تعاملاتنا وعلاقاتنا."
-  },
-  {
-    id: 4,
-    title: "الابتكار",
-    description: "نبحث باستمرار عن طرق جديدة وحلول أكثر كفاءة لتطوير أعمالنا وتحسين نتائج المشاريع."
-  },
-  {
-    id: 5,
-    title: "السلامة",
-    description: "نجعل السلامة أولوية أساسية في جميع مراحل المشروع."
-  },
-  {
-    id: 6,
-    title: "التعاون",
-    description: "نعمل بروح الفريق ونسعى إلى تحقيق التكامل بين مختلف الأطراف والأقسام لتحقيق أهداف المشروع."
-  }
-];
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const ValuesSection = ({ data }) => {
-  const items = (data && data.length > 0) ? data : VALUES;
+  const { lang } = useLanguage();
+  const items = (data && data.length > 0) ? data : [];
+
+  if (items.length === 0) return null;
 
   return (
     <section className="relative w-full bg-[#141615] text-white py-24 px-6 lg:px-12 select-none">
@@ -45,7 +16,7 @@ const ValuesSection = ({ data }) => {
 
         {/* Header Section */}
         <div className="flex flex-col items-start text-right mb-16">
-          <SectionTitle title="قيمنا" theme="dark" />
+          <SectionTitle title={lang === 'en' ? 'Our Values' : 'قيمنا'} theme="dark" />
           <motion.p
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -53,13 +24,13 @@ const ValuesSection = ({ data }) => {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="text-white/80 text-sm sm:text-base md:text-lg max-w-2xl font-normal leading-relaxed mt-4"
           >
-            القيم بالنسبة لنا ليست مجرد مبادئ مكتوبة، بل أساس للطريقة التي ندير بها أعمالنا وننفذ بها مشاريعنا.
+            {lang === 'en'
+              ? 'Our values are not just written principles — they are the foundation of how we run our business and execute our projects.'
+              : 'القيم بالنسبة لنا ليست مجرد مبادئ مكتوبة، بل أساس للطريقة التي ندير بها أعمالنا وننفذ بها مشاريعنا.'}
           </motion.p>
         </div>
 
         <div className="max-w-2xl mx-auto">
-
-          {/* Values Grid */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -84,7 +55,6 @@ const ValuesSection = ({ data }) => {
               </motion.div>
             ))}
           </motion.div>
-
         </div>
       </div>
     </section>
