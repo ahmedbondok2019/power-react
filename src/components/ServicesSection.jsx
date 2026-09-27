@@ -65,7 +65,7 @@ const ServicesSection = ({
             className="text-start"
             initial={{ opacity: 0, x: 70 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, margin: '-60px' }}
+            viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.9, ease: EASE }}
           >
             <SectionTitle title={sectionTitle} theme="dark" />
@@ -75,7 +75,7 @@ const ServicesSection = ({
           <motion.div
             initial={{ opacity: 0, x: -70 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, margin: '-60px' }}
+            viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.9, ease: EASE }}
           >
             <Link to="/services" className="group flex items-center gap-2.5 text-white/80 hover:text-[#FFB800] transition-colors duration-300 text-sm font-medium">
@@ -105,7 +105,7 @@ const ServicesSection = ({
           variants={containerVariants}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: false, amount: 0.1, margin: '0px 0px -100px 0px' }}
+          viewport={{ once: true, amount: 0.1, margin: '0px 0px -100px 0px' }}
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center max-w-7xl mx-auto"
         >
           {displayServices.map((svc, i) => (
@@ -122,6 +122,8 @@ const ServicesSection = ({
                 <img
                   src={svc.image}
                   alt={svc.arabic}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 group-hover:brightness-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent opacity-90 group-hover:opacity-80 transition-opacity duration-500" />

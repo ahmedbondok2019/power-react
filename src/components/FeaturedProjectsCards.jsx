@@ -50,7 +50,7 @@ const FeaturedProjectsCards = ({ data, cards = [] }) => {
           variants={containerVariants}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: false, amount: 0.1, margin: '0px 0px -100px 0px' }}
+          viewport={{ once: true, amount: 0.1, margin: '0px 0px -100px 0px' }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 justify-items-center"
         >
           {displayCards.map((card, index) => (
@@ -66,6 +66,8 @@ const FeaturedProjectsCards = ({ data, cards = [] }) => {
                 <img
                   src={card.image}
                   alt={card.title}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 />
               </div>

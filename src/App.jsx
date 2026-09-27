@@ -1,9 +1,12 @@
 import { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import Lenis from '@studio-freight/lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, AnimatePresence } from 'framer-motion';
+import apiClient from './api/client';
+import { ENDPOINTS } from './api/endpoints';
 
 gsap.registerPlugin(ScrollTrigger);
 import Navbar from './components/Navbar';
@@ -27,8 +30,40 @@ import Profile from './pages/Profile';
 
 function App() {
   const location = useLocation();
+  const queryClient = useQueryClient();
   const isHomePage = location.pathname === '/' || location.pathname === '';
   const isAuthPage = location.pathname.startsWith('/auth');
+
+  // ---------- Background prefetch all critical pages on first load ----------
+  useEffect(() => {
+    const lang =
+      localStorage.getItem('site_lang') ||
+      localStorage.getItem('app_lang') ||
+      'ar';
+
+    const prefetch = (key, endpoint) =>
+      queryClient.prefetchQuery({
+        queryKey: key,
+        queryFn: () => apiClient.get(endpoint).then((r) => r?.data ?? r),
+        staleTime: 5 * 60 * 1000,
+      });
+
+    // Fire all prefetch requests in parallel after a 300ms idle delay
+    const timer = setTimeout(() => {
+      prefetch(['home', lang], ENDPOINTS.HOME);
+      prefetch(['settingsData', lang], ENDPOINTS.SETTINGS);
+      prefetch(['about-page', lang], ENDPOINTS.ABOUT);
+      prefetch(['services-page', lang], ENDPOINTS.SERVICES_PAGE);
+      prefetch(['projects-page', lang], ENDPOINTS.PROJECTS_PAGE);
+      prefetch(['strategy-page', lang], ENDPOINTS.STRATEGY_PAGE);
+      prefetch(['blogs-page', lang], ENDPOINTS.BLOGS_PAGE);
+      prefetch(['vendor-page', lang], ENDPOINTS.VENDOR_PAGE);
+      prefetch(['contact-page', lang], ENDPOINTS.CONTACT_PAGE);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Initialize Smooth Scrolling (Lenis) and sync with GSAP ScrollTrigger
   useEffect(() => {

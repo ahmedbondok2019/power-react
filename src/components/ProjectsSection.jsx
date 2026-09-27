@@ -73,10 +73,12 @@ const ProjectsSection = ({
         <motion.img
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1.08 }}
-          viewport={{ once: false }}
+          viewport={{ once: true }}
           transition={{ duration: 1.8, ease: 'easeOut' }}
           src={sectionMap}
           alt=""
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-contain select-none"
         />
       </div>
@@ -151,6 +153,8 @@ const ProjectsSection = ({
                   <img
                     src={project.image}
                     alt={project.title}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover transition-transform duration-700 ease-linear group-hover:scale-110"
                   />
                 </div>

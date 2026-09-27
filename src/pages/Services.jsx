@@ -133,6 +133,8 @@ const Services = () => {
                     <img
                       src={svc.image}
                       alt={displayTitle}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 group-hover:brightness-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#1A1D1B] via-transparent to-black/30" />

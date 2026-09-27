@@ -2,18 +2,20 @@ import axios from 'axios';
 import { BASE_URL } from './endpoints';
 
 /**
- * Axios client instance with standard configurations
+ * Axios client instance with optimized configurations for speed and reliability
  */
 export const apiClient = axios.create({
   baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
+    'Accept-Encoding': 'gzip, deflate, br',   // Ask server for compressed responses
+    'Connection': 'keep-alive',               // Reuse TCP connections
     'Accept-Language': 'ar',
     'lang': 'ar',
     'X-Localization': 'ar',
   },
-  timeout: 15000,
+  timeout: 12000,   // 12s timeout (reduced from 15s)
 });
 
 // Request interceptor to ensure language is always passed (supporting localStorage if changed)
