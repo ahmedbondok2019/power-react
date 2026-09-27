@@ -22,7 +22,7 @@ const HallOfFameSection = ({
 
   return (
     <section className={`py-16 sm:py-20 relative overflow-hidden ${isDark ? 'bg-[#141615] text-white' : 'bg-white text-[#111312]'}`}>
-      <div className="max-w-7xl mx-auto px-6 mb-8 text-right">
+      <div className="max-w-7xl mx-auto px-6 mb-8 text-start">
         {/* Section Heading */}
         <SectionTitle title={sectionTitle} theme={isDark ? 'dark' : 'light'} />
       </div>

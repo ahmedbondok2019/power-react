@@ -166,16 +166,9 @@ const GroupStructureSection = ({
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="text-start flex-1 max-w-2xl"
           >
-            <div className="relative inline-block">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white relative z-10 select-none pb-1 flex items-center gap-2">
-                <span className="relative inline-block px-1">
-                  {sectionTitle}
-                  <span className="absolute bottom-0 right-0 left-0 h-3.5 sm:h-4 lg:h-5 bg-[#FFB800] -z-10 rounded-sm" />
-                </span>
-              </h2>
-            </div>
+            <SectionTitle title={sectionTitle} theme="dark" />
             {sectionSubtitle && (
-              <p className="text-white/70 text-sm sm:text-base lg:text-lg mt-2 sm:mt-2.5 leading-relaxed max-w-xl">
+              <p className="text-white/70 text-sm sm:text-base lg:text-lg mt-3 leading-relaxed max-w-xl">
                 {sectionSubtitle}
               </p>
             )}

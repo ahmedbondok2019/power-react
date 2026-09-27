@@ -53,6 +53,19 @@ const en = {
     scrollDown: "Scroll Down",
     exploreProjects: "Explore Our Projects",
   },
+  slideNavigator: {
+    home: "Home",
+    about: "About Us",
+    services: "Our Services",
+    groupStructure: "Group Structure",
+    projects: "Our Projects",
+  },
+  capabilitiesWheel: {
+    title: "Our Capabilities",
+    badge: "Integrated Process",
+    subtitle: "Our expertise extends beyond conventional execution; we provide an integrated engineering and execution framework of 6 core capabilities.",
+    currentStage: "Current Stage",
+  },
   aboutSection: {
     learnMore: "Learn More About Our Company & Vision",
   },
@@ -79,6 +92,12 @@ const en = {
     whoWeAre: "Who We Are",
     methodologySubtitle: "What Distinguishes Our Approach",
     equipmentPartners: "Certified Equipment Partners",
+    visionTitle: "Our Vision",
+    visionP1: "To be the premier contractor in the Kingdom of Saudi Arabia, renowned for innovation, excellence, and unmatched quality across all projects.",
+    visionP2: "The company's official vision focuses on building a leadership position in the Saudi contracting market, making innovation, excellence, and quality foundational pillars.",
+    missionTitle: "Our Mission",
+    missionP1: "Delivering exceptional contracting services driven by safety, precision execution, and integrated engineering solutions across development, consultancy, BIM analysis, and value engineering.",
+    missionP2: "We achieve this by uniting executive expertise and specialized capabilities to fulfill project objectives and secure high client satisfaction.",
   },
   services: {
     heroBadge: "Our Services & Solutions",
@@ -170,6 +189,95 @@ const en = {
     sending: "Submitting...",
     successMsg: "Your application has been submitted successfully! We will contact you soon.",
     errorMsg: "An error occurred. Please try again.",
+  },
+  vendorPage: {
+    heroBadge: "Vendor & Partner Portal",
+    heroTitle: "Join as an Approved Vendor\nand Strategic Partner",
+    heroSubtitle: "We open horizons of fruitful cooperation with certified vendors and subcontractors for the supply of materials, equipment, and engineering services in mega projects.",
+    formButton: "Fill Qualification Form",
+    formBadge: "Vendor & Subcontractor Registration",
+    formTitle: "Vendor Registration & Qualification Form",
+    formSubtitle: "Please fill out all required fields accurately and attach your Commercial Registration and Company Profile to expedite the qualification process.",
+    
+    // Company Details
+    companyDetails: "Company Details",
+    companyName: "Company Name",
+    companyNamePlaceholder: "e.g. Apex Engineering & Contracting Co.",
+    companyNameHint: "Official company name as registered in the Commercial Registry",
+    country: "Country",
+    selectCountry: "Select Country",
+    crNumber: "Commercial Registration # or Equivalent",
+    crPlaceholder: "Enter CR Number",
+    establishmentDate: "Year of Establishment",
+    calculatedYears: "Calculated Years of Experience",
+    years0: "Less than 1 year (Founded this year)",
+    years1: "1 Year",
+    years2: "2 Years",
+    yearsCount: "Years",
+    yearCount: "Years",
+    
+    // Contact Details
+    contactDetails: "Contact Details",
+    firstName: "Contact First Name",
+    firstNamePlaceholder: "First Name",
+    lastName: "Contact Last Name",
+    lastNamePlaceholder: "Last Name",
+    position: "Title / Position",
+    selectPosition: "Select Position",
+    email: "Contact Email Address",
+    dialCode: "Dial Code",
+    mobile1: "Primary Mobile Number",
+    website: "Website",
+    mobile2: "Secondary Mobile (Optional)",
+    linkedin: "LinkedIn Company Profile",
+    
+    // Service Details
+    serviceDetails: "Service Details & Attachments",
+    companyProfile: "Company Profile",
+    commercialReg: "Commercial Registration",
+    upload: "UPLOAD",
+    dropFile: "Drop or paste file here",
+    fileHint: "Upload a .pdf format file up to 20MB",
+    crFileHint: "Upload a .pdf or image file up to 20MB",
+    services: "Service(s) / Supply Category",
+    selectServices: "Select Service(s) / Supply Scope",
+    selectedServices: "Selected Service(s)",
+    clearAll: "Clear All",
+    noServices: "No services selected yet. Choose from the list above.",
+    furtherDetails: "Further Details & Project Track Record",
+    furtherDetailsPlaceholder: "Please mention any additional details about your experience, exclusive agencies, production capacity, or major past projects...",
+    
+    // Submit Area
+    disclaimer: "By submitting this application, you confirm that all entered information and uploaded files are accurate.",
+    submitBtn: "Submit Qualification Request",
+    submittingBtn: "Submitting Application...",
+    
+    // Success Screen
+    successTitle: "Vendor Qualification Request Received!",
+    successMsg: "Thank you for your interest in partnering with us. Our Procurement and Contracts team will review your application and documents and contact you shortly.",
+    refNumber: "Reference Number:",
+    statusLabel: "Application Status:",
+    statusUnderReview: "Under Technical Review",
+    submitAnother: "Submit Another Application",
+    
+    // Side Cards
+    benefitsTitle: "Benefits of Joining Our Vendor Network",
+    benefitsList: [
+      "Priority participation in tenders for mega and landmark development projects",
+      "Full transparency and rapid technical inspection and qualification cycles",
+      "Guaranteed financial commitments and transparent payment schedules",
+      "Long-term strategic partnerships expanding market reach across Saudi Arabia and region"
+    ],
+    criteriaTitle: "Qualification Criteria & Compliance",
+    criteriaList: [
+      "Valid commercial registration matching the required business activities",
+      "Compliance with Saudi and international safety and quality standards",
+      "Documented track record with recognized contractors or authorities",
+      "Sound financial stability and operational capacity to deliver scopes on schedule"
+    ],
+    helpdeskTitle: "Procurement & Contracts Department",
+    helpdeskSubtitle: "Procurement & Supply Chain Team",
+    helpdeskDesc: "For inquiries regarding vendor qualification, direct tenders, or quotations:"
   },
   auth: {
     login: "Login",

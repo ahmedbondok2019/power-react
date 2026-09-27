@@ -365,7 +365,7 @@ const Careers = () => {
           <span className="whitespace-pre-line">{t.careers.heroTitle}</span>
         }
         subtitle={
-          <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl text-right font-medium">
+          <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl text-start font-medium">
             {t.careers.heroSubtitle}
           </p>
         }
@@ -375,7 +375,7 @@ const Careers = () => {
         showVisionLogo={false}
         showStatsCards={true}
         stats={[
-          { number: CAREERS_OPENINGS.length, label: lang === 'ar' ? 'وظائف شاغرة حالياً' : 'Open Positions' },
+          { number: openings.length, label: lang === 'ar' ? 'وظائف شاغرة حالياً' : 'Open Positions' },
           { number: 100, label: lang === 'ar' ? 'بيئة عمل هندسية محفزة' : 'Engineering Work Environment' },
           { number: 16, label: t.projects.years }
         ]}
@@ -383,7 +383,7 @@ const Careers = () => {
 
 
       {/* ── Why Work With Us (Value Pillars) ── */}
-      <section className="relative pt-60 sm:pt-64 pb-20 bg-[#141615] overflow-hidden">
+      <section className="relative pt-72 sm:pt-80 lg:pt-88 pb-20 bg-[#141615] overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           
           <div className="text-start mb-14 sm:mb-16">

@@ -49,7 +49,7 @@ const Services = () => {
         id="services-hero"
         badge={heroData?.badge || t.services.heroBadge}
         title={
-          heroData?.title ? (
+          heroData?.title && heroData.title.trim().length > 12 ? (
             <span className="whitespace-pre-line">{heroData.title}</span>
           ) : (
             <span className="whitespace-pre-line">{t.services.heroTitle}</span>
@@ -64,11 +64,13 @@ const Services = () => {
                 </p>
               ))}
             </div>
+          ) : heroData?.subtitle && heroData.subtitle.trim().length > 10 ? (
+            <div className="space-y-2 text-start">
+              <p>{heroData.subtitle}</p>
+            </div>
           ) : (
             <div className="space-y-2 text-start">
-              <p>
-                {heroData?.subtitle || t.services.heroSubtitle}
-              </p>
+              <p>{t.services.heroSubtitle}</p>
             </div>
           )
         }
@@ -84,8 +86,8 @@ const Services = () => {
         ]}
       />
 
-      {/* Main Services Grid Section (Spaced below the overlapping floating stats cards) */}
-      <section className="relative w-full pt-60 sm:pt-64 pb-24 bg-[#141615] overflow-hidden">
+      {/* Main Services Grid Section (Spaced comfortably below the overlapping floating stats cards) */}
+      <section className="relative w-full pt-72 sm:pt-80 lg:pt-88 pb-24 bg-[#141615] overflow-hidden">
         {/* Decorative Background Lighting */}
         <div className="absolute top-1/4 right-0 w-[550px] h-[550px] bg-[#FFB800]/5 rounded-full blur-[160px] pointer-events-none" />
         <div className="absolute bottom-1/3 left-0 w-[600px] h-[600px] bg-[#2A352F]/30 rounded-full blur-[170px] pointer-events-none" />

@@ -78,6 +78,17 @@ const Navbar = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 30);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const isAboutPage = location.pathname.toLowerCase().includes('about');
   const isServicesPage = location.pathname.toLowerCase().includes('service') || location.pathname.includes('خدمات');
   const isProjectsPage = location.pathname.toLowerCase().includes('project');
@@ -105,20 +116,24 @@ const Navbar = () => {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.5, ease: [0.77, 0, 0.175, 1] }}
-        className="fixed w-full z-50 top-0 left-0 border-b border-white/20 bg-white/10 backdrop-blur-xl shadow-sm"
+        className={`fixed w-full z-50 top-0 left-0 transition-all duration-300 ${
+          isScrolled
+            ? 'bg-[#111312]/92 backdrop-blur-2xl border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)] py-1.5'
+            : 'bg-gradient-to-b from-black/80 via-black/40 to-transparent backdrop-blur-md border-b border-white/10 py-2.5'
+        }`}
       >
-        <div className="max-w-[1440px] mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 py-2.5 gap-4 lg:gap-6 xl:gap-8">
+        <div className="max-w-[1440px] mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 gap-4 lg:gap-6 xl:gap-8">
 
           {/* Logo */}
           <Link
             to="/"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="shrink-0 flex items-center ltr:mr-4 lg:ltr:mr-8 rtl:ml-4 lg:rtl:ml-8"
+            className="shrink-0 flex items-center ltr:mr-4 lg:ltr:mr-8 rtl:ml-4 lg:rtl:ml-8 group"
           >
             <img
               src={logoUrl}
               alt={settingsData?.data?.site_name || "Egypt Vision"}
-              className="h-16 md:h-20 w-auto object-contain transition-all duration-300"
+              className={`${isScrolled ? 'h-14 md:h-16' : 'h-16 md:h-20'} w-auto object-contain transition-all duration-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)] group-hover:scale-105`}
             />
           </Link>
 
@@ -130,15 +145,15 @@ const Navbar = () => {
                 <motion.div key={item.to} whileHover={{ scale: 1.05 }} className="shrink-0">
                   <Link
                     to={item.to}
-                    className={`font-medium text-xs xl:text-sm 2xl:text-[15px] transition-colors whitespace-nowrap cursor-pointer relative py-1 px-1 lg:px-1.5 ${
-                      isActive ? 'text-[#EAB308] font-bold' : 'text-white/90 hover:text-[#EAB308]'
+                    className={`font-semibold text-xs xl:text-sm 2xl:text-[15px] transition-all duration-200 whitespace-nowrap cursor-pointer relative py-1 px-1 lg:px-1.5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] ${
+                      isActive ? 'text-[#EAB308] font-bold' : 'text-white/95 hover:text-[#EAB308]'
                     }`}
                   >
                     {item.label}
                     {isActive && (
                       <motion.span
                         layoutId="navbar-indicator"
-                        className="absolute bottom-0 right-0 left-0 h-0.5 bg-[#EAB308] rounded-full"
+                        className="absolute bottom-0 right-0 left-0 h-0.5 bg-[#EAB308] rounded-full shadow-[0_0_10px_#EAB308]"
                       />
                     )}
                   </Link>
@@ -159,10 +174,10 @@ const Navbar = () => {
                 onClick={() => setLangMenuOpen(prev => !prev)}
                 aria-label="Actions & Settings"
                 aria-expanded={langMenuOpen}
-                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer select-none border ${
+                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer select-none border backdrop-blur-md shadow-sm ${
                   langMenuOpen
-                    ? 'bg-[#EAB308]/15 border-[#EAB308] text-[#EAB308] shadow-[0_0_15px_rgba(234,179,8,0.2)]'
-                    : 'bg-white/10 hover:bg-white/15 text-white border-white/15 hover:border-[#EAB308]/50'
+                    ? 'bg-[#EAB308]/20 border-[#EAB308] text-[#EAB308] shadow-[0_0_18px_rgba(234,179,8,0.3)]'
+                    : 'bg-black/40 hover:bg-black/60 text-white border-white/20 hover:border-[#EAB308]/60 shadow-[0_2px_10px_rgba(0,0,0,0.3)]'
                 }`}
               >
                 <div className="flex items-center gap-1.5">
@@ -336,10 +351,10 @@ const Navbar = () => {
               whileTap={{ scale: 0.92 }}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle navigation menu"
-              className={`lg:hidden w-10 h-10 flex items-center justify-center rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer border ${
+              className={`lg:hidden w-10 h-10 flex items-center justify-center rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer border backdrop-blur-md ${
                 mobileMenuOpen
                   ? 'bg-[#EAB308]/20 border-[#EAB308] text-[#EAB308] shadow-[0_0_15px_rgba(234,179,8,0.25)]'
-                  : 'bg-white/10 hover:bg-white/15 text-white border-white/15 hover:border-[#EAB308]/50'
+                  : 'bg-black/40 hover:bg-black/60 text-white border-white/20 hover:border-[#EAB308]/50 shadow-sm'
               }`}
             >
               {mobileMenuOpen ? <X className="w-5 h-5 text-[#EAB308]" /> : <Menu className="w-5 h-5 text-white" />}

@@ -11,7 +11,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 
 const Strategy = () => {
   const { data: pageData } = useStrategyPageData();
-  const { t } = useLanguage();
+  const { lang, t, isRTL } = useLanguage();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -28,36 +28,41 @@ const Strategy = () => {
   return (
     <div className="min-h-screen bg-[#111312] text-white selection:bg-[#EAB308] selection:text-black">
 
-      {/* Hero Section matching the exact design and stats cards */}
+      {/* Hero Section matching the exact design and stats cards from Home and About */}
       <Hero
         id="strategy-hero"
         badge={heroData?.badge || t.strategy.heroBadge}
         title={
-          heroData?.title ? (
-            heroData.title.split('\n').map((line, idx, arr) => (
-              <React.Fragment key={idx}>
-                {line}
-                {idx < arr.length - 1 && <br />}
-              </React.Fragment>
-            ))
+          heroData?.title && heroData.title.trim().length > 10 ? (
+            <span className="whitespace-pre-line">{heroData.title}</span>
           ) : (
             <span className="whitespace-pre-line">{t.strategy.heroTitle}</span>
           )
         }
         subtitle={
-          <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl text-right font-medium">
-            {heroData?.subtitle || t.strategy.heroSubtitle}
-          </p>
+          heroData?.paragraphs && heroData.paragraphs.length > 0 ? (
+            <div className="space-y-2 text-start">
+              {heroData.paragraphs.map((p, idx) => (
+                <p key={idx} className={idx > 0 ? "text-white/70 text-xs sm:text-sm" : ""}>
+                  {p}
+                </p>
+              ))}
+            </div>
+          ) : (
+            <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl text-start font-medium">
+              {heroData?.subtitle || t.strategy.heroSubtitle}
+            </p>
+          )
         }
-        buttonText={heroData?.button_text || t.about.whoWeAre}
-        buttonLink={heroData?.button_link || "/about"}
+        buttonText={heroData?.button_text || t.hero.exploreProjects}
+        buttonLink={heroData?.button_link || "/projects"}
         bgImage={heroData?.image || "/strategy-hero-bg.jpg"}
         showVisionLogo={false}
         showStatsCards={true}
         stats={heroData?.stats && heroData.stats.length > 0 ? heroData.stats : [
-          { number: 16, label: "عاماً من الخبرة" },
-          { number: 50, label: "مشروعاً مكتمل" },
-          { number: 10, label: "مدن رئيسية" }
+          { number: 16, label: t.about.yearsExp },
+          { number: 50, label: t.about.completedProjects },
+          { number: 10, label: t.about.majorCities }
         ]}
       />
 
@@ -80,13 +85,13 @@ const Strategy = () => {
             <div className="space-y-3 max-w-xl">
               <div className="flex items-center gap-2 text-[#FFB800] text-xs sm:text-sm font-bold">
                 <Sparkles className="w-4 h-4" />
-                <span>{ctaData?.badge || "شريكك الاستراتيجي في الإنجاز"}</span>
+                <span>{ctaData?.badge || (isRTL ? "شريكك الاستراتيجي في الإنجاز" : "Your Strategic Partner")}</span>
               </div>
               <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
-                {ctaData?.title || "هل تبحث عن إدارة استراتيجية لمشروعك القادم؟"}
+                {ctaData?.title || (isRTL ? "هل تبحث عن إدارة استراتيجية لمشروعك القادم؟" : "Looking for Strategic Management for Your Next Project?")}
               </h3>
               <p className="text-sm text-white/75 leading-relaxed">
-                {ctaData?.subtitle || "تواصل مع فريقنا الاستشاري والهندسي اليوم لمناقشة متطلبات مشروعك ووضع خطة التنفيذ المثالية."}
+                {ctaData?.subtitle || (isRTL ? "تواصل مع فريقنا الاستشاري والهندسي اليوم لمناقشة متطلبات مشروعك ووضع خطة التنفيذ المثالية." : "Contact our consultancy and engineering team today to discuss your project requirements and establish an optimal execution roadmap.")}
               </p>
             </div>
 
@@ -96,7 +101,7 @@ const Strategy = () => {
                 className="px-8 py-4 rounded-2xl bg-[#FFB800] text-black font-extrabold text-sm sm:text-base hover:bg-[#EAB308] shadow-lg shadow-[#FFB800]/25 transition-all hover:scale-105 flex items-center gap-2"
               >
                 <PhoneCall className="w-4 h-4" />
-                <span>{ctaData?.button_text || "تواصل معنا الآن"}</span>
+                <span>{ctaData?.button_text || (isRTL ? "تواصل معنا الآن" : "Contact Us Now")}</span>
               </Link>
             </div>
           </div>

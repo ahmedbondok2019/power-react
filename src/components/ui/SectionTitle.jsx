@@ -12,24 +12,23 @@ const SectionTitle = ({
   const content = title || children;
 
   return (
-    <div className={`relative inline-block ${className}`}>
+    <div className={`relative inline-block max-w-full ${className}`}>
       <motion.h2 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: false, margin: "-40px" }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className={`typography-heading-main ${textColor} relative z-10 select-none pb-1`}
+        className={`typography-heading-main ${textColor} relative z-10 select-none pb-1 leading-snug sm:leading-tight`}
       >
-        <span className="relative inline-block px-1">
+        <span 
+          className="inline px-1 py-0.5 rounded-sm"
+          style={{
+            background: 'linear-gradient(to top, #FFB800 0%, #FFB800 38%, transparent 38%)',
+            boxDecorationBreak: 'clone',
+            WebkitBoxDecorationBreak: 'clone',
+          }}
+        >
           {content}
-          {/* Solid Yellow Highlight Bar anchored at the baseline */}
-          <motion.span 
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: false }}
-            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-            className="absolute bottom-0 right-0 left-0 h-3.5 sm:h-4 md:h-5 bg-[#FFB800] -z-10 rounded-sm origin-right rtl:origin-right ltr:origin-left"
-          />
         </span>
       </motion.h2>
     </div>

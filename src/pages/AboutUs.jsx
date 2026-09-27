@@ -89,7 +89,7 @@ const AboutUs = () => {
       />
 
       {/* 2nd Section: من نحن & ما يميز منهجنا (Matching the exact design with 3D Saudi Map Background) */}
-      <section className="relative bg-[#404040C4] text-white pt-60 pb-24 overflow-hidden border-b border-white/5">
+      <section className="relative bg-[#404040C4] text-white pt-72 sm:pt-80 lg:pt-88 pb-24 overflow-hidden border-b border-white/5">
 
         {/* Subtle Dark 3D Map of Saudi Arabia sliding in from Left to Right */}
         <motion.div
