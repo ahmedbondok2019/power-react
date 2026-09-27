@@ -1,15 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;700;800;900&display=swap');
 @import "tailwindcss";
 
-@font-face {
-  font-family: 'HSN Shahd Bold';
-  src: url('/fonts/HSN-Shahd-Bold.woff2') format('woff2'),
-       url('/fonts/HSN-Shahd-Bold.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-
 @theme {
   --color-background: #111312;
   --color-surface: #1E201E;
@@ -23,14 +14,14 @@
   --color-text-main: #FFFFFF;
   --color-text-muted: #A1A1AA;
   
-  --font-sans: 'HSN Shahd Bold', 'Tajawal', 'Inter', sans-serif;
+  --font-sans: 'Tajawal', 'Inter', sans-serif;
   
   --animate-fade-in-up: fadeInUp 0.8s ease-out forwards;
   --animate-reveal: reveal 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
 }
 
 :root[dir="rtl"], html[dir="rtl"], html[lang="ar"] {
-  --font-sans: 'HSN Shahd Bold', 'Tajawal', 'Inter', sans-serif;
+  --font-sans: 'Tajawal', 'Inter', sans-serif;
 }
 
 :root[dir="ltr"], html[dir="ltr"], html[lang="en"] {

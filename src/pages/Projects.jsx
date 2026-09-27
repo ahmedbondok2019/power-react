@@ -12,7 +12,8 @@ import {
   Calendar,
   Sparkles,
   PhoneCall,
-  ArrowRight
+  ArrowRight,
+  ArrowLeft
 } from 'lucide-react';
 
 const Projects = () => {
@@ -203,7 +204,7 @@ const Projects = () => {
                 className="px-8 py-4 rounded-2xl bg-[#FFB800] text-black font-extrabold text-sm sm:text-base hover:bg-[#EAB308] shadow-lg shadow-[#FFB800]/25 transition-all hover:scale-105 flex items-center gap-2"
               >
                 <PhoneCall className="w-4 h-4" />
-                <span>تواصل معنا الآن</span>
+                <span>{lang === 'ar' ? 'تواصل معنا الآن' : 'Contact Us Now'}</span>
               </Link>
             </div>
           </div>
