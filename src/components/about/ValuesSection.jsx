@@ -30,7 +30,7 @@ const ValuesSection = ({ data }) => {
           </motion.p>
         </div>
 
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -44,7 +44,7 @@ const ValuesSection = ({ data }) => {
                 variants={cardVariants}
                 className="will-change-transform flex justify-center"
               >
-                <div className="bg-white rounded-[12px] pt-[11px] pr-[9px] pb-[37px] pl-[5px] flex flex-col items-center justify-start gap-[26px] text-center shadow-lg hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(235,251,56,0.15)] transition-all duration-300 group cursor-default w-[216px] h-[206px] mx-auto">
+                <div className="bg-white rounded-[12px] p-6 flex flex-col items-center justify-start gap-4 text-center shadow-lg hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(235,251,56,0.15)] transition-all duration-300 group cursor-default w-full max-w-[320px] min-h-[206px] h-full mx-auto">
                   <h3 className="text-2xl sm:text-3xl font-black text-[#FFB800] group-hover:scale-105 transition-transform duration-300 mt-2">
                     {val.title}
                   </h3>

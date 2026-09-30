@@ -107,21 +107,21 @@ const LeadershipSection = ({ data }) => {
   }, [scrollYProgress]);
 
   // Stage 1 (0% to 33%): Visible right from the start, fades and slides out cleanly by 0.28
-  const l1Opacity = useTransform(scrollYProgress, [0, 0.20, 0.28], [1, 1, 0]);
-  const l1X = useTransform(scrollYProgress, [0, 0.20, 0.28], [0, 0, isRTL ? -80 : 80]);
-  const l1Scale = useTransform(scrollYProgress, [0, 0.20, 0.28], [1, 1, 0.95]);
+  const l1Opacity = useTransform(scrollYProgress, [0, 0.20, 0.28, 1], [1, 1, 0, 0]);
+  const l1X = useTransform(scrollYProgress, [0, 0.20, 0.28, 1], [0, 0, isRTL ? -80 : 80, isRTL ? -80 : 80]);
+  const l1Scale = useTransform(scrollYProgress, [0, 0.20, 0.28, 1], [1, 1, 0.95, 0.95]);
   const l1PointerEvents = useTransform(scrollYProgress, (val) => val > 0.28 ? "none" : "auto");
 
   // Stage 2 (33% to 66%): Fades in at 0.33, stays sharp, fades out completely by 0.62
-  const l2Opacity = useTransform(scrollYProgress, [0.33, 0.40, 0.55, 0.62], [0, 1, 1, 0]);
-  const l2X = useTransform(scrollYProgress, [0.33, 0.40, 0.55, 0.62], [isRTL ? 80 : -80, 0, 0, isRTL ? -80 : 80]);
-  const l2Scale = useTransform(scrollYProgress, [0.33, 0.40, 0.55, 0.62], [0.95, 1, 1, 0.95]);
+  const l2Opacity = useTransform(scrollYProgress, [0, 0.32, 0.40, 0.55, 0.62, 1], [0, 0, 1, 1, 0, 0]);
+  const l2X = useTransform(scrollYProgress, [0, 0.32, 0.40, 0.55, 0.62, 1], [isRTL ? 80 : -80, isRTL ? 80 : -80, 0, 0, isRTL ? -80 : 80, isRTL ? -80 : 80]);
+  const l2Scale = useTransform(scrollYProgress, [0, 0.32, 0.40, 0.55, 0.62, 1], [0.95, 0.95, 1, 1, 0.95, 0.95]);
   const l2PointerEvents = useTransform(scrollYProgress, (val) => (val < 0.33 || val > 0.62) ? "none" : "auto");
 
   // Stage 3 (66% to 100%): Fades in at 0.67, stays locked
-  const l3Opacity = useTransform(scrollYProgress, [0.67, 0.75, 1], [0, 1, 1]);
-  const l3X = useTransform(scrollYProgress, [0.67, 0.75, 1], [isRTL ? 80 : -80, 0, 0]);
-  const l3Scale = useTransform(scrollYProgress, [0.67, 0.75, 1], [0.95, 1, 1]);
+  const l3Opacity = useTransform(scrollYProgress, [0, 0.66, 0.75, 1], [0, 0, 1, 1]);
+  const l3X = useTransform(scrollYProgress, [0, 0.66, 0.75, 1], [isRTL ? 80 : -80, isRTL ? 80 : -80, 0, 0]);
+  const l3Scale = useTransform(scrollYProgress, [0, 0.66, 0.75, 1], [0.95, 0.95, 1, 1]);
   const l3PointerEvents = useTransform(scrollYProgress, (val) => val < 0.67 ? "none" : "auto");
 
   if (leadersList.length === 0) return null;
