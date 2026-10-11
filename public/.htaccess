@@ -1,0 +1,21 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # 1. Never rewrite existing static files or directories
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # 2. Never rewrite sitemap.xml or robots.txt
+  RewriteRule ^(sitemap\.xml|robots\.txt)$ - [L]
+
+  # 3. Everything else goes to index.html for React Router
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Correct MIME types for XML and plain text
+<IfModule mod_mime.c>
+  AddType application/xml .xml
+  AddType text/plain .txt
+</IfModule>
