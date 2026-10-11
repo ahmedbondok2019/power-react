@@ -24,7 +24,7 @@ jobs:
 
       - name: Build project
         env:
-          VITE_API_URL: "https://globexhup.com/api/v1"
+          VITE_API_URL: "https://ppreparation.com/api/v1"
         run: npm run build
 
       - name: Clean stale directories & Prepare Target via SSH
@@ -40,10 +40,10 @@ jobs:
           debug: true
           script: |
             echo "Creating target directory for frontend source..."
-            mkdir -p /home/u442491935/domains/globexhup.com/public_html/frontend/
+            mkdir -p /home/u908753193/domains/ppreparation.com/public_html/frontend/
             echo "Removing stale pre-rendered directories (en and ar) to prevent Apache routing bypass..."
-            rm -rf /home/u442491935/domains/globexhup.com/public_html/en
-            rm -rf /home/u442491935/domains/globexhup.com/public_html/ar
+            rm -rf /home/u908753193/domains/ppreparation.com/public_html/en
+            rm -rf /home/u908753193/domains/ppreparation.com/public_html/ar
 
       - name: Deploy Build Files (dist) to Root public_html
         uses: appleboy/scp-action@v0.1.7
@@ -53,7 +53,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "dist/*"
-          target: "/home/u442491935/domains/globexhup.com/public_html/"
+          target: "/home/u908753193/domains/ppreparation.com/public_html/"
           strip_components: 1
           overwrite: true
           timeout: 120s
@@ -68,7 +68,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "*,!node_modules,!dist,!.git"
-          target: "/home/u442491935/domains/globexhup.com/public_html/frontend/"
+          target: "/home/u908753193/domains/ppreparation.com/public_html/frontend/"
           overwrite: true
           timeout: 120s
           command_timeout: 10m
