@@ -7,12 +7,12 @@ import { registerUser } from '../../api/authApi';
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({ 
-    fullName: '', 
-    email: '', 
-    phone: '', 
-    password: '', 
-    terms: false 
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    password: '',
+    terms: false
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +31,7 @@ const Signup = () => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
-    
+
     try {
       const payload = {
         name: formData.fullName,
@@ -40,9 +40,9 @@ const Signup = () => {
         password: formData.password,
         terms: formData.terms ? 1 : 0
       };
-      
+
       const response = await registerUser(payload);
-      
+
       if (response && response.data && response.data.token) {
         localStorage.setItem('auth_token', response.data.token);
         navigate('/profile');
@@ -172,7 +172,7 @@ const Signup = () => {
               </div>
             </div>
             <span className="text-white/70 text-sm group-hover:text-white transition-colors leading-tight">
-              أوافق على <Link to="/terms" className="text-primary hover:underline">الشروط والأحكام</Link> و <Link to="/privacy" className="text-primary hover:underline">سياسة الخصوصية</Link> الخاصة بإيجيبت فيچن
+              أوافق على <Link to="/terms" className="text-primary hover:underline">الشروط والأحكام</Link> و <Link to="/privacy" className="text-primary hover:underline">سياسة الخصوصية</Link> الخاصة بباور
             </span>
           </label>
         </div>
