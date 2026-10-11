@@ -296,6 +296,59 @@ const en = {
     resetPassword: "Reset Password",
     backToLogin: "Back to Login",
   },
+  sitemapPage: {
+    heroBadge: "Comprehensive Site Directory",
+    heroTitle: "Website Sitemap",
+    heroSubtitle: "Easily navigate all pages, business sectors, services, projects, and engineering articles in one place.",
+    searchPlaceholder: "Search pages and sections...",
+    allSections: "All Sections",
+    statsPages: "Main Pages & Links",
+    statsSections: "Core Categories",
+    statsUpdated: "SEO-Optimized",
+    viewXml: "View XML Sitemap for Search Engines",
+    downloadXml: "sitemap.xml File",
+    sections: {
+      overview: {
+        title: "Home & Company Overview",
+        desc: "Corporate overview, vision, values, group structure, and ISO certifications",
+      },
+      services: {
+        title: "Business Sectors & Services",
+        desc: "Integrated contracting, electromechanical works (MEP), and ductwork fabrication",
+      },
+      projects: {
+        title: "Projects & Portfolio",
+        desc: "Track record of mega completed and ongoing projects across various sectors",
+      },
+      strategy: {
+        title: "Strategy & Vision 2030",
+        desc: "Strategic growth pillars, environmental sustainability, and quality standards",
+      },
+      blogs: {
+        title: "Media Center & Blog",
+        desc: "Latest technical articles, engineering insights, and development updates",
+      },
+      careers: {
+        title: "Careers & Talent Acquisition",
+        desc: "Open career opportunities and joining the Power Preparation team",
+      },
+      vendors: {
+        title: "Vendor & Supplier Portal",
+        desc: "Registration and pre-qualification for vendors and subcontractors",
+      },
+      contact: {
+        title: "Contact & Support",
+        desc: "Direct communication channels, branch locations, and inquiry form",
+      },
+      portal: {
+        title: "User & Client Portal",
+        desc: "Sign in, account creation, and user profile management",
+      },
+    },
+    noResults: "No pages match your search",
+    quickNavigation: "Quick Navigation",
+    externalNotice: "Search Engine Optimization (SEO) Sitemap",
+  },
   common: {
     loading: "Loading...",
     error: "An error occurred. Please try again.",

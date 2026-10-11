@@ -116,7 +116,7 @@ const Footer = () => {
           <div className="flex gap-6">
             <a href="#" className="hover:text-primary transition-colors">{t.footer.privacy}</a>
             <a href="#" className="hover:text-primary transition-colors">{t.footer.terms}</a>
-            <a href="#" className="hover:text-primary transition-colors">{t.footer.sitemap}</a>
+            <Link to="/sitemap" className="hover:text-primary transition-colors">{t.footer.sitemap}</Link>
           </div>
         </div>
 

@@ -1,0 +1,9 @@
+# Robots.txt for Power Preparation
+User-agent: *
+Allow: /
+Disallow: /auth/
+Disallow: /profile
+Disallow: /me
+
+# Host & Sitemap location
+Sitemap: https://power-sa.com/sitemap.xml

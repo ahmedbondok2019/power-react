@@ -27,6 +27,7 @@ import Login from './pages/auth/Login';
 import Signup from './pages/auth/Signup';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import Profile from './pages/Profile';
+import Sitemap from './pages/Sitemap';
 
 function App() {
   const location = useLocation();
@@ -154,6 +155,7 @@ function App() {
                 <Route path="/supplier" element={<VendorRegistration />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/me" element={<Profile />} />
+                <Route path="/sitemap" element={<Sitemap />} />
                 <Route path="*" element={<Home />} />
               </Routes>
             </AnimatePresence>
