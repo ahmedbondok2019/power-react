@@ -72,7 +72,7 @@ const Projects = () => {
       />
 
       {/* Main Content Area (Spaced comfortably below the overlapping floating stats cards) */}
-      <section className="relative pt-72 sm:pt-80 lg:pt-88 pb-24 overflow-hidden">
+      <section className="relative pt-20 sm:pt-32 md:pt-48 lg:pt-60 pb-24 overflow-hidden">
 
         {/* Ambient Lighting & Background Elements */}
         <div className="absolute top-1/4 right-0 w-[550px] h-[550px] bg-[#FFB800]/5 rounded-full blur-[160px] pointer-events-none -z-0" />

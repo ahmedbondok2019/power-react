@@ -501,7 +501,7 @@ const SmartStrategyFlowchart = ({ data }) => {
   return (
     <section 
       id="النهج-الاستراتيجي"
-      className="relative w-full bg-[#111312] text-white pt-72 sm:pt-80 lg:pt-88 pb-20 overflow-hidden select-none border-b border-white/5"
+      className="relative w-full bg-[#111312] text-white pt-20 sm:pt-32 md:pt-48 lg:pt-60 pb-20 overflow-hidden select-none border-b border-white/5"
     >
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 

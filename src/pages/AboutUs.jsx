@@ -89,7 +89,7 @@ const AboutUs = () => {
       />
 
       {/* 2nd Section: من نحن & ما يميز منهجنا (Matching the exact design with 3D Saudi Map Background) */}
-      <section className="relative bg-[#404040C4] text-white pt-72 sm:pt-80 lg:pt-88 pb-24 overflow-hidden border-b border-white/5">
+      <section className="relative bg-[#404040C4] text-white pt-20 sm:pt-32 md:pt-48 lg:pt-60 pb-16 sm:pb-24 overflow-hidden border-b border-white/5">
 
         {/* Subtle Dark 3D Map of Saudi Arabia sliding in from Left to Right */}
         <motion.div
@@ -102,11 +102,11 @@ const AboutUs = () => {
           <img
             src={methodology.image || "/saudi_arabia_3d_map_no_text2.png"}
             alt="Saudi Arabia 3D Map"
-            className="h-[650px] sm:h-[750px] lg:h-[900px] w-auto max-w-none object-contain -translate-x-[18%] sm:-translate-x-[15%] grayscale contrast-125"
+            className="h-[340px] sm:h-[600px] lg:h-[900px] w-auto max-w-none object-contain -translate-x-[22%] sm:-translate-x-[15%] grayscale contrast-125 opacity-20 sm:opacity-28"
           />
         </motion.div>
 
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
 
           {/* Top Text Header: "من نحن" Section Title & Paragraph sliding in from Right to Left */}
           <motion.div
@@ -114,7 +114,7 @@ const AboutUs = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-start space-y-6 max-w-4xl rtl:mr-0 rtl:ml-auto ltr:ml-0 ltr:mr-auto mb-20"
+            className="text-start space-y-4 sm:space-y-6 max-w-4xl rtl:mr-0 rtl:ml-auto ltr:ml-0 ltr:mr-auto mb-12 sm:mb-20"
           >
             <SectionTitle title={methodology.title || t.about.whoWeAre} theme="dark" />
 
@@ -134,13 +134,13 @@ const AboutUs = () => {
           </motion.div>
 
           {/* Section Subheading: "ما يميز منهجنا" */}
-          <div className="text-start mb-12">
+          <div className="text-start mb-8 sm:mb-12">
             <motion.h3
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: false }}
               transition={{ duration: 0.6 }}
-              className="text-2xl sm:text-3xl font-bold text-white tracking-wide"
+              className="text-xl sm:text-3xl font-bold text-white tracking-wide"
             >
               {methodology.subtitle || t.about.methodologySubtitle}
             </motion.h3>
@@ -152,24 +152,24 @@ const AboutUs = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false }}
             transition={{ duration: 0.8 }}
-            className="relative pt-7 pb-2"
+            className="relative pt-4 sm:pt-7 pb-2"
           >
             {/* The Horizontal Line */}
-            <div className="absolute top-9 left-0 right-0 h-[2px] bg-white/20 -z-0" />
+            <div className="absolute top-5 sm:top-9 left-0 right-0 h-[2px] bg-white/20 -z-0" />
 
             {/* 5 Distinct Points Grid */}
-            <div className="grid grid-cols-5 gap-2 sm:gap-4 relative z-10">
+            <div className="grid grid-cols-5 gap-1 sm:gap-4 relative z-10">
               {methodologyPoints.map((item, index) => (
                 <div key={index} className="flex flex-col items-center text-center group cursor-pointer">
 
                   {/* Glowing Yellow Dot on the line */}
                   <motion.div
                     whileHover={{ scale: 1.4 }}
-                    className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-[#FFB800] ring-4 ring-[#1A1A1A] mb-6 shadow-[0_0_12px_rgba(255,184,0,0.8)] transition-transform duration-300"
+                    className="w-2.5 h-2.5 sm:w-4 sm:h-4 rounded-full bg-[#FFB800] ring-2 sm:ring-4 ring-[#1A1A1A] mb-3 sm:mb-6 shadow-[0_0_12px_rgba(255,184,0,0.8)] transition-transform duration-300"
                   />
 
                   {/* Title with potential line-breaks */}
-                  <h4 className="text-sm sm:text-lg md:text-xl font-bold text-white leading-snug whitespace-pre-line group-hover:text-[#FFB800] transition-colors">
+                  <h4 className="text-[10px] sm:text-base md:text-xl font-bold text-white leading-snug whitespace-pre-line group-hover:text-[#FFB800] transition-colors">
                     {item.title}
                   </h4>
                 </div>

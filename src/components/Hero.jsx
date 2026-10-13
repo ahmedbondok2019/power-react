@@ -57,7 +57,7 @@ const Hero = ({
   return (
     <section
       id={id}
-      className={`relative min-h-[760px] md:min-h-[820px] lg:h-[108vh] max-h-[1200px] w-full flex flex-col justify-between rounded-b-[2.5rem] md:rounded-b-[4rem] shadow-2xl ${showStatsCards ? 'overflow-visible' : 'overflow-hidden'}`}
+      className={`relative min-h-[580px] sm:min-h-[720px] md:min-h-[820px] lg:h-[108vh] max-h-[1200px] w-full flex flex-col justify-between rounded-b-[2rem] sm:rounded-b-[2.5rem] md:rounded-b-[4rem] shadow-2xl ${showStatsCards ? 'overflow-visible' : 'overflow-hidden'}`}
     >
       {/* ── Background image: visible immediately on load ── */}
       <motion.div
@@ -140,7 +140,7 @@ const Hero = ({
           initial={{ opacity: 0, x: 120, skewX: -6 }}
           animate={{ opacity: 1, x: 0, skewX: 0 }}
           transition={{ duration: 1.1, delay: 0.55, ease: EASE }}
-          className="text-white drop-shadow-2xl mb-6 max-w-5xl text-4xl sm:text-5xl md:text-6xl lg:text-[70px] font-extrabold leading-[1.2] lg:leading-[1.1]"
+          className="text-white drop-shadow-2xl mb-6 max-w-5xl text-3xl sm:text-5xl md:text-6xl lg:text-[70px] font-extrabold leading-[1.2] lg:leading-[1.1]"
         >
           {heroTitle}
         </motion.h1>
@@ -190,9 +190,9 @@ const Hero = ({
           initial={{ opacity: 0, y: 80 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.0, delay: 0.8, ease: EASE }}
-          className="relative z-30 max-w-7xl mx-auto px-6 w-full translate-y-1/2 flex justify-center"
+          className="relative z-30 max-w-7xl mx-auto px-3 sm:px-6 w-full translate-y-1/2 flex justify-center"
         >
-          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 lg:gap-10">
+          <div className="grid grid-cols-3 gap-2 sm:gap-6 lg:gap-10 w-full max-w-xs sm:max-w-2xl md:max-w-4xl lg:max-w-5xl justify-items-center">
             {stats.map((item, idx) => (
               <motion.div
                 key={idx}
@@ -200,13 +200,12 @@ const Hero = ({
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ duration: 0.9, delay: 0.9 + idx * 0.15, ease: EASE }}
                 whileHover={{ scale: 1.05, y: -6, transition: { duration: 0.25 } }}
-                style={{ width: '253px', height: '221px' }}
-                className="bg-[#2A2B2A]/90 hover:bg-[#343534] backdrop-blur-2xl border border-white/20 rounded-3xl flex flex-col items-center justify-center text-center shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-300 cursor-pointer shrink-0"
+                className="w-full md:w-[220px] lg:w-[253px] min-h-[84px] sm:min-h-[140px] md:h-[190px] lg:h-[221px] p-2 sm:p-4 md:p-6 bg-[#2A2B2A]/95 hover:bg-[#343534] backdrop-blur-2xl border border-white/20 rounded-2xl sm:rounded-3xl flex flex-col items-center justify-center text-center shadow-[0_15px_35px_rgba(0,0,0,0.5)] transition-all duration-300 cursor-pointer"
               >
-                <span className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#FFB800] mb-2 tracking-tight drop-shadow-md">
+                <span className="text-xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#FFB800] mb-0.5 sm:mb-2 tracking-tight drop-shadow-md">
                   <AnimatedCounter target={item.number} />
                 </span>
-                <span className="text-lg sm:text-xl lg:text-2xl font-bold text-white tracking-wide">
+                <span className="text-[11px] sm:text-base md:text-xl lg:text-2xl font-bold text-white tracking-wide leading-tight line-clamp-2">
                   {item.label}
                 </span>
               </motion.div>
