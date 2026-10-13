@@ -75,9 +75,9 @@ const VisionMissionSection = ({ data }) => {
     <section 
       id="رؤيتنا-ورسالتنا" 
       ref={containerRef}
-      className="relative w-full h-[250vh] bg-[#141615] text-white select-none border-b border-white/5"
+      className={`relative w-full ${isDesktop ? 'h-[250vh]' : 'h-auto py-14 sm:py-20'} bg-[#141615] text-white select-none border-b border-white/5`}
     >
-      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden px-6 lg:px-12 py-10">
+      <div className={`${isDesktop ? 'sticky top-0 h-screen overflow-hidden flex items-center justify-center' : 'relative h-auto'} w-full px-4 sm:px-6 lg:px-12 py-4 lg:py-10`}>
         
         {/* Background Radial Geometric Web */}
         <motion.div 
@@ -102,12 +102,12 @@ const VisionMissionSection = ({ data }) => {
 
         {/* Main Content Layout */}
         <div className="relative max-w-7xl mx-auto w-full z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
             
             {/* ========================================================
                 TEXT COLUMN: 'رؤيتنا' and 'رسالتنا' (Our Vision & Our Mission)
                ======================================================== */}
-            <div className="lg:col-span-7 space-y-12 sm:space-y-16 lg:space-y-20 order-2 lg:order-1 relative">
+            <div className="lg:col-span-7 space-y-6 sm:space-y-8 lg:space-y-20 order-2 lg:order-1 relative">
               
               {/* Main Horizontal Connecting Trunk Line */}
               <motion.div 
@@ -121,21 +121,30 @@ const VisionMissionSection = ({ data }) => {
 
               {/* ROW 1: رؤيتنا (Our Vision) */}
               <motion.div 
-                style={{ opacity: visionOpacity, x: visionX }}
-                className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-10 ${
+                {...(isDesktop 
+                  ? { style: { opacity: visionOpacity, x: visionX } } 
+                  : { 
+                      initial: { opacity: 0, y: 30 }, 
+                      whileInView: { opacity: 1, y: 0 }, 
+                      viewport: { once: false, amount: 0.2 }, 
+                      transition: { duration: 0.6 } 
+                    }
+                )}
+                className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-10 p-5 sm:p-6 lg:p-0 rounded-2xl lg:rounded-none bg-white/[0.03] lg:bg-transparent border border-white/10 lg:border-none shadow-lg lg:shadow-none ${
                   isRTL ? 'text-right' : 'text-left'
                 } relative z-10`}
               >
                 {/* Title */}
-                <div className="shrink-0 self-start md:self-center min-w-[170px] lg:min-w-[210px]">
-                  <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black text-white tracking-tight leading-none drop-shadow-md">
+                <div className="shrink-0 self-start md:self-center min-w-[140px] lg:min-w-[210px] flex items-center gap-2.5">
+                  <span className="lg:hidden w-2 h-2 rounded-full bg-[#EBFB38] shadow-[0_0_8px_rgba(235,251,56,0.8)] shrink-0" />
+                  <h2 className="text-2xl sm:text-4xl lg:text-5xl xl:text-6xl font-black text-white tracking-tight leading-none drop-shadow-md">
                     {visionTitle}
                   </h2>
                 </div>
 
                 {/* Paragraphs + Connected Dot */}
-                <div className="relative flex-1 flex items-center gap-5">
-                  <div className={`space-y-2.5 text-[#B0B0B0] text-sm sm:text-base leading-[1.8] font-normal ${
+                <div className="relative flex-1 flex items-center gap-5 w-full">
+                  <div className={`space-y-2 text-[#B0B0B0] text-xs sm:text-base leading-[1.8] font-normal ${
                     isRTL ? 'text-right' : 'text-left'
                   }`}>
                     {visionParagraphs.map((p, i) => (
@@ -143,7 +152,7 @@ const VisionMissionSection = ({ data }) => {
                     ))}
                   </div>
 
-                  {/* Glowing Yellow Connected Dot & Trunk Line */}
+                  {/* Glowing Yellow Connected Dot & Trunk Line (Desktop only) */}
                   <div className={`hidden lg:flex items-center justify-center shrink-0 ${isRTL ? 'ml-1' : 'mr-1'} relative`}>
                     <div className="w-2.5 h-2.5 rounded-full bg-[#EBFB38] shadow-[0_0_12px_3px_rgba(235,251,56,0.5)] z-10 relative" />
                     
@@ -164,21 +173,30 @@ const VisionMissionSection = ({ data }) => {
 
               {/* ROW 2: رسالتنا (Our Mission) */}
               <motion.div 
-                style={{ opacity: missionOpacity, x: missionX }}
-                className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-10 ${
+                {...(isDesktop 
+                  ? { style: { opacity: missionOpacity, x: missionX } } 
+                  : { 
+                      initial: { opacity: 0, y: 30 }, 
+                      whileInView: { opacity: 1, y: 0 }, 
+                      viewport: { once: false, amount: 0.2 }, 
+                      transition: { duration: 0.6, delay: 0.1 } 
+                    }
+                )}
+                className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-10 p-5 sm:p-6 lg:p-0 rounded-2xl lg:rounded-none bg-white/[0.03] lg:bg-transparent border border-white/10 lg:border-none shadow-lg lg:shadow-none ${
                   isRTL ? 'text-right' : 'text-left'
                 } relative z-10`}
               >
                 {/* Title */}
-                <div className="shrink-0 self-start md:self-center min-w-[170px] lg:min-w-[210px]">
-                  <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black text-white tracking-tight leading-none drop-shadow-md">
+                <div className="shrink-0 self-start md:self-center min-w-[140px] lg:min-w-[210px] flex items-center gap-2.5">
+                  <span className="lg:hidden w-2 h-2 rounded-full bg-[#EBFB38] shadow-[0_0_8px_rgba(235,251,56,0.8)] shrink-0" />
+                  <h2 className="text-2xl sm:text-4xl lg:text-5xl xl:text-6xl font-black text-white tracking-tight leading-none drop-shadow-md">
                     {missionTitle}
                   </h2>
                 </div>
 
                 {/* Paragraphs + Connected Dot */}
-                <div className="relative flex-1 flex items-center gap-5">
-                  <div className={`space-y-2.5 text-[#B0B0B0] text-sm sm:text-base leading-[1.8] font-normal ${
+                <div className="relative flex-1 flex items-center gap-5 w-full">
+                  <div className={`space-y-2 text-[#B0B0B0] text-xs sm:text-base leading-[1.8] font-normal ${
                     isRTL ? 'text-right' : 'text-left'
                   }`}>
                     {missionParagraphs.map((p, i) => (
@@ -186,7 +204,7 @@ const VisionMissionSection = ({ data }) => {
                     ))}
                   </div>
 
-                  {/* Glowing Yellow Connected Dot & Trunk Line */}
+                  {/* Glowing Yellow Connected Dot & Trunk Line (Desktop only) */}
                   <div className={`hidden lg:flex items-center justify-center shrink-0 ${isRTL ? 'ml-1' : 'mr-1'} relative`}>
                     <div className="w-2.5 h-2.5 rounded-full bg-[#EBFB38] shadow-[0_0_12px_3px_rgba(235,251,56,0.5)] z-10 relative" />
                     
@@ -210,18 +228,28 @@ const VisionMissionSection = ({ data }) => {
             {/* ========================================================
                 LOGO COLUMN: POWER PREPARATION Logo
                ======================================================== */}
-            <div className="lg:col-span-5 flex flex-col items-center justify-center relative order-1 lg:order-2 mb-10 lg:mb-0">
+            <div className="lg:col-span-5 flex flex-col items-center justify-center relative order-1 lg:order-2 mb-6 sm:mb-8 lg:mb-0">
               <div className={`relative flex items-center justify-center ${isRTL ? 'lg:justify-end lg:pl-10' : 'lg:justify-start lg:pr-10'} w-full`}>
                 <motion.div 
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: false, amount: 0.5 }}
-                  transition={{ duration: 0.8 }}
-                  style={{ x: logoX, scale: logoScale }}
-                  className="flex flex-col items-center text-center z-10 bg-[#141615] py-4 px-2 will-change-transform"
+                  {...(isDesktop 
+                    ? { 
+                        initial: { opacity: 0 }, 
+                        whileInView: { opacity: 1 }, 
+                        viewport: { once: false, amount: 0.5 }, 
+                        transition: { duration: 0.8 }, 
+                        style: { x: logoX, scale: logoScale } 
+                      } 
+                    : { 
+                        initial: { opacity: 0, scale: 0.9 }, 
+                        whileInView: { opacity: 1, scale: 1 }, 
+                        viewport: { once: false, amount: 0.3 }, 
+                        transition: { duration: 0.7 } 
+                      }
+                  )}
+                  className="flex flex-col items-center text-center z-10 bg-[#141615] py-2 sm:py-4 px-2 will-change-transform"
                 >
                   {/* Logo Icon */}
-                  <div className="w-40 sm:w-48 md:w-56 h-auto mb-4">
+                  <div className="w-28 sm:w-40 md:w-48 lg:w-56 h-auto mb-3 sm:mb-4">
                     <svg viewBox="0 0 200 230" className="w-full h-full drop-shadow-2xl" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M 32 60 L 100 18 L 168 60" stroke="#C5C7CA" strokeWidth="16" strokeLinecap="round" strokeLinejoin="round" />
                       <path d="M 32 98 L 100 56 L 168 98" stroke="#FFB800" strokeWidth="16" strokeLinecap="round" strokeLinejoin="round" />
@@ -232,11 +260,11 @@ const VisionMissionSection = ({ data }) => {
                       <rect x="134" y="118" width="12" height="58" rx="6" fill="#8E9297" />
                     </svg>
                   </div>
-                  <div className="flex items-start justify-center gap-1 text-white font-extrabold text-lg sm:text-xl tracking-normal font-sans">
+                  <div className="flex items-start justify-center gap-1 text-white font-extrabold text-base sm:text-lg lg:text-xl tracking-normal font-sans">
                     <span>{isRTL ? "شركة قوة الاعداد المحدودة" : "POWER PREPARATION CO. LTD."}</span>
-                    <span className="text-[10px] font-normal text-white/70 mt-1">®</span>
+                    <span className="text-[10px] font-normal text-white/70 mt-0.5">®</span>
                   </div>
-                  <div className="flex items-start justify-center text-white/90 text-xs sm:text-sm font-semibold tracking-[0.18em] uppercase mt-1">
+                  <div className="flex items-start justify-center text-white/80 text-[11px] sm:text-xs lg:text-sm font-semibold tracking-[0.18em] uppercase mt-1">
                     <span className="text-[9px] lowercase mr-0.5 mt-0.5 text-white/70">®</span>
                     <span>{isRTL ? "POWER PREPARATION" : "شركة قوة الاعداد المحدودة"}</span>
                   </div>

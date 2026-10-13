@@ -1,7 +1,8 @@
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useState, useMemo, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import SectionTitle from '../ui/SectionTitle';
 import { useSettingsData } from '../../hooks/useSettingsData';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -177,6 +178,19 @@ const CapabilitiesWheel = ({ data }) => {
   const cardsRef = useRef([]);
   const [activeStageIndex, setActiveStageIndex] = useState(0);
 
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.innerWidth < 768;
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const { lang, t, isRTL } = useLanguage();
   const { data: settingsData } = useSettingsData();
   const logoUrl = settingsData?.data?.logo || '/logo.png';
@@ -185,12 +199,17 @@ const CapabilitiesWheel = ({ data }) => {
     return isRTL ? STAGES_AR : STAGES_EN;
   }, [isRTL]);
 
-  // Dynamic baseAngles for RTL (180 deg focal point) vs LTR (0 deg focal point)
+  // Dynamic baseAngles:
+  // - Mobile (< 768px): Vertical layout, active stage is at the BOTTOM (90 deg), right above the description card
+  // - Desktop (>= 768px): Horizontal layout, active stage faces the card (180 deg in RTL, 0 deg in LTR)
   const baseAngles = useMemo(() => {
+    if (isMobile) {
+      return [90, 30, 330, 270, 210, 150];
+    }
     return isRTL
       ? [180, 120, 60, 0, 300, 240]
       : [0, 300, 240, 180, 120, 60];
-  }, [isRTL]);
+  }, [isMobile, isRTL]);
 
   const stages = useMemo(() => {
     const rawList = data && data.length > 0 ? data : baseStagesList;
@@ -247,20 +266,30 @@ const CapabilitiesWheel = ({ data }) => {
       }
     });
 
-  }, { scope: containerRef, dependencies: [stages, isRTL] });
+  }, { scope: containerRef, dependencies: [stages, isRTL, isMobile] });
 
   const sectionTitle = t?.capabilitiesWheel?.title || (isRTL ? 'قدراتنا' : 'Our Capabilities');
   const sectionBadge = t?.capabilitiesWheel?.badge || (isRTL ? 'عملية متكاملة' : 'Integrated Process');
-  const sectionSubtitle = t?.capabilitiesWheel?.subtitle || (isRTL 
-    ? 'تمتد خبراتنا إلى ما هو أبعد من التنفيذ التقليدي؛ نوفر منظومة هندسية وتنفيذية متكاملة من 6 قدرات أساسية.' 
+  const sectionSubtitle = t?.capabilitiesWheel?.subtitle || (isRTL
+    ? 'تمتد خبراتنا إلى ما هو أبعد من التنفيذ التقليدي؛ نوفر منظومة هندسية وتنفيذية متكاملة من 6 قدرات أساسية.'
     : 'Our expertise extends beyond conventional execution; we provide an integrated engineering and execution framework of 6 core capabilities.');
   const currentStageLabel = t?.capabilitiesWheel?.currentStage || (isRTL ? 'المرحلة الحالية' : 'Current Stage');
+
+  const goToStage = (idx) => {
+    setActiveStageIndex(idx);
+    if (!containerRef.current) return;
+    const startY = containerRef.current.offsetTop;
+    const scrollPerStage = isMobile ? 400 : 600;
+    const totalScroll = stages.length * scrollPerStage;
+    const targetY = startY + (idx / Math.max(1, stages.length - 1)) * totalScroll;
+    window.scrollTo({ top: targetY, behavior: 'smooth' });
+  };
 
   return (
     <section
       ref={containerRef}
       className="relative w-full bg-[#141615] text-white select-none"
-      style={{ height: `calc(100vh + ${stages.length * 600}px)` }}
+      style={{ height: `calc(100vh + ${stages.length * (isMobile ? 400 : 600)}px)` }}
     >
       {/* Sticky Inner Container */}
       <div className="sticky top-0 w-full h-screen overflow-hidden">
@@ -269,73 +298,47 @@ const CapabilitiesWheel = ({ data }) => {
         <div className={`absolute top-1/2 ${isRTL ? 'right-[10%]' : 'left-[10%]'} w-[500px] h-[500px] bg-[#EBFB38]/5 rounded-full blur-[140px] pointer-events-none -translate-y-1/2`} />
 
         {/* Main Container */}
-        <div className="relative w-full h-full max-w-7xl mx-auto px-6 flex flex-col justify-between pt-16 sm:pt-20 pb-6 z-10">
+        <div className="relative w-full h-full max-w-7xl mx-auto px-4 sm:px-6 flex flex-col justify-between pt-2 sm:pt-6 md:pt-14 lg:pt-20 pb-2 sm:pb-6 z-10">
 
-          {/* Top Header: Section Title & Step Counter */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-white/10 pb-3 shrink-0 w-full">
+          {/* Top Header: Section Title & Step Counter (Desktop / Tablet only) */}
+          <div className="hidden md:flex flex-col sm:flex-row justify-between items-start sm:items-end gap-2.5 sm:gap-4 border-b border-white/10 pb-2.5 sm:pb-3 shrink-0 w-full">
 
             {/* Title & Subtitle */}
-            <div className={`${isRTL ? 'text-right' : 'text-left'} space-y-1.5 max-w-2xl`}>
-              <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 justify-start">
-                <SectionTitle title={sectionTitle} theme="dark" className="whitespace-nowrap" />
-                <span className="px-3 py-1 rounded-full bg-[#EBFB38]/15 border border-[#EBFB38]/30 text-[#EBFB38] text-xs font-bold tracking-wider whitespace-nowrap">
+            <div className={`${isRTL ? 'text-right' : 'text-left'} space-y-1 max-w-2xl`}>
+              <div className="flex flex-wrap sm:flex-nowrap items-center gap-2.5 sm:gap-3 justify-start">
+                <SectionTitle title={sectionTitle} theme="dark" className="whitespace-nowrap text-xl sm:text-3xl" />
+                <span className="px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-[#EBFB38]/15 border border-[#EBFB38]/30 text-[#EBFB38] text-[10px] sm:text-xs font-bold tracking-wider whitespace-nowrap">
                   {sectionBadge}
                 </span>
               </div>
-              <p className={`text-white/70 text-xs sm:text-sm leading-relaxed ${isRTL ? 'text-right' : 'text-left'}`}>
+              <p className="text-white/70 text-xs sm:text-sm leading-relaxed">
                 {sectionSubtitle}
               </p>
             </div>
-
-            {/* Step Tracker */}
-            <div className="flex items-center gap-4 bg-white/5 border border-white/10 backdrop-blur-md px-5 py-2 rounded-2xl shrink-0">
-              <div className={isRTL ? 'text-right' : 'text-left'}>
-                <span className="text-[10px] text-white/50 block font-semibold">{currentStageLabel}</span>
-                <span className="text-sm font-bold text-white tracking-wide">
-                  {stages[activeStageIndex]?.category}
-                </span>
-              </div>
-              <div className="text-2xl sm:text-3xl font-black text-[#EBFB38] font-sans">
-                {stages[activeStageIndex]?.number}
-                <span className="text-xs text-white/40 font-normal ml-1">/ {String(stages.length).padStart(2, '0')}</span>
-              </div>
-            </div>
-
           </div>
 
           {/* Middle Body: Wheel & Details Content (mirrored cleanly for RTL / LTR) */}
-          <div className="relative flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center min-h-[400px] my-auto py-2">
+          <div className="relative flex-1 grid grid-cols-1 md:grid-cols-12 gap-2 sm:gap-4 md:gap-8 lg:gap-12 items-center my-auto py-1 sm:py-2">
 
             {/* ========================================================
-                The Giant Circular Wheel
-                - In RTL: on Right side (col 5) with translate-x-[50%], laser pin on left
-                - In LTR: on Left side (col 5) with -translate-x-[50%], laser pin on right
+                The Circular Wheel
+                - Mobile: Located on top, with the active node positioned at the BOTTOM (90 deg)
+                - Desktop: Located on the side (col-span-5)
                ======================================================== */}
-            <div className={`lg:col-span-5 relative flex items-center ${isRTL ? 'justify-end order-1' : 'justify-start order-1'} h-full`}>
+            <div className={`md:col-span-5 relative flex items-center justify-center ${isRTL ? 'md:justify-end order-1' : 'md:justify-start order-1'} h-[225px] sm:h-[265px] md:h-full pt-3 sm:pt-4 md:pt-0`}>
 
-              {/* Focal Point Indicator (Orange Laser Pin pointing to active stage at front) */}
-              <div className={`absolute ${isRTL ? '-left-4 sm:left-0 md:left-2 lg:left-[-24px]' : '-right-4 sm:right-0 md:right-2 lg:right-[-24px]'} top-1/2 -translate-y-1/2 z-40 flex items-center pointer-events-none`}>
-                <div className={`relative flex items-center justify-center ${!isRTL ? 'flex-row-reverse' : ''}`}>
-                  <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-[#FF5722] to-[#E64A19] border-2 border-white shadow-[0_0_25px_rgba(255,87,34,0.9)] flex items-center justify-center text-white font-black text-base sm:text-xl">
-                    {stages[activeStageIndex]?.number}
-                  </div>
-                  {/* Laser Line connecting the focal node to the content */}
-                  <div className={`hidden sm:block w-12 lg:w-20 h-[2px] ${isRTL ? 'bg-gradient-to-l' : 'bg-gradient-to-r'} from-transparent to-[#FF5722]`} />
-                </div>
-              </div>
-
-              {/* Overflow Mask Container holding the half-wheel */}
-              <div className={`relative w-[320px] sm:w-[420px] md:w-[500px] lg:w-[560px] h-[320px] sm:h-[420px] md:h-[500px] lg:h-[560px] ${isRTL ? 'translate-x-[48%] sm:translate-x-[50%]' : '-translate-x-[48%] sm:-translate-x-[50%]'} flex items-center justify-center`}>
+              {/* Overflow Mask Container holding the wheel */}
+              <div className={`relative w-[190px] sm:w-[260px] md:w-[420px] lg:w-[560px] h-[190px] sm:h-[260px] md:h-[420px] lg:h-[560px] ${isRTL ? 'md:translate-x-[48%] lg:translate-x-[50%]' : 'md:-translate-x-[48%] lg:-translate-x-[50%]'} flex items-center justify-center shrink-0`}>
 
                 {/* Inner Fixed Center Hub with Company Logo */}
-                <div className="absolute z-10 w-[68%] h-[68%] rounded-full bg-gradient-to-br from-[#222524] to-[#121413] border-4 border-white/10 shadow-[inset_0_0_35px_rgba(0,0,0,0.85),0_0_50px_rgba(0,0,0,0.6)] flex items-center justify-center pointer-events-none select-none">
-                  <div className="w-[88%] h-[88%] rounded-full bg-[#161817] border border-white/15 flex flex-col items-center justify-center p-3 sm:p-5 text-center shadow-inner relative overflow-hidden">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(235,251,56,0.12),transparent_70%)] pointer-events-none" />
-                    
+                <div className="absolute z-10 w-[62%] h-[62%] rounded-full bg-gradient-to-br from-[#1E2220] via-[#141615] to-[#0D0F0E] border-2 sm:border-4 border-white/15 shadow-[inset_0_0_35px_rgba(0,0,0,0.85),0_0_40px_rgba(0,0,0,0.7)] flex items-center justify-center pointer-events-none select-none">
+                  <div className="w-[88%] h-[88%] rounded-full bg-[#161817] border border-white/15 flex flex-col items-center justify-center p-2 sm:p-5 text-center shadow-inner relative overflow-hidden">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(234,179,8,0.14),transparent_70%)] pointer-events-none" />
+
                     <img
                       src={logoUrl}
                       alt="Power Preparation"
-                      className="w-full h-full max-w-[120px] sm:max-w-[160px] md:max-w-[190px] max-h-[120px] sm:max-h-[160px] md:max-h-[190px] object-contain drop-shadow-[0_6px_20px_rgba(0,0,0,0.8)] brightness-110 contrast-105 z-10"
+                      className="w-full h-full max-w-[65px] sm:max-w-[120px] md:max-w-[160px] lg:max-w-[190px] max-h-[65px] sm:max-h-[120px] md:max-h-[160px] lg:max-h-[190px] object-contain drop-shadow-[0_6px_20px_rgba(0,0,0,0.8)] brightness-110 contrast-105 z-10"
                       loading="eager"
                     />
                   </div>
@@ -347,8 +350,11 @@ const CapabilitiesWheel = ({ data }) => {
                   className="w-full h-full rounded-full relative flex items-center justify-center will-change-transform"
                   style={{ aspectRatio: "1 / 1" }}
                 >
-                  {/* Outer Circular Neon Yellow Glowing Ring */}
-                  <div className="absolute inset-0 rounded-full border-[20px] sm:border-[26px] md:border-[34px] border-[#EBFB38] shadow-[0_0_70px_rgba(235,251,56,0.3)]" />
+                  {/* Outer Circular Neon Golden Glowing Ring */}
+                  <div className="absolute inset-0 rounded-full border-[8px] sm:border-[16px] md:border-[24px] lg:border-[30px] border-[#EAB308] shadow-[0_0_45px_rgba(234,179,8,0.35),inset_0_0_20px_rgba(234,179,8,0.15)]" />
+
+                  {/* Concentric Subtle Orbit Line */}
+                  <div className="absolute -inset-2 sm:-inset-4 rounded-full border border-dashed border-white/10 pointer-events-none" />
 
                   {/* Circular Nodes Placed Equidistantly along the Ring */}
                   {stages.map((stage, idx) => {
@@ -362,6 +368,7 @@ const CapabilitiesWheel = ({ data }) => {
                     return (
                       <div
                         key={stage.id}
+                        onClick={() => goToStage(idx)}
                         className="absolute -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-auto cursor-pointer"
                         style={{
                           left: `${leftPos}%`,
@@ -372,14 +379,14 @@ const CapabilitiesWheel = ({ data }) => {
                         <div ref={(el) => (cardsRef.current[idx] = el)} className="will-change-transform">
                           <div
                             className={`rounded-full flex items-center justify-center text-center transition-all duration-500 ${isActive
-                              ? "w-28 h-28 sm:w-34 sm:h-34 md:w-38 md:h-38 bg-white text-black font-extrabold shadow-[0_15px_40px_rgba(0,0,0,0.85)] border-4 sm:border-6 border-[#FF5722] scale-110"
-                              : "w-20 h-20 sm:w-24 sm:h-24 md:w-26 md:h-26 bg-[#262827] text-white/80 font-bold border-2 border-white/20 hover:border-[#EBFB38] hover:text-white opacity-80"
+                              ? "w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-36 lg:h-36 bg-gradient-to-br from-white via-[#FFFDE8] to-[#FEF3C7] text-black font-black shadow-[0_0_35px_rgba(234,179,8,0.7),0_10px_25px_rgba(0,0,0,0.85)] border-2 sm:border-4 border-[#EAB308] scale-110 z-30"
+                              : "w-11 h-11 sm:w-16 sm:h-16 md:w-22 md:h-22 lg:w-26 lg:h-26 bg-[#161917]/95 text-white/90 font-bold border border-white/20 hover:border-[#EAB308]/70 hover:scale-105 hover:text-white"
                               }`}
                             style={{ aspectRatio: "1 / 1" }}
                           >
-                            <span className={`leading-tight whitespace-pre-line px-1.5 ${isActive
-                              ? "text-xs sm:text-sm md:text-sm font-black text-black"
-                              : "text-[9px] sm:text-[11px] md:text-xs font-bold text-white/80"
+                            <span className={`leading-tight whitespace-pre-line px-1 select-none ${isActive
+                              ? "text-[8px] sm:text-[11px] md:text-sm font-black text-[#111312]"
+                              : "text-[7px] sm:text-[9px] md:text-xs font-bold text-white/80"
                               }`}>
                               {stage.nodeTitle}
                             </span>
@@ -397,10 +404,9 @@ const CapabilitiesWheel = ({ data }) => {
 
             {/* ========================================================
                 Active Stage Details Display
-                - In RTL: on Left side (col 7), text-right, pl-4 lg:pl-8
-                - In LTR: on Right side (col 7), text-left, pr-4 lg:pr-8
+                - Luxury Card Container placed immediately below the wheel on mobile with a small gap
                ======================================================== */}
-            <div className={`lg:col-span-7 ${isRTL ? 'text-right pl-2 lg:pl-8 order-2' : 'text-left pr-2 lg:pr-8 order-2'} relative min-h-[340px] flex flex-col justify-center z-20`}>
+            <div className={`md:col-span-7 ${isRTL ? 'text-right pl-1 md:pl-4 lg:pl-8 order-2' : 'text-left pr-1 md:pr-4 lg:pr-8 order-2'} relative min-h-[210px] sm:min-h-[250px] md:min-h-[340px] flex flex-col justify-center z-20 w-full`}>
               {stages.map((stage, idx) => {
                 const isActive = activeStageIndex === idx;
                 return (
@@ -408,37 +414,45 @@ const CapabilitiesWheel = ({ data }) => {
                     key={stage.id}
                     className={`transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] ${isActive
                       ? "opacity-100 translate-y-0 pointer-events-auto relative z-10"
-                      : "opacity-0 translate-y-8 pointer-events-none absolute inset-0 -z-10"
+                      : "opacity-0 translate-y-6 pointer-events-none absolute inset-0 -z-10"
                       }`}
                     style={{
                       clipPath: isActive ? "inset(0% 0% 0% 0%)" : "inset(100% 0% 0% 0%)"
                     }}
                   >
-                    {/* Category Accent Badge */}
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#EBFB38]/20 text-[#EBFB38] text-sm font-bold mb-4">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#EBFB38] animate-pulse" />
-                      <span>{stage.category}</span>
+                    {/* High-End Glassmorphism Card */}
+                    <div className="mt-[20px] w-full bg-[#181B19]/90 backdrop-blur-2xl border border-white/10 rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 lg:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+                      {/* Card Top Row: Category Badge + Stage Counter */}
+                      <div className="flex items-center justify-between gap-2 mb-2 sm:mb-3">
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-[#EAB308]/15 border border-[#EAB308]/30 text-[#EAB308] text-[11px] sm:text-xs font-bold">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#EAB308] animate-pulse" />
+                          <span>{stage.category}</span>
+                        </div>
+                        <span className="text-[11px] sm:text-sm font-black text-[#EAB308] font-mono tracking-wider bg-white/5 px-2 py-0.5 rounded-md border border-white/10">
+                          {stage.number} / {String(stages.length).padStart(2, '0')}
+                        </span>
+                      </div>
+
+                      {/* Stage Main Heading */}
+                      <h3 className="text-base sm:text-2xl md:text-3xl font-black text-white leading-snug mb-1.5 sm:mb-2 tracking-tight">
+                        {stage.heading}
+                      </h3>
+
+                      {/* Stage Detailed Description */}
+                      <p className="text-white/75 text-[11px] sm:text-sm md:text-base leading-relaxed mb-2.5 sm:mb-3 font-normal">
+                        {stage.description}
+                      </p>
+
+                      {/* Feature Bullet Points as Luxury Tiles */}
+                      <div className="space-y-1.5 sm:space-y-2 border-t border-white/10 pt-2 sm:pt-2.5">
+                        {stage.details.map((bullet, bIdx) => (
+                          <div key={bIdx} className="flex items-start gap-2 p-1.5 sm:p-2 rounded-xl bg-white/[0.03] border border-white/5 text-[11px] sm:text-sm text-white/90">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#EAB308] mt-1 shrink-0 shadow-[0_0_8px_rgba(234,179,8,0.9)]" />
+                            <span className="font-medium leading-relaxed">{bullet}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-
-                    {/* Stage Main Heading */}
-                    <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-extrabold text-white leading-tight mb-4 tracking-tight">
-                      {stage.heading}
-                    </h3>
-
-                    {/* Stage Detailed Description */}
-                    <p className="text-white/80 text-sm sm:text-base md:text-lg leading-[1.7] mb-6 font-medium max-w-2xl">
-                      {stage.description}
-                    </p>
-
-                    {/* Bullet Points */}
-                    <ul className="space-y-3.5 border-t border-white/10 pt-5">
-                      {stage.details.map((bullet, bIdx) => (
-                        <li key={bIdx} className={`flex items-start gap-3 ${isRTL ? 'justify-start' : 'justify-start'} text-sm sm:text-base md:text-lg text-white/90`}>
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#EBFB38] mt-2 shrink-0 shadow-[0_0_8px_rgba(235,251,56,0.8)]" />
-                          <span className="font-medium">{bullet}</span>
-                        </li>
-                      ))}
-                    </ul>
                   </div>
                 );
               })}
@@ -446,18 +460,38 @@ const CapabilitiesWheel = ({ data }) => {
 
           </div>
 
-          {/* Bottom Interactive Indicator */}
-          <div className="flex items-center justify-between pt-3 text-xs text-white/60 shrink-0">
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#EBFB38]" />
+          {/* Bottom Interactive Indicator (Desktop / Tablet only) */}
+          <div className="hidden md:flex items-center justify-between pt-2 sm:pt-3 text-xs text-white/60 shrink-0 border-t border-white/5">
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={() => goToStage(Math.max(0, activeStageIndex - 1))}
+                disabled={activeStageIndex === 0}
+                className="p-1 sm:p-1.5 rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-25 disabled:cursor-not-allowed transition-colors text-white"
+                aria-label="Previous capability stage"
+              >
+                <ChevronRight className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${!isRTL ? 'rotate-180' : ''}`} />
+              </button>
+              <button
+                type="button"
+                onClick={() => goToStage(Math.min(stages.length - 1, activeStageIndex + 1))}
+                disabled={activeStageIndex === stages.length - 1}
+                className="p-1 sm:p-1.5 rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-25 disabled:cursor-not-allowed transition-colors text-white"
+                aria-label="Next capability stage"
+              >
+                <ChevronLeft className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${!isRTL ? 'rotate-180' : ''}`} />
+              </button>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2">
               {stages.map((s, i) => (
-                <div
+                <button
                   key={s.id}
-                  className={`h-1.5 rounded-full transition-all duration-500 ${activeStageIndex === i ? "w-8 bg-[#EBFB38]" : "w-2 bg-white/20"
+                  type="button"
+                  onClick={() => goToStage(i)}
+                  className={`h-1.5 sm:h-2 rounded-full transition-all duration-500 cursor-pointer ${activeStageIndex === i ? "w-6 sm:w-8 bg-[#EBFB38]" : "w-1.5 sm:w-2 bg-white/20 hover:bg-white/40"
                     }`}
+                  aria-label={`Go to stage ${i + 1}`}
                 />
               ))}
             </div>
