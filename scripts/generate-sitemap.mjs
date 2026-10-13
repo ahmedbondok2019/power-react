@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Site URL configuration - can be overridden via environment variables
-const SITE_URL = (process.env.VITE_SITE_URL || process.env.SITE_URL || 'https://globexhup.com').replace(/\/+$/, '');
+const SITE_URL = (process.env.VITE_SITE_URL || process.env.SITE_URL || 'https://ppreparation.com').replace(/\/+$/, '');
 const API_BASE = process.env.VITE_API_BASE_URL || 'https://admin.globexhup.com/api/v1';
 
 const currentDate = new Date().toISOString().split('T')[0];
